@@ -1,5 +1,5 @@
 import type { NextPage } from "next";
-import Link from "next/link";
+import { Card } from "../components/Card";
 
 const Home: NextPage = () => {
   return (
@@ -8,25 +8,16 @@ const Home: NextPage = () => {
         <h3 className="text-lg text-center font-bold my-5">Top Categories</h3>
         <ul className="flex justify-evenly">
           <li>
-            <Link href="/categories/clothing">
-              <a className="h-52 w-52 shadow-md border flex items-center justify-center font-bold">
-                Clothing
-              </a>
-            </Link>
+            <Card to="/products/clothing">Clothing</Card>
           </li>
           <li>
-            <Link href="/categories/accessories">
-              <a className="h-52 w-52 shadow-md border flex items-center justify-center font-bold">
-                Accessories
-              </a>
-            </Link>
+            <Card to="/products/accessories">Accessories</Card>
           </li>
           <li>
-            <Link href="/categories/shoes">
-              <a className="h-52 w-52 shadow-md border flex items-center justify-center font-bold">
-                Shoes
-              </a>
-            </Link>
+            <Card to="/products/shoes">Shoes</Card>
+          </li>
+          <li>
+            <Card to="/products">View All</Card>
           </li>
         </ul>
       </div>

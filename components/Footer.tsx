@@ -1,3 +1,5 @@
 export const Footer = () => {
-  return <div className="flex items-center justify-center">Footer</div>;
+  return (
+    <div className="h-24 border-t flex items-center justify-center">Footer</div>
+  );
 };

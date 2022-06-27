@@ -10,7 +10,7 @@ export const Layout: React.FC<Props> = ({ children }) => {
   return (
     <div className="h-screen flex flex-col">
       <Header />
-      <main className="flex-1">{children}</main>
+      <main className="flex-1 overflow-auto">{children}</main>
       <Footer />
     </div>
   );
