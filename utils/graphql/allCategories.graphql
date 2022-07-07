@@ -1,0 +1,13 @@
+query allCategory {
+  allCategory {
+    _id
+    name
+    images {
+      images {
+        asset {
+          url
+        }
+      }
+    }
+  }
+}
