@@ -1,0 +1,29 @@
+query allProduct {
+  allProduct {
+    _id
+    name
+    categories {
+      name
+    }
+    slug {
+      current
+    }
+    images {
+      images {
+        asset {
+          url
+        }
+      }
+      name
+    }
+    variants {
+      name
+      id
+      msrp
+      price
+      size {
+        name
+      }
+    }
+  }
+}

@@ -1,0 +1,22 @@
+overwrite: true
+schema:
+  - ${SANITY_GRAPHQL_URL}:
+      headers:
+        Authorization: Bearer ${SANITY_READ_TOKEN}
+documents: "utils/graphql/**/*.graphql"
+generates:
+  utils/generated/graphql.ts:
+    plugins:
+      # - add:
+      #     content: "import { sanityUrl, fetchParams } from './reactQueryFetcher';"
+      - "typescript"
+      - "typescript-operations"
+      - "typescript-graphql-request"
+    # config:
+    #   fetcher:
+    #     endpoint: "sanityUrl"
+    #     fetchParams: "fetchParams"
+    #     isReactHook: false
+  ./graphql.schema.json:
+    plugins:
+      - "introspection"
