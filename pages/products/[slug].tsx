@@ -58,7 +58,7 @@ export default ProductPage;
 export const getStaticPaths: GetStaticPaths = async () => {
   const sdk = getSdk(gqlClient);
 
-  const { allProduct } = await sdk.allProductSlugs();
+  const { allProduct } = await sdk.getProductsSlugs();
 
   const paths = allProduct.map(({ slug }) => ({
     params: { slug: slug?.current ?? "" },

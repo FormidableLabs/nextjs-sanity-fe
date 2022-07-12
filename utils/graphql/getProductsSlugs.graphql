@@ -1,4 +1,4 @@
-query allProductSlugs {
+query getProductsSlugs {
   allProduct {
     slug {
       current

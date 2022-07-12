@@ -1,10 +1,10 @@
 import type { GetStaticProps, NextPage } from "next";
 import { Card } from "../components/Card";
-import { AllCategoryQuery, getSdk } from "../utils/generated/graphql";
+import { GetCategoriesQuery, getSdk } from "../utils/generated/graphql";
 import { gqlClient } from "../utils/gqlClient";
 
 interface Props {
-  categories: AllCategoryQuery["allCategory"];
+  categories: GetCategoriesQuery["allCategory"];
 }
 
 const Home: NextPage<Props> = ({ categories }) => {
@@ -14,7 +14,7 @@ const Home: NextPage<Props> = ({ categories }) => {
       <ul className="flex justify-evenly">
         {categories.map((category) => (
           <li key={category._id}>
-            <Card to="/products" imageUrl={category.images?.[0]?.images?.asset?.url}>
+            <Card to={`/categories/${category.slug?.current}`} imageUrl={category.images?.[0]?.images?.asset?.url}>
               {category.name}
             </Card>
           </li>
@@ -27,7 +27,7 @@ const Home: NextPage<Props> = ({ categories }) => {
 export const getStaticProps: GetStaticProps<Props> = async ({ params }) => {
   const sdk = getSdk(gqlClient);
 
-  const { allCategory } = await sdk.allCategory();
+  const { allCategory } = await sdk.getCategories();
 
   return {
     props: {

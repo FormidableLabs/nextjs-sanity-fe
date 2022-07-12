@@ -1,4 +1,4 @@
-query allProduct {
+query getProducts {
   allProduct {
     _id
     name

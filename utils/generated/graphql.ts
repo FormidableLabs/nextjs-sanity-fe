@@ -49,6 +49,7 @@ export type Category = Document & {
   description?: Maybe<Scalars['String']>;
   images?: Maybe<Array<Maybe<CategoryImage>>>;
   name?: Maybe<Scalars['String']>;
+  slug?: Maybe<Slug>;
 };
 
 export type CategoryFilter = {
@@ -62,6 +63,7 @@ export type CategoryFilter = {
   _updatedAt?: InputMaybe<DatetimeFilter>;
   description?: InputMaybe<StringFilter>;
   name?: InputMaybe<StringFilter>;
+  slug?: InputMaybe<SlugFilter>;
 };
 
 export type CategoryImage = Document & {
@@ -117,6 +119,7 @@ export type CategorySorting = {
   _updatedAt?: InputMaybe<SortOrder>;
   description?: InputMaybe<SortOrder>;
   name?: InputMaybe<SortOrder>;
+  slug?: InputMaybe<SlugSorting>;
 };
 
 export type DateFilter = {
@@ -1027,20 +1030,15 @@ export type VariantSorting = {
   price?: InputMaybe<SortOrder>;
 };
 
-export type AllCategoryQueryVariables = Exact<{ [key: string]: never; }>;
+export type GetCategoriesQueryVariables = Exact<{ [key: string]: never; }>;
 
 
-export type AllCategoryQuery = { __typename?: 'RootQuery', allCategory: Array<{ __typename?: 'Category', _id?: string | null, name?: string | null, images?: Array<{ __typename?: 'CategoryImage', images?: { __typename?: 'Image', asset?: { __typename?: 'SanityImageAsset', url?: string | null } | null } | null } | null> | null }> };
+export type GetCategoriesQuery = { __typename?: 'RootQuery', allCategory: Array<{ __typename?: 'Category', _id?: string | null, name?: string | null, slug?: { __typename?: 'Slug', current?: string | null } | null, images?: Array<{ __typename?: 'CategoryImage', images?: { __typename?: 'Image', asset?: { __typename?: 'SanityImageAsset', url?: string | null } | null } | null } | null> | null }> };
 
-export type AllProductQueryVariables = Exact<{ [key: string]: never; }>;
-
-
-export type AllProductQuery = { __typename?: 'RootQuery', allProduct: Array<{ __typename?: 'Product', _id?: string | null, name?: string | null, categories?: Array<{ __typename?: 'Category', name?: string | null } | null> | null, slug?: { __typename?: 'Slug', current?: string | null } | null, images?: Array<{ __typename?: 'ProductImage', name?: string | null, images?: { __typename?: 'Image', asset?: { __typename?: 'SanityImageAsset', url?: string | null } | null } | null } | null> | null, variants?: Array<{ __typename?: 'Variant', name?: string | null, id?: string | null, msrp?: number | null, price?: number | null, size?: { __typename?: 'Size', name?: string | null } | null } | null> | null }> };
-
-export type AllProductSlugsQueryVariables = Exact<{ [key: string]: never; }>;
+export type GetCategoriesSlugsQueryVariables = Exact<{ [key: string]: never; }>;
 
 
-export type AllProductSlugsQuery = { __typename?: 'RootQuery', allProduct: Array<{ __typename?: 'Product', slug?: { __typename?: 'Slug', current?: string | null } | null }> };
+export type GetCategoriesSlugsQuery = { __typename?: 'RootQuery', allCategory: Array<{ __typename?: 'Category', _id?: string | null, name?: string | null, slug?: { __typename?: 'Slug', current?: string | null } | null }> };
 
 export type GetProductQueryVariables = Exact<{
   slug: Scalars['String'];
@@ -1049,30 +1047,22 @@ export type GetProductQueryVariables = Exact<{
 
 export type GetProductQuery = { __typename?: 'RootQuery', allProduct: Array<{ __typename?: 'Product', _id?: string | null, name?: string | null, categories?: Array<{ __typename?: 'Category', name?: string | null } | null> | null, slug?: { __typename?: 'Slug', current?: string | null } | null, images?: Array<{ __typename?: 'ProductImage', name?: string | null, images?: { __typename?: 'Image', asset?: { __typename?: 'SanityImageAsset', url?: string | null } | null } | null } | null> | null, variants?: Array<{ __typename?: 'Variant', id?: string | null, name?: string | null, description?: string | null, msrp?: number | null, price?: number | null, size?: { __typename?: 'Size', name?: string | null } | null } | null> | null }> };
 
+export type GetProductsQueryVariables = Exact<{ [key: string]: never; }>;
 
-export const AllCategoryDocument = gql`
-    query allCategory {
+
+export type GetProductsQuery = { __typename?: 'RootQuery', allProduct: Array<{ __typename?: 'Product', _id?: string | null, name?: string | null, categories?: Array<{ __typename?: 'Category', name?: string | null } | null> | null, slug?: { __typename?: 'Slug', current?: string | null } | null, images?: Array<{ __typename?: 'ProductImage', name?: string | null, images?: { __typename?: 'Image', asset?: { __typename?: 'SanityImageAsset', url?: string | null } | null } | null } | null> | null, variants?: Array<{ __typename?: 'Variant', name?: string | null, id?: string | null, msrp?: number | null, price?: number | null, size?: { __typename?: 'Size', name?: string | null } | null } | null> | null }> };
+
+export type GetProductsSlugsQueryVariables = Exact<{ [key: string]: never; }>;
+
+
+export type GetProductsSlugsQuery = { __typename?: 'RootQuery', allProduct: Array<{ __typename?: 'Product', slug?: { __typename?: 'Slug', current?: string | null } | null }> };
+
+
+export const GetCategoriesDocument = gql`
+    query getCategories {
   allCategory {
     _id
     name
-    images {
-      images {
-        asset {
-          url
-        }
-      }
-    }
-  }
-}
-    `;
-export const AllProductDocument = gql`
-    query allProduct {
-  allProduct {
-    _id
-    name
-    categories {
-      name
-    }
     slug {
       current
     }
@@ -1082,23 +1072,15 @@ export const AllProductDocument = gql`
           url
         }
       }
-      name
-    }
-    variants {
-      name
-      id
-      msrp
-      price
-      size {
-        name
-      }
     }
   }
 }
     `;
-export const AllProductSlugsDocument = gql`
-    query allProductSlugs {
-  allProduct {
+export const GetCategoriesSlugsDocument = gql`
+    query getCategoriesSlugs {
+  allCategory {
+    _id
+    name
     slug {
       current
     }
@@ -1137,6 +1119,46 @@ export const GetProductDocument = gql`
   }
 }
     `;
+export const GetProductsDocument = gql`
+    query getProducts {
+  allProduct {
+    _id
+    name
+    categories {
+      name
+    }
+    slug {
+      current
+    }
+    images {
+      images {
+        asset {
+          url
+        }
+      }
+      name
+    }
+    variants {
+      name
+      id
+      msrp
+      price
+      size {
+        name
+      }
+    }
+  }
+}
+    `;
+export const GetProductsSlugsDocument = gql`
+    query getProductsSlugs {
+  allProduct {
+    slug {
+      current
+    }
+  }
+}
+    `;
 
 export type SdkFunctionWrapper = <T>(action: (requestHeaders?:Record<string, string>) => Promise<T>, operationName: string, operationType?: string) => Promise<T>;
 
@@ -1145,17 +1167,20 @@ const defaultWrapper: SdkFunctionWrapper = (action, _operationName, _operationTy
 
 export function getSdk(client: GraphQLClient, withWrapper: SdkFunctionWrapper = defaultWrapper) {
   return {
-    allCategory(variables?: AllCategoryQueryVariables, requestHeaders?: Dom.RequestInit["headers"]): Promise<AllCategoryQuery> {
-      return withWrapper((wrappedRequestHeaders) => client.request<AllCategoryQuery>(AllCategoryDocument, variables, {...requestHeaders, ...wrappedRequestHeaders}), 'allCategory', 'query');
+    getCategories(variables?: GetCategoriesQueryVariables, requestHeaders?: Dom.RequestInit["headers"]): Promise<GetCategoriesQuery> {
+      return withWrapper((wrappedRequestHeaders) => client.request<GetCategoriesQuery>(GetCategoriesDocument, variables, {...requestHeaders, ...wrappedRequestHeaders}), 'getCategories', 'query');
     },
-    allProduct(variables?: AllProductQueryVariables, requestHeaders?: Dom.RequestInit["headers"]): Promise<AllProductQuery> {
-      return withWrapper((wrappedRequestHeaders) => client.request<AllProductQuery>(AllProductDocument, variables, {...requestHeaders, ...wrappedRequestHeaders}), 'allProduct', 'query');
-    },
-    allProductSlugs(variables?: AllProductSlugsQueryVariables, requestHeaders?: Dom.RequestInit["headers"]): Promise<AllProductSlugsQuery> {
-      return withWrapper((wrappedRequestHeaders) => client.request<AllProductSlugsQuery>(AllProductSlugsDocument, variables, {...requestHeaders, ...wrappedRequestHeaders}), 'allProductSlugs', 'query');
+    getCategoriesSlugs(variables?: GetCategoriesSlugsQueryVariables, requestHeaders?: Dom.RequestInit["headers"]): Promise<GetCategoriesSlugsQuery> {
+      return withWrapper((wrappedRequestHeaders) => client.request<GetCategoriesSlugsQuery>(GetCategoriesSlugsDocument, variables, {...requestHeaders, ...wrappedRequestHeaders}), 'getCategoriesSlugs', 'query');
     },
     getProduct(variables: GetProductQueryVariables, requestHeaders?: Dom.RequestInit["headers"]): Promise<GetProductQuery> {
       return withWrapper((wrappedRequestHeaders) => client.request<GetProductQuery>(GetProductDocument, variables, {...requestHeaders, ...wrappedRequestHeaders}), 'getProduct', 'query');
+    },
+    getProducts(variables?: GetProductsQueryVariables, requestHeaders?: Dom.RequestInit["headers"]): Promise<GetProductsQuery> {
+      return withWrapper((wrappedRequestHeaders) => client.request<GetProductsQuery>(GetProductsDocument, variables, {...requestHeaders, ...wrappedRequestHeaders}), 'getProducts', 'query');
+    },
+    getProductsSlugs(variables?: GetProductsSlugsQueryVariables, requestHeaders?: Dom.RequestInit["headers"]): Promise<GetProductsSlugsQuery> {
+      return withWrapper((wrappedRequestHeaders) => client.request<GetProductsSlugsQuery>(GetProductsSlugsDocument, variables, {...requestHeaders, ...wrappedRequestHeaders}), 'getProductsSlugs', 'query');
     }
   };
 }
