@@ -1,0 +1,9 @@
+query getCategoriesSlugs {
+  allCategory {
+    _id
+    name
+    slug {
+      current
+    }
+  }
+}

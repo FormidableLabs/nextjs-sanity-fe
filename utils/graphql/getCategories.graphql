@@ -1,7 +1,10 @@
-query allCategory {
+query getCategories {
   allCategory {
     _id
     name
+    slug {
+      current
+    }
     images {
       images {
         asset {
