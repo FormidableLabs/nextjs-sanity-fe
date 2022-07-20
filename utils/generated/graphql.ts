@@ -15,6 +15,7 @@ export type Scalars = {
   Float: number;
   Date: any;
   DateTime: any;
+  JSON: any;
 };
 
 export type Block = {
@@ -306,7 +307,7 @@ export type Product = Document & {
   /** Date the document was last modified */
   _updatedAt?: Maybe<Scalars['DateTime']>;
   categories?: Maybe<Array<Maybe<Category>>>;
-  description?: Maybe<Scalars['String']>;
+  descriptionRaw?: Maybe<Scalars['JSON']>;
   images?: Maybe<Array<Maybe<ProductImage>>>;
   name?: Maybe<Scalars['String']>;
   slug?: Maybe<Slug>;
@@ -322,7 +323,6 @@ export type ProductFilter = {
   _rev?: InputMaybe<StringFilter>;
   _type?: InputMaybe<StringFilter>;
   _updatedAt?: InputMaybe<DatetimeFilter>;
-  description?: InputMaybe<StringFilter>;
   name?: InputMaybe<StringFilter>;
   slug?: InputMaybe<SlugFilter>;
 };
@@ -378,7 +378,6 @@ export type ProductSorting = {
   _rev?: InputMaybe<SortOrder>;
   _type?: InputMaybe<SortOrder>;
   _updatedAt?: InputMaybe<SortOrder>;
-  description?: InputMaybe<SortOrder>;
   name?: InputMaybe<SortOrder>;
   slug?: InputMaybe<SlugSorting>;
 };
@@ -990,7 +989,7 @@ export type Variant = Document & {
   _type?: Maybe<Scalars['String']>;
   /** Date the document was last modified */
   _updatedAt?: Maybe<Scalars['DateTime']>;
-  description?: Maybe<Scalars['String']>;
+  descriptionRaw?: Maybe<Scalars['JSON']>;
   id?: Maybe<Scalars['String']>;
   images?: Maybe<Array<Maybe<ProductImage>>>;
   msrp?: Maybe<Scalars['Float']>;
@@ -1008,7 +1007,6 @@ export type VariantFilter = {
   _rev?: InputMaybe<StringFilter>;
   _type?: InputMaybe<StringFilter>;
   _updatedAt?: InputMaybe<DatetimeFilter>;
-  description?: InputMaybe<StringFilter>;
   id?: InputMaybe<StringFilter>;
   msrp?: InputMaybe<FloatFilter>;
   name?: InputMaybe<StringFilter>;
@@ -1023,7 +1021,6 @@ export type VariantSorting = {
   _rev?: InputMaybe<SortOrder>;
   _type?: InputMaybe<SortOrder>;
   _updatedAt?: InputMaybe<SortOrder>;
-  description?: InputMaybe<SortOrder>;
   id?: InputMaybe<SortOrder>;
   msrp?: InputMaybe<SortOrder>;
   name?: InputMaybe<SortOrder>;
@@ -1045,7 +1042,7 @@ export type GetProductQueryVariables = Exact<{
 }>;
 
 
-export type GetProductQuery = { __typename?: 'RootQuery', allProduct: Array<{ __typename?: 'Product', _id?: string | null, name?: string | null, categories?: Array<{ __typename?: 'Category', name?: string | null } | null> | null, slug?: { __typename?: 'Slug', current?: string | null } | null, images?: Array<{ __typename?: 'ProductImage', name?: string | null, images?: { __typename?: 'Image', asset?: { __typename?: 'SanityImageAsset', url?: string | null } | null } | null } | null> | null, variants?: Array<{ __typename?: 'Variant', id?: string | null, name?: string | null, description?: string | null, msrp?: number | null, price?: number | null, size?: { __typename?: 'Size', name?: string | null } | null } | null> | null }> };
+export type GetProductQuery = { __typename?: 'RootQuery', allProduct: Array<{ __typename?: 'Product', _id?: string | null, name?: string | null, categories?: Array<{ __typename?: 'Category', name?: string | null } | null> | null, slug?: { __typename?: 'Slug', current?: string | null } | null, images?: Array<{ __typename?: 'ProductImage', name?: string | null, images?: { __typename?: 'Image', asset?: { __typename?: 'SanityImageAsset', url?: string | null } | null } | null } | null> | null, variants?: Array<{ __typename?: 'Variant', id?: string | null, name?: string | null, descriptionRaw?: any | null, msrp?: number | null, price?: number | null, size?: { __typename?: 'Size', name?: string | null } | null } | null> | null }> };
 
 export type GetProductsQueryVariables = Exact<{ [key: string]: never; }>;
 
@@ -1109,7 +1106,7 @@ export const GetProductDocument = gql`
     variants {
       id
       name
-      description
+      descriptionRaw
       msrp
       price
       size {
