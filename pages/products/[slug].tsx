@@ -2,6 +2,8 @@ import { GetStaticPaths, GetStaticProps, NextPage } from "next";
 import { gqlClient } from "../../utils/gqlClient";
 import { GetProductQuery, getSdk } from "../../utils/generated/graphql";
 import { ChangeEvent, useState } from "react";
+import { PortableText } from "@portabletext/react";
+import { BlockContent } from "../../components/BlockContent";
 
 interface Props {
   product?: GetProductQuery["allProduct"][0];
@@ -46,7 +48,7 @@ const ProductPage: NextPage<Props> = ({ product }) => {
             <h3 className="text-xl font-bold">$ {selectedVariant?.price ?? 0}</h3>
           )}
 
-          <p>{selectedVariant?.description}</p>
+          <BlockContent value={selectedVariant?.descriptionRaw} />
         </div>
       </div>
     </div>

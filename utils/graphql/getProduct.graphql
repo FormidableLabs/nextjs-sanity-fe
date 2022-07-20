@@ -19,7 +19,7 @@ query getProduct($slug: String!) {
     variants {
       id
       name
-      description
+      descriptionRaw
       msrp
       price
       size {
