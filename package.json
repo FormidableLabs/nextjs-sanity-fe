@@ -8,7 +8,7 @@
     "dev:nextjs": "pnpm run --filter nextjs dev",
     "build:nextjs": "pnpm run --filter nextjs build",
     "start:nextjs": "pnpm run --filter nextjs start",
-    "codgen:nextjs": "pnpm run --filter nextjs codgen",
+    "codegen:nextjs": "pnpm run --filter nextjs codegen",
     "dev:sanity": "pnpm run --filter sanity -C packages/sanity dev",
     "build:sanity": "pnpm run --filter sanity build",
     "deploy-sanity-studio": "pnpm run -C packages/sanity --filter sanity deploy-studio",
