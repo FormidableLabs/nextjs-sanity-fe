@@ -11,6 +11,8 @@
     "codgen:nextjs": "pnpm run --filter nextjs codgen",
     "dev:sanity": "pnpm run --filter sanity -C packages/sanity dev",
     "build:sanity": "pnpm run --filter sanity build",
+    "deploy-sanity-studio": "pnpm run -C packages/sanity --filter sanity deploy-studio",
+    "deploy-sanity-graphql": "pnpm run -C packages/sanity --filter sanity deploy-graphql",
     "prepare": "husky install"
   },
   "keywords": [],
