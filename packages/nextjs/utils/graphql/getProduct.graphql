@@ -1,0 +1,30 @@
+query getProduct($slug: String!) {
+  allProduct(where: { slug: { current: { eq: $slug } } }) {
+    _id
+    name
+    categories {
+      name
+    }
+    slug {
+      current
+    }
+    images {
+      images {
+        asset {
+          url
+        }
+      }
+      name
+    }
+    variants {
+      id
+      name
+      descriptionRaw
+      msrp
+      price
+      size {
+        name
+      }
+    }
+  }
+}

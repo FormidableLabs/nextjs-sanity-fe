@@ -1,2 +1,3 @@
-utils/generated/**/*
-.next/**/*
+packages/nextjs/utils/generated/**/*
+packages/nextjs/.next/**/*
+packages/sanity/config/**/*

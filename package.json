@@ -1,46 +1,28 @@
 {
   "name": "nextjs-ecom-fe",
-  "version": "0.1.0",
-  "private": true,
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
   "scripts": {
-    "dev": "concurrently \"yarn next:dev\" \"yarn codegen:watch\"",
-    "next:dev": "next dev",
-    "build": "next build",
-    "start": "next start",
-    "lint": "next lint",
-    "codegen": "graphql-codegen --config codegen.yml -r dotenv/config",
-    "codegen:watch": "yarn codegen --watch"
+    "dev:nextjs": "pnpm run --filter nextjs dev",
+    "build:nextjs": "pnpm run --filter nextjs build",
+    "start:nextjs": "pnpm run --filter nextjs start",
+    "codgen:nextjs": "pnpm run --filter nextjs codgen",
+    "start:sanity": "pnpm run --filter sanity -C packages/sanity start",
+    "build:sanity": "pnpm run --filter sanity build",
+    "prepare": "husky install"
   },
-  "dependencies": {
-    "@portabletext/react": "^1.0.6",
-    "@sanity/client": "^3.3.2",
-    "@sanity/image-url": "^1.0.1",
-    "@tailwindcss/typography": "^0.5.4",
-    "dotenv": "^16.0.1",
-    "graphql": "^16.5.0",
-    "graphql-request": "^4.3.0",
-    "groq": "^2.29.3",
-    "next": "12.1.6",
-    "react": "18.2.0",
-    "react-dom": "18.2.0"
-  },
+  "keywords": [],
+  "author": "Binoy Patel",
+  "license": "ISC",
   "devDependencies": {
-    "@graphql-codegen/add": "^3.1.1",
-    "@graphql-codegen/cli": "2.7.0",
-    "@graphql-codegen/introspection": "2.1.1",
-    "@graphql-codegen/typescript": "2.6.0",
-    "@graphql-codegen/typescript-graphql-request": "^4.4.11",
-    "@graphql-codegen/typescript-operations": "2.4.3",
-    "@types/node": "18.0.0",
-    "@types/react": "18.0.14",
-    "@types/react-dom": "18.0.5",
-    "autoprefixer": "^10.4.7",
-    "concurrently": "^7.2.2",
-    "eslint": "8.18.0",
-    "eslint-config-next": "12.1.6",
-    "graphql-tag": "^2.0.0",
-    "postcss": "^8.4.14",
-    "tailwindcss": "^3.1.4",
-    "typescript": "4.7.4"
+    "husky": "^8.0.1",
+    "lint-staged": "^13.0.3",
+    "prettier": "^2.7.1"
+  },
+  "lint-staged": {
+    "*.{js,jsx,ts,tsx,css,md,json}": [
+      "prettier --write"
+    ]
   }
 }

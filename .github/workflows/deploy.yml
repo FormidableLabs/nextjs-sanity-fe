@@ -1,0 +1,29 @@
+name: Sanity Studio Deploy
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: Setup Node.js environment
+        uses: actions/setup-node@v3
+        with:
+          node-version: 16.x
+
+      - name: Install Dependencies
+        run: yarn
+
+      - name: Deploy Sanity
+        run: |
+          SANITY_AUTH_TOKEN="${{ secrets.SANITY_DEPLOY_TOKEN }}" yarn sanity deploy
+
+      - name: Deploy Sanity GraphQL
+        run: |
+          SANITY_AUTH_TOKEN="${{ secrets.SANITY_DEPLOY_TOKEN }}" yarn sanity graphql deploy
