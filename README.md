@@ -1,33 +1,64 @@
 # Formidable - NextJS Sanity E-Commerce Site
 
-## CMS
+This repo is a mono repo built using [pnpm](https://pnpm.io/) workspaces. It consists of two packages:
 
-This is a demo site utilizing Sanity CMS and NextJs to showcase an e-commerce site. The site is hosted on [Vercel](https://nextjs-sanity-fe.vercel.app/) built out using SSG.
-
-The CMS repo can be found [here](https://github.com/FormidableLabs/nextjs-sanity-ecom) and the site is [here](https://nextjs-ecom.sanity.studio/).
-
-### Sanity API
-
-Sanity data is fetched via two ways:
-
-1. _GraphQL_ - is used for fetching data when no filtering is required. The reason being GraphQL does not support filtering.
-
-2. [Groq](https://www.sanity.io/docs/groq) - is used for fetching data when filtering is required, it supports filtering on fields in the model.
+1. NextJs App
+2. Sanity Studio
 
 ## Getting Started
 
-This project uses yarn v1 for dependency management. Install depenedencies using the following command:
+This project uses pnpm for dependency management. Make sure you have v7 of pnpm installed, instructions can be found [here](https://pnpm.io/installation) if you don't already have it installed.
 
 ```bash
-yarn
+pnpm install
 ```
 
-First, run the development server:
+### Scripts
 
-```bash
-npm run dev
-# or
-yarn dev
+- `local` - Runs Sanity Studio, NextJs app and GraphQL codegen watch in parallel.
+
+- `dev:nextjs` - Runs NextJs app and GraphQL codegen.
+
+- `build:nextjs` - Builds NextJS app
+
+- `start:nextjs` - Starts built out NextJs app.
+
+- `codegen:nextjs` - Runs GraphQL codegen in Nextjs App.
+
+- `dev:sanity` - Runs Sanity Studio locally
+
+- `build:sanity` - Builds Sanity Studio
+
+- `deploy-sanity-studio` - Deploys Sanity Studio to Sanity
+
+- `deploy-sanity-graphql` - Deploys GraphQL schema to Sanity
+
+## NextJS App
+
+The NextJs App is demonstrating the use of Sanity headless CMS to create a e-commerce site. The goal of this site is to provide a real world example on running a highly scalable e-commerce site.
+
+### CMS - Sanity
+
+Sanity is used for storing information about products. The data from Sanity is fetched via two ways:
+
+1. _GraphQL_ - is used for fetching data when no filtering is required. The reason being GraphQL does not support filtering on custom fields other than name, description and slug.
+
+2. [Groq](https://www.sanity.io/docs/groq) - is used for fetching data when filtering is required, it supports filtering on fields in the model.
+
+The site is deployed to [Vercel](https://nextjs-sanity-fe.vercel.app/) built out using server-side rendering.
+
+## Sanity Studio
+
+Sanity Studio is a web interface for Sanity. It is used for creating and editing the data on the site. The models for Sanity are created in code and tracked in source control. The models can be found at `packages/sanity/schemas`. Sanity studio is deployed to Sanity's hosting located [here](https://nextjs-ecom.sanity.studio/). You do need access to Sanity to use this site.
+
+### Sanity Studio + pnpm gotchas
+
+The way Sanity Studio works has issues with monorepos, especially when using pnpm. Sanity expects all dependencies to be hoisted. To solve the issue, in `.npmrc` we add the following:
+
+```
+public-hoist-pattern[]=*@sanity/*
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+This hoists all dependencies and sub dependencies to the root node_modules.
+
+Another monorepo gotcha is Sanity cli expects to be run from the root where sanity `node_modules` are located. This is not ideal when using monorepos, to solve this issue all the scripts ran via pnpm have a flag to specify cwd to be the sanity package.
