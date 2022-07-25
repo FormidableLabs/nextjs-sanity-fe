@@ -4,11 +4,12 @@
   "description": "",
   "main": "index.js",
   "scripts": {
+    "local": "pnpm run --filter nextjs --filter sanity --parallel dev",
     "dev:nextjs": "pnpm run --filter nextjs dev",
     "build:nextjs": "pnpm run --filter nextjs build",
     "start:nextjs": "pnpm run --filter nextjs start",
     "codgen:nextjs": "pnpm run --filter nextjs codgen",
-    "start:sanity": "pnpm run --filter sanity -C packages/sanity start",
+    "dev:sanity": "pnpm run --filter sanity -C packages/sanity dev",
     "build:sanity": "pnpm run --filter sanity build",
     "prepare": "husky install"
   },

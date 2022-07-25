@@ -7,7 +7,7 @@
   "author": "Binoy Patel <binoy.patel@formidable.com>",
   "license": "UNLICENSED",
   "scripts": {
-    "start": "sanity start",
+    "dev": "sanity start",
     "build": "sanity build"
   },
   "keywords": [
