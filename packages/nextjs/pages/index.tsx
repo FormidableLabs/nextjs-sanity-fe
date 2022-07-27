@@ -1,9 +1,9 @@
+import { GetServerSideProps, NextPage } from "next";
 import { withUrqlClient } from "next-urql";
 
 import { Card } from "../components/Card";
-import { useGetCategoriesQuery } from "../utils/generated/graphql";
-
-import type { NextPage } from "next";
+import { GetCategoriesDocument, useGetCategoriesQuery } from "../utils/generated/graphql";
+import { initializeUrql, urqlOptions } from "../utils/urql";
 
 const Home: NextPage = () => {
   const [{ data }] = useGetCategoriesQuery();
@@ -24,18 +24,21 @@ const Home: NextPage = () => {
   );
 };
 
-export default withUrqlClient(
-  () => ({
-    url: process.env.NEXT_PUBLIC_SANITY_GRAPHQL_URL,
-    fetchOptions: () => {
-      return {
-        headers: {
-          authorization: `Bearer ${process.env.NEXT_PUBLIC_SANITY_READ_TOKEN}`,
-        },
-      };
+export const getServerSideProps: GetServerSideProps = async () => {
+  const { client, ssrCache } = initializeUrql();
+
+  // This query is used to populate the cache for the query
+  // used on this page.
+  await client?.query(GetCategoriesDocument).toPromise();
+
+  return {
+    props: {
+      // urqlState is a keyword here so withUrqlClient can pick it up.
+      urqlState: ssrCache.extractData(),
     },
-  }),
-  {
-    ssr: true,
-  }
-)(Home);
+  };
+};
+
+export default withUrqlClient(() => urqlOptions, {
+  ssr: false,
+})(Home);

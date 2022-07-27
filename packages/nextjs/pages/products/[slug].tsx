@@ -1,10 +1,11 @@
-import { NextPage } from "next";
+import { GetServerSideProps, NextPage } from "next";
 import { withUrqlClient } from "next-urql";
 import { useRouter } from "next/router";
 import { ChangeEvent, useEffect, useState } from "react";
 
 import { BlockContent } from "../../components/BlockContent";
-import { GetProductQuery, Maybe, useGetProductQuery } from "../../utils/generated/graphql";
+import { GetProductDocument, GetProductQuery, Maybe, useGetProductQuery } from "../../utils/generated/graphql";
+import { initializeUrql, urqlOptions } from "../../utils/urql";
 
 type ProductVariant = NonNullable<GetProductQuery["allProduct"][0]["variants"]>[0];
 
@@ -68,18 +69,21 @@ const ProductPage: NextPage = () => {
   );
 };
 
-export default withUrqlClient(
-  () => ({
-    url: process.env.NEXT_PUBLIC_SANITY_GRAPHQL_URL,
-    fetchOptions: () => {
-      return {
-        headers: {
-          authorization: `Bearer ${process.env.NEXT_PUBLIC_SANITY_READ_TOKEN}`,
-        },
-      };
+export const getServerSideProps: GetServerSideProps = async (ctx) => {
+  const { client, ssrCache } = initializeUrql();
+
+  // This query is used to populate the cache for the query
+  // used on this page.
+  await client?.query(GetProductDocument, { slug: ctx.query.slug }).toPromise();
+
+  return {
+    props: {
+      // urqlState is a keyword here so withUrqlClient can pick it up.
+      urqlState: ssrCache.extractData(),
     },
-  }),
-  {
-    ssr: true,
-  }
-)(ProductPage);
+  };
+};
+
+export default withUrqlClient(() => urqlOptions, {
+  ssr: false,
+})(ProductPage);

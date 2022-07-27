@@ -6,7 +6,7 @@ import { Price } from "../../components/Price";
 import { CategoryPageCategory, CategoryPageProduct, CategoryPageResult } from "../../utils/groqTypes";
 import { imageBuilder, sanityClient } from "../../utils/sanityClient";
 
-import type { NextPage } from "next";
+import type { GetServerSideProps, NextPage } from "next";
 
 interface Props {
   products: CategoryPageProduct[];
@@ -53,8 +53,8 @@ const CategoryPage: NextPage<Props> = ({ products, category }) => {
 
 export default CategoryPage;
 
-CategoryPage.getInitialProps = async ({ query }) => {
-  const { slug } = query;
+export const getServerSideProps: GetServerSideProps = async (ctx) => {
+  const { slug } = ctx.query;
 
   const result: CategoryPageResult = await sanityClient.fetch(
     groq`{
@@ -78,5 +78,5 @@ CategoryPage.getInitialProps = async ({ query }) => {
     }
   );
 
-  return result;
+  return { props: result };
 };
