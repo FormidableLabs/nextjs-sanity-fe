@@ -24,13 +24,18 @@ const Home: NextPage = () => {
   );
 };
 
-export default withUrqlClient(() => ({
-  url: process.env.NEXT_PUBLIC_SANITY_GRAPHQL_URL,
-  fetchOptions: () => {
-    return {
-      headers: {
-        authorization: `Bearer ${process.env.NEXT_PUBLIC_SANITY_READ_TOKEN}`,
-      },
-    };
-  },
-}))(Home);
+export default withUrqlClient(
+  () => ({
+    url: process.env.NEXT_PUBLIC_SANITY_GRAPHQL_URL,
+    fetchOptions: () => {
+      return {
+        headers: {
+          authorization: `Bearer ${process.env.NEXT_PUBLIC_SANITY_READ_TOKEN}`,
+        },
+      };
+    },
+  }),
+  {
+    ssr: true,
+  }
+)(Home);
