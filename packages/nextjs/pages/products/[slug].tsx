@@ -1,16 +1,29 @@
-import { GetStaticPaths, GetStaticProps, NextPage } from "next";
-import { gqlClient } from "../../utils/gqlClient";
-import { GetProductQuery, getSdk } from "../../utils/generated/graphql";
-import { ChangeEvent, useState } from "react";
-import { PortableText } from "@portabletext/react";
+import { NextPage } from "next";
+import { withUrqlClient } from "next-urql";
+import { useRouter } from "next/router";
+import { ChangeEvent, useEffect, useState } from "react";
+
 import { BlockContent } from "../../components/BlockContent";
+import { GetProductQuery, Maybe, useGetProductQuery } from "../../utils/generated/graphql";
 
-interface Props {
-  product?: GetProductQuery["allProduct"][0];
-}
+type ProductVariant = NonNullable<GetProductQuery["allProduct"][0]["variants"]>[0];
 
-const ProductPage: NextPage<Props> = ({ product }) => {
-  const [selectedVariant, setSelectedVariant] = useState(() => product?.variants?.[0]);
+const ProductPage: NextPage = () => {
+  const { query } = useRouter();
+  const [{ data }] = useGetProductQuery({
+    variables: {
+      slug: query.slug as string,
+    },
+  });
+
+  const product = data?.allProduct[0];
+  const [selectedVariant, setSelectedVariant] = useState<Maybe<ProductVariant> | undefined>();
+
+  useEffect(() => {
+    if (product) {
+      setSelectedVariant(product?.variants?.[0]);
+    }
+  }, [product]);
 
   const onVariantChange = (e: ChangeEvent<HTMLSelectElement>) => {
     const productVariant = product?.variants?.find((variant) => variant?.id === e.target.value);
@@ -55,31 +68,13 @@ const ProductPage: NextPage<Props> = ({ product }) => {
   );
 };
 
-export default ProductPage;
-
-export const getStaticPaths: GetStaticPaths = async () => {
-  const sdk = getSdk(gqlClient);
-
-  const { allProduct } = await sdk.getProductsSlugs();
-
-  const paths = allProduct.map(({ slug }) => ({
-    params: { slug: slug?.current ?? "" },
-  }));
-
-  return {
-    paths,
-    fallback: false,
-  };
-};
-
-export const getStaticProps: GetStaticProps<Props> = async ({ params }) => {
-  const sdk = getSdk(gqlClient);
-
-  const { allProduct } = await sdk.getProduct({ slug: (params?.slug as string) ?? "" });
-
-  return {
-    props: {
-      product: allProduct[0],
-    },
-  };
-};
+export default withUrqlClient(() => ({
+  url: process.env.NEXT_PUBLIC_SANITY_GRAPHQL_URL,
+  fetchOptions: () => {
+    return {
+      headers: {
+        authorization: `Bearer ${process.env.NEXT_PUBLIC_SANITY_READ_TOKEN}`,
+      },
+    };
+  },
+}))(ProductPage);

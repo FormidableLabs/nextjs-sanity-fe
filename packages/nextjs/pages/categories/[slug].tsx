@@ -1,14 +1,12 @@
 import groq from "groq";
-import { GetStaticPaths, GetStaticProps, NextPage } from "next";
 import Link from "next/link";
-import { ParsedUrlQuery } from "querystring";
 import { Fragment } from "react";
+
 import { Price } from "../../components/Price";
-import { getSdk } from "../../utils/generated/graphql";
-import { gqlClient } from "../../utils/gqlClient";
-import { CategoryPageProduct, CategoryPageResult, CategoryPageCategory } from "../../utils/groqTypes";
-import { imageBuilder } from "../../utils/sanityPublicClient";
-import { sanityClient } from "../../utils/sanityServerClient";
+import { CategoryPageCategory, CategoryPageProduct, CategoryPageResult } from "../../utils/groqTypes";
+import { imageBuilder, sanityClient } from "../../utils/sanityClient";
+
+import type { NextPage } from "next";
 
 interface Props {
   products: CategoryPageProduct[];
@@ -55,26 +53,9 @@ const CategoryPage: NextPage<Props> = ({ products, category }) => {
 
 export default CategoryPage;
 
-interface Params extends ParsedUrlQuery {
-  slug: string;
-}
+CategoryPage.getInitialProps = async ({ query }) => {
+  const { slug } = query;
 
-export const getStaticPaths: GetStaticPaths<Params> = async () => {
-  const sdk = getSdk(gqlClient);
-
-  const { allCategory } = await sdk.getCategoriesSlugs();
-
-  const paths = allCategory.map((category) => ({
-    params: { slug: category.slug?.current ?? "" },
-  }));
-
-  return {
-    paths,
-    fallback: false,
-  };
-};
-
-export const getStaticProps: GetStaticProps<Props, Params> = async ({ params }) => {
   const result: CategoryPageResult = await sanityClient.fetch(
     groq`{
       'products': *[_type == "product" && $slug in categories[]->slug.current] {
@@ -93,11 +74,9 @@ export const getStaticProps: GetStaticProps<Props, Params> = async ({ params }) 
       }
     }`,
     {
-      slug: params?.slug,
+      slug,
     }
   );
 
-  return {
-    props: result,
-  };
+  return result;
 };

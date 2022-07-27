@@ -11,6 +11,7 @@ export const Card: React.FC<Props> = ({ to, children, imageUrl, className = "" }
   return (
     <Link href={to}>
       <a className={`shadow-md border flex flex-col items-center justify-center ${className}`}>
+        {/* eslint-disable-next-line @next/next/no-img-element */}
         <img src={imageUrl ?? ""} alt="TODO: Add Alt" className={`h-52 w-52`} />
         <h2 className="text-xl font-bold my-2">{children}</h2>
       </a>
