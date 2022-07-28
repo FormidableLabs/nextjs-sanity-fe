@@ -1,11 +1,11 @@
-import { GraphQLClient } from 'graphql-request';
-import * as Dom from 'graphql-request/dist/types.dom';
 import gql from 'graphql-tag';
+import * as Urql from 'urql';
 export type Maybe<T> = T | null;
 export type InputMaybe<T> = Maybe<T>;
 export type Exact<T extends { [key: string]: unknown }> = { [K in keyof T]: T[K] };
 export type MakeOptional<T, K extends keyof T> = Omit<T, K> & { [SubKey in K]?: Maybe<T[SubKey]> };
 export type MakeMaybe<T, K extends keyof T> = Omit<T, K> & { [SubKey in K]: Maybe<T[SubKey]> };
+export type Omit<T, K extends keyof T> = Pick<T, Exclude<keyof T, K>>;
 /** All built-in and custom scalars, mapped to their actual values */
 export type Scalars = {
   ID: string;
@@ -1073,6 +1073,10 @@ export const GetCategoriesDocument = gql`
   }
 }
     `;
+
+export function useGetCategoriesQuery(options?: Omit<Urql.UseQueryArgs<GetCategoriesQueryVariables>, 'query'>) {
+  return Urql.useQuery<GetCategoriesQuery>({ query: GetCategoriesDocument, ...options });
+};
 export const GetCategoriesSlugsDocument = gql`
     query getCategoriesSlugs {
   allCategory {
@@ -1084,6 +1088,10 @@ export const GetCategoriesSlugsDocument = gql`
   }
 }
     `;
+
+export function useGetCategoriesSlugsQuery(options?: Omit<Urql.UseQueryArgs<GetCategoriesSlugsQueryVariables>, 'query'>) {
+  return Urql.useQuery<GetCategoriesSlugsQuery>({ query: GetCategoriesSlugsDocument, ...options });
+};
 export const GetProductDocument = gql`
     query getProduct($slug: String!) {
   allProduct(where: {slug: {current: {eq: $slug}}}) {
@@ -1116,6 +1124,10 @@ export const GetProductDocument = gql`
   }
 }
     `;
+
+export function useGetProductQuery(options: Omit<Urql.UseQueryArgs<GetProductQueryVariables>, 'query'>) {
+  return Urql.useQuery<GetProductQuery>({ query: GetProductDocument, ...options });
+};
 export const GetProductsDocument = gql`
     query getProducts {
   allProduct {
@@ -1147,6 +1159,10 @@ export const GetProductsDocument = gql`
   }
 }
     `;
+
+export function useGetProductsQuery(options?: Omit<Urql.UseQueryArgs<GetProductsQueryVariables>, 'query'>) {
+  return Urql.useQuery<GetProductsQuery>({ query: GetProductsDocument, ...options });
+};
 export const GetProductsSlugsDocument = gql`
     query getProductsSlugs {
   allProduct {
@@ -1157,28 +1173,6 @@ export const GetProductsSlugsDocument = gql`
 }
     `;
 
-export type SdkFunctionWrapper = <T>(action: (requestHeaders?:Record<string, string>) => Promise<T>, operationName: string, operationType?: string) => Promise<T>;
-
-
-const defaultWrapper: SdkFunctionWrapper = (action, _operationName, _operationType) => action();
-
-export function getSdk(client: GraphQLClient, withWrapper: SdkFunctionWrapper = defaultWrapper) {
-  return {
-    getCategories(variables?: GetCategoriesQueryVariables, requestHeaders?: Dom.RequestInit["headers"]): Promise<GetCategoriesQuery> {
-      return withWrapper((wrappedRequestHeaders) => client.request<GetCategoriesQuery>(GetCategoriesDocument, variables, {...requestHeaders, ...wrappedRequestHeaders}), 'getCategories', 'query');
-    },
-    getCategoriesSlugs(variables?: GetCategoriesSlugsQueryVariables, requestHeaders?: Dom.RequestInit["headers"]): Promise<GetCategoriesSlugsQuery> {
-      return withWrapper((wrappedRequestHeaders) => client.request<GetCategoriesSlugsQuery>(GetCategoriesSlugsDocument, variables, {...requestHeaders, ...wrappedRequestHeaders}), 'getCategoriesSlugs', 'query');
-    },
-    getProduct(variables: GetProductQueryVariables, requestHeaders?: Dom.RequestInit["headers"]): Promise<GetProductQuery> {
-      return withWrapper((wrappedRequestHeaders) => client.request<GetProductQuery>(GetProductDocument, variables, {...requestHeaders, ...wrappedRequestHeaders}), 'getProduct', 'query');
-    },
-    getProducts(variables?: GetProductsQueryVariables, requestHeaders?: Dom.RequestInit["headers"]): Promise<GetProductsQuery> {
-      return withWrapper((wrappedRequestHeaders) => client.request<GetProductsQuery>(GetProductsDocument, variables, {...requestHeaders, ...wrappedRequestHeaders}), 'getProducts', 'query');
-    },
-    getProductsSlugs(variables?: GetProductsSlugsQueryVariables, requestHeaders?: Dom.RequestInit["headers"]): Promise<GetProductsSlugsQuery> {
-      return withWrapper((wrappedRequestHeaders) => client.request<GetProductsSlugsQuery>(GetProductsSlugsDocument, variables, {...requestHeaders, ...wrappedRequestHeaders}), 'getProductsSlugs', 'query');
-    }
-  };
-}
-export type Sdk = ReturnType<typeof getSdk>;
+export function useGetProductsSlugsQuery(options?: Omit<Urql.UseQueryArgs<GetProductsSlugsQueryVariables>, 'query'>) {
+  return Urql.useQuery<GetProductsSlugsQuery>({ query: GetProductsSlugsDocument, ...options });
+};

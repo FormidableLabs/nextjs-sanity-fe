@@ -1,18 +1,18 @@
-import type { GetStaticProps, NextPage } from "next";
+import { GetServerSideProps, NextPage } from "next";
+import { withUrqlClient } from "next-urql";
+
 import { Card } from "../components/Card";
-import { GetCategoriesQuery, getSdk } from "../utils/generated/graphql";
-import { gqlClient } from "../utils/gqlClient";
+import { GetCategoriesDocument, useGetCategoriesQuery } from "../utils/generated/graphql";
+import { initializeUrql, urqlOptions } from "../utils/urql";
 
-interface Props {
-  categories: GetCategoriesQuery["allCategory"];
-}
+const Home: NextPage = () => {
+  const [{ data }] = useGetCategoriesQuery();
 
-const Home: NextPage<Props> = ({ categories }) => {
   return (
     <div className="m-4">
       <h3 className="text-lg text-center font-bold my-5">Top Categories</h3>
       <ul className="flex justify-evenly">
-        {categories.map((category) => (
+        {data?.allCategory.map((category) => (
           <li key={category._id}>
             <Card to={`/categories/${category.slug?.current}`} imageUrl={category.images?.[0]?.images?.asset?.url}>
               {category.name}
@@ -24,16 +24,21 @@ const Home: NextPage<Props> = ({ categories }) => {
   );
 };
 
-export const getStaticProps: GetStaticProps<Props> = async ({ params }) => {
-  const sdk = getSdk(gqlClient);
+export const getServerSideProps: GetServerSideProps = async () => {
+  const { client, ssrCache } = initializeUrql();
 
-  const { allCategory } = await sdk.getCategories();
+  // This query is used to populate the cache for the query
+  // used on this page.
+  await client?.query(GetCategoriesDocument).toPromise();
 
   return {
     props: {
-      categories: allCategory,
+      // urqlState is a keyword here so withUrqlClient can pick it up.
+      urqlState: ssrCache.extractData(),
     },
   };
 };
 
-export default Home;
+export default withUrqlClient(() => urqlOptions, {
+  ssr: false,
+})(Home);

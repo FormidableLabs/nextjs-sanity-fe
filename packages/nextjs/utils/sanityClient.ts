@@ -6,10 +6,11 @@ const sanityOptions = {
   apiVersion: "2021-10-21",
 };
 
-export const sanityClientCdn = client({
+export const sanityClient = client({
   ...sanityOptions,
   projectId: process.env.NEXT_PUBLIC_SANITY_PROJECT_ID,
+  token: process.env.NEXT_PUBLIC_SANITY_READ_TOKEN,
   useCdn: true,
 });
 
-export const imageBuilder = sanityImage(sanityClientCdn);
+export const imageBuilder = sanityImage(sanityClient);

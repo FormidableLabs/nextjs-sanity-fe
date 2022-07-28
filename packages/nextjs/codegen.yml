@@ -9,7 +9,9 @@ generates:
     plugins:
       - "typescript"
       - "typescript-operations"
-      - "typescript-graphql-request"
+      - "typescript-urql"
+    config:
+      preResolveType: true
   ./graphql.schema.json:
     plugins:
       - "introspection"
