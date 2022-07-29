@@ -2,9 +2,10 @@ import groq from "groq";
 import Link from "next/link";
 import { Fragment } from "react";
 
+import { Image } from "../../components/Image";
 import { Price } from "../../components/Price";
 import { CategoryPageCategory, CategoryPageProduct, CategoryPageResult } from "../../utils/groqTypes";
-import { imageBuilder, sanityClient } from "../../utils/sanityClient";
+import { sanityClient } from "../../utils/sanityClient";
 
 import type { GetServerSideProps, NextPage } from "next";
 
@@ -23,15 +24,18 @@ const CategoryPage: NextPage<Props> = ({ products, category }) => {
         </div>
         <div className="flex-1 flex flex-wrap">
           {products.map((product) => {
-            const img = imageBuilder.image(product.images).width(300).quality(100).auto("format").url()?.toString();
-
             return (
               <Fragment key={product._id}>
                 <div className="w-26 h-fit">
                   <Link href={`/products/${product.slug.current}`}>
                     <a>
-                      {/* eslint-disable-next-line @next/next/no-img-element */}
-                      <img className="rounded shadow" src={img} alt={product.imageAlt} />
+                      <Image
+                        width={300}
+                        height={300}
+                        className="rounded shadow"
+                        src={product.images}
+                        alt={product.imageAlt}
+                      />
                     </a>
                   </Link>
 
