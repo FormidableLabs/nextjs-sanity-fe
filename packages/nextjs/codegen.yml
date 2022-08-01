@@ -1,8 +1,8 @@
 overwrite: true
 schema:
-  - ${SANITY_GRAPHQL_URL}:
+  - ${NEXT_PUBLIC_SANITY_GRAPHQL_URL}:
       headers:
-        Authorization: Bearer ${SANITY_READ_TOKEN}
+        Authorization: Bearer ${NEXT_PUBLIC_SANITY_READ_TOKEN}
 documents: "utils/graphql/**/*.graphql"
 generates:
   utils/generated/graphql.ts:

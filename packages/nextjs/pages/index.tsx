@@ -14,7 +14,13 @@ const Home: NextPage = () => {
       <ul className="flex justify-evenly">
         {data?.allCategory.map((category) => (
           <li key={category._id}>
-            <Card to={`/categories/${category.slug?.current}`} imageUrl={category.images?.[0]?.images?.asset?.url}>
+            <Card
+              to={`/categories/${category.slug?.current}`}
+              imageProps={{
+                src: category.images?.[0]?.images ?? "",
+                alt: category.images?.[0]?.name ?? "",
+              }}
+            >
               {category.name}
             </Card>
           </li>

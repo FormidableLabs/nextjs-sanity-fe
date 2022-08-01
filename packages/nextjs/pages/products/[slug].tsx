@@ -4,6 +4,7 @@ import { useRouter } from "next/router";
 import { ChangeEvent, useEffect, useState } from "react";
 
 import { BlockContent } from "../../components/BlockContent";
+import { Image } from "../../components/Image";
 import { GetProductDocument, GetProductQuery, Maybe, useGetProductQuery } from "../../utils/generated/graphql";
 import { initializeUrql, urqlOptions } from "../../utils/urql";
 
@@ -36,10 +37,10 @@ const ProductPage: NextPage = () => {
     <div className="container my-5">
       <div className="grid grid-cols-3 gap-4">
         <div>
-          {/* eslint-disable-next-line @next/next/no-img-element */}
-          <img
-            className=""
-            src={product?.images?.[0]?.images?.asset?.url ?? ""}
+          <Image
+            width={400}
+            height={400}
+            src={product?.images?.[0]?.images ?? ""}
             alt={product?.images?.[0]?.name ?? ""}
           />
         </div>
