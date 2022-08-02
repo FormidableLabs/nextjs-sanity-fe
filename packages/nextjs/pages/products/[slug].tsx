@@ -5,6 +5,7 @@ import { ChangeEvent, useEffect, useState } from "react";
 
 import { BlockContent } from "../../components/BlockContent";
 import { Image } from "../../components/Image";
+import { ProductImages } from "../../components/ProductImages";
 import { GetProductDocument, GetProductQuery, Maybe, useGetProductQuery } from "../../utils/generated/graphql";
 import { initializeUrql, urqlOptions } from "../../utils/urql";
 
@@ -33,17 +34,11 @@ const ProductPage: NextPage = () => {
     setSelectedVariant(productVariant);
   };
 
+  console.log(product?.images);
   return (
     <div className="container my-5">
       <div className="grid grid-cols-3 gap-4">
-        <div>
-          <Image
-            width={400}
-            height={400}
-            src={product?.images?.[0]?.images ?? ""}
-            alt={product?.images?.[0]?.name ?? ""}
-          />
-        </div>
+        <div>{product?.images?.length && <ProductImages images={product.images} />}</div>
         <div className="col-span-2 col-start-2">
           <h1 className="text-2xl font-bold">{product?.name}</h1>
           <select onChange={onVariantChange} value={selectedVariant?.id || ""}>
