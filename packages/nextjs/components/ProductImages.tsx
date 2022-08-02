@@ -19,6 +19,7 @@ export const ProductImages: React.FC<ProductImagesProps> = ({ images }) => {
     <Image key={image.images.asset._id} width={400} height={400} src={image?.images ?? ""} alt={image?.name ?? ""} />
   ));
 
+  // Returns single image
   if (images.length === 1) {
     return <div>{innerNode}</div>;
   }
@@ -29,7 +30,7 @@ export const ProductImages: React.FC<ProductImagesProps> = ({ images }) => {
       onClick={previousSlide}
       aria-label="Previous slide"
       disabled={currentSlide === 0}
-      className="p-4 text-slate-800 disabled:text-slate-800/50"
+      className="p-4 disabled:opacity-50"
     >
       <svg
         xmlns="http://www.w3.org/2000/svg"
@@ -54,7 +55,7 @@ export const ProductImages: React.FC<ProductImagesProps> = ({ images }) => {
       onClick={nextSlide}
       aria-label="Next slide"
       disabled={currentSlide === slideCount - 1}
-      className="p-4 text-slate-800 disabled:text-slate-800/50"
+      className="p-4 disabled:opacity-50"
     >
       <svg
         xmlns="http://www.w3.org/2000/svg"
@@ -76,7 +77,7 @@ export const ProductImages: React.FC<ProductImagesProps> = ({ images }) => {
   const renderDots = ({ goToSlide, currentSlide }: RenderControlProps) => (
     <div className="flex gap-2 py-4">
       {images.map(({ image }, index) => {
-        const bgClass = index === currentSlide ? "bg-slate-800" : "bg-slate-800/50";
+        const opacity = index === currentSlide ? "" : "opacity-50";
         return (
           <button
             key={image?.images?.asset?._id}
@@ -85,7 +86,7 @@ export const ProductImages: React.FC<ProductImagesProps> = ({ images }) => {
               goToSlide(index);
             }}
             aria-label={`Go to slide ${index + 1}`}
-            className={`block w-2 h-2 rounded-full ${bgClass} hover:bg-slate-800`}
+            className={`block w-2 h-2 rounded-full bg-current ${opacity} hover:opacity-100`}
           />
         );
       })}
@@ -99,6 +100,7 @@ export const ProductImages: React.FC<ProductImagesProps> = ({ images }) => {
       renderBottomCenterControls={renderDots}
       renderCenterLeftControls={renderPrev}
       renderCenterRightControls={renderNext}
+      className="text-slate-800"
     >
       {innerNode}
     </Carousel>
