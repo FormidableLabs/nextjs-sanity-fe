@@ -27,7 +27,7 @@ export const Image: React.FC<Props> = (props) => {
     <NextImage
       loader={(p) => sanityLoader(props.src, p)}
       {...props}
-      src={imageBuilder.image(props.src).url()?.toString().replace(baseURL, "") ?? ""}
+      src={imageBuilder.image(props?.src).url()?.toString().replace(baseURL, "") ?? ""}
     />
   );
 };

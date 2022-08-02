@@ -1,17 +1,18 @@
 import { serialize } from "cookie";
 import { NextApiRequest, NextApiResponse } from "next";
 
-const CART_COOKIE_NAME = "formidable-cart";
+const CART_COOKIE_NAME = process.env.NEXT_PUBLIC_CART_COOKIE_NAME;
 
 function getCookie(cookies: NextApiRequest["cookies"]) {
-  return cookies[CART_COOKIE_NAME] || {};
+  return cookies[CART_COOKIE_NAME] ? JSON.parse(cookies[CART_COOKIE_NAME]) : {};
 }
 
 function setCookie(res: NextApiResponse, cookie: Record<string, number>) {
   res.setHeader(
     "Set-Cookie",
     serialize(CART_COOKIE_NAME, JSON.stringify(cookie), {
-      httpOnly: true,
+      expires: new Date(Date.now() + 1000 * 60 * 60 * 24 * 7),
+      path: "/",
     })
   );
 }
@@ -25,30 +26,30 @@ function getCart(req: NextApiRequest, res: NextApiResponse) {
 }
 
 function addToCart(req: NextApiRequest, res: NextApiResponse) {
-  const cartItems = req.body;
-  const cookie = getCookie(req.cookies);
+  const cartItems: Record<string, number> = req.body;
+  const cookie: Record<string, number> = getCookie(req.cookies);
 
-  const newCookie: Record<string, number> = {
-    ...cookie,
-    ...cartItems,
-  };
+  const newCookie: Record<string, number> = Object.entries(cartItems).reduce((acc, [key, value]) => {
+    if (cookie.hasOwnProperty(key)) {
+      return {
+        ...acc,
+        [key]: cartItems[key] + value,
+      };
+    }
+
+    return {
+      ...acc,
+      [key]: value,
+    };
+  }, cookie);
 
   setCookie(res, newCookie);
 
   res.status(200).send({});
 }
 
-function removeFromCart(req: NextApiRequest, res: NextApiResponse<any>) {
-  const { id } = req.query;
-  const cookie = getCookie(req.cookies);
-
-  const newCookie: Record<string, number> = {
-    ...cookie,
-  };
-
-  delete newCookie[id as string];
-
-  setCookie(res, newCookie);
+function clearCart(req: NextApiRequest, res: NextApiResponse<any>) {
+  setCookie(res, {});
 
   res.status(200).send({});
 }
@@ -60,7 +61,7 @@ export default function handler(req: NextApiRequest, res: NextApiResponse) {
     case "PUT":
       return addToCart(req, res);
     case "DELETE":
-      return removeFromCart(req, res);
+      return clearCart(req, res);
     default:
       return res.status(405).json({ statusCode: 405, message: "Method not allowed" });
   }
