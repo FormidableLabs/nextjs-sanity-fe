@@ -29,6 +29,7 @@ function addToCart(req: NextApiRequest, res: NextApiResponse) {
   const cartItems: Record<string, number> = req.body;
   const cookie: Record<string, number> = getCookie(req.cookies);
 
+  // Merge new cart items into the existing cart cookie
   const newCookie: Record<string, number> = Object.entries(cartItems).reduce((acc, [key, value]) => {
     if (cookie.hasOwnProperty(key)) {
       return {
@@ -42,6 +43,13 @@ function addToCart(req: NextApiRequest, res: NextApiResponse) {
       [key]: value,
     };
   }, cookie);
+
+  // Remove all empty qtys from the cookie
+  Object.entries(newCookie).forEach(([key, value]) => {
+    if (value === 0) {
+      delete newCookie[key];
+    }
+  });
 
   setCookie(res, newCookie);
 

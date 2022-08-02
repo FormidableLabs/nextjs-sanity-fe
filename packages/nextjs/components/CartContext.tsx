@@ -25,7 +25,6 @@ export const CartProvider: React.FC<Props> = ({ children }) => {
     }
 
     const cookie = Cookie.get(process.env.NEXT_PUBLIC_CART_COOKIE_NAME);
-    console.log(cookie);
 
     setCart(JSON.parse(cookie ?? "{}"));
   }, []);
@@ -38,21 +37,6 @@ export const CartProvider: React.FC<Props> = ({ children }) => {
     if (!variantId) {
       return;
     }
-
-    setCart((c) => {
-      const newCart = {
-        ...c,
-        [variantId]: (c[variantId] ?? 0) + qty,
-      };
-
-      Object.entries(newCart).forEach(([id, qty]) => {
-        if (qty === 0) {
-          delete newCart[id];
-        }
-      });
-
-      return newCart;
-    });
 
     try {
       await fetch("/api/cart", {
