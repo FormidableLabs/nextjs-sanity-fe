@@ -30,7 +30,7 @@ export const ProductImages: React.FC<ProductImagesProps> = ({ images }) => {
       onClick={previousSlide}
       aria-label="Previous slide"
       disabled={currentSlide === 0}
-      className="p-4 disabled:opacity-50"
+      className="p-4 disabled:opacity-70"
     >
       <svg
         xmlns="http://www.w3.org/2000/svg"
@@ -55,7 +55,7 @@ export const ProductImages: React.FC<ProductImagesProps> = ({ images }) => {
       onClick={nextSlide}
       aria-label="Next slide"
       disabled={currentSlide === slideCount - 1}
-      className="p-4 disabled:opacity-50"
+      className="p-4 disabled:opacity-70"
     >
       <svg
         xmlns="http://www.w3.org/2000/svg"
@@ -77,7 +77,7 @@ export const ProductImages: React.FC<ProductImagesProps> = ({ images }) => {
   const renderDots = ({ goToSlide, currentSlide }: RenderControlProps) => (
     <div className="flex gap-2 py-4">
       {images.map(({ image }, index) => {
-        const opacity = index === currentSlide ? "" : "opacity-50";
+        const opacity = index === currentSlide ? "" : "opacity-70";
         return (
           <button
             key={image?.images?.asset?._id}
@@ -94,15 +94,16 @@ export const ProductImages: React.FC<ProductImagesProps> = ({ images }) => {
   );
 
   return (
-    <Carousel
-      animation="fade"
-      dragging={false}
-      renderBottomCenterControls={renderDots}
-      renderCenterLeftControls={renderPrev}
-      renderCenterRightControls={renderNext}
-      className="text-slate-800"
-    >
-      {innerNode}
-    </Carousel>
+    <div className="text-cyan-800">
+      <Carousel
+        animation="fade"
+        dragging={false}
+        renderBottomCenterControls={renderDots}
+        renderCenterLeftControls={renderPrev}
+        renderCenterRightControls={renderNext}
+      >
+        {innerNode}
+      </Carousel>
+    </div>
   );
 };
