@@ -14,7 +14,7 @@ export const urqlOptions = {
 // When you are using getStaticProps, getServerSideProps, or getStaticPaths,
 // you should opt-out of Suspense by setting the neverSuspend option to true in your withUrqlClient configuration.
 export const withUrqlOptions: WithUrqlClientOptions = {
-  neverSuspend: false,
+  neverSuspend: true,
   ssr: false,
 };
 
