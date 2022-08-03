@@ -62,7 +62,30 @@ const CategoryPage: NextPage<Props> = ({ products, category }) => {
 export default CategoryPage;
 
 export const getServerSideProps: GetServerSideProps = async (ctx) => {
-  const { slug } = ctx.query;
+  const { slug, sort } = ctx.query;
+
+  let ordering = "_id asc";
+
+  if (sort) {
+    // If sort is string[], use first item
+    const sortType = Array.isArray(sort) ? sort[0] : sort;
+
+    switch (sortType) {
+      case "a-z":
+        ordering = "name asc";
+        break;
+      case "z-a":
+        ordering = "name desc";
+        break;
+      case "lowest":
+        ordering = "price asc";
+        break;
+      case "highest":
+        ordering = "price desc";
+        break;
+      default:
+    }
+  }
 
   const result: CategoryPageResult = await sanityClient.fetch(
     groq`{
@@ -71,12 +94,12 @@ export const getServerSideProps: GetServerSideProps = async (ctx) => {
         'imageAlt': images[0]->name,
         'images': images[0]->images,
         'msrp': variants[0]->msrp,
-        'price': variants[0]->price,
+        'price': variants | order(price asc)[0]->price,
         'variants': variants[]->{
           ...,
           'size': size->name
         }
-      },
+      } | order(${ordering}),
       'category': *[_type == "category" && slug.current == $slug][0] {
         name
       }
