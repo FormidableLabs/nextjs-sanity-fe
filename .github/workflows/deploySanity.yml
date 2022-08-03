@@ -41,4 +41,4 @@ jobs:
 
       - name: Deploy Sanity GraphQL
         run: |
-          SANITY_AUTH_TOKEN="${{ secrets.SANITY_DEPLOY_TOKEN }}" pnpm run deploy-sanity-graphql
+          SANITY_AUTH_TOKEN="${{ secrets.SANITY_DEPLOY_TOKEN }}" pnpm run deploy-sanity-graphql --force
