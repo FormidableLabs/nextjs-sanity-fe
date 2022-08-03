@@ -3,7 +3,7 @@ import { withUrqlClient } from "next-urql";
 import { useGetCategoriesQuery } from "utils/generated/graphql";
 import { urqlOptions, withUrqlOptions } from "utils/urql";
 import { CategoryList } from "components/CategoryList";
-import { getServerSideProps as categoriesServerSideProps } from "./categories";
+import { getCategoryServerSideProps } from "utils/getCategoryServerSideProps";
 
 const Home: NextPage = () => {
   const [{ data }] = useGetCategoriesQuery();
@@ -16,6 +16,6 @@ const Home: NextPage = () => {
   );
 };
 
-export const getServerSideProps = categoriesServerSideProps;
+export const getServerSideProps = getCategoryServerSideProps;
 
 export default withUrqlClient(() => ({ ...urqlOptions }), withUrqlOptions)(Home);

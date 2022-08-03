@@ -1,11 +1,12 @@
 import { GetServerSideProps, NextPage } from "next";
 import { withUrqlClient } from "next-urql";
 
-import { GetCategoriesDocument, useGetCategoriesQuery } from "utils/generated/graphql";
-import { initializeUrql, urqlOptions } from "utils/urql";
+import { useGetCategoriesQuery } from "utils/generated/graphql";
+import { urqlOptions, withUrqlOptions } from "utils/urql";
 import { CategoryList } from "components/CategoryList";
+import { getCategoryServerSideProps } from "utils/getCategoryServerSideProps";
 
-const CategoriesPage: NextPage = (props) => {
+const CategoriesPage: NextPage = () => {
   const [{ data }] = useGetCategoriesQuery();
 
   return (
@@ -16,21 +17,6 @@ const CategoriesPage: NextPage = (props) => {
   );
 };
 
-export const getServerSideProps: GetServerSideProps = async () => {
-  const { client, ssrCache } = initializeUrql();
+export const getServerSideProps: GetServerSideProps = getCategoryServerSideProps;
 
-  // This query is used to populate the cache for the query
-  // used on this page.
-  await client?.query(GetCategoriesDocument).toPromise();
-
-  return {
-    props: {
-      // urqlState is a keyword here so withUrqlClient can pick it up.
-      urqlState: ssrCache.extractData(),
-    },
-  };
-};
-
-export default withUrqlClient(() => urqlOptions, {
-  ssr: false,
-})(CategoriesPage);
+export default withUrqlClient(() => ({ ...urqlOptions }), withUrqlOptions)(CategoriesPage);

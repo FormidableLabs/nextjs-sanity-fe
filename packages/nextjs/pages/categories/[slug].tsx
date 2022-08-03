@@ -24,6 +24,7 @@ const CategoryPage: NextPage<Props> = ({
   currentPage,
 }) => {
   const router = useRouter();
+  // Remove query string (e.g categories/category/?page=X).
   const baseUrl = router.asPath.split("?")[0];
   
   return (
