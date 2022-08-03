@@ -4,7 +4,7 @@ export type FilterOption = {
   label: string;
 };
 
-export type FiltersGroup = {
+export type FiltersGroupItem = {
   id: number | string;
   name: string;
   label: string;
