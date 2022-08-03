@@ -24,11 +24,13 @@ importers:
       '@sanity/client': ^3.3.2
       '@sanity/image-url': ^1.0.1
       '@tailwindcss/typography': ^0.5.4
+      '@types/cookie': ^0.5.1
       '@types/node': 18.0.0
       '@types/react': 18.0.14
       '@types/react-dom': 18.0.5
       autoprefixer: ^10.4.7
       concurrently: ^7.2.2
+      cookie: ^0.5.0
       dotenv: ^16.0.1
       eslint: 8.18.0
       eslint-config-next: 12.1.6
@@ -40,6 +42,7 @@ importers:
       postcss: ^8.4.14
       react: 18.2.0
       react-dom: 18.2.0
+      react-icons: ^4.4.0
       react-is: ^18.2.0
       tailwindcss: ^3.1.4
       typescript: 4.7.4
@@ -49,6 +52,7 @@ importers:
       '@sanity/client': 3.3.2
       '@sanity/image-url': 1.0.1
       '@tailwindcss/typography': 0.5.4_tailwindcss@3.1.6
+      cookie: 0.5.0
       dotenv: 16.0.1
       graphql: 16.5.0
       groq: 2.29.3
@@ -56,6 +60,7 @@ importers:
       next-urql: 3.3.3_react@18.2.0+urql@2.2.3
       react: 18.2.0
       react-dom: 18.2.0_react@18.2.0
+      react-icons: 4.4.0_react@18.2.0
       react-is: 18.2.0
       urql: 2.2.3_aez2jvt6lsvokp3l4ousdbdxf4
     devDependencies:
@@ -65,6 +70,7 @@ importers:
       '@graphql-codegen/typescript': 2.6.0_graphql@16.5.0
       '@graphql-codegen/typescript-operations': 2.4.3_graphql@16.5.0
       '@graphql-codegen/typescript-urql': 3.6.2_ubrtutz2urcxyhwqr2zvlqjzha
+      '@types/cookie': 0.5.1
       '@types/node': 18.0.0
       '@types/react': 18.0.14
       '@types/react-dom': 18.0.5
@@ -4120,6 +4126,10 @@ packages:
   /@tootallnate/once/2.0.0:
     resolution: {integrity: sha512-XCuKFP5PS55gnMVu3dty8KPatLqUoy/ZYzDzAGCQ8JNFCkLXzmI7vNHCR+XpbZaMWQK/vQubr7PkYq8g470J/A==}
     engines: {node: '>= 10'}
+    dev: true
+
+  /@types/cookie/0.5.1:
+    resolution: {integrity: sha512-COUnqfB2+ckwXXSFInsFdOAWQzCCx+a5hq2ruyj+Vjund94RJQd4LG2u9hnvJrTgunKAaax7ancBYlDrNYxA0g==}
     dev: true
 
   /@types/diff-match-patch/1.0.32:
@@ -12133,6 +12143,14 @@ packages:
     resolution: {integrity: sha512-fSbvHeVYo/B5/L4VhB7sBA1i2tS8MkT0Hb9t2H1AVPkwGfVHLJCqyr2Py9dKMxsyM63Eng1GkdZfbWj+Fmv8Rg==}
     dependencies:
       react: 17.0.2
+    dev: false
+
+  /react-icons/4.4.0_react@18.2.0:
+    resolution: {integrity: sha512-fSbvHeVYo/B5/L4VhB7sBA1i2tS8MkT0Hb9t2H1AVPkwGfVHLJCqyr2Py9dKMxsyM63Eng1GkdZfbWj+Fmv8Rg==}
+    peerDependencies:
+      react: '*'
+    dependencies:
+      react: 18.2.0
     dev: false
 
   /react-is/16.13.1:
