@@ -1,4 +1,4 @@
-import { initUrqlClient } from "next-urql";
+import { initUrqlClient, WithUrqlClientOptions } from "next-urql";
 import { cacheExchange, dedupExchange, fetchExchange, ssrExchange } from "urql";
 
 export const urqlOptions = {
@@ -8,6 +8,14 @@ export const urqlOptions = {
       authorization: `Bearer ${process.env.NEXT_PUBLIC_SANITY_READ_TOKEN}`,
     },
   }),
+};
+
+// https://formidable.com/open-source/urql/docs/advanced/server-side-rendering/
+// When you are using getStaticProps, getServerSideProps, or getStaticPaths,
+// you should opt-out of Suspense by setting the neverSuspend option to true in your withUrqlClient configuration.
+export const withUrqlOptions: WithUrqlClientOptions = {
+  neverSuspend: false,
+  ssr: false,
 };
 
 export const initializeUrql = () => {
