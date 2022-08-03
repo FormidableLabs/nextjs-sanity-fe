@@ -5,6 +5,7 @@ import { Fragment } from "react";
 import { Image } from "../../components/Image";
 import { Price } from "../../components/Price";
 import { ProductFilters } from "../../components/ProductFilters";
+import { ProductSort } from "../../components/ProductSort";
 import { CategoryPageCategory, CategoryPageProduct, CategoryPageResult } from "../../utils/groqTypes";
 import { sanityClient } from "../../utils/sanityClient";
 
@@ -21,6 +22,8 @@ const CategoryPage: NextPage<Props> = ({ products, category }) => {
       <h1 className="text-2xl font-bold m-4">{category.name}</h1>
       <div className="flex px-4 h-full">
         <div className="min-w-[350px]">
+          <ProductSort />
+          <hr className="slate-700 my-4" />
           <ProductFilters />
         </div>
         <div className="flex-1 flex flex-wrap">
