@@ -4,7 +4,7 @@ import { Image } from "./Image";
 import { Price } from "./Price";
 
 export const Product = ({ item }: { item: CategoryPageProduct} ) => (
-  <div className="w-26 h-fit">
+  <div className="w-26 h-fit m-4">
     <Link href={`/products/${item.slug.current}`}>
       <a>
         <Image
