@@ -7,7 +7,7 @@ import { BlockContent } from "../../components/BlockContent";
 import { useCart } from "../../components/CartContext";
 import { Image } from "../../components/Image";
 import { GetProductDocument, GetProductQuery, Maybe, useGetProductQuery } from "../../utils/generated/graphql";
-import { initializeUrql, urqlOptions } from "../../utils/urql";
+import { initializeUrql, urqlOptions, withUrqlOptions } from "../../utils/urql";
 
 type ProductVariant = NonNullable<GetProductQuery["allProduct"][0]["variants"]>[0];
 
@@ -108,6 +108,4 @@ export const getServerSideProps: GetServerSideProps = async (ctx) => {
   };
 };
 
-export default withUrqlClient(() => urqlOptions, {
-  ssr: false,
-})(ProductPage);
+export default withUrqlClient(() => ({ ...urqlOptions }), withUrqlOptions)(ProductPage);
