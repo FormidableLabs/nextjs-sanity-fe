@@ -23,6 +23,8 @@ const sanityLoader = (sanitySrc: SanityImageSource, { width, quality }: ImageLoa
 export const Image: React.FC<Props> = (props) => {
   const baseURL = "https://cdn.sanity.io/images/";
 
+  if (!props.src) return null;
+
   return (
     <NextImage
       loader={(p) => sanityLoader(props.src, p)}
