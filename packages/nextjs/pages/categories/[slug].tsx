@@ -6,6 +6,7 @@ import { Image } from "../../components/Image";
 import { Price } from "../../components/Price";
 import { ProductFilters } from "../../components/ProductFilters";
 import { ProductSort } from "../../components/ProductSort";
+import { SORT_QUERY_PARAM, SORT_OPTIONS } from "../../constants/sorting";
 import { CategoryPageCategory, CategoryPageProduct, CategoryPageResult } from "../../utils/groqTypes";
 import { sanityClient } from "../../utils/sanityClient";
 
@@ -62,29 +63,15 @@ const CategoryPage: NextPage<Props> = ({ products, category }) => {
 export default CategoryPage;
 
 export const getServerSideProps: GetServerSideProps = async (ctx) => {
-  const { slug, sort } = ctx.query;
+  const { slug, [SORT_QUERY_PARAM]: sortValue } = ctx.query;
 
-  let ordering = "_id asc";
-
-  if (sort) {
+  let ordering = "";
+  if (sortValue) {
     // If sort is string[], use first item
-    const sortType = Array.isArray(sort) ? sort[0] : sort;
-
-    switch (sortType) {
-      case "a-z":
-        ordering = "name asc";
-        break;
-      case "z-a":
-        ordering = "name desc";
-        break;
-      case "lowest":
-        ordering = "price asc";
-        break;
-      case "highest":
-        ordering = "price desc";
-        break;
-      default:
-    }
+    // (e.g. User modified url, wouldn't happen normally)
+    const sortType = Array.isArray(sortValue) ? sortValue[0] : sortValue;
+    const sortOption = SORT_OPTIONS[sortType];
+    ordering = sortOption?.ordering ? `| order(${sortOption.ordering})` : "";
   }
 
   const result: CategoryPageResult = await sanityClient.fetch(
@@ -99,7 +86,7 @@ export const getServerSideProps: GetServerSideProps = async (ctx) => {
           ...,
           'size': size->name
         }
-      } | order(${ordering}),
+      } ${ordering},
       'category': *[_type == "category" && slug.current == $slug][0] {
         name
       }
