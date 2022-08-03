@@ -1,6 +1,9 @@
+import blockTools from "@sanity/block-tools";
 import sanityClient from "@sanity/client";
+import Schema from "@sanity/schema";
 import Cors from "cors";
 import formidable from "formidable";
+import jsdom from "jsdom";
 import mammoth from "mammoth";
 import { NextApiRequest, NextApiResponse } from "next";
 import { parse } from "node-html-parser";
@@ -48,6 +51,28 @@ function convertToHtml(path: string) {
   });
 }
 
+// Create a block schema for sanity to understand
+const blockSchema = Schema.compile({
+  name: "blog",
+  types: [
+    {
+      type: "object",
+      name: "blogPost",
+      fields: [
+        {
+          name: "content",
+          title: "Content",
+          type: "array",
+          of: [{ type: "block" }],
+        },
+      ],
+    },
+  ],
+});
+
+// Get the type of the block content
+const blockContentType = blockSchema.get("blogPost").fields.find((field: any) => field.name === "content").type;
+
 export default async function handler(req: NextApiRequest, res: NextApiResponse) {
   await runMiddleware(req, res, cors);
 
@@ -69,11 +94,17 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
 
       const resp = await convertToHtml(filePath);
 
+      // Convert HTML to block content type
+      const blockContent = blockTools.htmlToBlocks(resp, blockContentType, {
+        parseHtml: (html: string) => new jsdom.JSDOM(html).window.document,
+      });
+
+      // Create a new document in Sanity
       const doc = {
         _id: `drafts.${v4()}`,
         _type: "blog",
-        title: "Test Title",
-        content: resp,
+        title: "[Draft] New Blog Post",
+        content: blockContent,
       };
 
       try {
