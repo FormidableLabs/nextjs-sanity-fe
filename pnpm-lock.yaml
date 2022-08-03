@@ -25,7 +25,6 @@ importers:
       '@sanity/image-url': ^1.0.1
       '@tailwindcss/typography': ^0.5.4
       '@types/cookie': ^0.5.1
-      '@types/js-cookie': ^3.0.2
       '@types/node': 18.0.0
       '@types/react': 18.0.14
       '@types/react-dom': 18.0.5
@@ -38,7 +37,6 @@ importers:
       graphql: ^16.5.0
       graphql-tag: ^2.0.0
       groq: ^2.29.3
-      js-cookie: ^3.0.1
       next: 12.1.6
       next-urql: ^3.3.3
       postcss: ^8.4.14
@@ -58,7 +56,6 @@ importers:
       dotenv: 16.0.1
       graphql: 16.5.0
       groq: 2.29.3
-      js-cookie: 3.0.1
       next: 12.1.6_biqbaboplfbrettd7655fr4n2y
       next-urql: 3.3.3_react@18.2.0+urql@2.2.3
       react: 18.2.0
@@ -74,7 +71,6 @@ importers:
       '@graphql-codegen/typescript-operations': 2.4.3_graphql@16.5.0
       '@graphql-codegen/typescript-urql': 3.6.2_ubrtutz2urcxyhwqr2zvlqjzha
       '@types/cookie': 0.5.1
-      '@types/js-cookie': 3.0.2
       '@types/node': 18.0.0
       '@types/react': 18.0.14
       '@types/react-dom': 18.0.5
@@ -4156,10 +4152,6 @@ packages:
   /@types/is-hotkey/0.1.7:
     resolution: {integrity: sha512-yB5C7zcOM7idwYZZ1wKQ3pTfjA9BbvFqRWvKB46GFddxnJtHwi/b9y84ykQtxQPg5qhdpg4Q/kWU3EGoCTmLzQ==}
     dev: false
-
-  /@types/js-cookie/3.0.2:
-    resolution: {integrity: sha512-6+0ekgfusHftJNYpihfkMu8BWdeHs9EOJuGcSofErjstGPfPGEu9yTu4t460lTzzAMl2cM5zngQJqPMHbbnvYA==}
-    dev: true
 
   /@types/js-yaml/4.0.5:
     resolution: {integrity: sha512-FhpRzf927MNQdRZP0J5DLIdTXhjLYzeUTmLAu69mnVksLH9CJY3IuSeEgbKUki7GQZm0WqDkGzyxju2EZGD2wA==}
@@ -9247,11 +9239,6 @@ packages:
 
   /js-base64/2.6.4:
     resolution: {integrity: sha512-pZe//GGmwJndub7ZghVHz7vjb2LgC1m8B07Au3eYqeqv9emhESByMXxaEgkUkEqJe87oBbSniGYoQNIBklc7IQ==}
-    dev: false
-
-  /js-cookie/3.0.1:
-    resolution: {integrity: sha512-+0rgsUXZu4ncpPxRL+lNEptWMOWl9etvPHc/koSRp6MPwpRYAhmk0dUG00J4bxVV3r9uUzfo24wW0knS07SKSw==}
-    engines: {node: '>=12'}
     dev: false
 
   /js-tokens/3.0.2:

@@ -22,7 +22,7 @@ function getCart(req: NextApiRequest, res: NextApiResponse) {
 
   setCookie(res, cookie);
 
-  res.status(200).send({});
+  res.status(200).send(cookie);
 }
 
 function addToCart(req: NextApiRequest, res: NextApiResponse) {
@@ -53,10 +53,10 @@ function addToCart(req: NextApiRequest, res: NextApiResponse) {
 
   setCookie(res, newCookie);
 
-  res.status(200).send({});
+  res.status(200).send(newCookie);
 }
 
-function clearCart(req: NextApiRequest, res: NextApiResponse<any>) {
+function clearCart(_: NextApiRequest, res: NextApiResponse<any>) {
   setCookie(res, {});
 
   res.status(200).send({});

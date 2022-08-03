@@ -1,4 +1,3 @@
-import Cookie from "js-cookie";
 import { createContext, ReactNode, useCallback, useContext, useEffect, useState } from "react";
 
 interface CartContextValue {
@@ -17,16 +16,12 @@ export const useCart = () => useContext(CartContext);
 export const CartProvider: React.FC<Props> = ({ children }) => {
   const [cart, setCart] = useState<Record<string, number>>({});
 
-  const updateCartFromApi = useCallback(async (callApi: boolean = true) => {
-    if (callApi) {
-      await fetch("/api/cart", {
-        credentials: "same-origin",
-      });
-    }
+  const updateCartFromApi = useCallback(async () => {
+    const data = await fetch("/api/cart", {
+      credentials: "same-origin",
+    }).then((res) => res.json());
 
-    const cookie = Cookie.get(process.env.NEXT_PUBLIC_CART_COOKIE_NAME);
-
-    setCart(JSON.parse(cookie ?? "{}"));
+    setCart(data);
   }, []);
 
   useEffect(() => {
@@ -39,7 +34,7 @@ export const CartProvider: React.FC<Props> = ({ children }) => {
     }
 
     try {
-      await fetch("/api/cart", {
+      const data = await fetch("/api/cart", {
         method: "PUT",
         body: JSON.stringify({
           [variantId]: qty,
@@ -47,9 +42,9 @@ export const CartProvider: React.FC<Props> = ({ children }) => {
         headers: {
           "Content-Type": "application/json",
         },
-      });
+      }).then((res) => res.json());
 
-      updateCartFromApi(false);
+      setCart(data);
     } catch (error) {
       console.error(error);
     }
