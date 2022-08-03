@@ -8,6 +8,18 @@ type ProductFiltersProps = {
 const DUMMY_DATA = [
   {
     id: 1,
+    name: "size",
+    label: "Size",
+    options: [
+      { id: 1, name: "xs", label: "XS" },
+      { id: 2, name: "sm", label: "SM" },
+      { id: 3, name: "md", label: "MD" },
+      { id: 4, name: "lg", label: "LG" },
+      { id: 5, name: "xl", label: "XL" },
+    ],
+  },
+  {
+    id: 2,
     name: "promotion",
     label: "Promotion",
     options: [
