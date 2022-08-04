@@ -10,23 +10,21 @@ export type FilterGroup = {
   options: FilterOption[];
 };
 
-export const FILTER_GROUPS: Record<string, FilterGroup> = {
-  size: {
+export const FILTER_GROUPS: FilterGroup[] = [
+  {
     value: "size",
     label: "Size",
     options: [
-      { value: "xs", label: "XS", filter: "" },
-      { value: "sm", label: "SM", filter: "" },
-      { value: "md", label: "MD", filter: "" },
-      { value: "lg", label: "LG", filter: "" },
-      { value: "xl", label: "XL", filter: "" },
+      { value: "xs", label: "XS", filter: "xs" },
+      { value: "sm", label: "SM", filter: "sm" },
+      { value: "md", label: "MD", filter: "md" },
+      { value: "lg", label: "LG", filter: "lg" },
+      { value: "xl", label: "XL", filter: "xl" },
     ],
   },
-  promotion: {
+  {
     value: "promotion",
     label: "Promotion",
-    options: [{ value: "sale", label: "Sale", filter: "" }],
+    options: [{ value: "sale", label: "Sale", filter: "sale" }],
   },
-};
-
-export const FILTER_GROUPS_ARRAY = Object.values(FILTER_GROUPS);
+];

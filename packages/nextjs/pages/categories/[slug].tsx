@@ -6,6 +6,7 @@ import { Image } from "../../components/Image";
 import { Price } from "../../components/Price";
 import { ProductFilters } from "../../components/ProductFilters";
 import { ProductSort } from "../../components/ProductSort";
+import { FilterGroup, FILTER_GROUPS } from "../../constants/filters";
 import { SORT_QUERY_PARAM, SORT_OPTIONS } from "../../constants/sorting";
 import { CategoryPageCategory, CategoryPageProduct, CategoryPageResult } from "../../utils/groqTypes";
 import { sanityClient } from "../../utils/sanityClient";
@@ -65,6 +66,7 @@ export default CategoryPage;
 export const getServerSideProps: GetServerSideProps = async (ctx) => {
   const { slug, [SORT_QUERY_PARAM]: sortValue } = ctx.query;
 
+  // Sort/ordering
   let ordering = "";
   if (sortValue) {
     // If sort is string[], use first item
@@ -73,6 +75,34 @@ export const getServerSideProps: GetServerSideProps = async (ctx) => {
     const sortOption = SORT_OPTIONS[sortType];
     ordering = sortOption?.ordering ? `| order(${sortOption.ordering})` : "";
   }
+
+  // Filters
+  const filters = FILTER_GROUPS.reduce((acc: string[], { value: groupValue, options }: FilterGroup) => {
+    const queryValue = ctx.query[groupValue];
+    if (!queryValue) {
+      // No filter query param
+      return acc;
+    }
+
+    const queryValueIsString = typeof queryValue === "string" || queryValue instanceof String;
+    if (queryValueIsString) {
+      const filterOption = options.find(({ value }) => value === queryValue);
+      // Check query value validity
+      if (filterOption) {
+        return [...acc, filterOption.filter];
+      }
+    } else {
+      // Check query value validity
+      const validOptions = options.filter(({ value: optionValue }) => queryValue.includes(optionValue));
+      if (validOptions.length) {
+        return [...acc, ...validOptions.map(({ filter }) => filter)];
+      }
+    }
+
+    return acc;
+  }, []);
+
+  console.log("filters!!", filters);
 
   const result: CategoryPageResult = await sanityClient.fetch(
     groq`{
