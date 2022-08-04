@@ -77,7 +77,7 @@ export const getServerSideProps: GetServerSideProps = async (ctx) => {
   }
 
   // Filters
-  const filters = FILTER_GROUPS.reduce((acc: string[], { value: groupValue, options }: FilterGroup) => {
+  const filterGroups = FILTER_GROUPS.reduce((acc: string[][], { value: groupValue, options }: FilterGroup) => {
     const queryValue = ctx.query[groupValue];
     if (!queryValue) {
       // No filter query param
@@ -89,28 +89,45 @@ export const getServerSideProps: GetServerSideProps = async (ctx) => {
       const filterOption = options.find(({ value }) => value === queryValue);
       // Check query value validity
       if (filterOption) {
-        return [...acc, filterOption.filter];
+        return [...acc, [filterOption.filter]];
       }
     } else {
       // Check query value validity
       const validOptions = options.filter(({ value: optionValue }) => queryValue.includes(optionValue));
       if (validOptions.length) {
-        return [...acc, ...validOptions.map(({ filter }) => filter)];
+        return [...acc, validOptions.map(({ filter }) => filter)];
       }
     }
 
     return acc;
   }, []);
 
-  console.log("filters!!", filters);
+  /**
+   * Creates OR statements for filters of each group
+   * e.g. if MD and XL filters are active, filter would check for (MD || XL)
+   *  */
+  const constructedGroups = filterGroups.reduce((acc: string[], currGroup: string[]) => {
+    if (currGroup.length) {
+      const joinedStr = currGroup.map((filter) => `(${filter})`).join(" || ");
+      const constructedGroup = currGroup.length > 1 ? `(${joinedStr})` : joinedStr;
+      return [...acc, constructedGroup];
+    }
+    return acc;
+  }, []);
+
+  /**
+   * Creates AND statement of filter groups
+   * e.g. given (MD || XL) and (on sale), constructed filter would check for ((MD || XL) && (on sale))
+   *  */
+  const constructedFilters = constructedGroups.length ? `&& (${constructedGroups.join(" && ")})` : "";
 
   const result: CategoryPageResult = await sanityClient.fetch(
     groq`{
-      'products': *[_type == "product" && $slug in categories[]->slug.current] {
+      'products': *[_type == "product" && $slug in categories[]->slug.current ${constructedFilters}] {
         ...,
         'imageAlt': images[0]->name,
         'images': images[0]->images,
-        'msrp': variants[0]->msrp,
+        'msrp': variants | order(price asc)[0]->msrp,
         'price': variants | order(price asc)[0]->price,
         'variants': variants[]->{
           ...,
