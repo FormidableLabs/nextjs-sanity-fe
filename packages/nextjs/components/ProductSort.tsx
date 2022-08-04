@@ -1,7 +1,7 @@
 import { ChangeEvent, useId } from "react";
 import { useRouter } from "next/router";
 import { SortType, SORT_QUERY_PARAM, SORT_OPTIONS, SORT_OPTIONS_ARRAY } from "../constants/sorting";
-import { useRouterQueryParams } from "../utils/useRouterQuery";
+import { useRouterQueryParams } from "../utils/useRouterQueryParams";
 
 export const ProductSort: React.FC = () => {
   const router = useRouter();

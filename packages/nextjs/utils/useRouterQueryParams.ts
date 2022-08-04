@@ -25,6 +25,11 @@ export const useRouterQueryParams = () => {
     router.replace({ query: router.query });
   };
 
+  const clear = (key: string) => {
+    delete router.query[key];
+    router.replace({ query: router.query });
+  };
+
   const remove = (key: string, value: string) => {
     const currentValue = router.query[key];
     if (currentValue) {
@@ -39,10 +44,5 @@ export const useRouterQueryParams = () => {
     router.replace({ query: router.query });
   };
 
-  const clear = (key: string) => {
-    delete router.query[key];
-    router.replace({ query: router.query });
-  };
-
-  return { add, replace, remove, clear };
+  return { add, replace, clear, remove, query: router.query };
 };
