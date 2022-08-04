@@ -1,11 +1,9 @@
 import { ChangeEvent, useId } from "react";
-import { useRouter } from "next/router";
 import { SortType, SORT_QUERY_PARAM, SORT_OPTIONS, SORT_OPTIONS_ARRAY } from "../constants/sorting";
 import { useRouterQueryParams } from "../utils/useRouterQueryParams";
 
 export const ProductSort: React.FC = () => {
-  const router = useRouter();
-  const { replace, clear } = useRouterQueryParams();
+  const { replace, clear, query } = useRouterQueryParams();
   const selectId = useId();
 
   const handleChange = (e: ChangeEvent<HTMLSelectElement>) => {
@@ -27,9 +25,7 @@ export const ProductSort: React.FC = () => {
       <label htmlFor={selectId}>Sort by:</label>
       <select id={selectId} onChange={handleChange}>
         {SORT_OPTIONS_ARRAY.map(({ value, label, type }) => {
-          const selected = router.query[SORT_QUERY_PARAM]
-            ? router.query[SORT_QUERY_PARAM] === value
-            : type === SortType.Default;
+          const selected = query[SORT_QUERY_PARAM] ? query[SORT_QUERY_PARAM] === value : type === SortType.Default;
           return (
             <option key={value} value={value} selected={selected}>
               {label}
