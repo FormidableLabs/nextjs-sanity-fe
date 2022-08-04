@@ -1,6 +1,7 @@
 export interface CategoryPageResult {
   category: CategoryPageCategory;
   products: CategoryPageProduct[];
+  productsCount: number;
 }
 
 export interface CategoryPageCategory {

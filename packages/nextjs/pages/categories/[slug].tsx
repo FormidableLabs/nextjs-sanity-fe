@@ -1,24 +1,31 @@
 import groq from "groq";
-import Link from "next/link";
-import { Fragment } from "react";
-
-import { Image } from "../../components/Image";
-import { Price } from "../../components/Price";
 import { ProductFilters } from "../../components/ProductFilters";
 import { ProductSort } from "../../components/ProductSort";
 import { FilterGroup, FILTER_GROUPS } from "../../constants/filters";
 import { SORT_QUERY_PARAM, SORT_OPTIONS } from "../../constants/sorting";
-import { CategoryPageCategory, CategoryPageProduct, CategoryPageResult } from "../../utils/groqTypes";
-import { sanityClient } from "../../utils/sanityClient";
+import { CategoryPageCategory, CategoryPageProduct, CategoryPageResult } from "utils/groqTypes";
+import { sanityClient } from "utils/sanityClient";
 
 import type { GetServerSideProps, NextPage } from "next";
+import { Product } from "components/Product";
+import { Pagination } from "components/Pagination";
+import { useRouter } from "next/router";
+import { getPaginationOffsets } from "utils/getPaginationOffsets";
 
 interface Props {
   products: CategoryPageProduct[];
   category: CategoryPageCategory;
+  productsCount: number;
+  pageSize: number;
+  pageCount: number;
+  currentPage?: number;
 }
 
-const CategoryPage: NextPage<Props> = ({ products, category }) => {
+const CategoryPage: NextPage<Props> = ({ category, products, pageCount, currentPage }) => {
+  const router = useRouter();
+  // Remove query string (e.g categories/category/?page=X).
+  const baseUrl = router.asPath.split("?")[0];
+
   return (
     <div className="h-full mb-4">
       <h1 className="text-2xl font-bold m-4">{category.name}</h1>
@@ -28,33 +35,15 @@ const CategoryPage: NextPage<Props> = ({ products, category }) => {
           <hr className="slate-700 my-4" />
           <ProductFilters />
         </div>
-        <div className="flex-1 flex flex-wrap">
-          {products.map((product) => {
-            return (
-              <Fragment key={product._id}>
-                <div className="w-26 h-fit">
-                  <Link href={`/products/${product.slug.current}`}>
-                    <a>
-                      <Image
-                        width={300}
-                        height={300}
-                        className="rounded shadow"
-                        src={product.images}
-                        alt={product.imageAlt}
-                      />
-                    </a>
-                  </Link>
-
-                  <Link href={`/products/${product.slug.current}`}>
-                    <a className="flex justify-between mt-4">
-                      <h3 className="text-xl font-bold">{product.name}</h3>
-                      <Price msrp={product.msrp} price={product.price} />
-                    </a>
-                  </Link>
-                </div>
-              </Fragment>
-            );
-          })}
+        <div className="flex flex-auto flex-col">
+          <div className="flex-1 flex flex-wrap">
+            {products.map((product) => (
+              <Product key={product._id} item={product} />
+            ))}
+          </div>
+          <div className="py-10">
+            <Pagination baseUrl={baseUrl} pageCount={pageCount} currentPage={currentPage} />
+          </div>
         </div>
       </div>
     </div>
@@ -67,13 +56,15 @@ export const getServerSideProps: GetServerSideProps = async (ctx) => {
   const { slug, [SORT_QUERY_PARAM]: sortValue } = ctx.query;
 
   // Sort/ordering
-  let ordering = "";
+  let ordering = "| order(_createdAt)";
   if (sortValue) {
     // If sort is string[], use first item
     // (e.g. User modified url, wouldn't happen normally)
     const sortType = Array.isArray(sortValue) ? sortValue[0] : sortValue;
     const sortOption = SORT_OPTIONS[sortType];
-    ordering = sortOption?.ordering ? `| order(${sortOption.ordering})` : "";
+    if (sortOption?.ordering) {
+      ordering = `| order(${sortOption.ordering})`;
+    }
   }
 
   // Filters
@@ -121,6 +112,18 @@ export const getServerSideProps: GetServerSideProps = async (ctx) => {
    *  */
   const constructedFilters = constructedGroups.length ? `&& (${constructedGroups.join(" && ")})` : "";
 
+  // Pagination
+  const queryPage = Math.abs((ctx.query.page as unknown as number) ?? 0);
+  // Products per page.
+  const pageSize = Math.abs(process.env.NEXT_PUBLIC_PAGINATION_PAGE_SIZE);
+
+  const offsets = getPaginationOffsets(queryPage);
+
+  const queryOptions = {
+    slug,
+    ...offsets,
+  };
+
   const result: CategoryPageResult = await sanityClient.fetch(
     groq`{
       'products': *[_type == "product" && $slug in categories[]->slug.current ${constructedFilters}] {
@@ -133,15 +136,26 @@ export const getServerSideProps: GetServerSideProps = async (ctx) => {
           ...,
           'size': size->name
         }
-      } ${ordering},
+      } ${ordering} [$offsetPage...$limit],
+      'productsCount': count(*[_type == "product" && $slug in categories[]->slug.current ${constructedFilters}]),
       'category': *[_type == "category" && slug.current == $slug][0] {
         name
       }
     }`,
-    {
-      slug,
-    }
+    queryOptions
   );
 
-  return { props: result };
+  const { category, products, productsCount } = result;
+  const pageCount = Math.ceil(productsCount / pageSize);
+
+  return {
+    props: {
+      category,
+      products,
+      productsCount,
+      pageCount,
+      pageSize,
+      currentPage: queryPage > 0 ? queryPage : 1,
+    },
+  };
 };
