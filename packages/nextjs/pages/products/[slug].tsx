@@ -45,7 +45,7 @@ const ProductPage: NextPage = () => {
   return (
     <div className="container my-5">
       <div className="grid grid-cols-3 gap-4">
-        <div>{product?.images?.length && <ImageCarousel images={product.images} />}</div>
+        <div>{product?.images && <ImageCarousel productImages={product?.images} />}</div>
         <div className="col-span-2 col-start-2">
           <h1 className="text-2xl font-bold">{product?.name}</h1>
           <select className="my-2" onChange={onVariantChange} value={selectedVariant?.id || ""}>
