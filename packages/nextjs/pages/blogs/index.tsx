@@ -2,8 +2,8 @@ import { GetServerSideProps, NextPage } from "next";
 import { withUrqlClient } from "next-urql";
 import Link from "next/link";
 
-import { GetBlogsSlugsDocument, useGetBlogsSlugsQuery } from "../../utils/generated/graphql";
-import { initializeUrql, urqlOptions } from "../../utils/urql";
+import { GetBlogsSlugsDocument, useGetBlogsSlugsQuery } from "utils/generated/graphql";
+import { initializeUrql, urqlOptions, withUrqlOptions } from "utils/urql";
 
 const BlogsPage: NextPage = () => {
   const [{ data }] = useGetBlogsSlugsQuery();
@@ -38,6 +38,4 @@ export const getServerSideProps: GetServerSideProps = async (ctx) => {
   };
 };
 
-export default withUrqlClient(() => urqlOptions, {
-  ssr: false,
-})(BlogsPage);
+export default withUrqlClient(() => ({ ...urqlOptions }), withUrqlOptions)(BlogsPage);

@@ -22,11 +22,10 @@ function UploadBlog() {
       const formData = new FormData();
       formData.append("file", selectedFile);
       try {
-        await fetch("http://localhost:3000/api/uploadBlog", {
+        await fetch(process.env.SANITY_STUDIO_DOC_UPLOAD_API, {
           method: "POST",
           body: formData,
         }).then((res) => {
-          console.log(res.ok);
           if (res.ok) {
             return res.json();
           }
