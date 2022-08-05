@@ -2,15 +2,15 @@ import type { GetServerSideProps, NextPage } from "next";
 
 import { useRouter } from "next/router";
 import groq from "groq";
-import { Product } from "components/Product";
-import { Pagination } from "components/Pagination";
-import { ProductFilters } from "components/ProductFilters";
-import { ProductSort } from "components/ProductSort";
-import { FilterGroup, FILTER_GROUPS } from "constants/filters";
-import { SORT_QUERY_PARAM, SORT_OPTIONS } from "constants/sorting";
-import { getPaginationOffsets } from "utils/getPaginationOffsets";
-import { CategoryPageCategory, CategoryPageProduct, CategoryPageResult } from "utils/groqTypes";
-import { sanityClient } from "utils/sanityClient";
+import { Pagination } from "../../components/Pagination";
+import { Product } from "../../components/Product";
+import { ProductFilters } from "../../components/ProductFilters";
+import { ProductSort } from "../../components/ProductSort";
+import { FILTER_GROUPS } from "../../constants/filters";
+import { SORT_QUERY_PARAM, SORT_OPTIONS } from "../../constants/sorting";
+import { getPaginationOffsets } from "../../utils/getPaginationOffsets";
+import { CategoryPageCategory, CategoryPageProduct, CategoryPageResult } from "../../utils/groqTypes";
+import { sanityClient } from "../../utils/sanityClient";
 
 interface Props {
   products: CategoryPageProduct[];
@@ -68,7 +68,7 @@ export const getServerSideProps: GetServerSideProps = async (ctx) => {
   }
 
   // Filters
-  const filterGroups = FILTER_GROUPS.reduce((acc: string[][], { value: groupValue, options }: FilterGroup) => {
+  const filterGroups = FILTER_GROUPS.reduce((acc: string[][], { value: groupValue, options }) => {
     const queryValue = ctx.query[groupValue];
     if (!queryValue) {
       // No filter query param
@@ -147,6 +147,22 @@ export const getServerSideProps: GetServerSideProps = async (ctx) => {
 
   const { category, products, productsCount } = result;
   const pageCount = Math.ceil(productsCount / pageSize);
+  const currentPage = queryPage > 0 ? queryPage : 1;
+
+  /**
+   * Scenario: If user is on the third page and then enables
+   * a filter that only returns two pages worth of products,
+   * redirect them to the last page/pageCount
+   */
+  if (currentPage > pageCount) {
+    const destination = ctx.resolvedUrl.replace(`page=${currentPage}`, `page=${pageCount}`);
+    return {
+      redirect: {
+        destination,
+        permanent: false,
+      },
+    };
+  }
 
   return {
     props: {
@@ -155,7 +171,7 @@ export const getServerSideProps: GetServerSideProps = async (ctx) => {
       productsCount,
       pageCount,
       pageSize,
-      currentPage: queryPage > 0 ? queryPage : 1,
+      currentPage,
     },
   };
 };
