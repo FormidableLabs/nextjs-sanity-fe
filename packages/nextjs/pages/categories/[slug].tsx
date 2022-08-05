@@ -1,6 +1,5 @@
 import type { GetServerSideProps, NextPage } from "next";
 
-import { useRouter } from "next/router";
 import groq from "groq";
 import { Pagination } from "../../components/Pagination";
 import { Product } from "../../components/Product";
@@ -22,10 +21,6 @@ interface Props {
 }
 
 const CategoryPage: NextPage<Props> = ({ category, products, pageCount, currentPage }) => {
-  const router = useRouter();
-  // Remove query string (e.g categories/category/?page=X).
-  const baseUrl = router.asPath.split("?")[0];
-
   return (
     <div className="h-full mb-4">
       <h1 className="text-2xl font-bold m-4">{category.name}</h1>
@@ -42,7 +37,7 @@ const CategoryPage: NextPage<Props> = ({ category, products, pageCount, currentP
             ))}
           </div>
           <div className="py-10">
-            <Pagination baseUrl={baseUrl} pageCount={pageCount} currentPage={currentPage} />
+            <Pagination pageCount={pageCount} currentPage={currentPage} />
           </div>
         </div>
       </div>
