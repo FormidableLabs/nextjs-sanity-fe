@@ -3,6 +3,7 @@ import { createContext, ReactNode, useCallback, useContext, useEffect, useState 
 interface CartContextValue {
   cart: Record<string, number>;
   updateCart: (productId: string, quantity: number) => void;
+  clearCart: () => void;
 }
 
 export const CartContext = createContext<CartContextValue>({} as CartContextValue);
@@ -50,11 +51,27 @@ export const CartProvider: React.FC<Props> = ({ children }) => {
     }
   };
 
+  const clearCart = async () => {
+    try {
+      const data = await fetch("/api/cart", {
+        method: "DELETE",
+        headers: {
+          "Content-Type": "application/json",
+        },
+      }).then((res) => res.json());
+
+      setCart(data);
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
   return (
     <CartContext.Provider
       value={{
         cart,
         updateCart,
+        clearCart,
       }}
     >
       {children}

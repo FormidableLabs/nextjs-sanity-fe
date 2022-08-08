@@ -34,7 +34,7 @@ function addToCart(req: NextApiRequest, res: NextApiResponse) {
     if (cookie.hasOwnProperty(key)) {
       return {
         ...acc,
-        [key]: cartItems[key] + value,
+        [key]: acc[key] + value,
       };
     }
 
