@@ -11,7 +11,7 @@ export const getCategoryServerSideProps: GetServerSideProps = async ({ req, res 
 
   // set caching response header
   // note: when running `next dev`, these headers are overwritten to prevent local caching
-  res.setHeader("Cache-Control", "public, s-maxage=60, stale-while-revalidate=120");
+  res.setHeader("Surrogate-Control", "maxage=60, stale-while-revalidate=120, stale-if-error=60");
 
   return {
     props: {
