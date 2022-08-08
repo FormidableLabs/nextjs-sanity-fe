@@ -29,7 +29,7 @@ const CartPage: NextPage<Props> = (props) => {
         <button
           type="button"
           onClick={clearCart}
-          className="border-solid border-2 border-slate-500 px-2 disabled:opacity-50"
+          className="border-solid border-2 border-slate-500 px-2 rounded disabled:opacity-50"
         >
           Clear Cart
         </button>

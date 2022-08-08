@@ -1,3 +1,4 @@
+import { HiMinusSm, HiPlusSm, HiOutlineTrash } from "react-icons/hi";
 import { useCart } from "./CartContext";
 
 type CartItemProps = {
@@ -16,7 +17,7 @@ export const CartItem: React.FC<CartItemProps> = ({ id, qty }) => {
     <div className="flex gap-4">
       {/* TODO: get product name */}
       <div>id: {id}</div>
-      <div className="grid grid-cols-3 border-solid border-2 border-slate-500 divide-x">
+      <div className="flex border-solid border-2 border-slate-500 divide-x rounded">
         <button
           type="button"
           onClick={() => {
@@ -24,20 +25,20 @@ export const CartItem: React.FC<CartItemProps> = ({ id, qty }) => {
           }}
           disabled={qty <= 1}
           aria-label="Decrease quantity"
-          className="w-6 disabled:opacity-50"
+          className="px-1 disabled:opacity-50"
         >
-          -
+          <HiMinusSm />
         </button>
-        <div className="w-6 text-center">{qty}</div>
+        <div className="w-8 px-1 text-center">{qty}</div>
         <button
           type="button"
           onClick={() => {
             updateQty(1);
           }}
           aria-label="Increase quantity"
-          className="w-6"
+          className="px-1"
         >
-          +
+          <HiPlusSm />
         </button>
       </div>
 
@@ -46,8 +47,10 @@ export const CartItem: React.FC<CartItemProps> = ({ id, qty }) => {
         onClick={() => {
           updateQty(0);
         }}
+        aria-label="Delete item"
+        className="px-1 border-solid border-2 border-slate-500 rounded"
       >
-        Delete
+        <HiOutlineTrash />
       </button>
     </div>
   );
