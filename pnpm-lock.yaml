@@ -50,6 +50,7 @@ importers:
       next: 12.1.6
       next-urql: ^3.3.3
       node-html-parser: ^5.3.3
+      nuka-carousel: ^5.2.0
       postcss: ^8.4.14
       react: 18.2.0
       react-dom: 18.2.0
@@ -77,6 +78,7 @@ importers:
       next: 12.1.6_biqbaboplfbrettd7655fr4n2y
       next-urql: 3.3.3_react@18.2.0+urql@2.2.3
       node-html-parser: 5.3.3
+      nuka-carousel: 5.2.0_biqbaboplfbrettd7655fr4n2y
       react: 18.2.0
       react-dom: 18.2.0_react@18.2.0
       react-icons: 4.4.0_react@18.2.0
@@ -10783,6 +10785,17 @@ packages:
     resolution: {integrity: sha512-lqjrjmaOoAnWfMmBPL+XNnynZh2+swxiX3WUE0s4yEHI6m+AwrK2UZOimIRl3X/4QctVqS8AiZjFqyOGrMXb/w==}
     dependencies:
       boolbase: 1.0.0
+    dev: false
+
+  /nuka-carousel/5.2.0_biqbaboplfbrettd7655fr4n2y:
+    resolution: {integrity: sha512-mBMS7eXxsb54L87jPTSMst5Ow53u6Ocf28SDY36+THH7RuZ7aJxo8CQAuO8Bov8MkSTGALV+8P7TcaOqnkPYLA==}
+    engines: {node: '>=12.0.0'}
+    peerDependencies:
+      react: ^15.3.0 || ^16.0.0 || ^17.0.1 || ^18.0.0
+      react-dom: ^15.3.0 || ^16.0.0 || ^17.0.1 || ^18.0.0
+    dependencies:
+      react: 18.2.0
+      react-dom: 18.2.0_react@18.2.0
     dev: false
 
   /nullthrows/1.1.1:
