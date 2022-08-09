@@ -27,6 +27,48 @@ export type Block = {
   style?: Maybe<Scalars['String']>;
 };
 
+export type Blog = Document & {
+  __typename?: 'Blog';
+  /** Date the document was created */
+  _createdAt?: Maybe<Scalars['DateTime']>;
+  /** Document ID */
+  _id?: Maybe<Scalars['ID']>;
+  _key?: Maybe<Scalars['String']>;
+  /** Current document revision */
+  _rev?: Maybe<Scalars['String']>;
+  /** Document type */
+  _type?: Maybe<Scalars['String']>;
+  /** Date the document was last modified */
+  _updatedAt?: Maybe<Scalars['DateTime']>;
+  contentRaw?: Maybe<Scalars['JSON']>;
+  slug?: Maybe<Slug>;
+  title?: Maybe<Scalars['String']>;
+};
+
+export type BlogFilter = {
+  /** Apply filters on document level */
+  _?: InputMaybe<Sanity_DocumentFilter>;
+  _createdAt?: InputMaybe<DatetimeFilter>;
+  _id?: InputMaybe<IdFilter>;
+  _key?: InputMaybe<StringFilter>;
+  _rev?: InputMaybe<StringFilter>;
+  _type?: InputMaybe<StringFilter>;
+  _updatedAt?: InputMaybe<DatetimeFilter>;
+  slug?: InputMaybe<SlugFilter>;
+  title?: InputMaybe<StringFilter>;
+};
+
+export type BlogSorting = {
+  _createdAt?: InputMaybe<SortOrder>;
+  _id?: InputMaybe<SortOrder>;
+  _key?: InputMaybe<SortOrder>;
+  _rev?: InputMaybe<SortOrder>;
+  _type?: InputMaybe<SortOrder>;
+  _updatedAt?: InputMaybe<SortOrder>;
+  slug?: InputMaybe<SlugSorting>;
+  title?: InputMaybe<SortOrder>;
+};
+
 export type BooleanFilter = {
   /** Checks if the value is equal to the given input. */
   eq?: InputMaybe<Scalars['Boolean']>;
@@ -384,6 +426,7 @@ export type ProductSorting = {
 
 export type RootQuery = {
   __typename?: 'RootQuery';
+  Blog?: Maybe<Blog>;
   Category?: Maybe<Category>;
   CategoryImage?: Maybe<CategoryImage>;
   Document?: Maybe<Document>;
@@ -393,6 +436,7 @@ export type RootQuery = {
   SanityImageAsset?: Maybe<SanityImageAsset>;
   Size?: Maybe<Size>;
   Variant?: Maybe<Variant>;
+  allBlog: Array<Blog>;
   allCategory: Array<Category>;
   allCategoryImage: Array<CategoryImage>;
   allDocument: Array<Document>;
@@ -402,6 +446,11 @@ export type RootQuery = {
   allSanityImageAsset: Array<SanityImageAsset>;
   allSize: Array<Size>;
   allVariant: Array<Variant>;
+};
+
+
+export type RootQueryBlogArgs = {
+  id: Scalars['ID'];
 };
 
 
@@ -447,6 +496,14 @@ export type RootQuerySizeArgs = {
 
 export type RootQueryVariantArgs = {
   id: Scalars['ID'];
+};
+
+
+export type RootQueryAllBlogArgs = {
+  limit?: InputMaybe<Scalars['Int']>;
+  offset?: InputMaybe<Scalars['Int']>;
+  sort?: InputMaybe<Array<BlogSorting>>;
+  where?: InputMaybe<BlogFilter>;
 };
 
 
@@ -1027,6 +1084,18 @@ export type VariantSorting = {
   price?: InputMaybe<SortOrder>;
 };
 
+export type GetBlogQueryVariables = Exact<{
+  slug: Scalars['String'];
+}>;
+
+
+export type GetBlogQuery = { __typename?: 'RootQuery', allBlog: Array<{ __typename?: 'Blog', _id?: string | null, title?: string | null, contentRaw?: any | null }> };
+
+export type GetBlogsSlugsQueryVariables = Exact<{ [key: string]: never; }>;
+
+
+export type GetBlogsSlugsQuery = { __typename?: 'RootQuery', allBlog: Array<{ __typename?: 'Blog', _id?: string | null, title?: string | null, _createdAt?: any | null, slug?: { __typename?: 'Slug', current?: string | null } | null }> };
+
 export type GetCategoriesQueryVariables = Exact<{ [key: string]: never; }>;
 
 
@@ -1055,6 +1124,35 @@ export type GetProductsSlugsQueryVariables = Exact<{ [key: string]: never; }>;
 export type GetProductsSlugsQuery = { __typename?: 'RootQuery', allProduct: Array<{ __typename?: 'Product', slug?: { __typename?: 'Slug', current?: string | null } | null }> };
 
 
+export const GetBlogDocument = gql`
+    query getBlog($slug: String!) {
+  allBlog(where: {slug: {current: {eq: $slug}}}) {
+    _id
+    title
+    contentRaw
+  }
+}
+    `;
+
+export function useGetBlogQuery(options: Omit<Urql.UseQueryArgs<GetBlogQueryVariables>, 'query'>) {
+  return Urql.useQuery<GetBlogQuery>({ query: GetBlogDocument, ...options });
+};
+export const GetBlogsSlugsDocument = gql`
+    query getBlogsSlugs {
+  allBlog(sort: {_createdAt: ASC}) {
+    _id
+    title
+    slug {
+      current
+    }
+    _createdAt
+  }
+}
+    `;
+
+export function useGetBlogsSlugsQuery(options?: Omit<Urql.UseQueryArgs<GetBlogsSlugsQueryVariables>, 'query'>) {
+  return Urql.useQuery<GetBlogsSlugsQuery>({ query: GetBlogsSlugsDocument, ...options });
+};
 export const GetCategoriesDocument = gql`
     query getCategories {
   allCategory {
