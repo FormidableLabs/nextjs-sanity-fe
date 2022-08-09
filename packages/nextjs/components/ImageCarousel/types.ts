@@ -1,28 +1,13 @@
-export type ProductImage = {
-  __typename?: "ProductImage" | undefined;
-  name?: string | null | undefined;
-  images?:
-    | {
-        __typename?: "Image" | undefined;
-        asset?:
-          | {
-              __typename?: "SanityImageAsset" | undefined;
-              _id?: string | null | undefined;
-            }
-          | null
-          | undefined;
-      }
-    | null
-    | undefined;
-};
+import { GetProductQuery } from "../../utils/generated/graphql";
+
+export type ProductImage = GetProductQuery["allProduct"][0]["images"];
 
 // ProductImage with defined "images" property
-export type FilteredProductImage = Omit<ProductImage, "images"> & {
-  images: NonNullable<ProductImage["images"]>;
+export type FilteredProductImage = Omit<GetProductQuery["allProduct"][0], "images"> & {
+  images: NonNullable<NonNullable<NonNullable<ProductImage>[0]>["images"]>;
 };
-
 export type ImageCarouselProps = {
-  productImages: (ProductImage | null)[];
+  productImages: ProductImage;
 };
 
 export type RenderControlProps = {

@@ -8,7 +8,8 @@ import { Image } from "../Image";
 
 export const ImageCarousel: React.FC<ImageCarouselProps> = ({ productImages }) => {
   // Ensures array elements are defined and have defined "images" property
-  const filteredProductImages = productImages.filter((image) => image && image.images) as FilteredProductImage[];
+  const filteredProductImages =
+    (productImages?.filter((image) => image && image.images) as FilteredProductImage[]) || [];
 
   const innerNode = filteredProductImages.map(({ images, name }) => (
     <Image key={images?.asset?._id} width={400} height={400} src={images} alt={name ?? ""} />
