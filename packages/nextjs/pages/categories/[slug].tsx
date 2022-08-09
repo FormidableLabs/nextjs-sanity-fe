@@ -1,15 +1,15 @@
 import type { GetServerSideProps, NextPage } from "next";
 
 import groq from "groq";
-import { Pagination } from "../../components/Pagination";
-import { Product } from "../../components/Product";
-import { ProductFilters } from "../../components/ProductFilters";
-import { ProductSort } from "../../components/ProductSort";
-import { FILTER_GROUPS } from "../../constants/filters";
-import { SORT_QUERY_PARAM, SORT_OPTIONS } from "../../constants/sorting";
-import { getPaginationOffsets } from "../../utils/getPaginationOffsets";
-import { CategoryPageCategory, CategoryPageProduct, CategoryPageResult } from "../../utils/groqTypes";
-import { sanityClient } from "../../utils/sanityClient";
+import { Pagination } from "components/Pagination";
+import { Product } from "components/Product";
+import { ProductFilters } from "components/ProductFilters";
+import { ProductSort } from "components/ProductSort";
+import { FILTER_GROUPS } from "constants/filters";
+import { SORT_QUERY_PARAM, SORT_OPTIONS } from "constants/sorting";
+import { getPaginationOffsets } from "utils/getPaginationOffsets";
+import { CategoryPageCategory, CategoryPageProduct, CategoryPageResult } from "utils/groqTypes";
+import { sanityClient } from "utils/sanityClient";
 
 interface Props {
   products: CategoryPageProduct[];
