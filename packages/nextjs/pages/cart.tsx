@@ -27,7 +27,7 @@ const CartPage: NextPage<Props> = (props) => {
         ))}
       </ul>
 
-      {cartArray.length < 0 ? (
+      {cartArray.length > 0 ? (
         <div className="flex justify-between gap-4 mt-6">
           <button
             type="button"

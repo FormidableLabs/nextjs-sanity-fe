@@ -14,9 +14,11 @@ export const Header = () => {
           <a>NextJs Ecom</a>
         </Link>
       </h2>
-      <div className="flex items-center">
-        <MdShoppingCart size={30} /> <span className="text-gray-600 text-xl">{Object.keys(cart).length}</span>
-      </div>
+      <Link href="/cart">
+        <a className="flex items-center">
+          <MdShoppingCart size={30} /> <span className="text-gray-600 text-xl">{Object.keys(cart).length}</span>
+        </a>
+      </Link>
     </div>
   );
 };
