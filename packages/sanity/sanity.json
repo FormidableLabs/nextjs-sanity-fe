@@ -7,7 +7,14 @@
     "projectId": "5bsv02jj",
     "dataset": "production"
   },
-  "plugins": ["@sanity/base", "@sanity/default-layout", "@sanity/default-login", "@sanity/desk-tool"],
+  "plugins": [
+    "@sanity/base",
+    "@sanity/dashboard",
+    "@sanity/default-layout",
+    "@sanity/default-login",
+    "@sanity/desk-tool",
+    "dashboard-widget-upload-blog"
+  ],
   "env": {
     "development": {
       "plugins": ["@sanity/vision"]
@@ -17,6 +24,10 @@
     {
       "name": "part:@sanity/base/schema",
       "path": "./schemas/schema"
+    },
+    {
+      "implements": "part:@sanity/dashboard/config",
+      "path": "./dashboardConfig.js"
     }
   ]
 }

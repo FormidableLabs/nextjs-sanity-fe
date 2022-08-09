@@ -1,0 +1,10 @@
+query getBlogsSlugs {
+  allBlog(sort: { _createdAt: ASC }) {
+    _id
+    title
+    slug {
+      current
+    }
+    _createdAt
+  }
+}
