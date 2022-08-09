@@ -28,6 +28,7 @@
     "mammoth": "^1.4.21",
     "next": "12.1.6",
     "next-urql": "^3.3.3",
+    "nuka-carousel": "^5.2.0",
     "node-html-parser": "^5.3.3",
     "react": "18.2.0",
     "react-dom": "18.2.0",
