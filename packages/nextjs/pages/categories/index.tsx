@@ -4,7 +4,7 @@ import { withUrqlClient } from "next-urql";
 import { useGetCategoriesQuery } from "utils/generated/graphql";
 import { urqlOptions, withUrqlOptions } from "utils/urql";
 import { CategoryList } from "components/CategoryList";
-import { getCategoryServerSideProps } from "pages/categories/getCategoryServerSideProps";
+import { getCategoryServerSideProps } from "utils/getCategoryServerSideProps";
 
 const CategoriesPage: NextPage = () => {
   // This component is essentially a copy paste from pages/index.tsx. Do we need this duplication?
