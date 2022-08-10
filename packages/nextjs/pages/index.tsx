@@ -1,9 +1,9 @@
-import { NextPage } from "next";
+import { GetServerSideProps, NextPage } from "next";
 import { withUrqlClient } from "next-urql";
 import { useGetCategoriesQuery } from "utils/generated/graphql";
 import { urqlOptions, withUrqlOptions } from "utils/urql";
 import { CategoryList } from "components/CategoryList";
-import { getCategoryServerSideProps } from "utils/getCategoryServerSideProps";
+import { getCategoryServerSideProps } from "pages/categories/getCategoryServerSideProps";
 
 const Home: NextPage = () => {
   const [{ data }] = useGetCategoriesQuery();

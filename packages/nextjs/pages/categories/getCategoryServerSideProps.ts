@@ -2,8 +2,9 @@ import { GetServerSideProps } from "next";
 import { GetCategoriesDocument } from "utils/generated/graphql";
 import { initializeUrql } from "utils/urql";
 
-export const getCategoryServerSideProps: GetServerSideProps = async ({ req, res }) => {
+export const getCategoryServerSideProps: GetServerSideProps = async ({ params, res }) => {
   const { client, ssrCache } = initializeUrql();
+  console.log(params);
 
   // This query is used to populate the cache for the query
   // used on this page.
@@ -12,6 +13,7 @@ export const getCategoryServerSideProps: GetServerSideProps = async ({ req, res 
   // set caching response header
   // note: when running `next dev`, these headers are overwritten to prevent local caching
   res.setHeader("Surrogate-Control", "maxage=60, stale-while-revalidate=120, stale-if-error=60");
+  res.setHeader("Surrogate-Keys", "category");
 
   return {
     props: {
