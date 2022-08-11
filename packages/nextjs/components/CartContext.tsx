@@ -1,12 +1,29 @@
 import { createContext, ReactNode, useCallback, useContext, useEffect, useState } from "react";
+import groq from "groq";
+import { CategoryPageProduct } from "utils/groqTypes";
+import { sanityClient } from "utils/sanityClient";
+
+type CartItem = {
+  id: string;
+  qty: number;
+  item: CategoryPageProduct;
+};
 
 interface CartContextValue {
   cart: Record<string, number>;
+  cartItems: CartItem[];
   updateCart: (productId: string, quantity: number) => void;
   clearCart: () => void;
 }
 
-export const CartContext = createContext<CartContextValue>({} as CartContextValue);
+const initialValue = {
+  cart: {},
+  cartItems: [],
+  updateCart: () => {},
+  clearCart: () => {},
+};
+
+export const CartContext = createContext<CartContextValue>(initialValue);
 
 interface Props {
   children: ReactNode;
@@ -16,6 +33,48 @@ export const useCart = () => useContext(CartContext);
 
 export const CartProvider: React.FC<Props> = ({ children }) => {
   const [cart, setCart] = useState<Record<string, number>>({});
+  const [cartItems, setCartItems] = useState<CartItem[]>([]);
+
+  useEffect(() => {
+    const variantIds: string[] = Object.keys(cart);
+    const variantIdFilters = variantIds.map((id) => `("${id}" in variants[]->id)`);
+    const groqFilters = variantIdFilters.length ? `&& (${variantIdFilters.join(" || ")})` : "";
+
+    // Get all products with a variant with the same ID
+    sanityClient
+      .fetch(
+        groq`{
+          'products': *[_type == "product" ${groqFilters}] {
+            ...,
+            'imageAlt': images[0]->name,
+            'images': images[0]->images,
+            'msrp': variants | order(price asc)[0]->msrp,
+            'price': variants | order(price asc)[0]->price,
+            'variants': variants[]->{
+              ...,
+              'size': size->name
+            }
+          }
+        }`
+      )
+      .then((res) => {
+        const formattedItems = variantIds.reduce((acc: CartItem[], variantId) => {
+          const productInfo = (res.products as CategoryPageProduct[]).find(({ variants }) => {
+            const productVariantIds = variants.map(({ id }) => id);
+            return productVariantIds.includes(variantId);
+          });
+
+          if (productInfo) {
+            return [...acc, { id: variantId, qty: cart[variantId], item: productInfo }];
+          }
+
+          console.error("No product info for ID", variantId);
+          return acc;
+        }, []);
+
+        setCartItems(formattedItems);
+      });
+  }, [cart, setCartItems]);
 
   const updateCartFromApi = useCallback(async () => {
     const data = await fetch("/api/cart", {
@@ -70,6 +129,7 @@ export const CartProvider: React.FC<Props> = ({ children }) => {
     <CartContext.Provider
       value={{
         cart,
+        cartItems,
         updateCart,
         clearCart,
       }}
