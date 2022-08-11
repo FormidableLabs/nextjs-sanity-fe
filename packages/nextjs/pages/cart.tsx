@@ -1,33 +1,81 @@
-import { useCart } from "../components/CartContext";
-import { CartItem } from "../components/CartItem";
-import { GetProductDocument, GetProductQuery, Maybe, useGetProductsQuery } from "../utils/generated/graphql";
-
-import type { NextPage } from "next";
+import { useEffect, useState } from "react";
+import { NextPage } from "next";
 import Link from "next/link";
+import groq from "groq";
+
+import { useCart } from "components/CartContext";
+import { CartItem } from "components/CartItem";
+import { sanityClient } from "utils/sanityClient";
+import { CategoryPageProduct } from "utils/groqTypes";
 
 interface Props {
   cartItems: Record<string, any>;
 }
 
+type FormattedCartItem = {
+  id: string;
+  qty: number;
+  item: CategoryPageProduct;
+};
+
 const CartPage: NextPage<Props> = (props) => {
   const { cart, clearCart } = useCart();
-  const cartArray = Object.entries(cart).map(([id, qty]) => ({
-    id,
-    qty,
-  }));
+  const [formattedCart, setFormattedCart] = useState<FormattedCartItem[]>([]);
+
+  // Format cart items with product info
+  useEffect(() => {
+    const variantIds: string[] = Object.keys(cart);
+    const variantIdFilters = variantIds.map((id) => `("${id}" in variants[]->id)`);
+    const constructedFilters = variantIdFilters.length ? `&& (${variantIdFilters.join(" || ")})` : "";
+
+    // Get all products with a variant with the same ID
+    sanityClient
+      .fetch(
+        groq`{
+      'products': *[_type == "product" ${constructedFilters}] {
+        ...,
+        'imageAlt': images[0]->name,
+        'images': images[0]->images,
+        'msrp': variants | order(price asc)[0]->msrp,
+        'price': variants | order(price asc)[0]->price,
+        'variants': variants[]->{
+          ...,
+          'size': size->name
+        }
+      }
+    }`
+      )
+      .then((res) => {
+        const formattedItems = variantIds.reduce((acc: FormattedCartItem[], variantId) => {
+          const productInfo = (res.products as CategoryPageProduct[]).find(({ variants }) => {
+            const productVariantIds = variants.map(({ id }) => id);
+            return productVariantIds.includes(variantId);
+          });
+
+          if (productInfo) {
+            return [...acc, { id: variantId, qty: cart[variantId], item: productInfo }];
+          }
+
+          console.error("No product info for ID", variantId);
+          return acc;
+        }, []);
+
+        setFormattedCart(formattedItems);
+      });
+  }, [cart]);
 
   return (
     <div className="h-full mb-4">
       <h1 className="text-2xl font-bold my-4">Cart</h1>
       <ul className="flex flex-col gap-4">
-        {cartArray.map(({ id, qty }) => (
+        {formattedCart.map(({ id, qty, item }) => (
           <li key={id}>
-            <CartItem id={id} qty={qty} />
+            <CartItem id={id} qty={qty} item={item} />
           </li>
         ))}
       </ul>
 
-      {cartArray.length > 0 ? (
+      {formattedCart.length > 0 ? (
         <div className="flex justify-between gap-4 mt-6">
           <button
             type="button"
