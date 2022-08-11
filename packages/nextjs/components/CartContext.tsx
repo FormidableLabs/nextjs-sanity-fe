@@ -12,6 +12,8 @@ type CartItem = {
 interface CartContextValue {
   cart: Record<string, number>;
   cartItems: CartItem[];
+  cartItemsErrorIds?: string[];
+  retrieveCartItems: () => void;
   updateCart: (productId: string, quantity: number) => void;
   clearCart: () => void;
 }
@@ -19,6 +21,8 @@ interface CartContextValue {
 const initialValue = {
   cart: {},
   cartItems: [],
+  cartItemsErrorIds: undefined,
+  retrieveCartItems: () => {},
   updateCart: () => {},
   clearCart: () => {},
 };
@@ -34,9 +38,9 @@ export const useCart = () => useContext(CartContext);
 export const CartProvider: React.FC<Props> = ({ children }) => {
   const [cart, setCart] = useState<Record<string, number>>({});
   const [cartItems, setCartItems] = useState<CartItem[]>([]);
+  const [cartItemsErrorIds, setCartItemsErrorIds] = useState<string[] | undefined>();
 
-  // Fetch product info when cart is updated
-  useEffect(() => {
+  const retrieveCartItems = useCallback(() => {
     const variantIds: string[] = Object.keys(cart);
     const variantIdFilters = variantIds.map((id) => `("${id}" in variants[]->id)`);
     const groqFilters = variantIdFilters.length ? `&& (${variantIdFilters.join(" || ")})` : "";
@@ -59,6 +63,8 @@ export const CartProvider: React.FC<Props> = ({ children }) => {
         }`
       )
       .then((res) => {
+        const errorRetrievingIds: string[] = [];
+
         const formattedItems = variantIds.reduce((acc: CartItem[], variantId) => {
           // Find first product that includes variant with matching ID
           const productInfo = (res.products as Product[]).find(({ variants }) => {
@@ -70,13 +76,19 @@ export const CartProvider: React.FC<Props> = ({ children }) => {
             return [...acc, { id: variantId, qty: cart[variantId], item: productInfo }];
           }
 
-          console.error("No product info for ID", variantId);
+          errorRetrievingIds.push(variantId);
           return acc;
         }, []);
 
         setCartItems(formattedItems);
+        setCartItemsErrorIds(errorRetrievingIds.length ? errorRetrievingIds : undefined);
       });
-  }, [cart, setCartItems]);
+  }, [cart]);
+
+  // Retrieve product info when cart is updated
+  useEffect(() => {
+    retrieveCartItems();
+  }, [retrieveCartItems]);
 
   const updateCartFromApi = useCallback(async () => {
     const data = await fetch("/api/cart", {
@@ -132,6 +144,8 @@ export const CartProvider: React.FC<Props> = ({ children }) => {
       value={{
         cart,
         cartItems,
+        cartItemsErrorIds,
+        retrieveCartItems,
         updateCart,
         clearCart,
       }}
