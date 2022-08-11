@@ -1,5 +1,7 @@
 import { NextPage } from "next";
 import Link from "next/link";
+import { HiOutlineTrash } from "react-icons/hi";
+
 import { useCart } from "components/CartContext";
 import { CartItem } from "components/CartItem";
 
@@ -26,7 +28,7 @@ const CartPage: NextPage<Props> = () => {
         <>
           {cartItems.length > 0 ? (
             <div>
-              <ul className="flex flex-col gap-4">
+              <ul className="flex flex-col divide-y">
                 {cartItems.map(({ id, qty, item }) => (
                   <li key={id}>
                     <CartItem id={id} qty={qty} item={item} />
@@ -34,8 +36,8 @@ const CartPage: NextPage<Props> = () => {
                 ))}
               </ul>
               <div className="flex justify-between gap-4 mt-6">
-                <button type="button" onClick={clearCart} className={`${BUTTON_CLASS}`}>
-                  Clear Cart
+                <button type="button" onClick={clearCart} className={`${BUTTON_CLASS} flex items-center gap-2`}>
+                  <HiOutlineTrash /> <span>Clear Cart</span>
                 </button>
 
                 <Link href="/checkout">

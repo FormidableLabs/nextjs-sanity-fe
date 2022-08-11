@@ -17,8 +17,8 @@ export const CartItem: React.FC<CartItemProps> = ({ id, item, qty }) => {
   };
 
   return (
-    <div className="flex gap-8 py-4">
-      <div className="w-24 aspect-square bg-slate-100">
+    <div className="flex flex-wrap gap-8 py-8">
+      <div className="w-24 aspect-square bg-slate-100 flex-none" style={{ lineHeight: 0 }}>
         {item?.images && <Image width={96} height={96} src={item.images} alt={item?.imageAlt ?? item.name} />}
       </div>
       <div className="flex-auto">
