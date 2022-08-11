@@ -35,6 +35,7 @@ export const CartProvider: React.FC<Props> = ({ children }) => {
   const [cart, setCart] = useState<Record<string, number>>({});
   const [cartItems, setCartItems] = useState<CartItem[]>([]);
 
+  // Fetch product info when cart is updated
   useEffect(() => {
     const variantIds: string[] = Object.keys(cart);
     const variantIdFilters = variantIds.map((id) => `("${id}" in variants[]->id)`);
@@ -59,6 +60,7 @@ export const CartProvider: React.FC<Props> = ({ children }) => {
       )
       .then((res) => {
         const formattedItems = variantIds.reduce((acc: CartItem[], variantId) => {
+          // Find first product that includes variant with matching ID
           const productInfo = (res.products as Product[]).find(({ variants }) => {
             const productVariantIds = variants.map(({ id }) => id);
             return productVariantIds.includes(variantId);
