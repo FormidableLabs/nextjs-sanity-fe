@@ -62,3 +62,73 @@ public-hoist-pattern[]=*@sanity/*
 This hoists all dependencies and sub dependencies to the root node_modules.
 
 Another monorepo gotcha is Sanity cli expects to be run from the root where sanity `node_modules` are located. This is not ideal when using monorepos, to solve this issue all the scripts ran via pnpm have a flag to specify cwd to be the sanity package.
+
+## Fastly Caching
+
+In order to enhance the speed of the app, we are utilizing SSR caching within fastly paired with surrogate-keys for specific purging scenarios.
+
+If the Vercel url is used directly, there will be no caching setup. In order to utilize the caching, you will need to use the fastly url.
+
+It is currently hosted using Fastly's Free TLS option under `https://nextjs-sanity.global.ssl.fastly.net/`. In the future, we will assign an actual domain to the project.
+
+Surrogate Keys reference:
+https://docs.fastly.com/en/guides/working-with-surrogate-keys
+
+Purging api reference:
+https://developer.fastly.com/reference/api/purging/
+
+todo
+
+- [x] add category specific surrogate keys
+- [x] add product specific surrogate keys
+- [ ] add webhook configuration to sanity
+- [ ] create webhook api key and store in 1pass / GH
+- [ ] add webhook api key as an environment variables
+- [ ] add webhook listener to project which will purge when cached content is updated
+- [ ] update Fastly domain to use custom domain (`https://nextjs-sanity.formidable.dev`)
+
+### Important headers
+
+These are the primary response headers used to control caching. They are set within `getServerSideProps` on a per-page level.
+
+- `surrogate-control` - Fastly specific header used to set the cache policies. (`max-age`, `stale-while-revalidate`, `stale-while-error`).
+- `surrogate-key` - Fastly specific header that allows purging by key. Note: this header is removed by fastly before responding. To see the value of this header, you must include the `Fastly-Debug` header in your request.
+- `cache-control` - This header is used to indicate to browsers and Vercel to not cache.
+
+The following request headers can also be useful.
+
+- `Fastly-Debug` - [Fastly Debug reference](https://developer.fastly.com/reference/http/http-headers/Fastly-Debug/). Helpful for checking on
+
+### Purging scenarios
+
+These are the purging scenarios we will be adding support for in the near future.
+
+#### Home Page / Category Listing Page i.e. (`/` or `/categories`)
+
+The Home and Categories Pages list the Top Categories, and therefore should be kept up to date when specific Categories change.
+
+When a Category is created, updated, or deleted, we can purge this page by using the `category` surrogate-key.
+
+#### Category PLP page i.e. (`/categories/tops`)
+
+A Category PLP page lists all products for a given Category.
+
+When a product is created, updated, or deleted, we should purge the associated category page.
+
+#### PDP page i.e. (`/products/blank-t-shirt`)
+
+A PDP page lists metadata about a specific product.
+
+When a product is created, updated, or deleted, we should purge that specific page.
+
+Specific situation:
+
+In Sanity, the product with a slug of `blank-t-shirt` had it's metadata modified (name, description, etc).
+
+This should trigger a webhook with the following metadata:
+
+```
+# TODO fill this out with webhook sample
+```
+
+When that payload is received, a purge request should be done for the following surrogate-key `blank-t-shirt`
