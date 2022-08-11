@@ -7,6 +7,7 @@ import { CategoryList } from "components/CategoryList";
 import { getCategoryServerSideProps } from "utils/getCategoryServerSideProps";
 
 const CategoriesPage: NextPage = () => {
+  // This component is essentially a copy paste from pages/index.tsx. Do we need this duplication?
   const [{ data }] = useGetCategoriesQuery();
 
   return (

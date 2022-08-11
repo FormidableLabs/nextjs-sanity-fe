@@ -10,6 +10,8 @@ import { SORT_QUERY_PARAM, SORT_OPTIONS } from "constants/sorting";
 import { getPaginationOffsets } from "utils/getPaginationOffsets";
 import { CategoryPageCategory, CategoryPageProduct, CategoryPageResult } from "utils/groqTypes";
 import { sanityClient } from "utils/sanityClient";
+import { setCachingHeaders } from "utils/setCachingHeaders";
+import { isSlug } from "utils/isSlug";
 
 interface Props {
   products: CategoryPageProduct[];
@@ -49,6 +51,11 @@ export default CategoryPage;
 
 export const getServerSideProps: GetServerSideProps = async (ctx) => {
   const { slug, [SORT_QUERY_PARAM]: sortValue } = ctx.query;
+  const { res } = ctx;
+
+  if (isSlug(slug)) {
+    setCachingHeaders(res, [slug]);
+  }
 
   // Sort/ordering
   let ordering = "| order(_createdAt)";
