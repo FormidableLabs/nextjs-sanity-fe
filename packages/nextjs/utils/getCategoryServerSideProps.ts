@@ -5,7 +5,6 @@ import { setCachingHeaders } from "./setCachingHeaders";
 
 export const getCategoryServerSideProps: GetServerSideProps = async ({ params, res }) => {
   const { client, ssrCache } = initializeUrql();
-  console.log(params);
 
   // This query is used to populate the cache for the query
   // used on this page.
