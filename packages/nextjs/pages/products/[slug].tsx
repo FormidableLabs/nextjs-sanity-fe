@@ -8,6 +8,8 @@ import { ImageCarousel } from "../../components/ImageCarousel/ImageCarousel";
 import { useCart } from "../../components/CartContext";
 import { GetProductDocument, GetProductQuery, Maybe, useGetProductQuery } from "../../utils/generated/graphql";
 import { initializeUrql, urqlOptions, withUrqlOptions } from "../../utils/urql";
+import { setCachingHeaders } from "utils/setCachingHeaders";
+import { isSlug } from "utils/isSlug";
 
 type ProductVariant = NonNullable<GetProductQuery["allProduct"][0]["variants"]>[0];
 
@@ -86,12 +88,17 @@ const ProductPage: NextPage = () => {
   );
 };
 
-export const getServerSideProps: GetServerSideProps = async (ctx) => {
+export const getServerSideProps: GetServerSideProps = async ({ res, query }) => {
   const { client, ssrCache } = initializeUrql();
+  const { slug } = query;
+
+  if (isSlug(slug)) {
+    setCachingHeaders(res, [slug]);
+  }
 
   // This query is used to populate the cache for the query
   // used on this page.
-  await client?.query(GetProductDocument, { slug: ctx.query.slug }).toPromise();
+  await client?.query(GetProductDocument, { slug }).toPromise();
 
   return {
     props: {
