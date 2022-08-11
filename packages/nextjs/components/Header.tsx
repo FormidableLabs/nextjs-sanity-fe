@@ -5,7 +5,7 @@ import { MdShoppingCart } from "react-icons/md";
 import { useCart } from "./CartContext";
 
 export const Header = () => {
-  const { cart } = useCart();
+  const { cartTotal } = useCart();
 
   return (
     <div className="h-20 flex items-center justify-between bg-white px-6 border-b shadow">
@@ -16,7 +16,7 @@ export const Header = () => {
       </h2>
       <Link href="/cart">
         <a className="flex items-center">
-          <MdShoppingCart size={30} /> <span className="text-gray-600 text-xl">{Object.keys(cart).length}</span>
+          <MdShoppingCart size={30} /> <span className="text-gray-600 text-xl">{cartTotal}</span>
         </a>
       </Link>
     </div>

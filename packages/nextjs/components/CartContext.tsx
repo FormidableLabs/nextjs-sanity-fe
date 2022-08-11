@@ -13,6 +13,7 @@ interface CartContextValue {
   cart: Record<string, number>;
   cartItems: CartItem[];
   cartItemsErrorIds?: string[];
+  cartTotal: number;
   retrieveCartItems: () => void;
   updateCart: (productId: string, quantity: number) => void;
   clearCart: () => void;
@@ -22,6 +23,7 @@ const initialValue = {
   cart: {},
   cartItems: [],
   cartItemsErrorIds: undefined,
+  cartTotal: 0,
   retrieveCartItems: () => {},
   updateCart: () => {},
   clearCart: () => {},
@@ -39,6 +41,7 @@ export const CartProvider: React.FC<Props> = ({ children }) => {
   const [cart, setCart] = useState<Record<string, number>>({});
   const [cartItems, setCartItems] = useState<CartItem[]>([]);
   const [cartItemsErrorIds, setCartItemsErrorIds] = useState<string[] | undefined>();
+  const [cartTotal, setCartTotal] = useState(0);
 
   const retrieveCartItems = useCallback(() => {
     const variantIds: string[] = Object.keys(cart);
@@ -92,10 +95,12 @@ export const CartProvider: React.FC<Props> = ({ children }) => {
     }
   }, [cart]);
 
-  // Retrieve product info when cart is updated
+  // Retrieve product info and calc total items when cart is updated
   useEffect(() => {
     retrieveCartItems();
-  }, [retrieveCartItems]);
+    const totalItemQty = Object.values(cart).reduce((acc, curr) => acc + curr, 0);
+    setCartTotal(totalItemQty);
+  }, [cart, retrieveCartItems]);
 
   const updateCartFromApi = useCallback(async () => {
     const data = await fetch("/api/cart", {
@@ -155,6 +160,7 @@ export const CartProvider: React.FC<Props> = ({ children }) => {
         retrieveCartItems,
         updateCart,
         clearCart,
+        cartTotal,
       }}
     >
       {children}
