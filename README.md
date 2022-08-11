@@ -71,7 +71,7 @@ If the Vercel url is used directly, there will be no caching setup. In order to 
 
 It is currently hosted using Fastly's Free TLS option under `https://nextjs-sanity.global.ssl.fastly.net/`. In the future, we will assign an actual domain to the project.
 
-Surrogate Keys reference:
+Surrogate Key reference:
 https://docs.fastly.com/en/guides/working-with-surrogate-keys
 
 Purging api reference:
@@ -79,8 +79,8 @@ https://developer.fastly.com/reference/api/purging/
 
 todo
 
-- [x] add category specific surrogate keys
-- [x] add product specific surrogate keys
+- [x] add category specific surrogate key
+- [x] add product specific surrogate key
 - [ ] add webhook configuration to sanity
 - [ ] create webhook api key and store in 1pass / GH
 - [ ] add webhook api key as an environment variables
