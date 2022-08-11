@@ -42,47 +42,54 @@ export const CartProvider: React.FC<Props> = ({ children }) => {
 
   const retrieveCartItems = useCallback(() => {
     const variantIds: string[] = Object.keys(cart);
-    const variantIdFilters = variantIds.map((id) => `("${id}" in variants[]->id)`);
-    const groqFilters = variantIdFilters.length ? `&& (${variantIdFilters.join(" || ")})` : "";
 
-    // Get all products with a variant with the same ID
-    sanityClient
-      .fetch(
-        groq`{
-          'products': *[_type == "product" ${groqFilters}] {
-            ...,
-            'imageAlt': images[0]->name,
-            'images': images[0]->images,
-            'msrp': variants | order(price asc)[0]->msrp,
-            'price': variants | order(price asc)[0]->price,
-            'variants': variants[]->{
+    if (variantIds.length > 0) {
+      const variantIdFilters = variantIds.map((id) => `("${id}" in variants[]->id)`);
+      const groqFilters = variantIdFilters.length ? `&& (${variantIdFilters.join(" || ")})` : "";
+
+      // Get all products with a variant with the same ID
+      sanityClient
+        .fetch(
+          groq`{
+            'products': *[_type == "product" ${groqFilters}] {
               ...,
-              'size': size->name
+              'imageAlt': images[0]->name,
+              'images': images[0]->images,
+              'msrp': variants | order(price asc)[0]->msrp,
+              'price': variants | order(price asc)[0]->price,
+              'variants': variants[]->{
+                ...,
+                'size': size->name
+              }
             }
-          }
-        }`
-      )
-      .then((res) => {
-        const errorRetrievingIds: string[] = [];
+          }`
+        )
+        .then((res) => {
+          const errorRetrievingIds: string[] = [];
 
-        const formattedItems = variantIds.reduce((acc: CartItem[], variantId) => {
-          // Find first product that includes variant with matching ID
-          const productInfo = (res.products as Product[]).find(({ variants }) => {
-            const productVariantIds = variants.map(({ id }) => id);
-            return productVariantIds.includes(variantId);
-          });
+          const formattedItems = variantIds.reduce((acc: CartItem[], variantId) => {
+            // Find first product that includes variant with matching ID
+            const productInfo = (res.products as Product[]).find(({ variants }) => {
+              const productVariantIds = variants.map(({ id }) => id);
+              return productVariantIds.includes(variantId);
+            });
 
-          if (productInfo) {
-            return [...acc, { id: variantId, qty: cart[variantId], item: productInfo }];
-          }
+            if (productInfo) {
+              return [...acc, { id: variantId, qty: cart[variantId], item: productInfo }];
+            }
 
-          errorRetrievingIds.push(variantId);
-          return acc;
-        }, []);
+            errorRetrievingIds.push(variantId);
+            return acc;
+          }, []);
 
-        setCartItems(formattedItems);
-        setCartItemsErrorIds(errorRetrievingIds.length ? errorRetrievingIds : undefined);
-      });
+          setCartItems(formattedItems);
+          setCartItemsErrorIds(errorRetrievingIds.length ? errorRetrievingIds : undefined);
+        });
+    } else {
+      // Skip fetching when cart is empty
+      setCartItems([]);
+      setCartItemsErrorIds(undefined);
+    }
   }, [cart]);
 
   // Retrieve product info when cart is updated
