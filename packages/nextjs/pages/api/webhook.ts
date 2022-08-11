@@ -10,7 +10,9 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
   const body = await readBody(req); // Read the body into a string
   console.log("parsed body: ");
   console.log(body);
+
   if (!isValidSignature(body, signature, secret)) {
+    console.log("unauthorized webhook attempt thwarted");
     res.status(401).json({ success: false, message: "Unauthorized" });
     return;
   }
@@ -22,6 +24,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
   // validate request
   // send purge request to Fastly
   // get fastly token to use in purge request
+  // set environment variables in CI rather than manually
 
   console.log(req.body);
   res.status(200).json({
