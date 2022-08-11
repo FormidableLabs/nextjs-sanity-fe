@@ -1,14 +1,4 @@
-export interface CategoryPageResult {
-  category: CategoryPageCategory;
-  products: CategoryPageProduct[];
-  productsCount: number;
-}
-
-export interface CategoryPageCategory {
-  name: string;
-}
-
-export interface CategoryPageProduct {
+export interface Product {
   _createdAt: string;
   _id: string;
   _rev: string;

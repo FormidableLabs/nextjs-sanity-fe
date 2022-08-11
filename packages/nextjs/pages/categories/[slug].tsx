@@ -8,11 +8,11 @@ import { ProductSort } from "components/ProductSort";
 import { FILTER_GROUPS } from "constants/filters";
 import { SORT_QUERY_PARAM, SORT_OPTIONS } from "constants/sorting";
 import { getPaginationOffsets } from "utils/getPaginationOffsets";
-import { CategoryPageCategory, CategoryPageProduct, CategoryPageResult } from "utils/groqTypes";
+import { CategoryPageCategory, Product as ProductType, CategoryPageResult } from "utils/groqTypes";
 import { sanityClient } from "utils/sanityClient";
 
 interface Props {
-  products: CategoryPageProduct[];
+  products: ProductType[];
   category: CategoryPageCategory;
   productsCount: number;
   pageSize: number;

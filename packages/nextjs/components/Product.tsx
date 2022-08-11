@@ -1,19 +1,13 @@
 import Link from "next/link";
-import { CategoryPageProduct } from "utils/groqTypes";
+import { Product as ProductType } from "utils/groqTypes";
 import { Image } from "./Image";
 import { Price } from "./Price";
 
-export const Product = ({ item }: { item: CategoryPageProduct} ) => (
+export const Product = ({ item }: { item: ProductType }) => (
   <div className="w-26 h-fit m-4">
     <Link href={`/products/${item.slug.current}`}>
       <a>
-        <Image
-          width={300}
-          height={300}
-          className="rounded shadow"
-          src={item.images}
-          alt={item.imageAlt}
-        />
+        <Image width={300} height={300} className="rounded shadow" src={item.images} alt={item.imageAlt} />
       </a>
     </Link>
     <Link href={`/products/${item.slug.current}`}>
