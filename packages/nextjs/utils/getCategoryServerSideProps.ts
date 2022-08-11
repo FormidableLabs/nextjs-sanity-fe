@@ -3,7 +3,7 @@ import { GetCategoriesDocument } from "utils/generated/graphql";
 import { initializeUrql } from "utils/urql";
 import { setCachingHeaders } from "./setCachingHeaders";
 
-export const getCategoryServerSideProps: GetServerSideProps = async ({ params, res }) => {
+export const getCategoryServerSideProps: GetServerSideProps = async ({ res }) => {
   const { client, ssrCache } = initializeUrql();
 
   // This query is used to populate the cache for the query

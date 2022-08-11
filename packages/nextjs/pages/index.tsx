@@ -1,4 +1,4 @@
-import { GetServerSideProps, NextPage } from "next";
+import { NextPage } from "next";
 import { withUrqlClient } from "next-urql";
 import { useGetCategoriesQuery } from "utils/generated/graphql";
 import { urqlOptions, withUrqlOptions } from "utils/urql";
