@@ -1,4 +1,4 @@
-# Formidable - NextJS Sanity E-Commerce Site
+# Formidable - NextJS Sanity E-Commerce Site Test
 
 This repo is a mono repo built using [pnpm](https://pnpm.io/) workspaces. It consists of two packages:
 
@@ -49,8 +49,8 @@ The site is deployed to [Vercel](https://nextjs-sanity-fe.vercel.app/) built out
 
 ## Sanity Studio
 
-Sanity Studio is a web interface for Sanity. It is used for creating and editing the data on the site. The models for Sanity are created in code and tracked in source control. The models can be found at `packages/sanity/schemas`. Sanity studio is deployed to Sanity's hosting located [here](https://nextjs-ecom.sanity.studio/). 
-You do need access to Sanity Studio to modify this site.  Please reach out to the Core Tech team to request access (#core-tech-discussion in Slack).
+Sanity Studio is a web interface for Sanity. It is used for creating and editing the data on the site. The models for Sanity are created in code and tracked in source control. The models can be found at `packages/sanity/schemas`. Sanity studio is deployed to Sanity's hosting located [here](https://nextjs-ecom.sanity.studio/).
+You do need access to Sanity Studio to modify this site. Please reach out to the Core Tech team to request access (#core-tech-discussion in Slack).
 
 ### Sanity Studio + pnpm gotchas
 
