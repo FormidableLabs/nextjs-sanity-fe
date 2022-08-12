@@ -81,7 +81,7 @@ importers:
       nuka-carousel: 5.2.0_biqbaboplfbrettd7655fr4n2y
       react: 18.2.0
       react-dom: 18.2.0_react@18.2.0
-      react-icons: 4.4.0_react@18.2.0
+      react-icons: 4.4.0
       react-is: 18.2.0
       urql: 2.2.3_aez2jvt6lsvokp3l4ousdbdxf4
       uuid: 8.3.2
@@ -141,7 +141,7 @@ importers:
       prop-types: 15.8.1
       react: 17.0.2
       react-dom: 17.0.2_react@17.0.2
-      react-icons: 4.4.0_react@17.0.2
+      react-icons: 4.4.0
       styled-components: 5.3.5_sfoxds7t5ydpegc3knd667wn6m
     devDependencies:
       '@sanity/cli': 2.30.2
@@ -157,7 +157,6 @@ packages:
 
   /@ardatan/relay-compiler/12.0.0_graphql@16.5.0:
     resolution: {integrity: sha512-9anThAaj1dQr6IGmzBMcfzOQKTa5artjuPmw8NYK/fiGEMjADbSguBY2FMDykt+QhilR3wc9VA/3yVju7JHg7Q==}
-    hasBin: true
     peerDependencies:
       graphql: '*'
     dependencies:
@@ -2440,7 +2439,6 @@ packages:
 
   /@graphql-codegen/cli/2.7.0_nx5rldzsxkqp2qf2miljeykxp4:
     resolution: {integrity: sha512-qlBcS6jGfZ/xWXwqiyRLHGRuLC9gUdF8AwGHN7LdAYEP5MjL7pIXb02W5JuvMn47rrvr2Q22H9ECppZX65oSAg==}
-    hasBin: true
     peerDependencies:
       graphql: ^0.8.0 || ^0.9.0 || ^0.10.0 || ^0.11.0 || ^0.12.0 || ^0.13.0 || ^14.0.0 || ^15.0.0 || ^16.0.0
     dependencies:
@@ -2904,10 +2902,8 @@ packages:
       value-or-promise: 1.0.11
     dev: true
 
-  /@graphql-typed-document-node/core/3.1.1_graphql@16.5.0:
+  /@graphql-typed-document-node/core/3.1.1:
     resolution: {integrity: sha512-NQ17ii0rK1b34VZonlmT2QMJFI70m0TRwbknO/ihlbatXyaktDhN/98vBiUU6kNBPljqGqyIrl2T4nY2RpFANg==}
-    peerDependencies:
-      graphql: ^0.8.0 || ^0.9.0 || ^0.10.0 || ^0.11.0 || ^0.12.0 || ^0.13.0 || ^14.0.0 || ^15.0.0 || ^16.0.0
     dependencies:
       graphql: 16.5.0
     dev: false
@@ -3212,7 +3208,7 @@ packages:
       zen-observable:
         optional: true
     dependencies:
-      any-observable: 0.3.0_rxjs@6.6.7
+      any-observable: 0.3.0
       rxjs: 6.6.7
     transitivePeerDependencies:
       - zenObservable
@@ -3462,7 +3458,7 @@ packages:
       '@sanity/generate-help-url': 3.0.0
       '@sanity/icons': 1.3.1
       '@sanity/image-url': 1.0.1
-      '@sanity/logos': 1.1.12_react@17.0.2
+      '@sanity/logos': 1.1.12
       '@sanity/ui': 0.37.12_zxhai4qal7ezfht52cx4u672cu
       '@sanity/util': 2.29.5
       lodash: 4.17.21
@@ -3486,7 +3482,7 @@ packages:
       '@sanity/base': 2.30.1_e2j7mneen3arr2g7olztmnnfl4
       '@sanity/client': 3.3.2
       '@sanity/generate-help-url': 3.0.0
-      '@sanity/logos': 1.1.12_react@17.0.2
+      '@sanity/logos': 1.1.12
       '@sanity/ui': 0.37.12_zxhai4qal7ezfht52cx4u672cu
       prop-types: 15.8.1
       react: 17.0.2
@@ -3757,11 +3753,10 @@ packages:
       - supports-color
     dev: false
 
-  /@sanity/logos/1.1.12_react@17.0.2:
+  /@sanity/logos/1.1.12:
     resolution: {integrity: sha512-yJbHjtADjeNlegJg/LV7YLCB6YrUyqFZ+MS0KlV8DrmkHhCUTYO9BKuEJqtQt8p8Z67B70wR6yYMok3/ZgFH5g==}
     peerDependencies:
       '@sanity/color': ^2.0
-      react: ^16.9 || ^17 || ^18
     dependencies:
       react: 17.0.2
     dev: false
@@ -3861,7 +3856,6 @@ packages:
   /@sanity/server/2.29.5_sfoxds7t5ydpegc3knd667wn6m:
     resolution: {integrity: sha512-WTdgD5+BFsXUPClAhpHavIsr0OiAYr5e+/9J0iibngAJQFd0fZ+wR8teb2uy0TMxnIzfNg8j3qTBWByhF/Vp5g==}
     engines: {node: '>=12.0.0'}
-    hasBin: true
     peerDependencies:
       react: ^16.9 || ^17
       react-dom: ^16.9 || ^17
@@ -4502,7 +4496,7 @@ packages:
     peerDependencies:
       graphql: ^0.11.0 || ^0.12.0 || ^0.13.0 || ^14.0.0 || ^15.0.0 || ^16.0.0
     dependencies:
-      '@graphql-typed-document-node/core': 3.1.1_graphql@16.5.0
+      '@graphql-typed-document-node/core': 3.1.1
       graphql: 16.5.0
       wonka: 4.0.15
     dev: false
@@ -4599,12 +4593,10 @@ packages:
   /acorn/7.4.1:
     resolution: {integrity: sha512-nQyp0o1/mNdbTO1PO6kHkwSrmgZ0MT/jCCpNiwbUjGoRN4dlBhqJtoQuCnEOKzgTVwg0ZWiCoQy6SxMebQVh8A==}
     engines: {node: '>=0.4.0'}
-    hasBin: true
 
   /acorn/8.8.0:
     resolution: {integrity: sha512-QOxyigPVrpZ2GXT+PFyZTl6TtOFc5egxHIP9IlQ+RbupQuX4RkT/Bee4/kQuC02Xkzg84JcT7oLYtDIQxp+v7w==}
     engines: {node: '>=0.4.0'}
-    hasBin: true
 
   /agent-base/6.0.2:
     resolution: {integrity: sha512-RZNwNclF7+MS/8bDg70amg32dyeZGZxiDuQmZxKLAlQjr3jGyLx+4Kkk58UO7D2QdgFIQCovuSuZESne6RG6XQ==}
@@ -4713,11 +4705,10 @@ packages:
     engines: {node: '>=12'}
     dev: true
 
-  /any-observable/0.3.0_rxjs@6.6.7:
+  /any-observable/0.3.0:
     resolution: {integrity: sha512-/FQM1EDkTsf63Ub2C6O7GuYFDsSXUwsaZDurV0np41ocwq0jthUAYCmhBX9f+KwlaCgIuWyr/4WlUQUBfKfZog==}
     engines: {node: '>=6'}
     peerDependencies:
-      rxjs: '*'
       zenObservable: '*'
     peerDependenciesMeta:
       rxjs:
@@ -4970,7 +4961,6 @@ packages:
   /autoprefixer/10.4.7_postcss@8.4.14:
     resolution: {integrity: sha512-ypHju4Y2Oav95SipEcCcI5J7CGPuvz8oat7sUtYj3ClK44bldfvtvcxK6IEK++7rqB7YchDGzweZIBG+SD0ZAA==}
     engines: {node: ^10 || ^12 || >=14}
-    hasBin: true
     peerDependencies:
       postcss: ^8.1.0
     dependencies:
@@ -7204,7 +7194,6 @@ packages:
   /escodegen/2.0.0:
     resolution: {integrity: sha512-mmHKys/C8BFUGI+MAWNcSYoORYLMdPzjrknd2Vc+bUsjN5bXcr8EhrNB+UTqfL1y3I9c4fw2ihgtMPQLBRiQxw==}
     engines: {node: '>=6.0'}
-    hasBin: true
     dependencies:
       esprima: 4.0.1
       estraverse: 5.3.0
@@ -7572,7 +7561,6 @@ packages:
   /esprima/4.0.1:
     resolution: {integrity: sha512-eGuFFw7Upda+g4p+QHvnW0RyTX/SVeJBDM/gCtMARO0cLuT2HcEKnTPvhjV6aGeqrCB/sbNop0Kszm0jsaWU4A==}
     engines: {node: '>=4'}
-    hasBin: true
     dev: false
 
   /esquery/1.4.0:
@@ -8734,7 +8722,6 @@ packages:
 
   /he/1.2.0:
     resolution: {integrity: sha512-F/1DnUGPopORZi0ni+CvrCgHQ5FyEAHRLSApuYWMmrbSwoN2Mn/7k+Gl38gJnR7yyDZk6WLXwiGod1JOWNDKGw==}
-    hasBin: true
     dev: false
 
   /header-case/2.0.4:
@@ -10277,7 +10264,6 @@ packages:
 
   /mammoth/1.4.21:
     resolution: {integrity: sha512-znix1/i7LtfVMAe6mmrxJSoN1HmTASJ48I+PofSHs4vPKCuPF1DDOCVeMgZTYpitzjWTWs9Xhxxi2LBbHpmovg==}
-    hasBin: true
     dependencies:
       argparse: 1.0.10
       bluebird: 3.4.7
@@ -10611,14 +10597,13 @@ packages:
       urql: ^2.0.0
     dependencies:
       react: 18.2.0
-      react-ssr-prepass: 1.5.0_react@18.2.0
+      react-ssr-prepass: 1.5.0
       urql: 2.2.3_aez2jvt6lsvokp3l4ousdbdxf4
     dev: false
 
   /next/12.1.6_biqbaboplfbrettd7655fr4n2y:
     resolution: {integrity: sha512-cebwKxL3/DhNKfg9tPZDQmbRKjueqykHHbgaoG4VBRH3AHQJ2HO0dbKFiS1hPhe1/qgc2d/hFeadsbPicmLD+A==}
     engines: {node: '>=12.22.0'}
-    hasBin: true
     peerDependencies:
       fibers: '>= 3.1.0'
       node-sass: ^6.0.0 || ^7.0.0
@@ -10638,7 +10623,7 @@ packages:
       postcss: 8.4.5
       react: 18.2.0
       react-dom: 18.2.0_react@18.2.0
-      styled-jsx: 5.0.2_react@18.2.0
+      styled-jsx: 5.0.2
     optionalDependencies:
       '@next/swc-android-arm-eabi': 12.1.6
       '@next/swc-android-arm64': 12.1.6
@@ -12495,18 +12480,8 @@ packages:
       react: 17.0.2
     dev: false
 
-  /react-icons/4.4.0_react@17.0.2:
+  /react-icons/4.4.0:
     resolution: {integrity: sha512-fSbvHeVYo/B5/L4VhB7sBA1i2tS8MkT0Hb9t2H1AVPkwGfVHLJCqyr2Py9dKMxsyM63Eng1GkdZfbWj+Fmv8Rg==}
-    peerDependencies:
-      react: '*'
-    dependencies:
-      react: 17.0.2
-    dev: false
-
-  /react-icons/4.4.0_react@18.2.0:
-    resolution: {integrity: sha512-fSbvHeVYo/B5/L4VhB7sBA1i2tS8MkT0Hb9t2H1AVPkwGfVHLJCqyr2Py9dKMxsyM63Eng1GkdZfbWj+Fmv8Rg==}
-    peerDependencies:
-      react: '*'
     dependencies:
       react: 18.2.0
     dev: false
@@ -12636,10 +12611,8 @@ packages:
       react-style-proptype: 3.2.2
     dev: false
 
-  /react-ssr-prepass/1.5.0_react@18.2.0:
+  /react-ssr-prepass/1.5.0:
     resolution: {integrity: sha512-yFNHrlVEReVYKsLI5lF05tZoHveA5pGzjFbFJY/3pOqqjGOmMmqx83N4hIjN2n6E1AOa+eQEUxs3CgRnPmT0RQ==}
-    peerDependencies:
-      react: ^16.8.0 || ^17.0.0 || ^18.0.0
     dependencies:
       react: 18.2.0
     dev: false
@@ -13867,13 +13840,12 @@ packages:
       supports-color: 5.5.0
     dev: false
 
-  /styled-jsx/5.0.2_react@18.2.0:
+  /styled-jsx/5.0.2:
     resolution: {integrity: sha512-LqPQrbBh3egD57NBcHET4qcgshPks+yblyhPlH2GY8oaDgKs8SK4C3dBh3oSJjgzJ3G5t1SYEZGHkP+QEpX9EQ==}
     engines: {node: '>= 12.0.0'}
     peerDependencies:
       '@babel/core': '*'
       babel-plugin-macros: '*'
-      react: '>= 16.8.0 || 17.x.x || ^18.0.0-0'
     peerDependenciesMeta:
       '@babel/core':
         optional: true
@@ -14227,7 +14199,6 @@ packages:
   /ts-node/9.1.1_typescript@4.7.4:
     resolution: {integrity: sha512-hPlt7ZACERQGf03M253ytLY3dHbGNGrAq9qIHWUY9XHYl1z7wYngSr3OQ5xmui8o2AaxsONxIzjafLUiWBo1Fg==}
     engines: {node: '>=10.0.0'}
-    hasBin: true
     peerDependencies:
       typescript: '>=2.7'
     dependencies:
@@ -14532,7 +14503,6 @@ packages:
 
   /update-browserslist-db/1.0.5_browserslist@4.21.2:
     resolution: {integrity: sha512-dteFFpCyvuDdr9S/ff1ISkKt/9YZxKjI9WlRR99c180GaztJtRa/fn18FdxGVKVsnPY7/a/FDN68mcvUmP4U7Q==}
-    hasBin: true
     peerDependencies:
       browserslist: '>= 4.21.0'
     dependencies:
@@ -14625,11 +14595,10 @@ packages:
       react: 17.0.2
     dev: false
 
-  /use-isomorphic-layout-effect/1.1.2_react@17.0.2:
+  /use-isomorphic-layout-effect/1.1.2:
     resolution: {integrity: sha512-49L8yCO3iGT/ZF9QttjwLF/ZD9Iwto5LnH5LmEdk/6cFmXddqi2ulF0edxTwjj+7mqvpVVGQWvbXZdn32wRSHA==}
     peerDependencies:
       '@types/react': '*'
-      react: ^16.8.0 || ^17.0.0 || ^18.0.0
     peerDependenciesMeta:
       '@types/react':
         optional: true
@@ -14647,7 +14616,7 @@ packages:
         optional: true
     dependencies:
       react: 17.0.2
-      use-isomorphic-layout-effect: 1.1.2_react@17.0.2
+      use-isomorphic-layout-effect: 1.1.2
     dev: false
 
   /use-sidecar/1.1.2_react@17.0.2:
@@ -14713,7 +14682,6 @@ packages:
 
   /uuid/8.3.2:
     resolution: {integrity: sha512-+NYs2QeMWy+GWFOEm9xnn6HCDp0l7QBD7ml8zLUmJ+93Q5NF0NocErnwkTkXVFNiX3/fpC6afS8Dhb/gz7R7eg==}
-    hasBin: true
     dev: false
 
   /v8-compile-cache/2.3.0:
@@ -14859,7 +14827,6 @@ packages:
   /webpack/3.12.0:
     resolution: {integrity: sha512-Sw7MdIIOv/nkzPzee4o0EdvCuPmxT98+vVpIvwtcwcF1Q4SDSNp92vwcKc4REe7NItH9f1S4ra9FuQ7yuYZ8bQ==}
     engines: {node: '>=4.3.0 <5.0.0 || >=5.10'}
-    hasBin: true
     peerDependencies:
       webpack-cli: '*'
       webpack-command: '*'
