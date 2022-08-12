@@ -63,6 +63,18 @@ This hoists all dependencies and sub dependencies to the root node_modules.
 
 Another monorepo gotcha is Sanity cli expects to be run from the root where sanity `node_modules` are located. This is not ideal when using monorepos, to solve this issue all the scripts ran via pnpm have a flag to specify cwd to be the sanity package.
 
+### Sanity Webhooks
+
+Webhooks are an important piece of the strategy of this project. In order to serve accurate data and cache it for long periods of time, it means we must be notified when content changes happen which indicate the cache needs to be purged.
+
+Luckily, sanity has excellent support for [webhooks](https://www.sanity.io/docs/webhooks).
+
+[Slugs](https://www.sanity.io/docs/slug-type) are an important part of our caching strategy. Sanity defines them as
+
+> A slug is a unique string (typically a normalized version of title or other representative string), often used as part of a URL. The input form will render an error message if the current slug field is not unique (see note on uniqueness below).
+
+Since most all content has a slug, it's very easy to use that slug for caching purposes. When a webhook is triggered, we essentially only need to know the Sanity Type and the Slug, in order to perform a cache purge for the relevant content.
+
 ## Fastly Caching
 
 In order to enhance the speed of the app, we are utilizing SSR caching within fastly paired with surrogate-keys for specific purging scenarios.
