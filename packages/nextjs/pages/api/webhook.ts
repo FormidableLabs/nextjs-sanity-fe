@@ -22,6 +22,12 @@ interface WebhookPayload {
   slug: string;
 }
 
+/**
+ * Api handler to receive webhook POST Requests from Sanity when content changes
+ * @param req Next Request Object
+ * @param res Next Response Object
+ * @returns void
+ */
 export default async function handler(req: NextApiRequest, res: NextApiResponse) {
   try {
     // only allow post requests
@@ -39,6 +45,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
       res.status(400).json({ message: "Bad Input" });
       return;
     }
+
     console.log("received a potential webhook request");
 
     if (!isValidSignature(body, signature, secret)) {
@@ -97,6 +104,11 @@ async function requestPurge(keys: string[]): Promise<boolean> {
   }
 }
 
+/**
+ * Reads the body of the request as a Stream so the raw body of the webhook can be verified
+ * @param readable
+ * @returns String representation of the body
+ */
 async function readBody(readable: NextApiRequest) {
   const chunks = [];
   for await (const chunk of readable) {
