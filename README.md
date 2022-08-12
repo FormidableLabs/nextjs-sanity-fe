@@ -49,11 +49,12 @@ The site is deployed to [Vercel](https://nextjs-sanity-fe.vercel.app/) built out
 
 ## Sanity Studio
 
-Sanity Studio is a web interface for Sanity. It is used for creating and editing the data on the site. The models for Sanity are created in code and tracked in source control. The models can be found at `packages/sanity/schemas`. Sanity studio is deployed to Sanity's hosting located [here](https://nextjs-ecom.sanity.studio/). You do need access to Sanity to use this site.
+Sanity Studio is a web interface for Sanity. It is used for creating and editing the data on the site. The models for Sanity are created in code and tracked in source control. The models can be found at `packages/sanity/schemas`. Sanity studio is deployed to Sanity's hosting located [here](https://nextjs-ecom.sanity.studio/). 
+You do need access to Sanity Studio to modify this site.  Please reach out to the Core Tech team to request access (#core-tech-discussion in Slack).
 
 ### Sanity Studio + pnpm gotchas
 
-The way Sanity Studio works has issues with monorepos, especially when using pnpm. Sanity expects all dependencies to be hoisted. To solve the issue, in `.npmrc` we add the following:
+The way Sanity Studio works has issues with monorepos, especially when using pnpm. Sanity expects all dependencies to be hoisted. To solve the issue, we added the following to the `.npmrc`:
 
 ```
 public-hoist-pattern[]=*@sanity/*

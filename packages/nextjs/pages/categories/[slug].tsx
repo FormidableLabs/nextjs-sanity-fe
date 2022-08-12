@@ -34,9 +34,13 @@ const CategoryPage: NextPage<Props> = ({ category, products, pageCount, currentP
         </div>
         <div className="flex flex-auto flex-col">
           <div className="flex-1 flex flex-wrap">
-            {products.map((product) => (
-              <Product key={product._id} item={product} />
-            ))}
+            {products.length ? (
+              products.map((product) => <Product key={product._id} item={product} />)
+            ) : (
+              <div className="flex-1 flex flex-col justify-center items-center">
+                <div className="text-center text-gray-500">No products found</div>
+              </div>
+            )}
           </div>
           <div className="py-10">
             <Pagination pageCount={pageCount} currentPage={currentPage} />
@@ -156,7 +160,7 @@ export const getServerSideProps: GetServerSideProps = async (ctx) => {
    * a filter that only returns two pages worth of products,
    * redirect them to the last page/pageCount
    */
-  if (currentPage > pageCount) {
+  if (pageCount > 0 && currentPage > pageCount) {
     const destination = ctx.resolvedUrl.replace(`page=${currentPage}`, `page=${pageCount}`);
     return {
       redirect: {
