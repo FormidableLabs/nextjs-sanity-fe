@@ -49,8 +49,8 @@ The site is deployed to [Vercel](https://nextjs-sanity-fe.vercel.app/) built out
 
 ## Sanity Studio
 
-Sanity Studio is a web interface for Sanity. It is used for creating and editing the data on the site. The models for Sanity are created in code and tracked in source control. The models can be found at `packages/sanity/schemas`. Sanity studio is deployed to Sanity's hosting located [here](https://nextjs-ecom.sanity.studio/). 
-You do need access to Sanity Studio to modify this site.  Please reach out to the Core Tech team to request access (#core-tech-discussion in Slack).
+Sanity Studio is a web interface for Sanity. It is used for creating and editing the data on the site. The models for Sanity are created in code and tracked in source control. The models can be found at `packages/sanity/schemas`. Sanity studio is deployed to Sanity's hosting located [here](https://nextjs-ecom.sanity.studio/).
+You do need access to Sanity Studio to modify this site. Please reach out to the Core Tech team to request access (#core-tech-discussion in Slack).
 
 ### Sanity Studio + pnpm gotchas
 
@@ -64,13 +64,30 @@ This hoists all dependencies and sub dependencies to the root node_modules.
 
 Another monorepo gotcha is Sanity cli expects to be run from the root where sanity `node_modules` are located. This is not ideal when using monorepos, to solve this issue all the scripts ran via pnpm have a flag to specify cwd to be the sanity package.
 
+### Sanity Webhooks
+
+Webhooks are an important part of this project. In order to serve accurate data and cache it for long periods of time, there must be notifications when content changes occur. Luckily, sanity has excellent support for [webhooks](https://www.sanity.io/docs/webhooks).
+
+Webhook(s) are utilized as the change detection mechanism. Our current cache strategy is based around using the `surrogate-key` header with the value of the `slug` for that content item.
+
+[Slugs](https://www.sanity.io/docs/slug-type) are an important part of our caching strategy. Sanity defines them as:
+
+> A slug is a unique string (typically a normalized version of title or other representative string), often used as part of a URL. The input form will render an error message if the current slug field is not unique (see note on uniqueness below).
+
+Since most all content has a slug, it's very easy to use that slug for caching purposes. When a webhook is triggered, we essentially only need to know the Sanity Type and the Slug, in order to perform a cache purge for the relevant content.
+
 ## Fastly Caching
 
-In order to enhance the speed of the app, we are utilizing SSR caching within fastly paired with surrogate-keys for specific purging scenarios.
+NOTE: If the Vercel url is used directly, there will be no caching setup. In order to utilize the caching, the fastly url should be used.
 
-If the Vercel url is used directly, there will be no caching setup. In order to utilize the caching, you will need to use the fastly url.
+The site with caching enabled is currently hosted using Fastly's Free TLS option under `https://nextjs-sanity.global.ssl.fastly.net/`. In the future, a domain will be assigned to the project.
 
-It is currently hosted using Fastly's Free TLS option under `https://nextjs-sanity.global.ssl.fastly.net/`. In the future, we will assign an actual domain to the project.
+In order to enhance the speed of the app, we are utilizing a cdn with a high cache-lifetime for Server Side Rendered (SSR) pages. The caveat to this approach is that it is important to invalidate the cache when something changes. Otherwise, it will be displaying incorrect data for a length of time equal to the cache policy.
+
+The Fastly caching piece requires a couple of things:
+
+1. Surrogate-Control Response header needs to be added to pages where caching is desired
+2. Surrogate-Key Response header needs to be added to make cache invalidation easier
 
 Surrogate Key reference:
 https://docs.fastly.com/en/guides/working-with-surrogate-keys
@@ -78,14 +95,10 @@ https://docs.fastly.com/en/guides/working-with-surrogate-keys
 Purging api reference:
 https://developer.fastly.com/reference/api/purging/
 
+![Diagram](https://user-images.githubusercontent.com/3632381/184446063-f579cbcc-1546-4bb2-a1fc-8a3d003559ec.png)
+
 todo
 
-- [x] add category specific surrogate key
-- [x] add product specific surrogate key
-- [ ] add webhook configuration to sanity
-- [ ] create webhook api key and store in 1pass / GH
-- [ ] add webhook api key as an environment variables
-- [ ] add webhook listener to project which will purge when cached content is updated
 - [ ] update Fastly domain to use custom domain (`https://nextjs-sanity.formidable.dev`)
 
 ### Important headers
@@ -106,9 +119,9 @@ These are the purging scenarios we will be adding support for in the near future
 
 #### Home Page / Category Listing Page i.e. (`/` or `/categories`)
 
-The Home and Categories Pages list the Top Categories, and therefore should be kept up to date when specific Categories change.
+The Home and Categories Pages list Categories set up in Sanity, and therefore should be kept up to date when Categories change.
 
-When a Category is created, updated, or deleted, we can purge this page by using the `category` surrogate-key.
+When a Category is created, updated, or deleted, a purge should be executed using the `category` surrogate-key.
 
 #### Category PLP page i.e. (`/categories/tops`)
 
@@ -125,11 +138,5 @@ When a product is created, updated, or deleted, we should purge that specific pa
 Specific situation:
 
 In Sanity, the product with a slug of `blank-t-shirt` had it's metadata modified (name, description, etc).
-
-This should trigger a webhook with the following metadata:
-
-```
-# TODO fill this out with webhook sample
-```
 
 When that payload is received, a purge request should be done for the following surrogate-key `blank-t-shirt`
