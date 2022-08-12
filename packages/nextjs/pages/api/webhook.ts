@@ -82,7 +82,12 @@ export const config = {
   },
 };
 
-async function requestPurge(keys: string[]): Promise<boolean> {
+/**
+ * Executes a batch purge request using the Fastly api
+ * @param keys list of surrogate keys to cache
+ * @returns void
+ */
+async function requestPurge(keys: string[]) {
   const combinedKeys = keys.join(" ");
   console.log(`initiating cache purge for ${combinedKeys}`);
   const response = await fetch(`https://api.fastly.com/service/${fastlyServiceId}/purge`, {
@@ -100,7 +105,6 @@ async function requestPurge(keys: string[]): Promise<boolean> {
     return true;
   } else {
     console.log("error occurred when calling the Fastly purge api");
-    return false;
   }
 }
 
