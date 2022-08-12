@@ -65,11 +65,11 @@ Another monorepo gotcha is Sanity cli expects to be run from the root where sani
 
 ### Sanity Webhooks
 
-Webhooks are an important piece of the strategy of this project. In order to serve accurate data and cache it for long periods of time, it means we must be notified when content changes happen which indicate the cache needs to be purged.
+Webhooks are an important part of this project. In order to serve accurate data and cache it for long periods of time, there must be notifications when content changes occur. Luckily, sanity has excellent support for [webhooks](https://www.sanity.io/docs/webhooks).
 
-Luckily, sanity has excellent support for [webhooks](https://www.sanity.io/docs/webhooks).
+Webhook(s) are utilized as the change detection mechanism. Our current cache strategy is based around using the `surrogate-key` header with the value of the `slug` for that content item.
 
-[Slugs](https://www.sanity.io/docs/slug-type) are an important part of our caching strategy. Sanity defines them as
+[Slugs](https://www.sanity.io/docs/slug-type) are an important part of our caching strategy. Sanity defines them as:
 
 > A slug is a unique string (typically a normalized version of title or other representative string), often used as part of a URL. The input form will render an error message if the current slug field is not unique (see note on uniqueness below).
 

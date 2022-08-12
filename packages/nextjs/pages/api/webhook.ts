@@ -18,6 +18,7 @@ const secret = process.env.SANITY_WEBHOOK_SECRET ?? "";
  */
 interface WebhookPayload {
   _id: string;
+  _type: string;
   slug: string;
 }
 
