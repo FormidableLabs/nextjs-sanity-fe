@@ -49,8 +49,8 @@ The site is deployed to [Vercel](https://nextjs-sanity-fe.vercel.app/) built out
 
 ## Sanity Studio
 
-Sanity Studio is a web interface for Sanity. It is used for creating and editing the data on the site. The models for Sanity are created in code and tracked in source control. The models can be found at `packages/sanity/schemas`. Sanity studio is deployed to Sanity's hosting located [here](https://nextjs-ecom.sanity.studio/). 
-You do need access to Sanity Studio to modify this site.  Please reach out to the Core Tech team to request access (#core-tech-discussion in Slack).
+Sanity Studio is a web interface for Sanity. It is used for creating and editing the data on the site. The models for Sanity are created in code and tracked in source control. The models can be found at `packages/sanity/schemas`. Sanity studio is deployed to Sanity's hosting located [here](https://nextjs-ecom.sanity.studio/).
+You do need access to Sanity Studio to modify this site. Please reach out to the Core Tech team to request access (#core-tech-discussion in Slack).
 
 ### Sanity Studio + pnpm gotchas
 
@@ -90,14 +90,15 @@ https://docs.fastly.com/en/guides/working-with-surrogate-keys
 Purging api reference:
 https://developer.fastly.com/reference/api/purging/
 
+![Diagram](https://user-images.githubusercontent.com/3632381/184446063-f579cbcc-1546-4bb2-a1fc-8a3d003559ec.png)
+
 todo
 
 - [x] add category specific surrogate key
 - [x] add product specific surrogate key
-- [ ] add webhook configuration to sanity
-- [ ] create webhook api key and store in 1pass / GH
-- [ ] add webhook api key as an environment variables
-- [ ] add webhook listener to project which will purge when cached content is updated
+- [x] add webhook configuration to sanity
+- [x] add webhook secret as an environment variable
+- [x] add webhook listener to project which will purge when cached content is updated
 - [ ] update Fastly domain to use custom domain (`https://nextjs-sanity.formidable.dev`)
 
 ### Important headers
