@@ -53,9 +53,9 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
     console.log("parsed body: ");
     console.log(parsedBody);
 
-    const { slug } = parsedBody;
+    const { slug, _type } = parsedBody;
 
-    await requestPurge([slug]);
+    await requestPurge([slug, _type]);
 
     res.status(200).json({
       message: "Webhook processed successfully",
@@ -76,6 +76,7 @@ export const config = {
 };
 
 async function requestPurge(keys: string[]): Promise<boolean> {
+  console.log(`initiating cache purge for ${keys.join}`);
   const response = await fetch(`https://api.fastly.com/service/${fastlyServiceId}/purge`, {
     method: "POST",
     headers: {
