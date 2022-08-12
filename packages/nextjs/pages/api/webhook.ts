@@ -76,7 +76,7 @@ export const config = {
 };
 
 async function requestPurge(keys: string[]): Promise<boolean> {
-  console.log(`initiating cache purge for ${keys.join}`);
+  console.log(`initiating cache purge for ${keys.join()}`);
   const response = await fetch(`https://api.fastly.com/service/${fastlyServiceId}/purge`, {
     method: "POST",
     headers: {
