@@ -76,19 +76,20 @@ export const config = {
 };
 
 async function requestPurge(keys: string[]): Promise<boolean> {
-  console.log(`initiating cache purge for ${keys.join()}`);
+  const combinedKeys = keys.join(" ");
+  console.log(`initiating cache purge for ${combinedKeys}`);
   const response = await fetch(`https://api.fastly.com/service/${fastlyServiceId}/purge`, {
     method: "POST",
     headers: {
       "Fastly-Key": fastlyApiKey,
-      "surrogate-key": keys.join(" "),
+      "surrogate-key": combinedKeys,
     },
   });
 
   // 'ok' means an http status in 200 range
   if (response.ok) {
     const data = await response.json();
-    console.log("cache purge succesfully requested", data);
+    console.log("cache purge successfully requested", data);
     return true;
   } else {
     console.log("error occurred when calling the Fastly purge api");
