@@ -44,13 +44,12 @@ export const CartProvider: React.FC<Props> = ({ children }) => {
   const [cartTotal, setCartTotal] = useState(0);
 
   const retrieveCartItems = useCallback(() => {
-    const variantIds: string[] = Object.keys(cart);
+    const cartEntries = Object.entries(cart);
 
-    if (variantIds.length > 0) {
-      const variantIdFilters = variantIds.map((id) => `("${id}" in variants[]->id)`);
+    if (cartEntries.length > 0) {
+      // Fetch all products with a variant with the same ID
+      const variantIdFilters = cartEntries.map(([_, id]) => `("${id}" in variants[]->id)`);
       const groqFilters = variantIdFilters.length ? `&& (${variantIdFilters.join(" || ")})` : "";
-
-      // Get all products with a variant with the same ID
       sanityClient
         .fetch(
           groq`{
@@ -69,8 +68,9 @@ export const CartProvider: React.FC<Props> = ({ children }) => {
         )
         .then((res) => {
           const errorRetrievingIds: string[] = [];
+          let totalQty = 0;
 
-          const formattedItems = variantIds.reduce((acc: CartItem[], variantId) => {
+          const formattedItems = cartEntries.reduce((acc: CartItem[], [variantId, qty]) => {
             // Find first product that includes variant with matching ID
             const productInfo = (res.products as CategoryPageProduct[]).find(({ variants }) => {
               const productVariantIds = variants.map(({ id }) => id);
@@ -78,7 +78,8 @@ export const CartProvider: React.FC<Props> = ({ children }) => {
             });
 
             if (productInfo) {
-              return [...acc, { id: variantId, qty: cart[variantId], item: productInfo }];
+              totalQty += qty;
+              return [...acc, { id: variantId, qty, item: productInfo }];
             }
 
             errorRetrievingIds.push(variantId);
@@ -87,19 +88,19 @@ export const CartProvider: React.FC<Props> = ({ children }) => {
 
           setCartItems(formattedItems);
           setCartItemsErrorIds(errorRetrievingIds.length ? errorRetrievingIds : undefined);
+          setCartTotal(totalQty);
         });
     } else {
       // Skip fetching when cart is empty
       setCartItems([]);
       setCartItemsErrorIds(undefined);
+      setCartTotal(0);
     }
   }, [cart]);
 
   // Retrieve product info and calc total items when cart is updated
   useEffect(() => {
     retrieveCartItems();
-    const totalItemQty = Object.values(cart).reduce((acc, curr) => acc + curr, 0);
-    setCartTotal(totalItemQty);
   }, [cart, retrieveCartItems]);
 
   const updateCartFromApi = useCallback(async () => {
