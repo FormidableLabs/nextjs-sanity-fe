@@ -10,7 +10,7 @@ import { setCachingHeaders } from "utils/setCachingHeaders";
 import { isSlug } from "utils/isSlug";
 import { getOrderingFromQuery } from "utils/getOrderingFromQuery";
 import { getFiltersFromQuery } from "utils/getFiltersFromQuery";
-import { GetFilteredCategoryProducts, useGetFilteredPaginatedQuery } from "utils/generated/graphql";
+import { GetFilteredCategoryProducts, getFilteredPaginatedQuery } from "utils/generated/graphql";
 
 interface Props {
   products: CategoryPageProduct[];
@@ -67,7 +67,7 @@ export const getServerSideProps: GetServerSideProps = async ({ query, ...ctx }) 
   // Pagination data.
   const pagination = getPaginationFromQuery(query);
 
-  const result = await useGetFilteredPaginatedQuery<CategoryPageResult>(
+  const result = await getFilteredPaginatedQuery<CategoryPageResult>(
     GetFilteredCategoryProducts(filters, order),
     {
       slug,

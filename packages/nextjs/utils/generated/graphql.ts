@@ -1315,7 +1315,7 @@ export function GetAllFilteredProducts(filters = "", order = "") {
   }`;
 }
 
-export const useGetFilteredPaginatedQuery = async <T>(query: string, queryOptions: {
+export const getFilteredPaginatedQuery = async <T>(query: string, queryOptions: {
   offsetPage: number;
   limit: number;
   [key: string]: any;

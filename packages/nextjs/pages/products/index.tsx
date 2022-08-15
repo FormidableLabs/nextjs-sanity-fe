@@ -1,6 +1,6 @@
 import { GetServerSideProps, NextPage } from "next";
 
-import { GetAllFilteredProducts, useGetFilteredPaginatedQuery } from "utils/generated/graphql";
+import { GetAllFilteredProducts, getFilteredPaginatedQuery } from "utils/generated/graphql";
 import { ProductSort } from "components/ProductSort";
 import { ProductFilters } from "components/ProductFilters";
 import { Pagination } from "components/Pagination";
@@ -55,7 +55,7 @@ export const getServerSideProps: GetServerSideProps = async ({ query, ...ctx }) 
   // Pagination data.
   const pagination = getPaginationFromQuery(query);
 
-  const result = await useGetFilteredPaginatedQuery<AllProductsPageResult>(
+  const result = await getFilteredPaginatedQuery<AllProductsPageResult>(
     GetAllFilteredProducts(filters, order),
     pagination
   );
