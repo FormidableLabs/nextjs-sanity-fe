@@ -1,11 +1,16 @@
 export interface CategoryPageResult {
   category: CategoryPageCategory;
+}
+
+export interface CategoryPageProductResult {
   products: CategoryPageProduct[];
   productsCount: number;
 }
 
 export interface CategoryPageCategory {
+  description: string;
   name: string;
+  variantFilters: VariantFilter[];
 }
 
 export interface CategoryPageProduct {
@@ -59,4 +64,13 @@ export interface Variant {
   name: string;
   price: number;
   size: string;
+}
+
+export interface VariantFilter {
+  _key: string;
+  _type: string;
+  label: string;
+  type: string;
+  value: string;
+  variantsMap: string;
 }

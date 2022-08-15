@@ -1,10 +1,14 @@
+import type { FilterGroup as FilterGroupType } from "constants/filters";
 import { FilterGroup } from "./FilterGroup";
-import { FILTER_GROUPS } from "../../constants/filters";
 
-export const ProductFilters: React.FC = () => (
+type ProductFilterProps = {
+  filterGroups: FilterGroupType[];
+};
+
+export const ProductFilters: React.FC<ProductFilterProps> = ({ filterGroups }) => (
   <div className="flex flex-col gap-y-4">
     <h2>Filters</h2>
-    {FILTER_GROUPS.map((group) => (
+    {filterGroups.map((group) => (
       <FilterGroup key={group.value} group={group} />
     ))}
   </div>

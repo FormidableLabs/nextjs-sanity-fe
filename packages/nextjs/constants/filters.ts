@@ -10,18 +10,9 @@ export type FilterGroup = {
   options: FilterOption[];
 };
 
-export const FILTER_GROUPS: FilterGroup[] = [
-  {
-    value: "size",
-    label: "Size",
-    options: [
-      { value: "xs", label: "XS", filter: "'XS' in variants[]->size->name" },
-      { value: "sm", label: "SM", filter: "'SM' in variants[]->size->name" },
-      { value: "md", label: "MD", filter: "'MD' in variants[]->size->name" },
-      { value: "lg", label: "LG", filter: "'LG' in variants[]->size->name" },
-      { value: "xl", label: "XL", filter: "'XL' in variants[]->size->name" },
-    ],
-  },
+export const FILTER_SIZE_ORDER = ["XS", "SM", "MD", "LG", "XL"];
+
+export const STATIC_FILTER_GROUPS: FilterGroup[] = [
   {
     value: "promotion",
     label: "Promotion",

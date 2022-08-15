@@ -5,24 +5,31 @@ import { Pagination } from "components/Pagination";
 import { Product } from "components/Product";
 import { ProductFilters } from "components/ProductFilters";
 import { ProductSort } from "components/ProductSort";
-import { FILTER_GROUPS } from "constants/filters";
+import { FilterGroup, STATIC_FILTER_GROUPS } from "constants/filters";
 import { SORT_QUERY_PARAM, SORT_OPTIONS } from "constants/sorting";
+import { getFilterGroupOptionsSort } from "utils/getFilterGroupOptionsSort";
 import { getPaginationOffsets } from "utils/getPaginationOffsets";
-import { CategoryPageCategory, CategoryPageProduct, CategoryPageResult } from "utils/groqTypes";
+import {
+  CategoryPageCategory,
+  CategoryPageProduct,
+  CategoryPageResult,
+  CategoryPageProductResult,
+} from "utils/groqTypes";
+import { isSlug } from "utils/isSlug";
 import { sanityClient } from "utils/sanityClient";
 import { setCachingHeaders } from "utils/setCachingHeaders";
-import { isSlug } from "utils/isSlug";
 
 interface Props {
   products: CategoryPageProduct[];
   category: CategoryPageCategory;
+  filterGroups: FilterGroup[];
   productsCount: number;
   pageSize: number;
   pageCount: number;
   currentPage?: number;
 }
 
-const CategoryPage: NextPage<Props> = ({ category, products, pageCount, currentPage }) => {
+const CategoryPage: NextPage<Props> = ({ category, filterGroups, products, pageCount, currentPage }) => {
   return (
     <div className="h-full mb-4">
       <h1 className="text-2xl font-bold m-4">{category.name}</h1>
@@ -30,7 +37,7 @@ const CategoryPage: NextPage<Props> = ({ category, products, pageCount, currentP
         <div className="min-w-[200px]">
           <ProductSort />
           <hr className="slate-700 my-4" />
-          <ProductFilters />
+          <ProductFilters filterGroups={filterGroups} />
         </div>
         <div className="flex flex-auto flex-col">
           <div className="flex-1 flex flex-wrap">
@@ -61,6 +68,18 @@ export const getServerSideProps: GetServerSideProps = async (ctx) => {
     setCachingHeaders(res, [slug]);
   }
 
+  // Pagination
+  const queryPage = Math.abs((ctx.query.page as unknown as number) ?? 0);
+  // Products per page.
+  const pageSize = Math.abs(process.env.NEXT_PUBLIC_PAGINATION_PAGE_SIZE);
+
+  const offsets = getPaginationOffsets(queryPage);
+
+  const queryOptions = {
+    slug,
+    ...offsets,
+  };
+
   // Sort/ordering
   let ordering = "| order(_createdAt)";
   if (sortValue) {
@@ -73,8 +92,66 @@ export const getServerSideProps: GetServerSideProps = async (ctx) => {
     }
   }
 
+  // Get category page data
+  const categoryPageResult: CategoryPageResult = await sanityClient.fetch(
+    groq`{
+      'category': *[_type == "category" && slug.current == $slug][0] {
+        name,
+        description,
+        variantFilters,
+      },
+    }`,
+    queryOptions
+  );
+  const { category } = categoryPageResult;
+
+  // Generate dynamic filter groups
+
+  const { variantFilters } = category;
+
+  const fetchRequests = variantFilters.map(({ variantsMap }) =>
+    sanityClient.fetch(
+      groq`{
+        'allProductVariants': *[_type == "product" && $slug in categories[]->slug.current] {
+          'variants': variants[]->${variantsMap}
+        },
+      }`,
+      queryOptions
+    )
+  );
+
+  const variantFiltersWithResponses = (await Promise.all(fetchRequests)).map((response, index) => {
+    const { value, label, type, variantsMap } = variantFilters[index];
+    const result = response.allProductVariants as { variants: string[] }[];
+    return { value, label, type, variantsMap, result };
+  });
+
+  // Generate dynamic filter groups
+  const dynamicFilterGroups = variantFiltersWithResponses.map(({ value, label, type, variantsMap, result }) => {
+    const options = result
+      .map(({ variants }) => variants)
+      .reduce((acc, curr) => {
+        const newAcc = [...acc];
+        curr.forEach((variant) => {
+          if (!newAcc.includes(variant)) {
+            newAcc.push(variant);
+          }
+        });
+        return newAcc;
+      }, [])
+      .sort(getFilterGroupOptionsSort(type))
+      .map((value) => ({
+        value,
+        label: value,
+        filter: `'${value}' in variants[]->${variantsMap}`,
+      }));
+    return { value, label, options };
+  });
+
+  const filterGroups = [...dynamicFilterGroups, ...STATIC_FILTER_GROUPS];
+
   // Filters
-  const filterGroups = FILTER_GROUPS.reduce((acc: string[][], { value: groupValue, options }) => {
+  const activeFilterGroups = filterGroups.reduce((acc: string[][], { value: groupValue, options }) => {
     const queryValue = ctx.query[groupValue];
     if (!queryValue) {
       // No filter query param
@@ -103,7 +180,7 @@ export const getServerSideProps: GetServerSideProps = async (ctx) => {
    * Creates OR statements for filters of each group
    * e.g. if MD and XL filters are active, filter would check for (MD || XL)
    *  */
-  const constructedGroups = filterGroups.reduce((acc: string[], currGroup: string[]) => {
+  const constructedGroups = activeFilterGroups.reduce((acc: string[], currGroup: string[]) => {
     if (currGroup.length) {
       const joinedStr = currGroup.map((filter) => `(${filter})`).join(" || ");
       const constructedGroup = currGroup.length > 1 ? `(${joinedStr})` : joinedStr;
@@ -118,19 +195,7 @@ export const getServerSideProps: GetServerSideProps = async (ctx) => {
    *  */
   const constructedFilters = constructedGroups.length ? `&& (${constructedGroups.join(" && ")})` : "";
 
-  // Pagination
-  const queryPage = Math.abs((ctx.query.page as unknown as number) ?? 0);
-  // Products per page.
-  const pageSize = Math.abs(process.env.NEXT_PUBLIC_PAGINATION_PAGE_SIZE);
-
-  const offsets = getPaginationOffsets(queryPage);
-
-  const queryOptions = {
-    slug,
-    ...offsets,
-  };
-
-  const result: CategoryPageResult = await sanityClient.fetch(
+  const productResult: CategoryPageProductResult = await sanityClient.fetch(
     groq`{
       'products': *[_type == "product" && $slug in categories[]->slug.current ${constructedFilters}] {
         ...,
@@ -144,18 +209,17 @@ export const getServerSideProps: GetServerSideProps = async (ctx) => {
         }
       } ${ordering} [$offsetPage...$limit],
       'productsCount': count(*[_type == "product" && $slug in categories[]->slug.current ${constructedFilters}]),
-      'category': *[_type == "category" && slug.current == $slug][0] {
-        name
-      }
     }`,
     queryOptions
   );
 
-  const { category, products, productsCount } = result;
+  const { products, productsCount } = productResult;
   const pageCount = Math.ceil(productsCount / pageSize);
   const currentPage = queryPage > 0 ? queryPage : 1;
 
   /**
+   * Handles redirect for pagination and filter conflicts
+   *
    * Scenario: If user is on the third page and then enables
    * a filter that only returns two pages worth of products,
    * redirect them to the last page/pageCount
@@ -173,6 +237,7 @@ export const getServerSideProps: GetServerSideProps = async (ctx) => {
   return {
     props: {
       category,
+      filterGroups,
       products,
       productsCount,
       pageCount,

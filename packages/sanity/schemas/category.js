@@ -38,6 +38,59 @@ export default {
         },
       ],
     },
+    {
+      name: "variantFilters",
+      title: "Variant Filters",
+      type: "array",
+      of: [
+        {
+          name: "filterGroup",
+          title: "Filter Group",
+          type: "object",
+          initialValue: {
+            type: "natural",
+          },
+          fields: [
+            {
+              name: "value",
+              title: "Value",
+              type: "string",
+              description: "Equal to query param",
+              validation: (Rule) => Rule.regex(/[a-zA-Z]/g, { name: "camelCase" }),
+            },
+            {
+              name: "label",
+              title: "Label",
+              type: "string",
+            },
+            {
+              title: "variants[] Map",
+              name: "variantsMap",
+              type: "string",
+              description:
+                'Should map "variants[]" to array of values (i.e. "size->name" yields the filter "\'{value}\' in variants[]->size->name"',
+            },
+            {
+              title: "Type",
+              name: "type",
+              type: "string",
+              description: "Handles filter sorting",
+              options: {
+                list: [
+                  { title: "Natural (alphanumerical)", value: "natural" },
+                  { title: "Sizes (XS, SM, etc.)", value: "sizes" },
+                ],
+              },
+            },
+          ],
+        },
+      ],
+      preview: {
+        select: {
+          title: "label",
+        },
+      },
+    },
   ],
   preview: {
     select: {
