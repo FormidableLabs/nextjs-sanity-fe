@@ -27,7 +27,7 @@ const CategoryPage: NextPage<Props> = ({ category, products, pageCount, currentP
     <div className="h-full mb-4">
       <h1 className="text-2xl font-bold m-4">{category.name}</h1>
       <div className="flex px-4 h-full">
-        <div className="min-w-[350px]">
+        <div className="min-w-[200px]">
           <ProductSort />
           <hr className="slate-700 my-4" />
           <ProductFilters />
