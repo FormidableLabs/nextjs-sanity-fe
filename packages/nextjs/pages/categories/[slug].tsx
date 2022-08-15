@@ -7,11 +7,14 @@ import { ProductFilters } from "components/ProductFilters";
 import { ProductSort } from "components/ProductSort";
 import { FILTER_GROUPS } from "constants/filters";
 import { SORT_QUERY_PARAM, SORT_OPTIONS } from "constants/sorting";
-import { getPaginationOffsets } from "utils/getPaginationOffsets";
+import { getPaginationFromQuery, getPaginationOffsets } from "utils/getPaginationFromQuery";
 import { CategoryPageCategory, CategoryPageProduct, CategoryPageResult } from "utils/groqTypes";
 import { sanityClient } from "utils/sanityClient";
 import { setCachingHeaders } from "utils/setCachingHeaders";
 import { isSlug } from "utils/isSlug";
+import { getOrderingFromQuery } from "utils/getOrderingFromQuery";
+import { getFiltersFromQuery } from "utils/getFiltersFromQuery";
+import { GetFilteredCategoryProducts, useGetFilteredPaginatedQuery } from "utils/generated/graphql";
 
 interface Props {
   products: CategoryPageProduct[];
@@ -27,7 +30,7 @@ const CategoryPage: NextPage<Props> = ({ category, products, pageCount, currentP
     <div className="h-full mb-4">
       <h1 className="text-2xl font-bold m-4">{category.name}</h1>
       <div className="flex px-4 h-full">
-        <div className="min-w-[200px]">
+        <div className="min-w-[350px]">
           <ProductSort />
           <hr className="slate-700 my-4" />
           <ProductFilters />
@@ -53,107 +56,32 @@ const CategoryPage: NextPage<Props> = ({ category, products, pageCount, currentP
 
 export default CategoryPage;
 
-export const getServerSideProps: GetServerSideProps = async (ctx) => {
-  const { slug, [SORT_QUERY_PARAM]: sortValue } = ctx.query;
+export const getServerSideProps: GetServerSideProps = async ({ query, ...ctx }) => {
+  const { slug } = query;
   const { res } = ctx;
 
   if (isSlug(slug)) {
     setCachingHeaders(res, [slug]);
   }
 
-  // Sort/ordering
-  let ordering = "| order(_createdAt)";
-  if (sortValue) {
-    // If sort is string[], use first item
-    // (e.g. User modified url, wouldn't happen normally)
-    const sortType = Array.isArray(sortValue) ? sortValue[0] : sortValue;
-    const sortOption = SORT_OPTIONS[sortType];
-    if (sortOption?.ordering) {
-      ordering = `| order(${sortOption.ordering})`;
+  // Sort/ordering.
+  const order = getOrderingFromQuery(query);
+  // Filters.
+  const filters = getFiltersFromQuery(query);
+  // Pagination data.
+  const pagination = getPaginationFromQuery(query);
+
+  const result = await useGetFilteredPaginatedQuery<CategoryPageResult>(
+    GetFilteredCategoryProducts(filters, order),
+    {
+      slug,
+      ...pagination
     }
-  }
-
-  // Filters
-  const filterGroups = FILTER_GROUPS.reduce((acc: string[][], { value: groupValue, options }) => {
-    const queryValue = ctx.query[groupValue];
-    if (!queryValue) {
-      // No filter query param
-      return acc;
-    }
-
-    const queryValueIsString = typeof queryValue === "string" || queryValue instanceof String;
-    if (queryValueIsString) {
-      const filterOption = options.find(({ value }) => value === queryValue);
-      // Check query value validity
-      if (filterOption) {
-        return [...acc, [filterOption.filter]];
-      }
-    } else {
-      // Check query value validity
-      const validOptions = options.filter(({ value: optionValue }) => queryValue.includes(optionValue));
-      if (validOptions.length) {
-        return [...acc, validOptions.map(({ filter }) => filter)];
-      }
-    }
-
-    return acc;
-  }, []);
-
-  /**
-   * Creates OR statements for filters of each group
-   * e.g. if MD and XL filters are active, filter would check for (MD || XL)
-   *  */
-  const constructedGroups = filterGroups.reduce((acc: string[], currGroup: string[]) => {
-    if (currGroup.length) {
-      const joinedStr = currGroup.map((filter) => `(${filter})`).join(" || ");
-      const constructedGroup = currGroup.length > 1 ? `(${joinedStr})` : joinedStr;
-      return [...acc, constructedGroup];
-    }
-    return acc;
-  }, []);
-
-  /**
-   * Creates AND statement of filter groups
-   * e.g. given (MD || XL) and (on sale), constructed filter would check for ((MD || XL) && (on sale))
-   *  */
-  const constructedFilters = constructedGroups.length ? `&& (${constructedGroups.join(" && ")})` : "";
-
-  // Pagination
-  const queryPage = Math.abs((ctx.query.page as unknown as number) ?? 0);
-  // Products per page.
-  const pageSize = Math.abs(process.env.NEXT_PUBLIC_PAGINATION_PAGE_SIZE);
-
-  const offsets = getPaginationOffsets(queryPage);
-
-  const queryOptions = {
-    slug,
-    ...offsets,
-  };
-
-  const result: CategoryPageResult = await sanityClient.fetch(
-    groq`{
-      'products': *[_type == "product" && $slug in categories[]->slug.current ${constructedFilters}] {
-        ...,
-        'imageAlt': images[0]->name,
-        'images': images[0]->images,
-        'msrp': variants | order(price asc)[0]->msrp,
-        'price': variants | order(price asc)[0]->price,
-        'variants': variants[]->{
-          ...,
-          'size': size->name
-        }
-      } ${ordering} [$offsetPage...$limit],
-      'productsCount': count(*[_type == "product" && $slug in categories[]->slug.current ${constructedFilters}]),
-      'category': *[_type == "category" && slug.current == $slug][0] {
-        name
-      }
-    }`,
-    queryOptions
   );
 
   const { category, products, productsCount } = result;
+  const { currentPage, pageSize } = pagination;
   const pageCount = Math.ceil(productsCount / pageSize);
-  const currentPage = queryPage > 0 ? queryPage : 1;
 
   /**
    * Scenario: If user is on the third page and then enables
