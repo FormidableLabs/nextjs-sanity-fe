@@ -1,22 +1,7 @@
 import { FILTER_GROUPS } from "constants/filters";
-import { SORT_OPTIONS, SORT_QUERY_PARAM } from "constants/sorting";
 import { ParsedUrlQuery } from "querystring";
 
 export const getFiltersFromQuery = (query: ParsedUrlQuery) => {
-    const { [SORT_QUERY_PARAM]: sortValue } = query;
-
-  // Sort/ordering
-  let ordering = "| order(_createdAt)";
-  if (sortValue) {
-    // If sort is string[], use first item
-    // (e.g. User modified url, wouldn't happen normally)
-    const sortType = Array.isArray(sortValue) ? sortValue[0] : sortValue;
-    const sortOption = SORT_OPTIONS[sortType];
-    if (sortOption?.ordering) {
-      ordering = `| order(${sortOption.ordering})`;
-    }
-  }
-
   // Filters
   const filterGroups = FILTER_GROUPS.reduce((acc: string[][], { value: groupValue, options }) => {
     const queryValue = query[groupValue];
