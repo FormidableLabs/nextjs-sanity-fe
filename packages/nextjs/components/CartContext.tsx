@@ -48,7 +48,7 @@ export const CartProvider: React.FC<Props> = ({ children }) => {
 
     if (cartEntries.length > 0) {
       // Fetch all products with a variant with the same ID
-      const variantIdFilters = cartEntries.map(([_, id]) => `("${id}" in variants[]->id)`);
+      const variantIdFilters = cartEntries.map(([id, _]) => `("${id}" in variants[]->id)`);
       const groqFilters = variantIdFilters.length ? `&& (${variantIdFilters.join(" || ")})` : "";
       sanityClient
         .fetch(
