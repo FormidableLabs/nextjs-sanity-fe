@@ -1,11 +1,11 @@
 import { HiMinusSm, HiPlusSm, HiOutlineTrash } from "react-icons/hi";
 import { useCart } from "./CartContext";
 import { Image } from "./Image";
-import { Product } from "utils/groqTypes";
+import { CategoryPageProduct } from "utils/groqTypes";
 
 type CartItemProps = {
   id: string;
-  item: Product;
+  item: CategoryPageProduct;
   qty: number;
 };
 

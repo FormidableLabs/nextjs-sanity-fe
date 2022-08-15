@@ -1,4 +1,14 @@
-export interface Product {
+export interface CategoryPageResult {
+  category: CategoryPageCategory;
+  products: CategoryPageProduct[];
+  productsCount: number;
+}
+
+export interface CategoryPageCategory {
+  name: string;
+}
+
+export interface CategoryPageProduct {
   _createdAt: string;
   _id: string;
   _rev: string;

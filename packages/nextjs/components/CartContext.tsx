@@ -1,12 +1,12 @@
 import { createContext, ReactNode, useCallback, useContext, useEffect, useState } from "react";
 import groq from "groq";
-import { Product } from "utils/groqTypes";
+import { CategoryPageProduct } from "utils/groqTypes";
 import { sanityClient } from "utils/sanityClient";
 
 type CartItem = {
   id: string;
   qty: number;
-  item: Product;
+  item: CategoryPageProduct;
 };
 
 interface CartContextValue {
@@ -72,7 +72,7 @@ export const CartProvider: React.FC<Props> = ({ children }) => {
 
           const formattedItems = variantIds.reduce((acc: CartItem[], variantId) => {
             // Find first product that includes variant with matching ID
-            const productInfo = (res.products as Product[]).find(({ variants }) => {
+            const productInfo = (res.products as CategoryPageProduct[]).find(({ variants }) => {
               const productVariantIds = variants.map(({ id }) => id);
               return productVariantIds.includes(variantId);
             });
