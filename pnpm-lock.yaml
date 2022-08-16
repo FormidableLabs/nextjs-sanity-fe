@@ -31,6 +31,7 @@ importers:
       '@types/cors': ^2.8.12
       '@types/formidable': ^2.0.5
       '@types/jsdom': ^20.0.0
+      '@types/lodash.debounce': ^4.0.7
       '@types/node': 18.0.0
       '@types/react': 18.0.14
       '@types/react-dom': 18.0.5
@@ -40,6 +41,7 @@ importers:
       cookie: ^0.5.0
       cors: ^2.8.5
       dotenv: ^16.0.1
+      downshift: ^6.1.9
       eslint: 8.18.0
       eslint-config-next: 12.1.6
       formidable: v3
@@ -47,6 +49,7 @@ importers:
       graphql-tag: ^2.0.0
       groq: ^2.29.3
       jsdom: ^20.0.0
+      lodash.debounce: ^4.0.8
       mammoth: ^1.4.21
       next: 12.1.6
       next-urql: ^3.3.3
@@ -73,10 +76,12 @@ importers:
       cookie: 0.5.0
       cors: 2.8.5
       dotenv: 16.0.1
+      downshift: 6.1.9_react@18.2.0
       formidable: 3.2.4
       graphql: 16.5.0
       groq: 2.29.3
       jsdom: 20.0.0
+      lodash.debounce: 4.0.8
       mammoth: 1.4.21
       next: 12.1.6_biqbaboplfbrettd7655fr4n2y
       next-urql: 3.3.3_react@18.2.0+urql@2.2.3
@@ -100,6 +105,7 @@ importers:
       '@types/cors': 2.8.12
       '@types/formidable': 2.0.5
       '@types/jsdom': 20.0.0
+      '@types/lodash.debounce': 4.0.7
       '@types/node': 18.0.0
       '@types/react': 18.0.14
       '@types/react-dom': 18.0.5
@@ -4263,9 +4269,14 @@ packages:
       '@types/node': 18.6.1
     dev: true
 
+  /@types/lodash.debounce/4.0.7:
+    resolution: {integrity: sha512-X1T4wMZ+gT000M2/91SYj0d/7JfeNZ9PeeOldSNoE/lunLeQXKvkmIumI29IaKMotU/ln/McOIvgzZcQ/3TrSA==}
+    dependencies:
+      '@types/lodash': 4.14.182
+    dev: true
+
   /@types/lodash/4.14.182:
     resolution: {integrity: sha512-/THyiqyQAP9AfARo4pF+aCGcyiQ94tX/Is2I7HofNRqoYLgN1PBoOWu2/zTA5zMxzP5EFutMtWtGAFRKUe961Q==}
-    dev: false
 
   /@types/memoize-one/3.1.2:
     resolution: {integrity: sha512-A5ydEHaD2xdUbrXlAjF2TifOkYq7TJXU+5t7rLqBGfispKdJJoZnWwPQPyvjh0exxGTTO1ugLB+5jL9P3DQh5w==}
@@ -6947,6 +6958,19 @@ packages:
   /dotenv/8.6.0:
     resolution: {integrity: sha512-IrPdXQsk2BbzvCBGBOTmmSH5SodmqZNt4ERAZDmW4CT+tL8VtvinqywuANaFu4bOMWki16nqf0e4oC0QIaDr/g==}
     engines: {node: '>=10'}
+    dev: false
+
+  /downshift/6.1.9_react@18.2.0:
+    resolution: {integrity: sha512-mzvk61WOX4MEsYHMKCXEVwuz/zM84x/WrCbaCQw71hyNN0fmWXvV673uOQy2idgIA+yqDsjtkV5KPfAFWuQylg==}
+    peerDependencies:
+      react: '>=16.12.0'
+    dependencies:
+      '@babel/runtime': 7.18.9
+      compute-scroll-into-view: 1.0.17
+      prop-types: 15.8.1
+      react: 18.2.0
+      react-is: 17.0.2
+      tslib: 2.4.0
     dev: false
 
   /dset/3.1.2:
@@ -10240,6 +10264,7 @@ packages:
 
   /loose-envify/1.4.0:
     resolution: {integrity: sha512-lyuxPGr/Wfhrlem2CL/UcnUc1zcqKAImBDzukY7Y5F/yQiNdko6+fRLevlw1HgMySw7f611UIY408EtxRSoK3Q==}
+    hasBin: true
     dependencies:
       js-tokens: 4.0.0
 
