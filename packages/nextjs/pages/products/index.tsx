@@ -1,6 +1,6 @@
 import { GetServerSideProps, NextPage } from "next";
 
-import { GetAllFilteredProducts, getFilteredPaginatedQuery } from "utils/generated/graphql";
+import { GetAllFilteredProducts, getFilteredPaginatedQuery } from "utils/getFilteredPaginatedQuery";
 import { ProductSort } from "components/ProductSort";
 import { ProductFilters } from "components/ProductFilters";
 import { Pagination } from "components/Pagination";

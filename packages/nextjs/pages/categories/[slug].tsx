@@ -10,7 +10,7 @@ import { setCachingHeaders } from "utils/setCachingHeaders";
 import { isSlug } from "utils/isSlug";
 import { getOrderingFromQuery } from "utils/getOrderingFromQuery";
 import { getFiltersFromQuery } from "utils/getFiltersFromQuery";
-import { GetFilteredCategoryProducts, getFilteredPaginatedQuery } from "utils/generated/graphql";
+import { GetFilteredCategoryProducts, getFilteredPaginatedQuery } from "utils/getFilteredPaginatedQuery";
 
 interface Props {
   products: CategoryPageProduct[];
