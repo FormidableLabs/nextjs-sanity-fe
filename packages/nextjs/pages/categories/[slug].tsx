@@ -7,7 +7,6 @@ import { ProductFilters } from "components/ProductFilters";
 import { ProductSort } from "components/ProductSort";
 import { FilterGroup, STATIC_FILTER_GROUPS } from "constants/filters";
 import { SORT_QUERY_PARAM, SORT_OPTIONS } from "constants/sorting";
-import { getFilterGroupOptionsSort } from "utils/getFilterGroupOptionsSort";
 import { getPaginationOffsets } from "utils/getPaginationOffsets";
 import {
   CategoryPageCategory,
@@ -15,6 +14,7 @@ import {
   CategoryPageResult,
   CategoryPageProductResult,
 } from "utils/groqTypes";
+import { generateDynamicFilterGroups } from "utils/generateDynamicFilterGroups";
 import { isSlug } from "utils/isSlug";
 import { sanityClient } from "utils/sanityClient";
 import { setCachingHeaders } from "utils/setCachingHeaders";
@@ -98,6 +98,7 @@ export const getServerSideProps: GetServerSideProps = async (ctx) => {
       'category': *[_type == "category" && slug.current == $slug][0] {
         name,
         description,
+        slug,
         variantFilters,
       },
     }`,
@@ -106,48 +107,8 @@ export const getServerSideProps: GetServerSideProps = async (ctx) => {
   const { category } = categoryPageResult;
 
   // Generate dynamic filter groups
-
-  const { variantFilters } = category;
-
-  const fetchRequests = variantFilters.map(({ variantsMap }) =>
-    sanityClient.fetch(
-      groq`{
-        'allProductVariants': *[_type == "product" && $slug in categories[]->slug.current] {
-          'variants': variants[]->${variantsMap}
-        },
-      }`,
-      queryOptions
-    )
-  );
-
-  const variantFiltersWithResponses = (await Promise.all(fetchRequests)).map((response, index) => {
-    const { value, label, type, variantsMap } = variantFilters[index];
-    const result = response.allProductVariants as { variants: string[] }[];
-    return { value, label, type, variantsMap, result };
-  });
-
-  // Generate dynamic filter groups
-  const dynamicFilterGroups = variantFiltersWithResponses.map(({ value, label, type, variantsMap, result }) => {
-    const options = result
-      .map(({ variants }) => variants)
-      .reduce((acc, curr) => {
-        const newAcc = [...acc];
-        curr.forEach((variant) => {
-          if (!newAcc.includes(variant)) {
-            newAcc.push(variant);
-          }
-        });
-        return newAcc;
-      }, [])
-      .sort(getFilterGroupOptionsSort(type))
-      .map((value) => ({
-        value,
-        label: value,
-        filter: `'${value}' in variants[]->${variantsMap}`,
-      }));
-    return { value, label, options };
-  });
-
+  const dynamicFilterGroups = await generateDynamicFilterGroups(category);
+  // Append dynamic and static filter groups
   const filterGroups = [...dynamicFilterGroups, ...STATIC_FILTER_GROUPS];
 
   // Filters

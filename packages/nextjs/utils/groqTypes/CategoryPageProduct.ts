@@ -10,6 +10,7 @@ export interface CategoryPageProductResult {
 export interface CategoryPageCategory {
   description: string;
   name: string;
+  slug: Slug;
   variantFilters: VariantFilter[];
 }
 
