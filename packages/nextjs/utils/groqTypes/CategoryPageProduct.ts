@@ -2,6 +2,10 @@ export interface CategoryPageResult {
   category: CategoryPageCategory;
 }
 
+export interface CategoryPageAllProductVariantsResult {
+  products: { variants: string[] }[];
+}
+
 export interface CategoryPageProductResult {
   products: CategoryPageProduct[];
   productsCount: number;

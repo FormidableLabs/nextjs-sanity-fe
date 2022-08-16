@@ -1,5 +1,6 @@
+import type { CategoryPageCategory, CategoryPageAllProductVariantsResult } from "./groqTypes";
+
 import groq from "groq";
-import type { CategoryPageCategory } from "./groqTypes";
 import { getFilterGroupOptionsSort } from "./getFilterGroupOptionsSort";
 import { sanityClient } from "./sanityClient";
 
@@ -10,10 +11,11 @@ export const generateDynamicFilterGroups = async (category: CategoryPageCategory
     slug: slug.current,
   };
 
+  // Create array of product variant fetch requests for each variantFilter in CMS
   const fetchRequests = variantFilters.map(({ variantsMap }) =>
     sanityClient.fetch(
       groq`{
-      'allProductVariants': *[_type == "product" && $slug in categories[]->slug.current] {
+      'products': *[_type == "product" && $slug in categories[]->slug.current] {
         'variants': variants[]->${variantsMap}
       },
     }`,
@@ -21,9 +23,11 @@ export const generateDynamicFilterGroups = async (category: CategoryPageCategory
     )
   );
 
-  const variantFiltersWithResponses = (await Promise.all(fetchRequests)).map((response, index) => {
+  const fetchResponses: CategoryPageAllProductVariantsResult[] = await Promise.all(fetchRequests);
+
+  const variantFiltersWithResponses = fetchResponses.map((response, index) => {
     const { value, label, type, variantsMap } = variantFilters[index];
-    const result = response.allProductVariants as { variants: string[] }[];
+    const result = response.products;
     return { value, label, type, variantsMap, result };
   });
 

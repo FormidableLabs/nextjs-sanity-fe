@@ -111,7 +111,7 @@ export const getServerSideProps: GetServerSideProps = async (ctx) => {
   // Append dynamic and static filter groups
   const filterGroups = [...dynamicFilterGroups, ...STATIC_FILTER_GROUPS];
 
-  // Filters
+  // Loop through filter groups to find ones active query params
   const activeFilterGroups = filterGroups.reduce((acc: string[][], { value: groupValue, options }) => {
     const queryValue = ctx.query[groupValue];
     if (!queryValue) {
