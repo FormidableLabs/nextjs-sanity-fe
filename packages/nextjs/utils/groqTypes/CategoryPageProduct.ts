@@ -11,6 +11,11 @@ export interface CategoryPageProductResult {
   productsCount: number;
 }
 
+export interface AllProductsPageResult {
+  products: CategoryPageProduct[];
+  productsCount: number;
+}
+
 export interface CategoryPageCategory {
   description: string;
   name: string;
