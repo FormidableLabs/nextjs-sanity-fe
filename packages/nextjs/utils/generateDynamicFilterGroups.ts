@@ -37,7 +37,7 @@ export const generateDynamicFilterGroups = async (category: CategoryPageCategory
       .reduce((acc, curr) => {
         const newAcc = [...acc];
         curr.forEach((variant) => {
-          if (!newAcc.includes(variant)) {
+          if (variant && !newAcc.includes(variant)) {
             newAcc.push(variant);
           }
         });
