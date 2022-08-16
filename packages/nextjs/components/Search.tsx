@@ -23,17 +23,26 @@ const SEARCH_QUERY = groq`*[_type == 'product']
 export const Search: React.FC = () => {
   const [products, setProducts] = useState<ProductSearch[]>([]);
   const [inputValue, setInputValue] = useState("");
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState(false);
 
   // eslint-disable-next-line react-hooks/exhaustive-deps
   const performSearch = useCallback(
     debounce(async (searchTerm?: string) => {
       if (searchTerm) {
-        const response = await sanityClient.fetch(SEARCH_QUERY, {
-          query: searchTerm.trim(),
-        });
+        setError(false);
+        try {
+          const response = await sanityClient.fetch(SEARCH_QUERY, {
+            query: searchTerm.trim(),
+          });
 
-        console.log(response);
-        setProducts(response);
+          setProducts(response);
+        } catch (error) {
+          setProducts([]);
+          setError(true);
+        } finally {
+          setLoading(false);
+        }
       } else {
         setProducts([]);
       }
@@ -42,6 +51,7 @@ export const Search: React.FC = () => {
   );
 
   useEffect(() => {
+    setLoading(true);
     performSearch(inputValue);
   }, [inputValue, performSearch]);
 
@@ -82,7 +92,7 @@ export const Search: React.FC = () => {
         })}
         className={`absolute bg-white w-72 mt-2 border rounded z-10 p-5 ${!isOpen ? "hidden" : ""}`}
       >
-        {isOpen &&
+        {isOpen && products.length ? (
           products.map((product) => (
             <li key={product._id} className="border-b last:border-b-0 py-2 last:pb-0 first:pt-0">
               <Link href={`/products/${product.slug.current}`}>
@@ -92,7 +102,10 @@ export const Search: React.FC = () => {
                 </a>
               </Link>
             </li>
-          ))}
+          ))
+        ) : (
+          <li>{loading ? "Loading..." : error ? "Oops! Something went wrong!" : "No Products Found"}</li>
+        )}
       </ul>
     </div>
   );
