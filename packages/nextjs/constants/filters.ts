@@ -20,6 +20,9 @@ export const FILTER_GROUPS: FilterGroup[] = [
       { value: "md", label: "MD", filter: "'MD' in variants[]->size->name" },
       { value: "lg", label: "LG", filter: "'LG' in variants[]->size->name" },
       { value: "xl", label: "XL", filter: "'XL' in variants[]->size->name" },
+      { value: "8", label: "8", filter: "'8' in variants[]->size->name" },
+      { value: "10", label: "10", filter: "'10' in variants[]->size->name" },
+      { value: "11", label: "11", filter: "'11' in variants[]->size->name" },
     ],
   },
   {

@@ -1,30 +1,27 @@
-import type { GetServerSideProps, NextPage } from "next";
+import { GetServerSideProps, NextPage } from "next";
 
+import { GetAllFilteredProducts, getFilteredPaginatedQuery } from "utils/getFilteredPaginatedQuery";
+import { ProductSort } from "components/ProductSort";
+import { ProductFilters } from "components/ProductFilters";
 import { Pagination } from "components/Pagination";
 import { Product } from "components/Product";
-import { ProductFilters } from "components/ProductFilters";
-import { ProductSort } from "components/ProductSort";
 import { getPaginationFromQuery } from "utils/getPaginationFromQuery";
-import { CategoryPageCategory, CategoryPageProduct, CategoryPageResult } from "utils/groqTypes";
-import { setCachingHeaders } from "utils/setCachingHeaders";
-import { isSlug } from "utils/isSlug";
-import { getOrderingFromQuery } from "utils/getOrderingFromQuery";
+import { AllProductsPageResult, CategoryPageProduct } from "utils/groqTypes";
 import { getFiltersFromQuery } from "utils/getFiltersFromQuery";
-import { GetFilteredCategoryProducts, getFilteredPaginatedQuery } from "utils/getFilteredPaginatedQuery";
+import { getOrderingFromQuery } from "utils/getOrderingFromQuery";
 
-interface Props {
+interface ProductsPageProps {
   products: CategoryPageProduct[];
-  category: CategoryPageCategory;
   productsCount: number;
   pageSize: number;
   pageCount: number;
   currentPage?: number;
 }
 
-const CategoryPage: NextPage<Props> = ({ category, products, pageCount, currentPage }) => {
+const ProductsPage: NextPage<ProductsPageProps> = ({ products, pageCount, currentPage }) => {
   return (
     <div className="h-full mb-4">
-      <h1 className="text-2xl font-bold m-4">{category.name}</h1>
+      <h1 className="text-2xl font-bold m-4">All products</h1>
       <div className="flex px-4 h-full">
         <div className="min-w-[350px]">
           <ProductSort />
@@ -33,7 +30,7 @@ const CategoryPage: NextPage<Props> = ({ category, products, pageCount, currentP
         </div>
         <div className="flex flex-auto flex-col">
           <div className="flex-1 flex flex-wrap">
-            {products.length ? (
+            {products && products.length ? (
               products.map((product) => <Product key={product._id} item={product} />)
             ) : (
               <div className="flex-1 flex flex-col justify-center items-center">
@@ -50,16 +47,7 @@ const CategoryPage: NextPage<Props> = ({ category, products, pageCount, currentP
   );
 };
 
-export default CategoryPage;
-
 export const getServerSideProps: GetServerSideProps = async ({ query, ...ctx }) => {
-  const { slug } = query;
-  const { res } = ctx;
-
-  if (isSlug(slug)) {
-    setCachingHeaders(res, [slug]);
-  }
-
   // Sort/ordering.
   const order = getOrderingFromQuery(query);
   // Filters.
@@ -67,16 +55,14 @@ export const getServerSideProps: GetServerSideProps = async ({ query, ...ctx }) 
   // Pagination data.
   const pagination = getPaginationFromQuery(query);
 
-  const result = await getFilteredPaginatedQuery<CategoryPageResult>(
-    GetFilteredCategoryProducts(filters, order),
-    {
-      slug,
-      ...pagination
-    }
+  const result = await getFilteredPaginatedQuery<AllProductsPageResult>(
+    GetAllFilteredProducts(filters, order),
+    pagination
   );
 
-  const { category, products, productsCount } = result;
+  const { products, productsCount } = result;
   const { currentPage, pageSize } = pagination;
+
   const pageCount = Math.ceil(productsCount / pageSize);
 
   /**
@@ -96,7 +82,6 @@ export const getServerSideProps: GetServerSideProps = async ({ query, ...ctx }) 
 
   return {
     props: {
-      category,
       products,
       productsCount,
       pageCount,
@@ -105,3 +90,5 @@ export const getServerSideProps: GetServerSideProps = async ({ query, ...ctx }) 
     },
   };
 };
+
+export default ProductsPage;
