@@ -6,6 +6,9 @@ import { Product } from "components/Product";
 import { ProductFilters } from "components/ProductFilters";
 import { ProductSort } from "components/ProductSort";
 import { FilterGroup } from "constants/filters";
+import { getCategoryFilterGroups } from "utils/getCategoryFilterGroups";
+import { getFiltersFromQuery } from "utils/getFiltersFromQuery";
+import { getOrderingFromQuery } from "utils/getOrderingFromQuery";
 import { getPaginationFromQuery } from "utils/getPaginationFromQuery";
 import {
   CategoryPageCategory,
@@ -16,9 +19,7 @@ import {
 import { isSlug } from "utils/isSlug";
 import { sanityClient } from "utils/sanityClient";
 import { setCachingHeaders } from "utils/setCachingHeaders";
-import { getOrderingFromQuery } from "utils/getOrderingFromQuery";
-import { getCategoryFilterGroups } from "utils/getCategoryFilterGroups";
-import { getFiltersFromQuery } from "utils/getFiltersFromQuery";
+
 import { GetFilteredCategoryProducts, getFilteredPaginatedQuery } from "utils/getFilteredPaginatedQuery";
 
 interface Props {

@@ -1,5 +1,4 @@
-import type { ParsedUrlQuery } from "querystring";
-
+import { ParsedUrlQuery } from "querystring";
 import { FilterGroup } from "constants/filters";
 
 export const getFiltersFromQuery = async (query: ParsedUrlQuery, filterGroups: FilterGroup[]) => {
