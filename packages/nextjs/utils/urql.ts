@@ -3,11 +3,6 @@ import { cacheExchange, dedupExchange, fetchExchange, ssrExchange } from "urql";
 
 export const urqlOptions = {
   url: process.env.NEXT_PUBLIC_SANITY_GRAPHQL_URL,
-  fetchOptions: () => ({
-    headers: {
-      authorization: `Bearer ${process.env.NEXT_PUBLIC_SANITY_READ_TOKEN}`,
-    },
-  }),
 };
 
 // https://formidable.com/open-source/urql/docs/advanced/server-side-rendering/
