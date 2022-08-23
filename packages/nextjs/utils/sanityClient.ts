@@ -9,7 +9,6 @@ const sanityOptions = {
 export const sanityClient = client({
   ...sanityOptions,
   projectId: process.env.NEXT_PUBLIC_SANITY_PROJECT_ID,
-  token: process.env.NEXT_PUBLIC_SANITY_READ_TOKEN,
   useCdn: true,
 });
 
