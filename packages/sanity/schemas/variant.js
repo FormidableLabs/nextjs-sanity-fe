@@ -1,4 +1,26 @@
 import { GrMultiple } from "react-icons/gr";
+import groq from "groq";
+import client from "part:@sanity/base/client";
+
+const isUniqueId = (value, context) => {
+  const { document } = context;
+
+  const id = document._id.replace(/^drafts\./, "");
+
+  const params = {
+    draft: `drafts.${id}`,
+    published: id,
+    id: value,
+  };
+
+  const query = groq`!defined(*[
+    _type == 'variant' &&
+    !(_id in [$draft, $published]) &&
+    id == $id
+  ][0]._id)`;
+
+  return client.fetch(query, params);
+};
 
 export default {
   name: "variant",
@@ -22,7 +44,13 @@ export default {
       name: "id",
       title: "ID",
       type: "string",
-      validation: (rule) => rule.required(),
+      validation: (rule) =>
+        rule.custom(async (value, context) => {
+          if (!value) return "ID is required";
+          const isUnique = await isUniqueId(value, context);
+          if (!isUnique) return "ID is not unique";
+          return true;
+        }),
     },
     {
       name: "msrp",
