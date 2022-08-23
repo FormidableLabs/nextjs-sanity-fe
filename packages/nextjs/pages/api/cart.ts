@@ -1,21 +1,5 @@
-import { serialize } from "cookie";
 import { NextApiRequest, NextApiResponse } from "next";
-
-const CART_COOKIE_NAME = process.env.NEXT_PUBLIC_CART_COOKIE_NAME;
-
-function getCookie(cookies: NextApiRequest["cookies"]) {
-  return cookies[CART_COOKIE_NAME] ? JSON.parse(cookies[CART_COOKIE_NAME]) : {};
-}
-
-function setCookie(res: NextApiResponse, cookie: Record<string, number>) {
-  res.setHeader(
-    "Set-Cookie",
-    serialize(CART_COOKIE_NAME, JSON.stringify(cookie), {
-      expires: new Date(Date.now() + 1000 * 60 * 60 * 24 * 7),
-      path: "/",
-    })
-  );
-}
+import { getCookie, setCookie } from "utils/apiHelpers/cartCookie";
 
 function getCart(req: NextApiRequest, res: NextApiResponse) {
   const cookie = getCookie(req.cookies);
@@ -26,34 +10,21 @@ function getCart(req: NextApiRequest, res: NextApiResponse) {
 }
 
 function addToCart(req: NextApiRequest, res: NextApiResponse) {
-  const cartItems: Record<string, number> = req.body;
+  const cartItem: Record<string, number> = req.body;
   const cookie: Record<string, number> = getCookie(req.cookies);
 
-  // Merge new cart items into the existing cart cookie
-  const newCookie: Record<string, number> = Object.entries(cartItems).reduce((acc, [key, value]) => {
-    if (cookie.hasOwnProperty(key)) {
-      return {
-        ...acc,
-        [key]: acc[key] + value,
-      };
-    }
+  const newCart = { ...cookie };
+  // Removes empty qty
+  if (newCart.hasOwnProperty(cartItem.id) && cartItem.quantity === 0) {
+    delete newCart[cartItem.id];
+  } else {
+    // Updates the cart with qty from FE
+    newCart[cartItem.id] = cartItem.quantity;
+  }
 
-    return {
-      ...acc,
-      [key]: value,
-    };
-  }, cookie);
+  setCookie(res, newCart);
 
-  // Remove all empty qtys from the cookie
-  Object.entries(newCookie).forEach(([key, value]) => {
-    if (value === 0) {
-      delete newCookie[key];
-    }
-  });
-
-  setCookie(res, newCookie);
-
-  res.status(200).send(newCookie);
+  res.status(200).send(newCart);
 }
 
 function clearCart(_: NextApiRequest, res: NextApiResponse<any>) {
