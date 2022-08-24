@@ -1,0 +1,44 @@
+query getProductsAndCategories {
+  allCategory(limit: 3, sort: { _updatedAt: ASC }) {
+    _id
+    name
+    slug {
+      current
+    }
+    images {
+      images {
+        asset {
+          url
+        }
+      }
+      name
+    }
+  }
+  allProduct(limit: 3, sort: { _updatedAt: ASC }) {
+    _id
+    name
+    slug {
+      current
+    }
+    variants {
+      images {
+        name
+        images {
+          asset {
+            url
+          }
+        }
+      }
+    }
+  }
+  allProductImage(limit: 5, sort: { _updatedAt: ASC }) {
+    _id
+    name
+    images {
+      asset {
+        _id
+        url
+      }
+    }
+  }
+}

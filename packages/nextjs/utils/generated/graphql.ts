@@ -1113,6 +1113,11 @@ export type GetProductQueryVariables = Exact<{
 
 export type GetProductQuery = { __typename?: 'RootQuery', allProduct: Array<{ __typename?: 'Product', _id?: string | null, name?: string | null, categories?: Array<{ __typename?: 'Category', name?: string | null } | null> | null, slug?: { __typename?: 'Slug', current?: string | null } | null, images?: Array<{ __typename?: 'ProductImage', name?: string | null, images?: { __typename?: 'Image', asset?: { __typename?: 'SanityImageAsset', _id?: string | null } | null } | null } | null> | null, variants?: Array<{ __typename?: 'Variant', id?: string | null, name?: string | null, descriptionRaw?: any | null, msrp?: number | null, price?: number | null, size?: { __typename?: 'Size', name?: string | null } | null } | null> | null }> };
 
+export type GetProductsAndCategoriesQueryVariables = Exact<{ [key: string]: never; }>;
+
+
+export type GetProductsAndCategoriesQuery = { __typename?: 'RootQuery', allCategory: Array<{ __typename?: 'Category', _id?: string | null, name?: string | null, slug?: { __typename?: 'Slug', current?: string | null } | null, images?: Array<{ __typename?: 'CategoryImage', name?: string | null, images?: { __typename?: 'Image', asset?: { __typename?: 'SanityImageAsset', url?: string | null } | null } | null } | null> | null }>, allProduct: Array<{ __typename?: 'Product', _id?: string | null, name?: string | null, slug?: { __typename?: 'Slug', current?: string | null } | null, variants?: Array<{ __typename?: 'Variant', images?: Array<{ __typename?: 'ProductImage', name?: string | null, images?: { __typename?: 'Image', asset?: { __typename?: 'SanityImageAsset', url?: string | null } | null } | null } | null> | null } | null> | null }>, allProductImage: Array<{ __typename?: 'ProductImage', _id?: string | null, name?: string | null, images?: { __typename?: 'Image', asset?: { __typename?: 'SanityImageAsset', _id?: string | null, url?: string | null } | null } | null }> };
+
 export type GetProductsQueryVariables = Exact<{ [key: string]: never; }>;
 
 
@@ -1226,6 +1231,56 @@ export const GetProductDocument = gql`
 
 export function useGetProductQuery(options: Omit<Urql.UseQueryArgs<GetProductQueryVariables>, 'query'>) {
   return Urql.useQuery<GetProductQuery>({ query: GetProductDocument, ...options });
+};
+export const GetProductsAndCategoriesDocument = gql`
+    query getProductsAndCategories {
+  allCategory(limit: 3, sort: {_updatedAt: ASC}) {
+    _id
+    name
+    slug {
+      current
+    }
+    images {
+      images {
+        asset {
+          url
+        }
+      }
+      name
+    }
+  }
+  allProduct(limit: 3, sort: {_updatedAt: ASC}) {
+    _id
+    name
+    slug {
+      current
+    }
+    variants {
+      images {
+        name
+        images {
+          asset {
+            url
+          }
+        }
+      }
+    }
+  }
+  allProductImage(limit: 5, sort: {_updatedAt: ASC}) {
+    _id
+    name
+    images {
+      asset {
+        _id
+        url
+      }
+    }
+  }
+}
+    `;
+
+export function useGetProductsAndCategoriesQuery(options?: Omit<Urql.UseQueryArgs<GetProductsAndCategoriesQueryVariables>, 'query'>) {
+  return Urql.useQuery<GetProductsAndCategoriesQuery>({ query: GetProductsAndCategoriesDocument, ...options });
 };
 export const GetProductsDocument = gql`
     query getProducts {
