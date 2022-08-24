@@ -12,7 +12,7 @@ interface Props {
 const BUTTON_CLASS = "block px-6 py-2 border-solid border-2 border-slate-500 rounded";
 
 const CartPage: NextPage<Props> = () => {
-  const { cartItems, cartItemsErrorIds, retrieveCartItems, clearCart } = useCart();
+  const { cartItems, cartItemsErrorIds, updateCartFromApi, clearCart } = useCart();
 
   return (
     <div className="h-full mb-4">
@@ -20,7 +20,7 @@ const CartPage: NextPage<Props> = () => {
       {cartItemsErrorIds ? (
         <div>
           <p>Error retrieving cart items: {cartItemsErrorIds.join(", ")}</p>
-          <button type="button" onClick={retrieveCartItems} className={`${BUTTON_CLASS}`}>
+          <button type="button" onClick={updateCartFromApi} className={`${BUTTON_CLASS}`}>
             Retry
           </button>
         </div>

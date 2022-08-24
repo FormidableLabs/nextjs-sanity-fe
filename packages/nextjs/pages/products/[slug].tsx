@@ -20,7 +20,7 @@ const ProductPage: NextPage = () => {
       slug: query.slug as string,
     },
   });
-  const { updateCart } = useCart();
+  const { updateCart, cartItems } = useCart();
 
   const product = data?.allProduct[0];
   const [selectedVariant, setSelectedVariant] = useState<Maybe<ProductVariant> | undefined>();
@@ -40,7 +40,11 @@ const ProductPage: NextPage = () => {
 
   const addToCart = () => {
     if (selectedVariant?.id) {
-      updateCart(selectedVariant?.id, parseInt(qty));
+      // If the item is already in the cart allow user to click add to cart multiple times
+      const existingCartItem = cartItems.find((item) => item.id === selectedVariant.id);
+      const quantity = parseInt(qty, 10);
+
+      updateCart(selectedVariant?.id, existingCartItem ? existingCartItem.qty + quantity : quantity);
     }
   };
 
