@@ -10,6 +10,7 @@ import { AllProductsPageResult, CategoryPageProduct } from "utils/groqTypes";
 import { getFiltersFromQuery } from "utils/getFiltersFromQuery";
 import { getOrderingFromQuery } from "utils/getOrderingFromQuery";
 import { setCachingHeaders } from "utils/setCachingHeaders";
+import { getSizeFilters } from "utils/getSizeFilters";
 
 interface ProductsPageProps {
   products: CategoryPageProduct[];
@@ -17,9 +18,10 @@ interface ProductsPageProps {
   pageSize: number;
   pageCount: number;
   currentPage?: number;
+  sizeFilters: string[];
 }
 
-const ProductsPage: NextPage<ProductsPageProps> = ({ products, pageCount, currentPage }) => {
+const ProductsPage: NextPage<ProductsPageProps> = ({ products, pageCount, currentPage, sizeFilters }) => {
   return (
     <div className="h-full mb-4">
       <h1 className="text-2xl font-bold m-4">All products</h1>
@@ -27,7 +29,7 @@ const ProductsPage: NextPage<ProductsPageProps> = ({ products, pageCount, curren
         <div className="min-w-[350px]">
           <ProductSort />
           <hr className="slate-700 my-4" />
-          <ProductFilters />
+          <ProductFilters sizeFilters={sizeFilters} />
         </div>
         <div className="flex flex-auto flex-col">
           <div className="flex-1 flex flex-wrap">
@@ -48,13 +50,17 @@ const ProductsPage: NextPage<ProductsPageProps> = ({ products, pageCount, curren
   );
 };
 
-export const getServerSideProps: GetServerSideProps = async ({ query, res, resolvedUrl }) => {
+export const getServerSideProps: GetServerSideProps<ProductsPageProps> = async ({ query, res, resolvedUrl }) => {
   setCachingHeaders(res, ["product"]);
 
   // Sort/ordering.
   const order = getOrderingFromQuery(query);
+
+  // Fetch size filters from sanity
+  const sizeFilters = await getSizeFilters();
+
   // Filters.
-  const filters = getFiltersFromQuery(query);
+  const filters = getFiltersFromQuery(query, { sizeFilters });
   // Pagination data.
   const pagination = getPaginationFromQuery(query);
 
@@ -85,6 +91,7 @@ export const getServerSideProps: GetServerSideProps = async ({ query, res, resol
 
   return {
     props: {
+      sizeFilters,
       products,
       productsCount,
       pageCount,

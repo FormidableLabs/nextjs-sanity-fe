@@ -1,9 +1,9 @@
-import { FILTER_GROUPS } from "constants/filters";
+import { FilterGroupParams, getFilterGroups } from "constants/filters";
 import { ParsedUrlQuery } from "querystring";
 
-export const getFiltersFromQuery = (query: ParsedUrlQuery) => {
+export const getFiltersFromQuery = (query: ParsedUrlQuery, { sizeFilters }: FilterGroupParams = {}) => {
   // Filters
-  const filterGroups = FILTER_GROUPS.reduce((acc: string[][], { value: groupValue, options }) => {
+  const filterGroups = getFilterGroups({ sizeFilters }).reduce((acc: string[][], { value: groupValue, options }) => {
     const queryValue = query[groupValue];
     if (!queryValue) {
       // No filter query param
@@ -45,5 +45,5 @@ export const getFiltersFromQuery = (query: ParsedUrlQuery) => {
    * Creates AND statement of filter groups
    * e.g. given (MD || XL) and (on sale), constructed filter would check for ((MD || XL) && (on sale))
    *  */
-  return constructedGroups.length ? `&& (${constructedGroups.join(" && ")})` : "";   
-}
+  return constructedGroups.length ? `&& (${constructedGroups.join(" && ")})` : "";
+};
