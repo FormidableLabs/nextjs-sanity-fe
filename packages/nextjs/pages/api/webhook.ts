@@ -62,7 +62,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
 
     const { slug, _type } = parsedBody;
 
-    await requestPurge([slug, _type]);
+    await requestPurge([`${_type}_${slug}`, _type]);
 
     res.status(200).json({
       message: "Webhook processed successfully",
