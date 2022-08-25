@@ -3,6 +3,7 @@ import React from "react";
 import { MdShoppingCart } from "react-icons/md";
 
 import { useCart } from "./CartContext";
+import { Search } from "./Search";
 
 const NAV_ITEMS = [
   {
@@ -38,11 +39,14 @@ export const Header = () => {
           ))}
         </nav>
       </div>
-      <Link href="/cart">
-        <a className="flex items-center">
-          <MdShoppingCart size={30} /> <span className="text-gray-600 text-xl">{cartTotal}</span>
-        </a>
-      </Link>
+      <div className="flex items-center">
+        <Search />
+        <Link href="/cart">
+          <a className="flex items-center">
+            <MdShoppingCart size={30} /> <span className="text-gray-600 text-xl">{cartTotal}</span>
+          </a>
+        </Link>
+      </div>
     </div>
   );
 };
