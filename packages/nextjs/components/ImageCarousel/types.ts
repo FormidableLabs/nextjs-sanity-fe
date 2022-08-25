@@ -1,10 +1,12 @@
-import { GetProductQuery } from "../../utils/generated/graphql";
+import { GetProductQuery, GetProductsAndCategoriesQuery } from "../../utils/generated/graphql";
 
 export type ProductImage = GetProductQuery["allProduct"][0]["images"];
 
 // ProductImage with defined "images" property
 export type FilteredProductImage = Omit<GetProductQuery["allProduct"][0], "images"> & {
-  images: NonNullable<NonNullable<NonNullable<ProductImage>[0]>["images"]>;
+  images:
+    | NonNullable<NonNullable<NonNullable<ProductImage>[0]>["images"]>
+    | NonNullable<NonNullable<NonNullable<GetProductsAndCategoriesQuery["allProductImage"]>[0]>["images"]>;
 };
 export type ImageCarouselProps = {
   productImages: ProductImage;

@@ -16,8 +16,8 @@ interface Props {
 export const Card: React.FC<Props> = ({ to, children, imageProps, className = "" }) => {
   return (
     <Link href={to}>
-      <a className={`shadow-md border flex flex-col items-center justify-center ${className}`}>
-        <Image width={200} height={200} src={imageProps.src} alt={imageProps.alt} />
+      <a className={`hover:shadow-lg border flex flex-col items-center justify-center ${className}`}>
+        <Image width={400} height={400} src={imageProps.src} alt={imageProps.alt} />
         <h2 className="text-xl font-bold my-2">{children}</h2>
       </a>
     </Link>

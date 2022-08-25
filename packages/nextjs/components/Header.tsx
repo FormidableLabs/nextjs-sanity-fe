@@ -10,6 +10,10 @@ const NAV_ITEMS = [
     label: "Products",
   },
   {
+    href: "/categories",
+    label: "Categories",
+  },
+  {
     href: "/blogs",
     label: "Blogs",
   },
