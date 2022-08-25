@@ -13,13 +13,9 @@
     "@sanity/default-layout",
     "@sanity/default-login",
     "@sanity/desk-tool",
+    "@sanity/vision",
     "dashboard-widget-upload-blog"
   ],
-  "env": {
-    "development": {
-      "plugins": ["@sanity/vision"]
-    }
-  },
   "parts": [
     {
       "name": "part:@sanity/base/schema",
