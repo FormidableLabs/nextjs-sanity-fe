@@ -44,8 +44,8 @@ export const getServerSideProps: GetServerSideProps = async ({ res }) => {
       // if the objects returned have a slug, add it to the surrogate key array
       if (Array.isArray(queryResults)) {
         queryResults.forEach((unknownSanityData) => {
-          if (unknownSanityData?.slug?.current) {
-            surrogateKeys.push(unknownSanityData.slug.current);
+          if (unknownSanityData?.slug?.current && unknownSanityData?._type) {
+            surrogateKeys.push(`${unknownSanityData._type}_${unknownSanityData.slug.current}`);
           }
         });
       }
