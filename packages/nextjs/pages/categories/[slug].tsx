@@ -57,7 +57,7 @@ export const getServerSideProps: GetServerSideProps = async ({ query, ...ctx }) 
   const { res } = ctx;
 
   if (isSlug(slug)) {
-    setCachingHeaders(res, [slug]);
+    setCachingHeaders(res, [`category_${slug}`]);
   }
 
   // Sort/ordering.
@@ -67,13 +67,10 @@ export const getServerSideProps: GetServerSideProps = async ({ query, ...ctx }) 
   // Pagination data.
   const pagination = getPaginationFromQuery(query);
 
-  const result = await getFilteredPaginatedQuery<CategoryPageResult>(
-    GetFilteredCategoryProducts(filters, order),
-    {
-      slug,
-      ...pagination
-    }
-  );
+  const result = await getFilteredPaginatedQuery<CategoryPageResult>(GetFilteredCategoryProducts(filters, order), {
+    slug,
+    ...pagination,
+  });
 
   const { category, products, productsCount } = result;
   const { currentPage, pageSize } = pagination;

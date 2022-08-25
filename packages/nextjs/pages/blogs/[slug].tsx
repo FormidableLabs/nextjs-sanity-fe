@@ -31,7 +31,7 @@ export const getServerSideProps: GetServerSideProps = async ({ query, res }) => 
   const { slug } = query;
 
   if (isSlug(slug)) {
-    setCachingHeaders(res, [slug]);
+    setCachingHeaders(res, [`blog_${slug}`]);
   }
 
   // This query is used to populate the cache for the query
