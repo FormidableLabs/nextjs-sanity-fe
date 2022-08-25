@@ -11,6 +11,7 @@ import { isSlug } from "utils/isSlug";
 import { getOrderingFromQuery } from "utils/getOrderingFromQuery";
 import { getFiltersFromQuery } from "utils/getFiltersFromQuery";
 import { GetFilteredCategoryProducts, getFilteredPaginatedQuery } from "utils/getFilteredPaginatedQuery";
+import { getSizeFilters } from "utils/getSizeFilters";
 
 interface Props {
   products: CategoryPageProduct[];
@@ -19,9 +20,10 @@ interface Props {
   pageSize: number;
   pageCount: number;
   currentPage?: number;
+  sizeFilters: string[];
 }
 
-const CategoryPage: NextPage<Props> = ({ category, products, pageCount, currentPage }) => {
+const CategoryPage: NextPage<Props> = ({ category, products, sizeFilters, pageCount, currentPage }) => {
   return (
     <div className="h-full mb-4">
       <h1 className="text-2xl font-bold m-4">{category.name}</h1>
@@ -29,7 +31,7 @@ const CategoryPage: NextPage<Props> = ({ category, products, pageCount, currentP
         <div className="min-w-[350px]">
           <ProductSort />
           <hr className="slate-700 my-4" />
-          <ProductFilters />
+          <ProductFilters sizeFilters={sizeFilters} />
         </div>
         <div className="flex flex-auto flex-col">
           <div className="flex-1 flex flex-wrap">
@@ -62,18 +64,19 @@ export const getServerSideProps: GetServerSideProps = async ({ query, ...ctx }) 
 
   // Sort/ordering.
   const order = getOrderingFromQuery(query);
+  // Fetch size filters from sanity
+  const sizeFilters = await getSizeFilters(slug as string);
+
   // Filters.
-  const filters = getFiltersFromQuery(query);
+  const filters = getFiltersFromQuery(query, { sizeFilters });
+
   // Pagination data.
   const pagination = getPaginationFromQuery(query);
 
-  const result = await getFilteredPaginatedQuery<CategoryPageResult>(
-    GetFilteredCategoryProducts(filters, order),
-    {
-      slug,
-      ...pagination
-    }
-  );
+  const result = await getFilteredPaginatedQuery<CategoryPageResult>(GetFilteredCategoryProducts(filters, order), {
+    slug,
+    ...pagination,
+  });
 
   const { category, products, productsCount } = result;
   const { currentPage, pageSize } = pagination;
@@ -96,6 +99,7 @@ export const getServerSideProps: GetServerSideProps = async ({ query, ...ctx }) 
 
   return {
     props: {
+      sizeFilters,
       category,
       products,
       productsCount,

@@ -17,7 +17,7 @@ export function GetFilteredCategoryProducts(filters = "", order = "") {
       'productsCount': count(*[_type == "product" && $slug in categories[]->slug.current ${filters}]),
       'category': *[_type == "category" && slug.current == $slug][0] {
         name
-      }
+      },
     }`;
 }
 
