@@ -9,6 +9,7 @@ import { getPaginationFromQuery } from "utils/getPaginationFromQuery";
 import { AllProductsPageResult, CategoryPageProduct } from "utils/groqTypes";
 import { getFiltersFromQuery } from "utils/getFiltersFromQuery";
 import { getOrderingFromQuery } from "utils/getOrderingFromQuery";
+import { setCachingHeaders } from "utils/setCachingHeaders";
 
 interface ProductsPageProps {
   products: CategoryPageProduct[];
@@ -47,7 +48,9 @@ const ProductsPage: NextPage<ProductsPageProps> = ({ products, pageCount, curren
   );
 };
 
-export const getServerSideProps: GetServerSideProps = async ({ query, ...ctx }) => {
+export const getServerSideProps: GetServerSideProps = async ({ query, res, resolvedUrl }) => {
+  setCachingHeaders(res, ["product"]);
+
   // Sort/ordering.
   const order = getOrderingFromQuery(query);
   // Filters.
@@ -71,7 +74,7 @@ export const getServerSideProps: GetServerSideProps = async ({ query, ...ctx }) 
    * redirect them to the last page/pageCount
    */
   if (pageCount > 0 && currentPage > pageCount) {
-    const destination = ctx.resolvedUrl.replace(`page=${currentPage}`, `page=${pageCount}`);
+    const destination = resolvedUrl.replace(`page=${currentPage}`, `page=${pageCount}`);
     return {
       redirect: {
         destination,

@@ -5,6 +5,8 @@ import { useRouter } from "next/router";
 import { BlockContent } from "components/BlockContent";
 import { GetBlogDocument, useGetBlogQuery } from "utils/generated/graphql";
 import { initializeUrql, urqlOptions, withUrqlOptions } from "utils/urql";
+import { setCachingHeaders } from "utils/setCachingHeaders";
+import { isSlug } from "utils/isSlug";
 
 const BlogPage: NextPage = () => {
   const router = useRouter();
@@ -24,12 +26,17 @@ const BlogPage: NextPage = () => {
   );
 };
 
-export const getServerSideProps: GetServerSideProps = async (ctx) => {
+export const getServerSideProps: GetServerSideProps = async ({ query, res }) => {
   const { client, ssrCache } = initializeUrql();
+  const { slug } = query;
+
+  if (isSlug(slug)) {
+    setCachingHeaders(res, [slug]);
+  }
 
   // This query is used to populate the cache for the query
   // used on this page.
-  await client?.query(GetBlogDocument, { slug: ctx.query.slug }).toPromise();
+  await client?.query(GetBlogDocument, { slug }).toPromise();
 
   return {
     props: {
