@@ -16,15 +16,17 @@ export type GetPaginationResponse = {
   limit: number;
 };
 
+const PAGINATION_PAGE_SIZE = 6;
+
 /**
  *
  * @param queryPage          Current page
- * @param paginationPageSize Items per page, defaults to env var NEXT_PUBLIC_PAGINATION_PAGE_SIZE
+ * @param paginationPageSize Items per page, defaults to 6
  * @returns object
  */
 export const getPaginationOffsets = (queryPage: number, paginationPageSize?: number): GetPaginationResponse => {
   // Items per page.
-  const pageSize = paginationPageSize ?? Math.abs(process.env.NEXT_PUBLIC_PAGINATION_PAGE_SIZE);
+  const pageSize = paginationPageSize ?? Math.abs(PAGINATION_PAGE_SIZE);
 
   /**
    * Pagesize = 10
