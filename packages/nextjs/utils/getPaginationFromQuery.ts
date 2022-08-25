@@ -26,7 +26,7 @@ const PAGINATION_PAGE_SIZE = 6;
  */
 export const getPaginationOffsets = (queryPage: number, paginationPageSize?: number): GetPaginationResponse => {
   // Items per page.
-  const pageSize = paginationPageSize ?? Math.abs(PAGINATION_PAGE_SIZE);
+  const pageSize = paginationPageSize ?? PAGINATION_PAGE_SIZE;
 
   /**
    * Pagesize = 10
