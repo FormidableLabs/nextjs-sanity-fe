@@ -8,11 +8,11 @@ import { sanityClient } from "./sanityClient";
  * @returns de-duped filters for products either in a category or for all products
  */
 export const getSizeFilters = async (slug = ""): Promise<string[]> => {
-  const res: [string[]] = await sanityClient.fetch(
+  const res: string[] = await sanityClient.fetch(
     groq`
       *[_type == "product" ${slug ? "&& $slug in categories[]->slug.current" : ""}] {
         'size': variants[]->size->name
-      }.size
+      }.size[]
     `,
     {
       slug,
@@ -20,7 +20,6 @@ export const getSizeFilters = async (slug = ""): Promise<string[]> => {
   );
 
   // Removes duplicate entries from sizeFilters.
-  const dedupedFilters = new Set<string>();
-  res.forEach((f) => f.forEach((v) => dedupedFilters.add(v)));
+  const dedupedFilters = new Set<string>(res);
   return Array.from(dedupedFilters);
 };
