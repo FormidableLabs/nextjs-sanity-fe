@@ -6,6 +6,7 @@ import { CategoryList } from "components/CategoryList";
 import { setCachingHeaders } from "utils/setCachingHeaders";
 import { ProductList } from "components/ProductList";
 import { ImageCarousel } from "components/ImageCarousel";
+import { SanityType } from "utils/consts";
 
 const Home: NextPage = () => {
   const [{ data }] = useGetProductsAndCategoriesQuery();
@@ -36,7 +37,7 @@ export const getServerSideProps: GetServerSideProps = async ({ res }) => {
   // used on this page.
   await client?.query(GetProductsAndCategoriesDocument).toPromise();
 
-  setCachingHeaders(res, ["product", "category", "productImage", "categoryImage"]);
+  setCachingHeaders(res, [SanityType.Category, SanityType.CategoryImage, SanityType.Product, SanityType.ProductImage]);
 
   return {
     props: {

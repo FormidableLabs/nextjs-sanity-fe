@@ -12,6 +12,7 @@ import { getOrderingFromQuery } from "utils/getOrderingFromQuery";
 import { getFiltersFromQuery } from "utils/getFiltersFromQuery";
 import { GetFilteredCategoryProducts, getFilteredPaginatedQuery } from "utils/getFilteredPaginatedQuery";
 import { getSizeFilters } from "utils/getSizeFilters";
+import { SanityType } from "utils/consts";
 
 interface Props {
   products: CategoryPageProduct[];
@@ -59,7 +60,12 @@ export const getServerSideProps: GetServerSideProps = async ({ query, ...ctx }) 
   const { res } = ctx;
 
   if (isSlug(slug)) {
-    setCachingHeaders(res, [`category_${slug}`, "product", "variant", "productImage"]);
+    setCachingHeaders(res, [
+      `${SanityType.Category}_${slug}`,
+      SanityType.Product,
+      SanityType.ProductImage,
+      SanityType.Variant,
+    ]);
   }
 
   // Sort/ordering.

@@ -10,6 +10,7 @@ import { GetProductDocument, GetProductQuery, Maybe, useGetProductQuery } from "
 import { initializeUrql, urqlOptions, withUrqlOptions } from "../../utils/urql";
 import { setCachingHeaders } from "utils/setCachingHeaders";
 import { isSlug } from "utils/isSlug";
+import { SanityType } from "utils/consts";
 
 type ProductVariant = NonNullable<GetProductQuery["allProduct"][0]["variants"]>[0];
 
@@ -97,7 +98,7 @@ export const getServerSideProps: GetServerSideProps = async ({ res, query }) => 
   const { slug } = query;
 
   if (isSlug(slug)) {
-    setCachingHeaders(res, [`product_${slug}`, "variant", "productImage"]);
+    setCachingHeaders(res, [`${SanityType.Product}_${slug}`, SanityType.ProductImage, SanityType.Variant]);
   }
 
   // This query is used to populate the cache for the query

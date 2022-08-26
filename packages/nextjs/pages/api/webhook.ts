@@ -62,7 +62,11 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
 
     const { slug, _type } = parsedBody;
 
-    await requestPurge([slug ? `${_type}_${slug}` : "", _type]);
+    let keysToPurge = [_type];
+
+    if (slug) keysToPurge.push(`${_type}_${slug}`);
+
+    await requestPurge(keysToPurge);
 
     res.status(200).json({
       message: "Webhook processed successfully",
