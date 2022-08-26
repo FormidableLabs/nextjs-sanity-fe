@@ -6,6 +6,7 @@ import { CategoryList } from "components/CategoryList";
 import { setCachingHeaders } from "utils/setCachingHeaders";
 import { ProductList } from "components/ProductList";
 import { ImageCarousel } from "components/ImageCarousel";
+import { SanityType } from "utils/consts";
 
 const Home: NextPage = () => {
   const [{ data }] = useGetProductsAndCategoriesQuery();
@@ -34,25 +35,9 @@ export const getServerSideProps: GetServerSideProps = async ({ res }) => {
 
   // This query is used to populate the cache for the query
   // used on this page.
-  const response = await client?.query(GetProductsAndCategoriesDocument).toPromise();
+  await client?.query(GetProductsAndCategoriesDocument).toPromise();
 
-  let surrogateKeys = ["home"];
-
-  if (response?.data) {
-    // iterate returned objects
-    for (const [_key, queryResults] of Object.entries(response.data)) {
-      // if the objects returned have a slug, add it to the surrogate key array
-      if (Array.isArray(queryResults)) {
-        queryResults.forEach((unknownSanityData) => {
-          if (unknownSanityData?.slug?.current) {
-            surrogateKeys.push(unknownSanityData.slug.current);
-          }
-        });
-      }
-    }
-  }
-
-  setCachingHeaders(res, surrogateKeys);
+  setCachingHeaders(res, [SanityType.Category, SanityType.CategoryImage, SanityType.Product, SanityType.ProductImage]);
 
   return {
     props: {

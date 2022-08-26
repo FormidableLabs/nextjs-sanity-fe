@@ -7,6 +7,7 @@ import { GetBlogDocument, useGetBlogQuery } from "utils/generated/graphql";
 import { initializeUrql, urqlOptions, withUrqlOptions } from "utils/urql";
 import { setCachingHeaders } from "utils/setCachingHeaders";
 import { isSlug } from "utils/isSlug";
+import { SanityType } from "utils/consts";
 
 const BlogPage: NextPage = () => {
   const router = useRouter();
@@ -31,7 +32,7 @@ export const getServerSideProps: GetServerSideProps = async ({ query, res }) => 
   const { slug } = query;
 
   if (isSlug(slug)) {
-    setCachingHeaders(res, [slug]);
+    setCachingHeaders(res, [`${SanityType.Blog}_${slug}`]);
   }
 
   // This query is used to populate the cache for the query

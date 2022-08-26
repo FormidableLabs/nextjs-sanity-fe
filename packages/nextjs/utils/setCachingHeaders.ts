@@ -8,7 +8,7 @@ import { ServerResponse } from "http";
  */
 export const setCachingHeaders = (res: ServerResponse, keys?: string[]): void => {
   res.setHeader("Cache-Control", "public, max-age=0");
-  res.setHeader("Surrogate-Control", "max-age=600, stale-while-revalidate=120, stale-if-error=600");
+  res.setHeader("Surrogate-Control", "max-age=604800, stale-while-revalidate=120000, stale-if-error=600000");
   if (keys && keys.length > 0) {
     res.setHeader("Surrogate-Key", keys.join(" "));
   }

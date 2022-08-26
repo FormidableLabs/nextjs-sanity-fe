@@ -5,6 +5,7 @@ import { GetCategoriesDocument, useGetCategoriesQuery } from "utils/generated/gr
 import { initializeUrql, urqlOptions, withUrqlOptions } from "utils/urql";
 import { CategoryList } from "components/CategoryList";
 import { setCachingHeaders } from "utils/setCachingHeaders";
+import { SanityType } from "utils/consts";
 
 const CategoriesPage: NextPage = () => {
   const [{ data }] = useGetCategoriesQuery();
@@ -24,7 +25,7 @@ export const getServerSideProps: GetServerSideProps = async ({ res }) => {
   // used on this page.
   await client?.query(GetCategoriesDocument).toPromise();
 
-  setCachingHeaders(res, ["category"]);
+  setCachingHeaders(res, [SanityType.Category, SanityType.CategoryImage]);
 
   return {
     props: {

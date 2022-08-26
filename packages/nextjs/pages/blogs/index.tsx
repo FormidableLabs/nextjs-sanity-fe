@@ -1,6 +1,7 @@
 import { GetServerSideProps, NextPage } from "next";
 import { withUrqlClient } from "next-urql";
 import Link from "next/link";
+import { SanityType } from "utils/consts";
 
 import { GetBlogsSlugsDocument, useGetBlogsSlugsQuery } from "utils/generated/graphql";
 import { setCachingHeaders } from "utils/setCachingHeaders";
@@ -32,7 +33,7 @@ export const getServerSideProps: GetServerSideProps = async (ctx) => {
   // used on this page.
   await client?.query(GetBlogsSlugsDocument).toPromise();
 
-  setCachingHeaders(res, ["blog"]);
+  setCachingHeaders(res, [SanityType.Blog]);
 
   return {
     props: {

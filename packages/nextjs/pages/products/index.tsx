@@ -11,6 +11,7 @@ import { getFiltersFromQuery } from "utils/getFiltersFromQuery";
 import { getOrderingFromQuery } from "utils/getOrderingFromQuery";
 import { setCachingHeaders } from "utils/setCachingHeaders";
 import { getSizeFilters } from "utils/getSizeFilters";
+import { SanityType } from "utils/consts";
 
 interface ProductsPageProps {
   products: CategoryPageProduct[];
@@ -51,7 +52,7 @@ const ProductsPage: NextPage<ProductsPageProps> = ({ products, pageCount, curren
 };
 
 export const getServerSideProps: GetServerSideProps<ProductsPageProps> = async ({ query, res, resolvedUrl }) => {
-  setCachingHeaders(res, ["product"]);
+  setCachingHeaders(res, [SanityType.Product, SanityType.ProductImage, SanityType.Size, SanityType.Variant]);
 
   // Sort/ordering.
   const order = getOrderingFromQuery(query);
