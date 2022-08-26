@@ -59,7 +59,7 @@ export const getServerSideProps: GetServerSideProps = async ({ query, ...ctx }) 
   const { res } = ctx;
 
   if (isSlug(slug)) {
-    setCachingHeaders(res, [`category_${slug}`]);
+    setCachingHeaders(res, [`category_${slug}`, "product", "variant", "productImage"]);
   }
 
   // Sort/ordering.

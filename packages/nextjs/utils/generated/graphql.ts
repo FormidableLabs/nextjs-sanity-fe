@@ -1236,7 +1236,6 @@ export const GetProductsAndCategoriesDocument = gql`
     query getProductsAndCategories {
   allCategory(limit: 3, sort: {_updatedAt: ASC}) {
     _id
-    _type
     name
     slug {
       current
@@ -1252,7 +1251,6 @@ export const GetProductsAndCategoriesDocument = gql`
   }
   allProduct(limit: 3, sort: {_updatedAt: ASC}) {
     _id
-    _type
     name
     slug {
       current

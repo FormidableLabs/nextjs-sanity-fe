@@ -51,7 +51,7 @@ const ProductsPage: NextPage<ProductsPageProps> = ({ products, pageCount, curren
 };
 
 export const getServerSideProps: GetServerSideProps<ProductsPageProps> = async ({ query, res, resolvedUrl }) => {
-  setCachingHeaders(res, ["product"]);
+  setCachingHeaders(res, ["product", "productImage", "size", "variant"]);
 
   // Sort/ordering.
   const order = getOrderingFromQuery(query);

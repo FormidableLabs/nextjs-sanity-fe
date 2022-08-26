@@ -24,7 +24,7 @@ export const getServerSideProps: GetServerSideProps = async ({ res }) => {
   // used on this page.
   await client?.query(GetCategoriesDocument).toPromise();
 
-  setCachingHeaders(res, ["category"]);
+  setCachingHeaders(res, ["category", "categoryImage"]);
 
   return {
     props: {
