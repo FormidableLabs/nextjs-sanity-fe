@@ -34,25 +34,9 @@ export const getServerSideProps: GetServerSideProps = async ({ res }) => {
 
   // This query is used to populate the cache for the query
   // used on this page.
-  const response = await client?.query(GetProductsAndCategoriesDocument).toPromise();
+  await client?.query(GetProductsAndCategoriesDocument).toPromise();
 
-  let surrogateKeys = ["home"];
-
-  if (response?.data) {
-    // iterate returned objects
-    for (const [_key, queryResults] of Object.entries(response.data)) {
-      // if the objects returned have a slug, add it to the surrogate key array
-      if (Array.isArray(queryResults)) {
-        queryResults.forEach((unknownSanityData) => {
-          if (unknownSanityData?.slug?.current && unknownSanityData?._type) {
-            surrogateKeys.push(`${unknownSanityData._type}_${unknownSanityData.slug.current}`);
-          }
-        });
-      }
-    }
-  }
-
-  setCachingHeaders(res, surrogateKeys);
+  setCachingHeaders(res, ["product", "category", "productImage", "categoryImage"]);
 
   return {
     props: {
