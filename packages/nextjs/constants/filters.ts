@@ -10,30 +10,31 @@ export type FilterGroup = {
   options: FilterOption[];
 };
 
-export const FILTER_GROUPS: FilterGroup[] = [
-  {
-    value: "size",
-    label: "Size",
-    options: [
-      { value: "xs", label: "XS", filter: "'XS' in variants[]->size->name" },
-      { value: "sm", label: "SM", filter: "'SM' in variants[]->size->name" },
-      { value: "md", label: "MD", filter: "'MD' in variants[]->size->name" },
-      { value: "lg", label: "LG", filter: "'LG' in variants[]->size->name" },
-      { value: "xl", label: "XL", filter: "'XL' in variants[]->size->name" },
-      { value: "8", label: "8", filter: "'8' in variants[]->size->name" },
-      { value: "10", label: "10", filter: "'10' in variants[]->size->name" },
-      { value: "11", label: "11", filter: "'11' in variants[]->size->name" },
-    ],
-  },
-  {
-    value: "promotion",
-    label: "Promotion",
-    options: [
-      {
-        value: "sale",
-        label: "Sale",
-        filter: "variants | order(price asc)[0]->msrp > variants | order(price asc)[0]->price",
-      },
-    ],
-  },
-];
+export interface FilterGroupParams {
+  sizeFilters?: string[];
+}
+
+export const getFilterGroups = ({ sizeFilters = [] }: FilterGroupParams = {}): FilterGroup[] => {
+  return [
+    {
+      value: "size",
+      label: "Size",
+      options: sizeFilters.map((size) => ({
+        value: size,
+        label: size,
+        filter: `'${size}' in variants[]->size->name`,
+      })),
+    },
+    {
+      value: "promotion",
+      label: "Promotion",
+      options: [
+        {
+          value: "sale",
+          label: "Sale",
+          filter: "variants | order(price asc)[0]->msrp > variants | order(price asc)[0]->price",
+        },
+      ],
+    },
+  ];
+};

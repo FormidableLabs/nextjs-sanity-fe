@@ -1,10 +1,14 @@
 import { FilterGroup } from "./FilterGroup";
-import { FILTER_GROUPS } from "../../constants/filters";
+import { getFilterGroups } from "constants/filters";
 
-export const ProductFilters: React.FC = () => (
+interface Props {
+  sizeFilters: string[];
+}
+
+export const ProductFilters: React.FC<Props> = ({ sizeFilters }) => (
   <div className="flex flex-col gap-y-4">
     <h2>Filters</h2>
-    {FILTER_GROUPS.map((group) => (
+    {getFilterGroups({ sizeFilters }).map((group) => (
       <FilterGroup key={group.value} group={group} />
     ))}
   </div>
