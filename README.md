@@ -76,6 +76,16 @@ Webhook(s) are utilized as the change detection mechanism. Our current cache str
 
 Since most all content has a slug, it's very easy to use that slug for caching purposes. When a webhook is triggered, we essentially only need to know the Sanity Type and the Slug, in order to perform a cache purge for the relevant content.
 
+The relevant webhook configuration is as follows:
+
+- **URL**: points to our `<host url>/api/webhook` route in the nextjs project
+- **Dataset**: set to `*` (since we only have a single dataset)
+- **Trigger on**: create, update & delete
+- **Filter**: currently set to `_type in ["blog", "category", "categoryImage", "product", "productImage", "size", "variant"]`. Since this is all sanity types, we could also just remove the filter if we wanted.
+- **Status**: enabled
+- **Http method**: POST
+- **Secret**: we have a secret setup, so we can authenticate the webhook requests to ensure they're came from sanity.
+
 ## Fastly Caching
 
 NOTE: If the Vercel url is used directly, there will be no caching setup. In order to utilize the caching, the fastly url should be used.
