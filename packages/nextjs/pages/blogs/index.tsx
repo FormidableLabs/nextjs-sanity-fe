@@ -31,7 +31,7 @@ export const getServerSideProps: GetServerSideProps = async (ctx) => {
 
   // This query is used to populate the cache for the query
   // used on this page.
-  await client?.query(GetBlogsSlugsDocument).toPromise();
+  await client?.query(GetBlogsSlugsDocument, {}).toPromise();
 
   setCachingHeaders(res, [SanityType.Blog]);
 
