@@ -1140,7 +1140,7 @@ export const GetBlogDocument = gql`
     `;
 
 export function useGetBlogQuery(options: Omit<Urql.UseQueryArgs<GetBlogQueryVariables>, 'query'>) {
-  return Urql.useQuery<GetBlogQuery, GetBlogQueryVariables>({ query: GetBlogDocument, ...options });
+  return Urql.useQuery<GetBlogQuery>({ query: GetBlogDocument, ...options });
 };
 export const GetBlogsSlugsDocument = gql`
     query getBlogsSlugs {
@@ -1156,7 +1156,7 @@ export const GetBlogsSlugsDocument = gql`
     `;
 
 export function useGetBlogsSlugsQuery(options?: Omit<Urql.UseQueryArgs<GetBlogsSlugsQueryVariables>, 'query'>) {
-  return Urql.useQuery<GetBlogsSlugsQuery, GetBlogsSlugsQueryVariables>({ query: GetBlogsSlugsDocument, ...options });
+  return Urql.useQuery<GetBlogsSlugsQuery>({ query: GetBlogsSlugsDocument, ...options });
 };
 export const GetCategoriesDocument = gql`
     query getCategories {
@@ -1179,7 +1179,7 @@ export const GetCategoriesDocument = gql`
     `;
 
 export function useGetCategoriesQuery(options?: Omit<Urql.UseQueryArgs<GetCategoriesQueryVariables>, 'query'>) {
-  return Urql.useQuery<GetCategoriesQuery, GetCategoriesQueryVariables>({ query: GetCategoriesDocument, ...options });
+  return Urql.useQuery<GetCategoriesQuery>({ query: GetCategoriesDocument, ...options });
 };
 export const GetCategoriesSlugsDocument = gql`
     query getCategoriesSlugs {
@@ -1194,7 +1194,7 @@ export const GetCategoriesSlugsDocument = gql`
     `;
 
 export function useGetCategoriesSlugsQuery(options?: Omit<Urql.UseQueryArgs<GetCategoriesSlugsQueryVariables>, 'query'>) {
-  return Urql.useQuery<GetCategoriesSlugsQuery, GetCategoriesSlugsQueryVariables>({ query: GetCategoriesSlugsDocument, ...options });
+  return Urql.useQuery<GetCategoriesSlugsQuery>({ query: GetCategoriesSlugsDocument, ...options });
 };
 export const GetProductDocument = gql`
     query getProduct($slug: String!) {
@@ -1230,7 +1230,7 @@ export const GetProductDocument = gql`
     `;
 
 export function useGetProductQuery(options: Omit<Urql.UseQueryArgs<GetProductQueryVariables>, 'query'>) {
-  return Urql.useQuery<GetProductQuery, GetProductQueryVariables>({ query: GetProductDocument, ...options });
+  return Urql.useQuery<GetProductQuery>({ query: GetProductDocument, ...options });
 };
 export const GetProductsAndCategoriesDocument = gql`
     query getProductsAndCategories {
@@ -1280,7 +1280,7 @@ export const GetProductsAndCategoriesDocument = gql`
     `;
 
 export function useGetProductsAndCategoriesQuery(options?: Omit<Urql.UseQueryArgs<GetProductsAndCategoriesQueryVariables>, 'query'>) {
-  return Urql.useQuery<GetProductsAndCategoriesQuery, GetProductsAndCategoriesQueryVariables>({ query: GetProductsAndCategoriesDocument, ...options });
+  return Urql.useQuery<GetProductsAndCategoriesQuery>({ query: GetProductsAndCategoriesDocument, ...options });
 };
 export const GetProductsDocument = gql`
     query getProducts {
@@ -1315,7 +1315,7 @@ export const GetProductsDocument = gql`
     `;
 
 export function useGetProductsQuery(options?: Omit<Urql.UseQueryArgs<GetProductsQueryVariables>, 'query'>) {
-  return Urql.useQuery<GetProductsQuery, GetProductsQueryVariables>({ query: GetProductsDocument, ...options });
+  return Urql.useQuery<GetProductsQuery>({ query: GetProductsDocument, ...options });
 };
 export const GetProductsSlugsDocument = gql`
     query getProductsSlugs {
@@ -1328,5 +1328,5 @@ export const GetProductsSlugsDocument = gql`
     `;
 
 export function useGetProductsSlugsQuery(options?: Omit<Urql.UseQueryArgs<GetProductsSlugsQueryVariables>, 'query'>) {
-  return Urql.useQuery<GetProductsSlugsQuery, GetProductsSlugsQueryVariables>({ query: GetProductsSlugsDocument, ...options });
+  return Urql.useQuery<GetProductsSlugsQuery>({ query: GetProductsSlugsDocument, ...options });
 };
