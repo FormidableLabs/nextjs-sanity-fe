@@ -23,7 +23,7 @@ export const getServerSideProps: GetServerSideProps = async ({ res }) => {
 
   // This query is used to populate the cache for the query
   // used on this page.
-  await client?.query(GetCategoriesDocument).toPromise();
+  await client?.query(GetCategoriesDocument, {}).toPromise();
 
   setCachingHeaders(res, [SanityType.Category, SanityType.CategoryImage]);
 
