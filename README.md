@@ -13,6 +13,14 @@ This project uses pnpm for dependency management. Make sure you have v7 of pnpm 
 pnpm install
 ```
 
+## Environment Variables
+
+There is an `.env.sample` committed to the repo which contains the list of env variables for the project. The redacted values can be found in 1Password IC Vault. The secrets are only needed for specific use case and not needed for just running the NextJS application.
+
+```bash
+cp .env.sample .env
+```
+
 ### Scripts
 
 - `local` - Runs Sanity Studio, NextJs app and GraphQL codegen watch in parallel.
