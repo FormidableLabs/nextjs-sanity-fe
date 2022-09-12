@@ -14,7 +14,7 @@ function addToCart(req: NextApiRequest, res: NextApiResponse) {
   const cookie: Record<string, number> = getCookie(req.cookies);
 
   const newCart = { ...cookie };
-  // Removes empty qty
+  // Removes empty quantity
   if (newCart.hasOwnProperty(cartItem.id) && cartItem.quantity === 0) {
     delete newCart[cartItem.id];
   } else {
