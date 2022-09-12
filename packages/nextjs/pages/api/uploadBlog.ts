@@ -120,6 +120,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
   }
 }
 
+// disable body parser for this endpoint
 export const config = {
   api: {
     bodyParser: false,

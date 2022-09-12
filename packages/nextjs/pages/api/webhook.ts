@@ -79,7 +79,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
   }
 }
 
-// Next.js will by default parse the body, which can lead to invalid signatures
+// Disable body parsing for this endpoint
 export const config = {
   api: {
     bodyParser: false,
