@@ -13,6 +13,28 @@ This project uses pnpm for dependency management. Make sure you have v7 of pnpm 
 pnpm install
 ```
 
+### Aliasing pnpm command
+
+If you find 'pnpm' hard to spell and use, you're not alone. Many of us have set up an alias in our dot files `(.**rc)` to get around this. For example, this could go into your `.zshrc`, `.bashrc`, or whatever dot file you prefer.
+
+This is the syntax:
+
+```
+alias alias_name="command_to_run"
+```
+
+Sets `pn` as an alias for the `pnpm` command
+
+```
+alias pn="pnpm"
+```
+
+The first time you add the alias, you need to ensure you re-load the terminal, or source the file. To source, type:
+
+```
+source ~/<file you modified>
+```
+
 ## Environment Variables
 
 There is an `.env.sample` committed to the repo which contains the list of env variables for the project. The redacted values can be found in 1Password IC Vault. The secrets are only needed for specific use case and not needed for just running the NextJS application.
