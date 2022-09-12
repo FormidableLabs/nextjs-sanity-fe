@@ -39,11 +39,15 @@ source ~/<file you modified>
 
 There is an `.env.sample` committed to the repo which contains the list of env variables for the project. The redacted values can be found in 1Password IC Vault. The secrets are only needed for specific use case and not needed for just running the NextJS application.
 
+The following command copies `.env.sample` into a file named `.env`
+
 ```bash
 cp .env.sample .env
 ```
 
 ### Scripts
+
+:bulb: To get a list of scripts available, you can also run `pnpm run` or `yarn run` and it will output a list of available commands.
 
 - `local` - Runs Sanity Studio, NextJs app and GraphQL codegen watch in parallel.
 
@@ -98,7 +102,7 @@ Another monorepo gotcha is Sanity cli expects to be run from the root where sani
 
 Webhooks are an important part of this project. In order to serve accurate data and cache it for long periods of time, there must be notifications when content changes occur. Luckily, sanity has excellent support for [webhooks](https://www.sanity.io/docs/webhooks).
 
-Webhook(s) are utilized as the change detection mechanism. Our current cache strategy is based around using the `surrogate-key` header with the value of the `slug` for that content item.
+Webhook(s) are utilized as the change detection mechanism. Our current cache strategy is based around using the Fastly `surrogate-key` header with the value of the `slug` for that content item.
 
 [Slugs](https://www.sanity.io/docs/slug-type) are an important part of our caching strategy. Sanity defines them as:
 
@@ -118,9 +122,7 @@ The relevant webhook configuration is as follows:
 
 ## Fastly Caching
 
-NOTE: If the Vercel url is used directly, there will be no caching setup. In order to utilize the caching, the fastly url should be used.
-
-The site with caching enabled is currently hosted using Fastly's Free TLS option under `https://nextjs-sanity.global.ssl.fastly.net/`. In the future, a domain will be assigned to the project.
+NOTE: If the [Vercel url](https://nextjs-sanity-fe.vercel.app/) is used directly, there will be no caching. In order to utilize caching, the fastly url should be used at `https://nextjs-sanity.formidable.dev`.
 
 In order to enhance the speed of the app, we are utilizing a cdn with a high cache-lifetime for Server Side Rendered (SSR) pages. The caveat to this approach is that it is important to invalidate the cache when something changes. Otherwise, it will be displaying incorrect data for a length of time equal to the cache policy.
 
@@ -129,17 +131,11 @@ The Fastly caching piece requires a couple of things:
 1. Surrogate-Control Response header needs to be added to pages where caching is desired
 2. Surrogate-Key Response header needs to be added to make cache invalidation easier
 
-Surrogate Key reference:
-https://docs.fastly.com/en/guides/working-with-surrogate-keys
+[Surrogate Key reference](https://docs.fastly.com/en/guides/working-with-surrogate-keys)
 
-Purging api reference:
-https://developer.fastly.com/reference/api/purging/
+[Purging api reference](https://developer.fastly.com/reference/api/purging/)
 
 ![Diagram](https://user-images.githubusercontent.com/3632381/184446063-f579cbcc-1546-4bb2-a1fc-8a3d003559ec.png)
-
-todo
-
-- [ ] update Fastly domain to use custom domain (`https://nextjs-sanity.formidable.dev`)
 
 ### Important headers
 
@@ -155,19 +151,29 @@ The following request headers can also be useful.
 
 ### Purging scenarios
 
-These are the purging scenarios we will be adding support for in the near future.
+#### Blog Page i.e. (`/blogs` or `/blogs/white-tees-are-in`)
 
-#### Home Page / Category Listing Page i.e. (`/` or `/categories`)
+This is the simplest purging scenario. Since blogs are only shown under /blogs, we can purge them specifically by id.
 
-The Home and Categories Pages list Categories set up in Sanity, and therefore should be kept up to date when Categories change.
-
-When a Category is created, updated, or deleted, a purge should be executed using the `category` surrogate-key.
+When a blog is created, updated, or deleted, we should purge the associated blog page as well as the blog listing page.
 
 #### Category PLP page i.e. (`/categories/tops`)
 
 A Category PLP page lists all products for a given Category.
 
 When a product is created, updated, or deleted, we should purge the associated category page.
+
+#### Home Page i.e. (`/`)
+
+The Home Page is enriched with data from multiple sources. Specifically, it displays the top products and categories within the site.
+
+When a Category or Product is created, updated, or deleted, a purge should be executed for the appropriate surrogate-key.
+
+#### Category Listing Page i.e. `/categories`
+
+The Home and Categories Pages list Categories set up in Sanity, and therefore should be kept up to date when Categories change.
+
+When a Category is created, updated, or deleted, a purge should be executed using the `category` surrogate-key.
 
 #### PDP page i.e. (`/products/blank-t-shirt`)
 
@@ -180,3 +186,74 @@ Specific situation:
 In Sanity, the product with a slug of `blank-t-shirt` had it's metadata modified (name, description, etc).
 
 When that payload is received, a purge request should be done for the following surrogate-key `blank-t-shirt`
+
+### Troubleshooting purging
+
+If you want to test or troubleshoot purging, here are some tips:
+
+#### Check sanity webhook is enabled
+
+Seems obvious, but it's always possible someone disabled the webhook. If the webhook is disabled, content will NEVER be purged and will only be evicted from the cache upon expiration.
+
+To verify the sanity webhook is enabled, go to the management dashboard, api tab, and verify the webhook is listed as enabled.
+
+#### Check sanity webhook attempts log
+
+Sanity records each time a webhook payload is sent. Reviewing the attempt log can help identify potential problems.
+
+Open the management dashboard, click the hamburger menu and choose "Show attempt log". This will show you recent attempts, and their status code:
+
+```json
+[
+  {
+    "id": "atm-2E5Gv4d1z6Y9pDuNnAQiG8Vl3Nj",
+    "projectId": "5bsv02jj",
+    "inProgress": false,
+    "duration": 121,
+    "createdAt": "2022-08-30T16:50:58.275Z",
+    "updatedAt": "2022-08-30T16:50:58.275Z",
+    "messageId": "msg-2E5Gv24WTt2RlJzkpe6SKg16XWj",
+    "hookId": "FcBSPrGqthz8Yaas",
+    "isFailure": false,
+    "failureReason": null,
+    "resultCode": 200,
+    "resultBody": "{\"message\":\"Webhook processed successfully\"}"
+  }
+]
+```
+
+#### Check Headers
+
+If the `surrogate-control` or `surrogate-keys` response headers aren't set correctly, that could also cause problems. By default, Fastly strips away the `surrogate-key` header, which makes it harder to know what the keys are. The easiest ways to view the keys are:
+
+1. Load the [vercel app](https://nextjs-sanity-fe.vercel.app/) in chrome.
+2. Run the app locally and open in chrome.
+
+Once you have the app open in Chrome. Open Dev tools. View the "Doc" network request. Under response headers you should see something similar to this (sample from a blog page):
+
+```
+surrogate-control: max-age=604800, stale-while-revalidate=120000, stale-if-error=600000
+surrogate-key: blog_limited-release-of-white-tees
+```
+
+#### Check api/webhook logs
+
+If webhooks appear to be getting triggered, but a purge isn't working, you can view real-time logs within vercel. Keep in mind we don't currently have any log storage setup for Vercel, so you can only live stream the logs to get the information you need.
+
+To open the logs, go to the vercel dashboard and find the nextjs-sanity-fe project. Go to the production deployment, click functions, for path choose `api/webhook` to filter out noise from other endpoints. Now, you can edit a sanity item to trigger the webhook and you should get some logging information which can let you know if there's a problem. Example log output below:
+
+```
+received a potential webhook request
+authorization step has passed
+parsed body:
+{
+  _id: '38b0346a-5106-4bed-a010-a306035c6d5a',
+  _type: 'blog',
+  slug: 'limited-release-of-white-tees'
+}
+initiating cache purge for blog blog_limited-release-of-white-tees
+cache purge successfully requested {
+  blog: '7100059-1662806213-2227868',
+  'blog_limited-release-of-white-tees': '7100059-1662806213-2227869'
+}
+```
