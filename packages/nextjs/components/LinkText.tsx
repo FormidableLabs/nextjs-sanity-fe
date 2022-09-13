@@ -2,7 +2,6 @@ import classNames from "classnames";
 import { AnchorHTMLAttributes, ButtonHTMLAttributes, ForwardedRef, forwardRef } from "react";
 
 interface BaseProps {
-  variant: "primary" | "secondary" | "tertiary";
   disabled?: boolean;
   children: React.ReactNode;
 }
@@ -19,21 +18,18 @@ type ButtonAsLink = BaseProps &
 
 type ButtonProps = ButtonAsButton | ButtonAsLink;
 
-function ButtonComponent(
-  { as = "button", variant, disabled, className, ...props }: ButtonProps,
+function LinkTextComponent(
+  { as = "button", disabled, className, ...props }: ButtonProps,
   ref: ForwardedRef<HTMLButtonElement | HTMLAnchorElement>
 ) {
   const styles = classNames(
-    "rounded-lg",
     "py-4",
-    "px-8",
     "text-body-reg",
     "font-bold",
+    "text-blue",
+    "hover:border-b",
     {
-      "bg-blue text-white hover:text-sky": variant === "primary",
-      "bg-white text-blue hover:bg-blue hover:text-sky border border-blue": variant === "secondary",
-      "bg-white text-yellow hover:bg-yellow hover:text-blue": variant === "tertiary",
-      "bg-thunder-cloud text-dark-thunder-cloud hover:text-dark-thunder-cloud": disabled,
+      "text-dark-thunder-cloud hover:text-dark-thunder-cloud hover:border-b-0": disabled,
     },
     className
   );
@@ -57,4 +53,4 @@ function ButtonComponent(
   );
 }
 
-export const Button = forwardRef(ButtonComponent);
+export const LinkText = forwardRef(LinkTextComponent);

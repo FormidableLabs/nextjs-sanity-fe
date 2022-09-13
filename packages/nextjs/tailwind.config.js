@@ -1,3 +1,5 @@
+const defaultTheme = require("tailwindcss/defaultTheme");
+
 /** @type {import('tailwindcss').Config} */
 module.exports = {
   content: ["./pages/**/*.{js,jsx,ts,tsx}", "./components/**/*.{js,jsx,ts,tsx}"],
@@ -8,6 +10,9 @@ module.exports = {
         padding: {
           DEFAULT: "2rem",
         },
+      },
+      fontFamily: {
+        sans: ["Cabinet Grotesk", ...defaultTheme.fontFamily.sans],
       },
     },
     colors: {
