@@ -20,7 +20,6 @@ export const Input: React.FC<Props> = ({ label, disabled, ...props }) => {
         disabled={disabled}
         className={classNames(
           "border",
-          "ring-blue",
           "border-blue",
           "rounded-lg",
           "px-4",
