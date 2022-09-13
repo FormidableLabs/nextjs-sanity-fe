@@ -1,4 +1,5 @@
 import { Button } from "components/Button";
+import { Checkbox } from "components/Checkbox";
 import { Input } from "components/Input";
 import { LinkText } from "components/LinkText";
 import { Pill } from "components/Pill";
@@ -54,6 +55,11 @@ export default function ComponentsPage() {
       <div className="flex justify-between mb-8 mt-2">
         <Input label="Label" placeholder="Placeholder Text" />
         <Input label="Label" placeholder="Placeholder Text" disabled />
+      </div>
+
+      <h1 className="text-h4">Checkbox</h1>
+      <div className="flex justify-between mb-8 mt-2">
+        <Checkbox name="checkbox" label="Option" />
       </div>
     </div>
   );

@@ -14,6 +14,10 @@ module.exports = {
       fontFamily: {
         sans: ["Cabinet Grotesk", ...defaultTheme.fontFamily.sans],
       },
+      backgroundImage: {
+        // converted to data url from Figma export
+        "checkbox-checked": `url("data:image/svg+xml,%3Csvg width='12' height='9' viewBox='0 0 12 9' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath fill-rule='evenodd' clip-rule='evenodd' d='M11.6533 0.115902C11.8654 0.292684 11.8941 0.607966 11.7173 0.820105L5.05061 8.8201C4.96068 8.92803 4.8295 8.99313 4.68916 8.9995C4.54883 9.00587 4.41229 8.9529 4.31295 8.85357L0.312951 4.85357C0.117688 4.6583 0.117688 4.34172 0.312951 4.14646C0.508213 3.9512 0.824795 3.9512 1.02006 4.14646L4.6329 7.75931L10.9491 0.17992C11.1258 -0.0322181 11.4411 -0.0608801 11.6533 0.115902Z' fill='%238BDDFD'/%3E%3C/svg%3E%0A")`,
+      },
     },
     colors: {
       red: "#F04D21",
