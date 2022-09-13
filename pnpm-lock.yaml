@@ -37,6 +37,7 @@ importers:
       '@types/react-dom': 18.0.6
       '@types/uuid': ^8.3.4
       autoprefixer: ^10.4.8
+      classnames: ^2.3.2
       concurrently: ^7.2.2
       cookie: ^0.5.0
       cors: ^2.8.5
@@ -73,6 +74,7 @@ importers:
       '@sanity/schema': 2.31.0
       '@sanity/webhook': 2.0.0
       '@tailwindcss/typography': 0.5.4_tailwindcss@3.1.8
+      classnames: 2.3.2
       cookie: 0.5.0
       cors: 2.8.5
       dotenv: 16.0.1
@@ -6989,6 +6991,10 @@ packages:
 
   /classnames/2.3.1:
     resolution: {integrity: sha512-OlQdbZ7gLfGarSqxesMesDa5uz7KFbID8Kpq/SxIoNGDqY8lSYs0D+hhtBXhcdB3rcbXArFr7vlHheLk1voeNA==}
+    dev: false
+
+  /classnames/2.3.2:
+    resolution: {integrity: sha512-CSbhY4cFEJRe6/GQzIk5qXZ4Jeg5pcsP7b5peFSDpffpe1cqjASH/n9UTjBwOp6XpMSTwQ8Za2K5V02ueA7Tmw==}
     dev: false
 
   /clean-stack/2.2.0:
