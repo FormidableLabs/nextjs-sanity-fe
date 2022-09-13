@@ -9,7 +9,7 @@ interface Props extends InputHTMLAttributes<HTMLInputElement> {
 export const Checkbox: React.FC<Props> = ({ name, label, ...checkboxInputProps }) => {
   const id = useId();
   return (
-    <div className="inline-flex items-center my-2 ml-4">
+    <div className="inline-flex items-center my-2">
       <input
         type="checkbox"
         name={name}
