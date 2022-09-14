@@ -7,7 +7,7 @@ This repo is a mono repo built using [pnpm](https://pnpm.io/) workspaces. It con
 
 A manually created and managed Fastly CDN service is used to facilitate caching.
 
-![Architecture](https://user-images.githubusercontent.com/3632381/190189719-037afd9e-cad5-4ec7-9435-784fa959e95d.png)
+![Architecture](https://user-images.githubusercontent.com/3632381/190230431-bf530eeb-9926-4c43-8a39-a7f7f882276e.png)
 
 ## Getting Started
 
@@ -128,7 +128,7 @@ The relevant webhook configuration is as follows:
 
 We are using Fastly to cache and host the subdomain used for this app. The data flow involved in caching is illustrated below.
 
-![Caching Flow](https://user-images.githubusercontent.com/3632381/190192714-3cc06430-3eb7-4bc3-af1a-4bf0da66c82d.png)
+![Caching Flow](https://user-images.githubusercontent.com/3632381/190230067-7bfa2559-6067-4ae6-b1e0-fabca62ab96b.png)
 
 NOTE: If the [Vercel url](https://nextjs-sanity-fe.vercel.app/) is used directly, there will be no caching. In order to utilize caching, the fastly url should be used at `https://nextjs-sanity.formidable.dev`.
 
@@ -164,7 +164,7 @@ There are two main categories for which purging is necessary.
 
 The following simplified process diagram illustrates what conditions are checked when content is modified.
 
-![Process Diagram](https://user-images.githubusercontent.com/3632381/190229060-a22b3648-d47d-482e-8817-06e95c8a46e2.png)
+![Process Diagram](https://user-images.githubusercontent.com/3632381/190230732-0bd2ff41-eadf-4816-92b0-6968363b0ee0.png)
 
 #### Blog Page i.e. (`/blogs` or `/blogs/white-tees-are-in`)
 
