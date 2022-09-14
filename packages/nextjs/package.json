@@ -19,6 +19,7 @@
     "@sanity/schema": "^2.31.0",
     "@sanity/webhook": "^2.0.0",
     "@tailwindcss/typography": "^0.5.4",
+    "classnames": "^2.3.2",
     "cookie": "^0.5.0",
     "cors": "^2.8.5",
     "dotenv": "^16.0.1",
