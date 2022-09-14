@@ -157,6 +157,15 @@ The following request headers can also be useful.
 
 ### Purging scenarios
 
+There are two main categories for which purging is necessary.
+
+1. Deployments of new code - Vercel automatically purges on deployment. Todo: purge fastly cache on deployment.
+2. Content modifications in Sanity Studio
+
+The following simplified process diagram illustrates what conditions are checked when content is modified.
+
+![Process Diagram](https://user-images.githubusercontent.com/3632381/190229060-a22b3648-d47d-482e-8817-06e95c8a46e2.png)
+
 #### Blog Page i.e. (`/blogs` or `/blogs/white-tees-are-in`)
 
 This is the simplest purging scenario. Since blogs are only shown under /blogs, we can purge them specifically by id.
