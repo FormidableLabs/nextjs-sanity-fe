@@ -1,9 +1,13 @@
 # Formidable - NextJS Sanity E-Commerce Site
 
-This repo is a mono repo built using [pnpm](https://pnpm.io/) workspaces. It consists of two packages:
+This repo is a mono repo built using [pnpm](https://pnpm.io/) workspaces. It consists of two deployable applications.
 
-1. NextJs App
-2. Sanity Studio
+1. NextJs App (deployed to Vercel)
+2. Sanity Studio (deployed to Sanity)
+
+A manually created and managed Fastly CDN service is used to facilitate caching.
+
+![Architecture](https://user-images.githubusercontent.com/3632381/190230431-bf530eeb-9926-4c43-8a39-a7f7f882276e.png)
 
 ## Getting Started
 
@@ -122,6 +126,10 @@ The relevant webhook configuration is as follows:
 
 ## Fastly Caching
 
+We are using Fastly to cache and host the subdomain used for this app. The data flow involved in caching is illustrated below.
+
+![Caching Flow](https://user-images.githubusercontent.com/3632381/190230067-7bfa2559-6067-4ae6-b1e0-fabca62ab96b.png)
+
 NOTE: If the [Vercel url](https://nextjs-sanity-fe.vercel.app/) is used directly, there will be no caching. In order to utilize caching, the fastly url should be used at `https://nextjs-sanity.formidable.dev`.
 
 In order to enhance the speed of the app, we are utilizing a cdn with a high cache-lifetime for Server Side Rendered (SSR) pages. The caveat to this approach is that it is important to invalidate the cache when something changes. Otherwise, it will be displaying incorrect data for a length of time equal to the cache policy.
@@ -134,8 +142,6 @@ The Fastly caching piece requires a couple of things:
 [Surrogate Key reference](https://docs.fastly.com/en/guides/working-with-surrogate-keys)
 
 [Purging api reference](https://developer.fastly.com/reference/api/purging/)
-
-![Diagram](https://user-images.githubusercontent.com/3632381/184446063-f579cbcc-1546-4bb2-a1fc-8a3d003559ec.png)
 
 ### Important headers
 
@@ -150,6 +156,15 @@ The following request headers can also be useful.
 - `Fastly-Debug` - [Fastly Debug reference](https://developer.fastly.com/reference/http/http-headers/Fastly-Debug/). Helpful for checking on
 
 ### Purging scenarios
+
+There are two main categories for which purging is necessary.
+
+1. Deployments of new code - Vercel automatically purges on deployment. Todo: purge fastly cache on deployment.
+2. Content modifications in Sanity Studio
+
+The following simplified process diagram illustrates what conditions are checked when content is modified.
+
+![Process Diagram](https://user-images.githubusercontent.com/3632381/190230732-0bd2ff41-eadf-4816-92b0-6968363b0ee0.png)
 
 #### Blog Page i.e. (`/blogs` or `/blogs/white-tees-are-in`)
 
