@@ -75,7 +75,7 @@ export const Search: React.FC = () => {
   }, [closeMenu]);
 
   return (
-    <div className="mr-4 hidden sm:hidden">
+    <div className="mr-4 hidden sm:block">
       <div {...getComboboxProps()}>
         <Input
           {...getInputProps({

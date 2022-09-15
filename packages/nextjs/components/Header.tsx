@@ -51,7 +51,7 @@ export const Header = () => {
           <Search />
           <Link href="/cart">
             <a className="flex items-center text-blue text-body-reg" onClick={onMobileNavClose}>
-              <span className="hidden sm:hidden">Cart</span>
+              <span className="hidden sm:block">Cart</span>
               <FiShoppingCart size={24} className="mx-2" />
               <span>{cartTotal}</span>
             </a>

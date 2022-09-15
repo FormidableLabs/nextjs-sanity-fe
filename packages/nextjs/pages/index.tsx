@@ -22,7 +22,9 @@ const Home: NextPage = () => {
         </div>
         <div className="w-[676px] bg-gray h-[583px] rounded"></div>
       </div>
+
       <h4 className="text-h4 text-blue border-y border-y-blue px-9 py-6">Our bestsellers</h4>
+
       <div className="flex justify-between m-9">
         {data?.allProduct.map((product, i) => (
           <>
