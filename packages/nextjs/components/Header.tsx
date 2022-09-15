@@ -14,10 +14,6 @@ const NAV_ITEMS = [
     href: "/categories",
     label: "Categories",
   },
-  {
-    href: "/blogs",
-    label: "Blogs",
-  },
 ];
 
 export const Header = () => {
