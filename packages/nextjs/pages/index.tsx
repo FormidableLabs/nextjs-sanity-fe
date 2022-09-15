@@ -2,30 +2,53 @@ import { GetServerSideProps, NextPage } from "next";
 import { withUrqlClient } from "next-urql";
 import { GetProductsAndCategoriesDocument, useGetProductsAndCategoriesQuery } from "utils/generated/graphql";
 import { initializeUrql, urqlOptions, withUrqlOptions } from "utils/urql";
-import { CategoryList } from "components/CategoryList";
 import { setCachingHeaders } from "utils/setCachingHeaders";
-import { ProductList } from "components/ProductList";
-import { ImageCarousel } from "components/ImageCarousel";
 import { SanityType } from "utils/consts";
+import { Button } from "components/Button";
+import { FiArrowRight } from "react-icons/fi";
+import { Card } from "components/Card";
 
 const Home: NextPage = () => {
   const [{ data }] = useGetProductsAndCategoriesQuery();
 
   return (
-    <div className="m-4">
-      <div className="flex justify-center my-14">
-        <div className="w-[400px] h-[400px]">
-          <ImageCarousel productImages={data?.allProductImage} />
+    <div>
+      <div className="flex items-center mx-9 my-8">
+        <div>
+          <h1 className="text-blue text-h1">Formidable breads for your daily life.</h1>
+          <Button variant="secondary" className="flex items-center mt-6">
+            <FiArrowRight size={24} className="mr-2" /> Show now
+          </Button>
         </div>
+        <div className="w-[676px] bg-gray h-[583px] rounded"></div>
+      </div>
+      <h4 className="text-h4 text-blue border-y border-y-blue px-9 py-6">Our bestsellers</h4>
+      <div className="flex justify-between m-9">
+        {data?.allProduct.map((product, i) => (
+          <>
+            <Card
+              key={product._id}
+              to={`/products/${product.slug?.current}`}
+              title={product.name ?? ""}
+              price={product.variants?.[0]?.price ?? ""}
+              imageProps={{
+                src: product.variants?.[0]?.images?.[0]?.images ?? "",
+                alt: product.variants?.[0]?.images?.[0]?.name ?? "",
+              }}
+            >
+              <h1>{product.name}</h1>
+            </Card>
+            {i !== data.allProduct.length - 1 && <span className="border-r border-r-blue" />}
+          </>
+        ))}
+      </div>
+      <div className="m-9">
+        <Button variant="primary" className="w-full">
+          Show all breads
+        </Button>
       </div>
 
-      <div className="mb-14">
-        <h3 className="text-lg text-center font-bold my-5">Top Products</h3>
-        <ProductList items={data?.allProduct} />
-      </div>
-
-      <h3 className="text-lg text-center font-bold my-5">Top Categories</h3>
-      <CategoryList items={data?.allCategory} />
+      <h4 className="text-h4 text-blue border-y border-y-blue px-9 py-6">Top categories</h4>
     </div>
   );
 };

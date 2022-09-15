@@ -4,6 +4,8 @@ import Link from "next/link";
 import { Image } from "./Image";
 
 interface Props {
+  title: string;
+  price: string | number;
   children: React.ReactNode;
   to: string;
   className?: string;
@@ -13,12 +15,13 @@ interface Props {
   };
 }
 
-export const Card: React.FC<Props> = ({ to, children, imageProps, className = "" }) => {
+export const Card: React.FC<Props> = ({ to, children, title, price, imageProps, className = "" }) => {
   return (
     <Link href={to}>
-      <a className={`hover:shadow-lg border flex flex-col items-center justify-center ${className}`}>
-        <Image width={400} height={400} src={imageProps.src} alt={imageProps.alt} />
-        <h2 className="text-xl font-bold my-2">{children}</h2>
+      <a className={`flex flex-col justify-center text-blue ${className}`}>
+        <Image className="rounded-2xl" width={400} height={400} src={imageProps.src} alt={imageProps.alt} />
+        <h2 className="text-h6 mt-4 mb-1">{title}</h2>
+        <span className="text-eyebrow font-bold">${price}</span>
       </a>
     </Link>
   );

@@ -21,6 +21,7 @@ query getProductsAndCategories {
       current
     }
     variants {
+      price
       images {
         name
         images {
