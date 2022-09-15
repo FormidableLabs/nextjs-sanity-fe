@@ -12,7 +12,7 @@ on:
 
 jobs:
   purge:
-    #if: ${{ github.event.deployment.environment == 'production' || inputs.manual == true }}
+    if: ${{ github.event.deployment.environment == 'production' || inputs.manual == true }}
     runs-on: ubuntu-latest
     steps:
       - run: |
