@@ -1,5 +1,5 @@
 import { DashboardWidget } from "@sanity/dashboard";
-import { Button, Flex, Spinner, Text, TextInput, useToast } from "@sanity/ui";
+import { Button, Flex, Spinner, Text, TextInput, useToast, TextInputType } from "@sanity/ui";
 import React, { useState } from "react";
 import styled from "styled-components";
 
@@ -56,21 +56,13 @@ function UploadBlog() {
       header="Upload a Blog"
       footer={
         <Flex direction="column" align="stretch">
-          <Button
-            onClick={handleFileSubmission}
-            flex={1}
-            paddingX={2}
-            paddingY={4}
-            mode="bleed"
-            tone="primary"
-            text="Upload"
-          />
+          <Button onClick={handleFileSubmission} paddingX={2} paddingY={4} mode="bleed" tone="primary" text="Upload" />
         </Flex>
       }
     >
       <StyledText size={4}>Upload a docx file</StyledText>
       <TextInput
-        type="file"
+        type={"file" as TextInputType}
         accept=".doc,.docx,application/msword,application/vnd.openxmlformats-officedocument.wordprocessingml.document"
         onChange={handleFileSelection}
       />
