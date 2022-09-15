@@ -23,7 +23,7 @@
     },
     {
       "implements": "part:@sanity/dashboard/config",
-      "path": "./dashboardConfig.js"
+      "path": "./dashboardConfig.ts"
     }
   ]
 }
