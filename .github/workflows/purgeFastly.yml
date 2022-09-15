@@ -1,0 +1,23 @@
+name: Purge Fastly cache
+
+on:
+  deployment:
+  workflow_dispatch:
+    inputs:
+      manual:
+        description: "boolean indicating if the action was triggered manually"
+        type: boolean
+        required: true
+        default: true
+
+jobs:
+  purge:
+    if: ${{ github.event.deployment.environment == 'production' || inputs.manual == true }}
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/setup-node@v3
+        with:
+          node-version: 14
+          cache: "npm"
+      - run: npm install -g fastly-cli
+      - run: fastly purge-all -k ${{secrets.FASTLY_API_KEY}} -s ${{secrets.FASTLY_SERVICE_ID}}
