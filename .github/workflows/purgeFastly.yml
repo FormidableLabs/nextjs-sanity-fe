@@ -3,14 +3,16 @@ name: Purge Fastly cache
 on:
   deployment:
   workflow_dispatch:
-    manual:
-      type: boolean
-      required: true
-      default: true
+    inputs:
+      manual:
+        description: "boolean indicating if the action was triggered manually"
+        type: boolean
+        required: true
+        default: true
 
 jobs:
   purge:
-    if: ${{ deployment.environment == "production" || inputs.manual == true}}
+    if: ${{ github.event.deployment.environment == "production" || inputs.manual == true}}
     runs-on: ubuntu-latest
     steps:
       - uses: actions/setup-node@v3
