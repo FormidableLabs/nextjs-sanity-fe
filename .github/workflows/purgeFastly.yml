@@ -15,9 +15,7 @@ jobs:
     if: ${{ github.event.deployment.environment == 'production' || inputs.manual == true }}
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/setup-node@v3
-        with:
-          node-version: 14
-          cache: "npm"
-      - run: npm install -g fastly-cli
-      - run: fastly purge-all -k ${{secrets.FASTLY_API_KEY}} -s ${{secrets.FASTLY_SERVICE_ID}}
+      - run: |
+          curl -i -X POST "https://api.fastly.com/service/${{secrets.FASTLY_SERVICE_ID}}/purge_all" \
+          -H "Fastly-Key: ${{secrets.FASTLY_API_KEY}}" \
+          -H "Accept: application/json"
