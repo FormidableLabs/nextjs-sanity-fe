@@ -4,8 +4,6 @@ import { withUrqlClient } from "next-urql";
 import { GetCategoriesDocument, useGetCategoriesQuery } from "utils/generated/graphql";
 import { initializeUrql, urqlOptions, withUrqlOptions } from "utils/urql";
 import { CategoryList } from "components/CategoryList";
-import { setCachingHeaders } from "utils/setCachingHeaders";
-import { SanityType } from "utils/consts";
 
 const CategoriesPage: NextPage = () => {
   const [{ data }] = useGetCategoriesQuery();
@@ -24,8 +22,6 @@ export const getServerSideProps: GetServerSideProps = async ({ res }) => {
   // This query is used to populate the cache for the query
   // used on this page.
   await client?.query(GetCategoriesDocument, {}).toPromise();
-
-  setCachingHeaders(res, [SanityType.Category, SanityType.CategoryImage]);
 
   return {
     props: {

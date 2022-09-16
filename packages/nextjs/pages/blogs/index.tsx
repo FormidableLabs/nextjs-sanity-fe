@@ -1,10 +1,8 @@
 import { GetServerSideProps, NextPage } from "next";
 import { withUrqlClient } from "next-urql";
 import Link from "next/link";
-import { SanityType } from "utils/consts";
 
 import { GetBlogsSlugsDocument, useGetBlogsSlugsQuery } from "utils/generated/graphql";
-import { setCachingHeaders } from "utils/setCachingHeaders";
 import { initializeUrql, urqlOptions, withUrqlOptions } from "utils/urql";
 
 const BlogsPage: NextPage = () => {
@@ -27,13 +25,10 @@ const BlogsPage: NextPage = () => {
 
 export const getServerSideProps: GetServerSideProps = async (ctx) => {
   const { client, ssrCache } = initializeUrql();
-  const { res } = ctx;
 
   // This query is used to populate the cache for the query
   // used on this page.
   await client?.query(GetBlogsSlugsDocument, {}).toPromise();
-
-  setCachingHeaders(res, [SanityType.Blog]);
 
   return {
     props: {
