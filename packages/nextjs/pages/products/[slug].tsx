@@ -8,6 +8,7 @@ import { ImageCarousel } from "../../components/ImageCarousel/ImageCarousel";
 import { useCart } from "../../components/CartContext";
 import { GetProductDocument, GetProductQuery, Maybe, useGetProductQuery } from "../../utils/generated/graphql";
 import { initializeUrql, urqlOptions, withUrqlOptions } from "../../utils/urql";
+import { setCachingHeaders } from "utils/setCachingHeaders";
 import { isSlug } from "utils/isSlug";
 import { SanityType } from "utils/consts";
 
@@ -95,6 +96,10 @@ const ProductPage: NextPage = () => {
 export const getServerSideProps: GetServerSideProps = async ({ res, query }) => {
   const { client, ssrCache } = initializeUrql();
   const { slug } = query;
+
+  if (isSlug(slug)) {
+    setCachingHeaders(res, [`${SanityType.Product}_${slug}`, SanityType.ProductImage, SanityType.Variant]);
+  }
 
   // This query is used to populate the cache for the query
   // used on this page.

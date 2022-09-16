@@ -6,10 +6,13 @@ import { ProductFilters } from "components/ProductFilters";
 import { ProductSort } from "components/ProductSort";
 import { getPaginationFromQuery } from "utils/getPaginationFromQuery";
 import { CategoryPageCategory, CategoryPageProduct, CategoryPageResult } from "utils/groqTypes";
+import { setCachingHeaders } from "utils/setCachingHeaders";
+import { isSlug } from "utils/isSlug";
 import { getOrderingFromQuery } from "utils/getOrderingFromQuery";
 import { getFiltersFromQuery } from "utils/getFiltersFromQuery";
 import { GetFilteredCategoryProducts, getFilteredPaginatedQuery } from "utils/getFilteredPaginatedQuery";
 import { getSizeFilters } from "utils/getSizeFilters";
+import { SanityType } from "utils/consts";
 
 interface Props {
   products: CategoryPageProduct[];
@@ -54,6 +57,16 @@ export default CategoryPage;
 
 export const getServerSideProps: GetServerSideProps = async ({ query, ...ctx }) => {
   const { slug } = query;
+  const { res } = ctx;
+
+  if (isSlug(slug)) {
+    setCachingHeaders(res, [
+      `${SanityType.Category}_${slug}`,
+      SanityType.Product,
+      SanityType.ProductImage,
+      SanityType.Variant,
+    ]);
+  }
 
   // Sort/ordering.
   const order = getOrderingFromQuery(query);
