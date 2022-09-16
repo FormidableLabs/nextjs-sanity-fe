@@ -8,8 +8,6 @@ import { ImageCarousel } from "../../components/ImageCarousel/ImageCarousel";
 import { useCart } from "../../components/CartContext";
 import { GetProductDocument, GetProductQuery, Maybe, useGetProductQuery } from "../../utils/generated/graphql";
 import { initializeUrql, urqlOptions, withUrqlOptions } from "../../utils/urql";
-import { isSlug } from "utils/isSlug";
-import { SanityType } from "utils/consts";
 
 type ProductVariant = NonNullable<GetProductQuery["allProduct"][0]["variants"]>[0];
 

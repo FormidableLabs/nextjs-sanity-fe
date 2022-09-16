@@ -3,10 +3,8 @@ import { withUrqlClient } from "next-urql";
 import { GetProductsAndCategoriesDocument, useGetProductsAndCategoriesQuery } from "utils/generated/graphql";
 import { initializeUrql, urqlOptions, withUrqlOptions } from "utils/urql";
 import { CategoryList } from "components/CategoryList";
-import { setCachingHeaders } from "utils/setCachingHeaders";
 import { ProductList } from "components/ProductList";
 import { ImageCarousel } from "components/ImageCarousel";
-import { SanityType } from "utils/consts";
 
 const Home: NextPage = () => {
   const [{ data }] = useGetProductsAndCategoriesQuery();
@@ -36,8 +34,6 @@ export const getServerSideProps: GetServerSideProps = async ({ res }) => {
   // This query is used to populate the cache for the query
   // used on this page.
   await client?.query(GetProductsAndCategoriesDocument, {}).toPromise();
-
-  setCachingHeaders(res, [SanityType.Category, SanityType.CategoryImage, SanityType.Product, SanityType.ProductImage]);
 
   return {
     props: {

@@ -10,7 +10,6 @@ import { AllProductsPageResult, CategoryPageProduct } from "utils/groqTypes";
 import { getFiltersFromQuery } from "utils/getFiltersFromQuery";
 import { getOrderingFromQuery } from "utils/getOrderingFromQuery";
 import { getSizeFilters } from "utils/getSizeFilters";
-import { SanityType } from "utils/consts";
 
 interface ProductsPageProps {
   products: CategoryPageProduct[];
