@@ -2,6 +2,7 @@ query getProductsAndCategories {
   allCategory(limit: 3, sort: { _updatedAt: ASC }) {
     _id
     name
+    description
     slug {
       current
     }
@@ -32,7 +33,7 @@ query getProductsAndCategories {
       }
     }
   }
-  allProductImage(limit: 5, sort: { _updatedAt: ASC }) {
+  allProductImage(limit: 1, sort: { _updatedAt: ASC }) {
     _id
     name
     images {

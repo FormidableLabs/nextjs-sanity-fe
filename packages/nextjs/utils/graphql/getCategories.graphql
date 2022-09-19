@@ -2,6 +2,7 @@ query getCategories {
   allCategory {
     _id
     name
+    description
     slug {
       current
     }

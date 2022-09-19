@@ -19,6 +19,7 @@ export const CategoryList = ({ items }: CategoryListProps) => {
               alt: category.images?.[0]?.name ?? "",
             }}
             title={category.name ?? ""}
+            subTitle={category.description ?? ""}
           />
         </li>
       ))}

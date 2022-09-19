@@ -28,7 +28,7 @@ export const Header = () => {
 
   return (
     <>
-      <nav className="h-16 sm:h-28 flex items-center justify-between px-6 border-b border-b-blue shadow transition-all">
+      <nav className="h-16 sm:h-28 flex items-center justify-between px-6 border-b-2 border-b-blue shadow transition-all">
         <div className="flex items-center">
           <Link href="/">
             <a onClick={onMobileNavClose}>
