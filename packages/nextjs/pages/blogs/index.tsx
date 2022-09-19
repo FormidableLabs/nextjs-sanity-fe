@@ -23,12 +23,14 @@ const BlogsPage: NextPage = () => {
   );
 };
 
-export const getServerSideProps: GetServerSideProps = async (ctx) => {
+export const getServerSideProps: GetServerSideProps = async ({ res }) => {
   const { client, ssrCache } = initializeUrql();
 
   // This query is used to populate the cache for the query
   // used on this page.
   await client?.query(GetBlogsSlugsDocument, {}).toPromise();
+
+  res.setHeader("Cache-Control", "public, s-maxage=604800, stale-while-revalidate=86400");
 
   return {
     props: {

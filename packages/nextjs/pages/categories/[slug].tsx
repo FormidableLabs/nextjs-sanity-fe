@@ -52,8 +52,10 @@ const CategoryPage: NextPage<Props> = ({ category, products, sizeFilters, pageCo
 
 export default CategoryPage;
 
-export const getServerSideProps: GetServerSideProps = async ({ query, ...ctx }) => {
+export const getServerSideProps: GetServerSideProps = async ({ query, res, resolvedUrl }) => {
   const { slug } = query;
+
+  res.setHeader("Cache-Control", "public, s-maxage=604800, stale-while-revalidate=86400");
 
   // Sort/ordering.
   const order = getOrderingFromQuery(query);
@@ -81,7 +83,7 @@ export const getServerSideProps: GetServerSideProps = async ({ query, ...ctx }) 
    * redirect them to the last page/pageCount
    */
   if (pageCount > 0 && currentPage > pageCount) {
-    const destination = ctx.resolvedUrl.replace(`page=${currentPage}`, `page=${pageCount}`);
+    const destination = resolvedUrl.replace(`page=${currentPage}`, `page=${pageCount}`);
     return {
       redirect: {
         destination,
