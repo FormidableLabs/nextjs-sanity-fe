@@ -39,6 +39,8 @@ export const getServerSideProps: GetServerSideProps = async ({ res }) => {
   await client?.query(GetProductsAndCategoriesDocument, {}).toPromise();
   console.timeEnd("sanity query timing");
 
+  res.setHeader("Cache-Control", "public, s-maxage=604800, stale-while-revalidate=86400");
+
   return {
     props: {
       // urqlState is a keyword here so withUrqlClient can pick it up.
