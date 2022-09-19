@@ -9,6 +9,7 @@ import { FiArrowRight } from "react-icons/fi";
 import { FeaturedList } from "components/FeaturedList";
 import { FeaturedQuote } from "components/FeaturedQuote";
 import { Image } from "components/Image";
+import Link from "next/link";
 
 const Home: NextPage = () => {
   const [{ data }] = useGetProductsAndCategoriesQuery();
@@ -18,9 +19,11 @@ const Home: NextPage = () => {
       <div className="flex justify-between items-center mx-9 my-8">
         <div className="max-w-[600px]">
           <h1 className="text-blue text-h1">Formidable breads for your daily life.</h1>
-          <Button variant="secondary" className="flex items-center mt-6">
-            <FiArrowRight size={24} className="mr-2" /> Show now
-          </Button>
+          <Link href="/products">
+            <Button as="a" variant="secondary" className="inline-flex items-center mt-6">
+              <FiArrowRight size={24} className="mr-2" /> Show now
+            </Button>
+          </Link>
         </div>
 
         <span className="hidden sm:block">
@@ -38,9 +41,11 @@ const Home: NextPage = () => {
 
       <FeaturedList items={data?.allProduct} />
       <div className="m-9">
-        <Button variant="primary" className="w-full">
-          Show all breads
-        </Button>
+        <Link href="/products">
+          <Button as="a" variant="primary" className="w-full inline-block text-center">
+            Show all breads
+          </Button>
+        </Link>
       </div>
 
       <FeaturedQuote />

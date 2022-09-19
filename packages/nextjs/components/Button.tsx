@@ -33,6 +33,7 @@ function ButtonComponent(
       "bg-[transparent] text-blue hover:bg-blue hover:text-sky border border-blue": variant === "secondary",
       "bg-white text-yellow hover:bg-yellow hover:text-blue": variant === "tertiary",
       "bg-thunder-cloud text-dark-thunder-cloud hover:text-dark-thunder-cloud": disabled,
+      "cursor-pointer": as === "a",
     },
     className
   );

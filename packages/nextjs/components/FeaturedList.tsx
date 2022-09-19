@@ -31,7 +31,7 @@ export const FeaturedList = ({ items }: Props) => {
           };
         } else if (item.__typename === "Category") {
           props = {
-            to: `/products/${item.slug?.current}`,
+            to: `/categories/${item.slug?.current}`,
             title: item.name ?? "",
             subTitle: item.description ?? "",
             imageProps: {
