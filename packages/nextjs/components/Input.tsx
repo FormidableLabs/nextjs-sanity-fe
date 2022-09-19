@@ -1,21 +1,24 @@
 import classNames from "classnames";
-import { InputHTMLAttributes, useId } from "react";
+import { ForwardedRef, forwardRef, InputHTMLAttributes, useId } from "react";
 
 interface Props extends InputHTMLAttributes<HTMLInputElement> {
-  label: string;
+  label?: string;
   placeholder: string;
   disabled?: boolean;
 }
 
-export const Input: React.FC<Props> = ({ label, disabled, ...props }) => {
+const InputComponent = ({ label, disabled, ...props }: Props, ref: ForwardedRef<HTMLInputElement>) => {
   const id = useId();
 
   return (
     <div className="flex flex-col w-72">
-      <label htmlFor={id} className="text-body-reg mb-2 text-blue">
-        {label}
-      </label>
+      {label && (
+        <label htmlFor={id} className="text-body-reg mb-2 text-blue">
+          {label}
+        </label>
+      )}
       <input
+        ref={ref}
         id={id}
         disabled={disabled}
         className={classNames(
@@ -36,3 +39,5 @@ export const Input: React.FC<Props> = ({ label, disabled, ...props }) => {
     </div>
   );
 };
+
+export const Input = forwardRef(InputComponent);

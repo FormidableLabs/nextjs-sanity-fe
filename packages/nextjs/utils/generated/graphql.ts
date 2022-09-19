@@ -1099,7 +1099,7 @@ export type GetBlogsSlugsQuery = { __typename?: 'RootQuery', allBlog: Array<{ __
 export type GetCategoriesQueryVariables = Exact<{ [key: string]: never; }>;
 
 
-export type GetCategoriesQuery = { __typename?: 'RootQuery', allCategory: Array<{ __typename?: 'Category', _id?: string | null, name?: string | null, slug?: { __typename?: 'Slug', current?: string | null } | null, images?: Array<{ __typename?: 'CategoryImage', name?: string | null, images?: { __typename?: 'Image', asset?: { __typename?: 'SanityImageAsset', url?: string | null } | null } | null } | null> | null }> };
+export type GetCategoriesQuery = { __typename?: 'RootQuery', allCategory: Array<{ __typename?: 'Category', _id?: string | null, name?: string | null, description?: string | null, slug?: { __typename?: 'Slug', current?: string | null } | null, images?: Array<{ __typename?: 'CategoryImage', name?: string | null, images?: { __typename?: 'Image', asset?: { __typename?: 'SanityImageAsset', url?: string | null } | null } | null } | null> | null }> };
 
 export type GetCategoriesSlugsQueryVariables = Exact<{ [key: string]: never; }>;
 
@@ -1116,7 +1116,7 @@ export type GetProductQuery = { __typename?: 'RootQuery', allProduct: Array<{ __
 export type GetProductsAndCategoriesQueryVariables = Exact<{ [key: string]: never; }>;
 
 
-export type GetProductsAndCategoriesQuery = { __typename?: 'RootQuery', allCategory: Array<{ __typename?: 'Category', _id?: string | null, name?: string | null, slug?: { __typename?: 'Slug', current?: string | null } | null, images?: Array<{ __typename?: 'CategoryImage', name?: string | null, images?: { __typename?: 'Image', asset?: { __typename?: 'SanityImageAsset', url?: string | null } | null } | null } | null> | null }>, allProduct: Array<{ __typename?: 'Product', _id?: string | null, name?: string | null, slug?: { __typename?: 'Slug', current?: string | null } | null, variants?: Array<{ __typename?: 'Variant', images?: Array<{ __typename?: 'ProductImage', name?: string | null, images?: { __typename?: 'Image', asset?: { __typename?: 'SanityImageAsset', url?: string | null } | null } | null } | null> | null } | null> | null }>, allProductImage: Array<{ __typename?: 'ProductImage', _id?: string | null, name?: string | null, images?: { __typename?: 'Image', asset?: { __typename?: 'SanityImageAsset', _id?: string | null, url?: string | null } | null } | null }> };
+export type GetProductsAndCategoriesQuery = { __typename?: 'RootQuery', allCategory: Array<{ __typename?: 'Category', _id?: string | null, name?: string | null, description?: string | null, slug?: { __typename?: 'Slug', current?: string | null } | null, images?: Array<{ __typename?: 'CategoryImage', name?: string | null, images?: { __typename?: 'Image', asset?: { __typename?: 'SanityImageAsset', url?: string | null } | null } | null } | null> | null }>, allProduct: Array<{ __typename?: 'Product', _id?: string | null, name?: string | null, slug?: { __typename?: 'Slug', current?: string | null } | null, variants?: Array<{ __typename?: 'Variant', price?: number | null, images?: Array<{ __typename?: 'ProductImage', name?: string | null, images?: { __typename?: 'Image', asset?: { __typename?: 'SanityImageAsset', url?: string | null } | null } | null } | null> | null } | null> | null }>, allProductImage: Array<{ __typename?: 'ProductImage', _id?: string | null, name?: string | null, images?: { __typename?: 'Image', asset?: { __typename?: 'SanityImageAsset', _id?: string | null, url?: string | null } | null } | null }> };
 
 export type GetProductsQueryVariables = Exact<{ [key: string]: never; }>;
 
@@ -1163,6 +1163,7 @@ export const GetCategoriesDocument = gql`
   allCategory {
     _id
     name
+    description
     slug {
       current
     }
@@ -1237,6 +1238,7 @@ export const GetProductsAndCategoriesDocument = gql`
   allCategory(limit: 3, sort: {_updatedAt: ASC}) {
     _id
     name
+    description
     slug {
       current
     }
@@ -1256,6 +1258,7 @@ export const GetProductsAndCategoriesDocument = gql`
       current
     }
     variants {
+      price
       images {
         name
         images {
@@ -1266,7 +1269,7 @@ export const GetProductsAndCategoriesDocument = gql`
       }
     }
   }
-  allProductImage(limit: 5, sort: {_updatedAt: ASC}) {
+  allProductImage(limit: 1, sort: {_updatedAt: ASC}) {
     _id
     name
     images {

@@ -6,6 +6,7 @@ import debounce from "lodash.debounce";
 import { ProductSearch } from "utils/groqTypes/ProductSearch";
 import Link from "next/link";
 import { Image } from "./Image";
+import { Input } from "./Input";
 
 const SEARCH_QUERY = groq`*[_type == 'product']
 | score(
@@ -74,10 +75,9 @@ export const Search: React.FC = () => {
   }, [closeMenu]);
 
   return (
-    <div className="mr-5">
+    <div className="mr-4 hidden sm:block">
       <div {...getComboboxProps()}>
-        <input
-          className="border rounded p-2 w-72"
+        <Input
           {...getInputProps({
             type: "search",
             id: "search",
@@ -90,7 +90,7 @@ export const Search: React.FC = () => {
         {...getMenuProps({
           "aria-labelledby": "search-label",
         })}
-        className={`absolute bg-white w-72 mt-2 border rounded z-10 p-5 ${!isOpen ? "hidden" : ""}`}
+        className={`absolute w-72 bg-yellow mt-2 border rounded z-10 p-5 ${!isOpen ? "hidden" : ""}`}
       >
         {isOpen && products.length ? (
           products.map((product) => (

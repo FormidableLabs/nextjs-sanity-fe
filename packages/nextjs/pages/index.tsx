@@ -2,31 +2,57 @@ import { GetServerSideProps, NextPage } from "next";
 import { withUrqlClient } from "next-urql";
 import { GetProductsAndCategoriesDocument, useGetProductsAndCategoriesQuery } from "utils/generated/graphql";
 import { initializeUrql, urqlOptions, withUrqlOptions } from "utils/urql";
-import { CategoryList } from "components/CategoryList";
 import { setCachingHeaders } from "utils/setCachingHeaders";
-import { ProductList } from "components/ProductList";
-import { ImageCarousel } from "components/ImageCarousel";
 import { SanityType } from "utils/consts";
+import { Button } from "components/Button";
+import { FiArrowRight } from "react-icons/fi";
+import { FeaturedList } from "components/FeaturedList";
+import { FeaturedQuote } from "components/FeaturedQuote";
+import { Image } from "components/Image";
+import Link from "next/link";
 
 const Home: NextPage = () => {
   const [{ data }] = useGetProductsAndCategoriesQuery();
 
   return (
-    <div className="m-4">
-      <div className="flex justify-center my-14">
-        <div className="w-[400px] h-[400px]">
-          <ImageCarousel productImages={data?.allProductImage} />
+    <>
+      <div className="flex justify-between items-center mx-9 my-8">
+        <div className="max-w-[600px]">
+          <h1 className="text-blue text-h1">Formidable breads for your daily life.</h1>
+          <Link href="/products">
+            <Button as="a" variant="secondary" className="inline-flex items-center mt-6">
+              <FiArrowRight size={24} className="mr-2" /> Show now
+            </Button>
+          </Link>
         </div>
+
+        <span className="hidden sm:block">
+          <Image
+            width={600}
+            height={600}
+            className="rounded-2xl"
+            src={data?.allProductImage[0].images ?? ""}
+            alt={data?.allProductImage[0].name ?? ""}
+          />
+        </span>
       </div>
 
-      <div className="mb-14">
-        <h3 className="text-lg text-center font-bold my-5">Top Products</h3>
-        <ProductList items={data?.allProduct} />
+      <h4 className="text-h4 text-blue border-y-2 border-y-blue px-9 py-6">Our bestsellers</h4>
+
+      <FeaturedList items={data?.allProduct} />
+      <div className="m-9">
+        <Link href="/products">
+          <Button as="a" variant="primary" className="w-full inline-block text-center">
+            Show all breads
+          </Button>
+        </Link>
       </div>
 
-      <h3 className="text-lg text-center font-bold my-5">Top Categories</h3>
-      <CategoryList items={data?.allCategory} />
-    </div>
+      <FeaturedQuote />
+
+      <h4 className="text-h4 text-blue border-y-2 border-y-blue px-9 py-6">Top categories</h4>
+      <FeaturedList items={data?.allCategory} />
+    </>
   );
 };
 
