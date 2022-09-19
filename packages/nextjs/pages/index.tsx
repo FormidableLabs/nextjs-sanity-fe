@@ -29,11 +29,15 @@ const Home: NextPage = () => {
 };
 
 export const getServerSideProps: GetServerSideProps = async ({ res }) => {
+  console.time("urql setup timing");
   const { client, ssrCache } = initializeUrql();
+  console.timeEnd("urql setup timing");
 
+  console.time("sanity query timing");
   // This query is used to populate the cache for the query
   // used on this page.
   await client?.query(GetProductsAndCategoriesDocument, {}).toPromise();
+  console.timeEnd("sanity query timing");
 
   return {
     props: {
