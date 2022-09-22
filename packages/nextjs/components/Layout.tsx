@@ -1,6 +1,6 @@
 import Head from "next/head";
 import React from "react";
-import { Footer } from "./Footer";
+import { Footer } from "./Footer/Footer";
 import { Header } from "./Header";
 
 interface Props {
@@ -15,7 +15,7 @@ export const Layout: React.FC<Props> = ({ children }) => {
       </Head>
       <div className="h-screen flex flex-col">
         <Header />
-        <main className="flex-1 overflow-auto w-full">{children}</main>
+        <main className="w-full">{children}</main>
         <Footer />
       </div>
     </>
