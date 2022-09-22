@@ -5,7 +5,7 @@ import { FaChevronRight } from "react-icons/fa";
 export const EmailSubscribe = () => {
   return (
     <div className="flex flex-col">
-      <div className="flex-grow pb-[185px]">
+      <div className="flex-grow md:pb-[185px] pb-6">
         <H3>Keep your pantry stocked.</H3>
       </div>
       <div>
