@@ -15,7 +15,7 @@ function MyApp({ Component, pageProps, router }: AppProps) {
       </Head>
       <CartProvider>
         <Layout>
-          <AnimatePresence initial={false} mode="wait" onExitComplete={onExitComplete}>
+          <AnimatePresence initial={false} mode="wait">
             <PageWrapper key={router.route}>
               <Component {...pageProps} />
             </PageWrapper>
@@ -36,10 +36,6 @@ const PageWrapper = ({ children }: React.PropsWithChildren<{}>) => {
       {children}
     </motion.main>
   );
-};
-
-const onExitComplete = () => {
-  window.scrollTo({ top: 0, behavior: "smooth" });
 };
 
 export default MyApp;
