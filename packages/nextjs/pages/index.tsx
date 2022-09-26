@@ -15,7 +15,7 @@ const Home: NextPage = () => {
   const [{ data }] = useGetProductsAndCategoriesQuery();
 
   return (
-    <>
+    <div className="container">
       <div className="flex justify-between items-center mx-9 my-8">
         <div className="max-w-[600px]">
           <h1 className="text-blue text-h1">Formidable breads for your daily life.</h1>
@@ -52,7 +52,7 @@ const Home: NextPage = () => {
 
       <h4 className="text-h4 text-blue border-y-2 border-y-blue px-9 py-6">Top categories</h4>
       <FeaturedList items={data?.allCategory} />
-    </>
+    </div>
   );
 };
 

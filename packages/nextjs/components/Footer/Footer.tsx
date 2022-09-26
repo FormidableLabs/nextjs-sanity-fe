@@ -5,7 +5,7 @@ import { FooterLinks } from "./FooterLinks";
 import { FooterDivider } from "./FooterDivider";
 export const Footer = () => {
   return (
-    <div className="flex flex-wrap ">
+    <div className="flex flex-wrap container">
       <div className="flex w-full md:flex-row flex-col">
         <div
           className={classNames(
