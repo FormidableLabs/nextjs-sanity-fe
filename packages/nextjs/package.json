@@ -25,6 +25,7 @@
     "dotenv": "^16.0.1",
     "downshift": "^6.1.9",
     "formidable": "v3",
+    "framer-motion": "^7.4.0",
     "graphql": "^16.6.0",
     "groq": "^2.29.3",
     "jsdom": "^20.0.0",
