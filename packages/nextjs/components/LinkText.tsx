@@ -23,7 +23,6 @@ function LinkTextComponent(
   ref: ForwardedRef<HTMLButtonElement | HTMLAnchorElement>
 ) {
   const styles = classNames(
-    "py-4",
     "text-body-reg",
     "font-bold",
     "text-blue",
