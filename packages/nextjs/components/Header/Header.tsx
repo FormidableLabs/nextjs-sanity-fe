@@ -10,7 +10,7 @@ import { DesktopNavItem } from "./DesktopNavItem";
 
 export const Header = () => {
   const [navOpen, setNavOpen] = useState(false);
-  const { cartTotal } = useCart();
+  const { cartTotal, isFetchingCartItems } = useCart();
 
   const onMobileNavClick = () => setNavOpen((prev) => !prev);
 
@@ -36,7 +36,7 @@ export const Header = () => {
           </div>
           <div className="flex items-center">
             <Search />
-            <Cart cartTotal={cartTotal} onMobileNavClose={onMobileNavClose} />
+            <Cart cartTotal={cartTotal} onMobileNavClose={onMobileNavClose} isFetchingCartItems={isFetchingCartItems} />
             <MobileNavMenu navOpen={navOpen} onMobileNavClick={onMobileNavClick} />
           </div>
         </div>

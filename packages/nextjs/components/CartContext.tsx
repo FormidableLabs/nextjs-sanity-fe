@@ -9,23 +9,17 @@ type CartItem = {
   item: CategoryPageProduct;
 };
 
-interface CartContextValue {
-  cartItems: CartItem[];
-  cartItemsErrorIds?: string[];
-  cartTotal: number;
-  updateCart: (productId: string, quantity: number) => void;
-  clearCart: () => void;
-  updateCartFromApi: () => void;
-}
-
 const initialValue = {
-  cartItems: [],
-  cartItemsErrorIds: undefined,
+  isFetchingCartItems: false,
+  cartItems: [] as CartItem[],
+  cartItemsErrorIds: [] as string[] | undefined,
   cartTotal: 0,
-  updateCart: () => {},
-  clearCart: () => {},
-  updateCartFromApi: () => {},
+  updateCart: (() => {}) as (productId: string, quantity: number) => void,
+  clearCart: (() => {}) as () => void,
+  updateCartFromApi: (() => {}) as () => void,
 };
+
+type CartContextValue = typeof initialValue;
 
 export const CartContext = createContext<CartContextValue>(initialValue);
 
@@ -38,6 +32,7 @@ export const useCart = () => useContext(CartContext);
 export const CartProvider: React.FC<Props> = ({ children }) => {
   const [cartItems, setCartItems] = useState<CartItem[]>([]);
   const [cartItemsErrorIds, setCartItemsErrorIds] = useState<string[] | undefined>();
+  const [isFetchingCartItems, setIsFetchingCartItems] = useState(true);
 
   const retrieveCartItems = useCallback(async (cart: Record<string, number>) => {
     const cartEntries = Object.entries(cart);
@@ -46,8 +41,9 @@ export const CartProvider: React.FC<Props> = ({ children }) => {
       // Fetch all products with a variant with the same ID
       const variantIdFilters = cartEntries.map(([id, _]) => `("${id}" in variants[]->id)`);
       const groqFilters = variantIdFilters.length ? `&& (${variantIdFilters.join(" || ")})` : "";
-      const res = await sanityClient.fetch(
-        groq`{
+      const getResults = () =>
+        sanityClient.fetch(
+          groq`{
           'products': *[_type == "product" ${groqFilters}] {
             ...,
             'imageAlt': images[0]->name,
@@ -60,7 +56,8 @@ export const CartProvider: React.FC<Props> = ({ children }) => {
             }
           }
         }`
-      );
+        );
+      const res = await throttle(getResults, 1000);
 
       const errorRetrievingIds: string[] = [];
 
@@ -86,6 +83,8 @@ export const CartProvider: React.FC<Props> = ({ children }) => {
       setCartItems([]);
       setCartItemsErrorIds(undefined);
     }
+
+    setIsFetchingCartItems(false);
   }, []);
 
   const updateCartFromApi = useCallback(async () => {
@@ -149,6 +148,7 @@ export const CartProvider: React.FC<Props> = ({ children }) => {
   return (
     <CartContext.Provider
       value={{
+        isFetchingCartItems,
         cartItems,
         cartItemsErrorIds,
         updateCart,
@@ -161,3 +161,8 @@ export const CartProvider: React.FC<Props> = ({ children }) => {
     </CartContext.Provider>
   );
 };
+
+const wait = (ms: number) => new Promise((res) => setTimeout(res, ms));
+
+const throttle = <T,>(action: () => Promise<T>, ms: number): Promise<T> =>
+  Promise.all([action(), wait(ms)]).then((res) => res[0]);
