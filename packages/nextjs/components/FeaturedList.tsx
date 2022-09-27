@@ -1,3 +1,4 @@
+import * as React from "react";
 import classNames from "classnames";
 import { Card, CardProps } from "components/Card";
 import { GetProductsAndCategoriesQuery } from "utils/generated/graphql";
@@ -49,12 +50,12 @@ export const FeaturedList = ({ items }: Props) => {
         }
 
         return (
-          <>
-            <li key={item._id} className="flex justify-center">
+          <React.Fragment key={item._id}>
+            <li className="flex justify-center">
               <Card {...props} />
             </li>
-            {i % N < N - 1 && <li className="h-full w-full border-r-2 border-r-blue"></li>}
-          </>
+            {i % N < N - 1 && <li className="invisible sm:visible h-full w-full border-r-2 border-r-blue"></li>}
+          </React.Fragment>
         );
       })}
     </ul>
