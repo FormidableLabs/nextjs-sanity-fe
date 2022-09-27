@@ -13,6 +13,7 @@ module.exports = {
       },
       fontFamily: {
         sans: ["Cabinet Grotesk", ...defaultTheme.fontFamily.sans],
+        jeanLuc: ["JeanLuc", ...defaultTheme.fontFamily.sans],
       },
       backgroundImage: {
         // converted to data url from Figma export

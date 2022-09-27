@@ -1,3 +1,4 @@
+import * as React from "react";
 import { GetServerSideProps, NextPage } from "next";
 import { withUrqlClient } from "next-urql";
 import { GetProductsAndCategoriesDocument, useGetProductsAndCategoriesQuery } from "utils/generated/graphql";
@@ -10,51 +11,83 @@ import { FeaturedList } from "components/FeaturedList";
 import { FeaturedQuote } from "components/FeaturedQuote";
 import { Image } from "components/Image";
 import Link from "next/link";
+import NextImage from "next/image";
+
+import featuredImg from "assets/featured-story.jpg";
 
 const Home: NextPage = () => {
   const [{ data }] = useGetProductsAndCategoriesQuery();
 
   return (
-    <div className="container">
-      <div className="flex justify-between items-center mx-9 my-8">
-        <div className="max-w-[600px]">
-          <h1 className="text-blue text-h1">Formidable breads for your daily life.</h1>
-          <Link href="/products">
-            <Button as="a" variant="secondary" className="inline-flex items-center mt-6">
-              <FiArrowRight size={24} className="mr-2" /> Show now
-            </Button>
-          </Link>
+    <>
+      <section className="container">
+        <div className="flex justify-between items-center py-9">
+          <div className="max-w-[600px]">
+            <h1 className="text-blue text-h1">Formidable breads for your daily life.</h1>
+            <Link href="/products">
+              <Button as="a" variant="secondary" className="inline-flex items-center mt-6">
+                <FiArrowRight size={24} className="mr-2" /> Show now
+              </Button>
+            </Link>
+          </div>
+
+          <span className="hidden sm:block">
+            <Image
+              width={600}
+              height={600}
+              className="rounded-2xl"
+              src={data?.allProductImage[0].images ?? ""}
+              alt={data?.allProductImage[0].name ?? ""}
+            />
+          </span>
         </div>
+      </section>
 
-        <span className="hidden sm:block">
-          <Image
-            width={600}
-            height={600}
-            className="rounded-2xl"
-            src={data?.allProductImage[0].images ?? ""}
-            alt={data?.allProductImage[0].name ?? ""}
-          />
-        </span>
-      </div>
-
-      <h4 className="text-h4 text-blue border-y-2 border-y-blue px-9 py-6">Our bestsellers</h4>
-
-      <FeaturedList items={data?.allProduct} />
-      <div className="m-9">
+      <TitleBanner>Our bestsellers</TitleBanner>
+      <section className="container py-9 flex flex-col gap-9">
+        <FeaturedList items={data?.allProduct} />
         <Link href="/products">
           <Button as="a" variant="primary" className="w-full inline-block text-center">
             Show all breads
           </Button>
         </Link>
-      </div>
+      </section>
 
       <FeaturedQuote />
 
-      <h4 className="text-h4 text-blue border-y-2 border-y-blue px-9 py-6">Top categories</h4>
-      <FeaturedList items={data?.allCategory} />
-    </div>
+      <TitleBanner>Top categories</TitleBanner>
+      <section className="container py-9">
+        <FeaturedList items={data?.allCategory} />
+      </section>
+
+      <section className="py-9 bg-blue w-full">
+        <div className="container flex flex-col sm:flex-row gap-9 items-center">
+          <div className="w-full sm:max-w-[320px] md:max-w-[586px]">
+            <NextImage
+              src={featuredImg}
+              loader={({ src }) => src}
+              layout="intrinsic"
+              className="rounded-full overflow-hidden aspect-square"
+            />
+          </div>
+          <div className="flex-1 text-yellow">
+            <h6 className="text-h6 font-jeanLuc font-bold">Stories</h6>
+            <h2 className="text-h2">Formidable Baker: Felicity Tai</h2>
+            <Button as="a" variant="tertiary" className="inline-flex items-center mt-6">
+              <FiArrowRight size={24} className="mr-2" /> Show now
+            </Button>
+          </div>
+        </div>
+      </section>
+    </>
   );
 };
+
+const TitleBanner = ({ children }: React.PropsWithChildren<{}>) => (
+  <div className="border-y-2 border-y-blue px-9 py-6">
+    <h4 className="text-h4 text-blue container">{children}</h4>
+  </div>
+);
 
 export const getServerSideProps: GetServerSideProps = async ({ res }) => {
   const { client, ssrCache } = initializeUrql();

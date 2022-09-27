@@ -9,14 +9,16 @@ type Props = {
 export const FeaturedList = ({ items }: Props) => {
   if (!items) return null;
 
+  const N = Math.min(items.length, 3);
+
   return (
     <ul
-      className={classNames("grid", "m-9", "grid-cols-1", "gap-4", "sm:gap-0", {
-        "sm:grid-cols-3": items.length >= 3,
-        "sm:grid-cols-2": items.length === 2,
+      className={classNames("grid", "grid-cols-1", "gap-9", {
+        "sm:grid-cols-[1fr_2px_1fr_2px_1fr]": N === 3,
+        "sm:grid-cols-[1fr_2px_1fr]": N === 2,
       })}
     >
-      {items.map((item) => {
+      {items.map((item, i) => {
         let props: CardProps;
 
         if (item.__typename === "Product") {
@@ -47,9 +49,12 @@ export const FeaturedList = ({ items }: Props) => {
         }
 
         return (
-          <li key={item._id} className="sm:border-r-2 border-r-blue last:border-r-0 flex justify-center">
-            <Card {...props} />
-          </li>
+          <>
+            <li key={item._id} className="flex justify-center">
+              <Card {...props} />
+            </li>
+            {i % N < N - 1 && <li className="h-full w-full border-r-2 border-r-blue"></li>}
+          </>
         );
       })}
     </ul>
