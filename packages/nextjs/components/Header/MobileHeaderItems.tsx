@@ -1,12 +1,15 @@
 import { NAV_ITEMS } from "./NavItems";
 import classNames from "classnames";
 import Link from "next/link";
+import { useRouter } from "next/router";
 type MobileHeaderItemsProps = {
   navOpen: boolean;
   onMobileNavClose: () => void;
 };
 
 export const MobileHeaderItems = ({ navOpen, onMobileNavClose }: MobileHeaderItemsProps) => {
+  const router = useRouter();
+
   return (
     <ul
       className={classNames("flex", "flex-col", "sm:hidden", "bg-yellow", "text-blue", "transition-all", {
@@ -17,11 +20,14 @@ export const MobileHeaderItems = ({ navOpen, onMobileNavClose }: MobileHeaderIte
       {navOpen &&
         NAV_ITEMS?.map(({ label, href }) => {
           return (
-            <li key={href} className={`border-b border-b-blue text-h4 py-4 px-3`}>
+            <li
+              key={href}
+              className={classNames("border-b border-b-blue text-h5 py-4 px-3", {
+                "font-bold": router.pathname === href,
+              })}
+            >
               <Link href={href}>
-                <a className="text-xl" onClick={onMobileNavClose}>
-                  {label}
-                </a>
+                <a onClick={onMobileNavClose}>{label}</a>
               </Link>
             </li>
           );
