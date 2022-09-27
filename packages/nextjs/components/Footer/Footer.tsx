@@ -1,31 +1,18 @@
-import classNames from "classnames";
 import { Copyright } from "./Copyright";
 import { EmailSubscribe } from "./EmailSubscribe";
 import { FooterLinks } from "./FooterLinks";
 import { FooterDivider } from "./FooterDivider";
 export const Footer = () => {
   return (
-    <div className="flex flex-wrap border-t-blue border-t-2">
-      <div className="flex w-full md:flex-row flex-col">
-        <div
-          className={classNames(
-            "h-full",
-            ["md:pt-[48px]", "md:pb-[48px]", "md:pl-[34px]", "md:pr-[34px]", "md:basis-[50%]"],
-            ["pt-[48px]", "pb-4", "pl-[14px]", "pr-[14px]"]
-          )}
-        >
+    <div className="flex flex-wrap">
+      <div className="container grid grid-cols-1 md:grid-cols-[1fr_2px_1fr] gap-9 py-8 md:py-12">
+        <div className="h-full">
           <EmailSubscribe />
         </div>
-        <div className={classNames("md:h-full md:pt-[48px] md:pb-[48px] hidden md:block")}>
+        <div className="md:h-full hidden md:block">
           <FooterDivider />
         </div>
-        <div
-          className={classNames(
-            "h-full",
-            ["md:pt-[48px]", "md:pb-[48px]", "md:pr-[34px]", "md:pl-[34px]", "md:basis-[50%]"],
-            ["pt-4", "pb-[48px]", "pl-[14px]", "pr-[14px]"]
-          )}
-        >
+        <div className="h-full">
           <FooterLinks />
         </div>
       </div>

@@ -1,3 +1,4 @@
+import * as React from "react";
 import { SanityImageSource } from "@sanity/image-url/lib/types/types";
 import Link from "next/link";
 
@@ -23,12 +24,13 @@ export const Card: React.FC<CardProps> = ({ to, subTitle, title, price, imagePro
       <a className={`flex flex-col justify-center text-blue ${className}`}>
         <Image
           className="rounded-2xl"
-          width={imageProps.width ?? 400}
-          height={imageProps.height ?? 400}
+          width={imageProps.width ?? 500}
+          height={imageProps.height ?? 500}
           src={imageProps.src}
           alt={imageProps.alt}
+          objectFit="cover"
         />
-        <h2 className="text-h6 mt-4 mb-1">{title}</h2>
+        <h2 className="text-h5 font-medium mt-4 mb-1">{title}</h2>
         {price && <span className="text-eyebrow font-bold">${price}</span>}
         {subTitle && <span className="text-eyebrow">{subTitle}</span>}
       </a>
