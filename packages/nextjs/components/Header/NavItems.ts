@@ -7,4 +7,8 @@ export const NAV_ITEMS = [
     href: "/categories",
     label: "Categories",
   },
+  {
+    href: "/about",
+    label: "About Us",
+  },
 ];
