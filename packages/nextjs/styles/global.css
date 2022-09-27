@@ -3,6 +3,20 @@
 @tailwind utilities;
 
 body {
-  @apply bg-yellow;
+	@apply bg-yellow;
 }
 
+
+@font-face {
+	font-family: "JeanLuc";
+	src: url('../assets/fonts/jeanluc/jeanlucweb-bold.woff');
+	font-weight: bold;
+	font-style: normal;
+}
+
+@font-face {
+	font-family: "JeanLuc";
+	src: url('../assets/fonts/jeanluc/jeanlucweb-thin.woff');
+	font-weight: auto;
+	font-style: normal;
+}
