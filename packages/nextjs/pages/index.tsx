@@ -14,6 +14,7 @@ import Link from "next/link";
 import NextImage from "next/image";
 
 import featuredImg from "assets/featured-story.jpg";
+import { localImageLoader } from "../utils/localImageLoader";
 
 const Home: NextPage = () => {
   const [{ data }] = useGetProductsAndCategoriesQuery();
@@ -65,7 +66,7 @@ const Home: NextPage = () => {
           <div className="w-full sm:max-w-[320px] md:max-w-[586px]">
             <NextImage
               src={featuredImg}
-              loader={({ src }) => src}
+              loader={localImageLoader}
               layout="intrinsic"
               className="rounded-full overflow-hidden aspect-square"
             />
