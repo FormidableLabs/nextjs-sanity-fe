@@ -12,9 +12,17 @@ type PLPLayoutProps = {
   pageCount: number;
   currentPage?: number;
   sizeFilters: string[];
+  disablePagination?: boolean;
 };
 
-export const PLPLayout = ({ title, sizeFilters, products, pageCount, currentPage }: PLPLayoutProps) => {
+export const PLPLayout = ({
+  title,
+  sizeFilters,
+  products,
+  pageCount,
+  currentPage,
+  disablePagination,
+}: PLPLayoutProps) => {
   return (
     <div>
       <WeDontSellBreadBanner />
@@ -36,7 +44,7 @@ export const PLPLayout = ({ title, sizeFilters, products, pageCount, currentPage
                 </div>
               )}
             </div>
-            <Pagination pageCount={pageCount} currentPage={currentPage} />
+            {!disablePagination && <Pagination pageCount={pageCount} currentPage={currentPage} />}
           </div>
         </div>
       </div>

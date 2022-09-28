@@ -1053,6 +1053,7 @@ export type Variant = Document & {
   name?: Maybe<Scalars['String']>;
   price?: Maybe<Scalars['Float']>;
   size?: Maybe<Size>;
+  slicingOption?: Maybe<Array<Maybe<Size>>>;
 };
 
 export type VariantFilter = {

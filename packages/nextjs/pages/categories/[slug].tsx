@@ -28,6 +28,7 @@ const CategoryPage: NextPage<Props> = ({ category, products, sizeFilters, pageCo
       currentPage={currentPage}
       products={products}
       sizeFilters={sizeFilters}
+      disablePagination
     />
   );
 };

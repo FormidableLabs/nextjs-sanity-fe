@@ -30,6 +30,7 @@ export const FeaturedList = ({ items }: Props) => {
             imageProps: {
               src: item.variants?.[0]?.images?.[0]?.images ?? "",
               alt: item.variants?.[0]?.images?.[0]?.name ?? "",
+              containerClassName: "aspect-square",
             },
           };
         } else if (item.__typename === "Category") {
@@ -40,8 +41,7 @@ export const FeaturedList = ({ items }: Props) => {
             imageProps: {
               src: item.images?.[0]?.images ?? "",
               alt: item.images?.[0]?.name ?? "",
-              width: 600,
-              height: 600,
+              containerClassName: "aspect-[16/10]",
             },
           };
         } else {

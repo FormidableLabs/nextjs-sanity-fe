@@ -17,6 +17,7 @@ export const CategoryList = ({ items }: CategoryListProps) => {
             imageProps={{
               src: category.images?.[0]?.images ?? "",
               alt: category.images?.[0]?.name ?? "",
+              containerClassName: "aspect-[16/10]",
             }}
             title={category.name ?? ""}
             subTitle={category.description ?? ""}
