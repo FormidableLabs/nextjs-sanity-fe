@@ -80,7 +80,17 @@ export default {
       title: "Size",
       type: "reference",
       to: [{ type: "size" }],
-      validation: (rule) => rule.required(),
+    },
+    {
+      name: "slicingOption",
+      title: "Slicing Option",
+      type: "array",
+      of: [
+        {
+          type: "reference",
+          to: [{ type: "size" }],
+        },
+      ],
     },
   ],
   preview: {
