@@ -1,16 +1,12 @@
-import { ChangeEvent, useId } from "react";
-import { SortType, SORT_QUERY_PARAM, SORT_OPTIONS, SORT_OPTIONS_ARRAY } from "../constants/sorting";
+import { SORT_OPTIONS, SORT_OPTIONS_ARRAY, SORT_QUERY_PARAM, SortType } from "../constants/sorting";
 import { useRouterQueryParams } from "../utils/useRouterQueryParams";
+import { Pill } from "./Pill";
 
 export const ProductSort: React.FC = () => {
   const { replace, clear, query } = useRouterQueryParams();
-  const selectId = useId();
-
   const defaultSortValue = SORT_OPTIONS_ARRAY.find(({ type }) => type === SortType.Default)?.value;
 
-  const handleChange = (e: ChangeEvent<HTMLSelectElement>) => {
-    const { value } = e.target;
-
+  const handleChange = (value: string) => {
     switch (SORT_OPTIONS[value].type) {
       case SortType.Natural: {
         replace(SORT_QUERY_PARAM, value);
@@ -23,15 +19,19 @@ export const ProductSort: React.FC = () => {
   };
 
   return (
-    <div className="flex flex-col gap-y-4">
-      <label htmlFor={selectId}>Sort by:</label>
-      <select id={selectId} onChange={handleChange} defaultValue={query[SORT_QUERY_PARAM] ?? defaultSortValue}>
+    <div className="flex flex-col gap-4">
+      <h4 className="text-h4 text-blue">Sort by</h4>
+      <div className="flex flex-wrap gap-2">
         {SORT_OPTIONS_ARRAY.map(({ value, label }) => (
-          <option key={value} value={value}>
+          <Pill
+            key={value}
+            onClick={() => handleChange(value)}
+            selected={value === (query[SORT_QUERY_PARAM] || defaultSortValue)}
+          >
             {label}
-          </option>
+          </Pill>
         ))}
-      </select>
+      </div>
     </div>
   );
 };

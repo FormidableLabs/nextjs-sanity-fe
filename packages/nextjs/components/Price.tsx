@@ -6,12 +6,12 @@ interface Props {
 export const Price: React.FC<Props> = ({ msrp, price }) => {
   if (price !== msrp) {
     return (
-      <>
-        <h4 className="text-xl font-bold text-red-500 line-through">$ {msrp ?? 0}</h4>
-        <h4 className="text-xl font-bold text-green-600">$ {price ?? 0}</h4>
-      </>
+      <span className="flex gap-x-2">
+        <h4 className="text-h6 font-bold text-red line-through">${msrp ?? 0}</h4>
+        <h4 className="text-h6 font-bold text-green-600">${price ?? 0}</h4>
+      </span>
     );
   }
 
-  return <h4 className="text-xl font-bold">$ {price ?? 0}</h4>;
+  return <h4 className="text-h6 font-bold">$ {price ?? 0}</h4>;
 };

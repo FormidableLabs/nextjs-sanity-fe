@@ -1,6 +1,7 @@
 import type { FilterGroup as FilterGroupType } from "../../constants/filters";
 import { ChangeEvent } from "react";
 import { useRouterQueryParams } from "../../utils/useRouterQueryParams";
+import { Checkbox } from "../Checkbox";
 
 type FilterGroupProps = {
   group: FilterGroupType;
@@ -26,7 +27,7 @@ export const FilterGroup: React.FC<FilterGroupProps> = ({ group }) => {
 
   return (
     <fieldset>
-      <legend>{groupLabel}</legend>
+      <legend className="text-h5 text-blue mb-2">{groupLabel}</legend>
       <ul>
         {options.map(({ value: optionValue, label: optionLabel }) => {
           const isChecked =
@@ -36,10 +37,13 @@ export const FilterGroup: React.FC<FilterGroupProps> = ({ group }) => {
 
           return (
             <li key={optionValue}>
-              <label className="flex gap-2">
-                <input type="checkbox" value={optionValue} checked={isChecked} onChange={handleChange} />
-                <span>{optionLabel}</span>
-              </label>
+              <Checkbox
+                label={optionLabel}
+                name={optionLabel}
+                value={optionValue}
+                checked={isChecked}
+                onChange={handleChange}
+              />
             </li>
           );
         })}

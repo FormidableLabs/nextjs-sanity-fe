@@ -12,6 +12,7 @@ import { getOrderingFromQuery } from "utils/getOrderingFromQuery";
 import { setCachingHeaders } from "utils/setCachingHeaders";
 import { getSizeFilters } from "utils/getSizeFilters";
 import { SanityType } from "utils/consts";
+import { WeDontSellBreadBanner } from "../../components/WeDontSellBreadBanner";
 
 interface ProductsPageProps {
   products: CategoryPageProduct[];
@@ -24,25 +25,26 @@ interface ProductsPageProps {
 
 const ProductsPage: NextPage<ProductsPageProps> = ({ products, pageCount, currentPage, sizeFilters }) => {
   return (
-    <div className="h-full mb-4">
-      <h1 className="text-2xl font-bold m-4">All products</h1>
-      <div className="flex px-4 h-full">
-        <div className="min-w-[350px]">
-          <ProductSort />
-          <hr className="slate-700 my-4" />
-          <ProductFilters sizeFilters={sizeFilters} />
-        </div>
-        <div className="flex flex-auto flex-col">
-          <div className="flex-1 flex flex-wrap">
-            {products && products.length ? (
-              products.map((product) => <Product key={product._id} item={product} />)
-            ) : (
-              <div className="flex-1 flex flex-col justify-center items-center">
-                <div className="text-center text-gray-500">No products found</div>
-              </div>
-            )}
+    <div>
+      <WeDontSellBreadBanner />
+      <div className="py-9 container">
+        <h1 className="text-h1 text-blue mb-9">Products</h1>
+        <div className="flex gap-9 flex-col md:flex-row">
+          <div className="w-full md:w-72 order-2 md:order-1 flex flex-col gap-9">
+            <ProductSort />
+            <ProductFilters sizeFilters={sizeFilters} />
           </div>
-          <div className="py-10">
+
+          <div className="flex-1 order-1 md:order-2">
+            <div className="w-full grid grid-cols-2 sm:grid-cols-3 md:grid-cols-2 lg:grid-cols-3 gap-x-3 gap-y-9 mb-9">
+              {products && products.length ? (
+                products.map((product) => <Product key={product._id} item={product} />)
+              ) : (
+                <div className="flex-1 flex flex-col justify-center items-center">
+                  <div className="text-center text-gray-500">No products found</div>
+                </div>
+              )}
+            </div>
             <Pagination pageCount={pageCount} currentPage={currentPage} />
           </div>
         </div>
