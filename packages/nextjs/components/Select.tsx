@@ -1,5 +1,6 @@
 import classNames from "classnames";
 import { useSelect } from "downshift";
+import { useEffect, useState } from "react";
 import { MdOutlineKeyboardArrowDown, MdOutlineKeyboardArrowUp } from "react-icons/md";
 
 interface Option {
@@ -18,15 +19,24 @@ export interface Props {
 const itemToString = (item: Option | null) => (item ? item.title : "");
 
 export function Select({ label, placeholder, options, defaultSelectedItem, onChange }: Props) {
-  const { isOpen, selectedItem, getToggleButtonProps, getLabelProps, getMenuProps, highlightedIndex, getItemProps } =
-    useSelect({
-      items: options,
-      itemToString,
-      defaultSelectedItem,
-      onSelectedItemChange(changes) {
-        onChange && onChange(changes.selectedItem);
-      },
-    });
+  const [selectedItem, setSelectedItem] = useState<Option | null | undefined>(defaultSelectedItem);
+
+  // This is needed if you change route so that it updates the currently selected dropdown
+  useEffect(() => {
+    if (defaultSelectedItem) {
+      setSelectedItem(defaultSelectedItem);
+    }
+  }, [defaultSelectedItem]);
+
+  const { isOpen, getToggleButtonProps, getLabelProps, getMenuProps, highlightedIndex, getItemProps } = useSelect({
+    items: options,
+    itemToString,
+    selectedItem,
+    onSelectedItemChange({ selectedItem }) {
+      setSelectedItem(selectedItem);
+      onChange && onChange(selectedItem);
+    },
+  });
 
   return (
     <div>
@@ -77,7 +87,7 @@ export function Select({ label, placeholder, options, defaultSelectedItem, onCha
                 "text-blue",
                 "cursor-pointer",
                 highlightedIndex === index && "bg-blue text-yellow",
-                selectedItem === item && "font-bold"
+                selectedItem?.value === item.value && "font-bold"
               )}
               key={`${item.value}${index}`}
               {...getItemProps({ item, index })}
