@@ -27,7 +27,7 @@ const ProductsPage: NextPage<ProductsPageProps> = ({ products, pageCount, curren
   return (
     <div>
       <WeDontSellBreadBanner />
-      <main className="py-9 container">
+      <div className="py-9 container">
         <h1 className="text-h1 text-blue mb-9">Products</h1>
         <div className="flex gap-9 flex-col md:flex-row">
           <div className="w-full md:w-72 order-2 md:order-1 flex flex-col gap-9">
@@ -48,7 +48,7 @@ const ProductsPage: NextPage<ProductsPageProps> = ({ products, pageCount, curren
             <Pagination pageCount={pageCount} currentPage={currentPage} />
           </div>
         </div>
-      </main>
+      </div>
     </div>
   );
 };
