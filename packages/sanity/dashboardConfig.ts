@@ -6,8 +6,5 @@ export default {
     {
       name: "project-users",
     },
-    {
-      name: "dashboard-widget-upload-blog",
-    },
   ],
 };
