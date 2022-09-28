@@ -3,11 +3,6 @@ import { useRouter } from "next/router";
 import { FaChevronLeft, FaChevronRight } from "react-icons/fa";
 import classNames from "classnames";
 
-const pageSelectedClass =
-  "border-indigo-500 text-indigo-600 border-t-2 pt-4 px-4 inline-flex items-center text-sm font-medium";
-const pageClass =
-  "border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300 border-t-2 pt-4 px-4 inline-flex items-center text-sm font-medium";
-
 type PaginationProps = {
   pageCount: number;
   currentPage?: number;

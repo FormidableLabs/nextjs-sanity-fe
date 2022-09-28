@@ -23,7 +23,11 @@ export const ProductSort: React.FC = () => {
       <h4 className="text-h4 text-blue">Sort by</h4>
       <div className="flex flex-wrap gap-2">
         {SORT_OPTIONS_ARRAY.map(({ value, label }) => (
-          <Pill onClick={() => handleChange(value)} selected={value === (query[SORT_QUERY_PARAM] || defaultSortValue)}>
+          <Pill
+            key={value}
+            onClick={() => handleChange(value)}
+            selected={value === (query[SORT_QUERY_PARAM] || defaultSortValue)}
+          >
             {label}
           </Pill>
         ))}
