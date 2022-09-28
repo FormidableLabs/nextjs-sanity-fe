@@ -90,7 +90,7 @@ export const Search: React.FC = () => {
         {...getMenuProps({
           "aria-labelledby": "search-label",
         })}
-        className={`absolute w-72 bg-yellow mt-2 border rounded z-10 p-5 ${!isOpen ? "hidden" : ""}`}
+        className={`absolute w-72 bg-yellow mt-2 border border-blue rounded z-10 p-5 ${!isOpen ? "hidden" : ""}`}
       >
         {isOpen && products.length ? (
           products.map((product) => (
@@ -98,7 +98,7 @@ export const Search: React.FC = () => {
               <Link href={`/products/${product.slug.current}`}>
                 <a className="flex items-center" onClick={clearSearch}>
                   <Image className="rounded" src={product.image} width={50} height={50} alt={product.imageAlt} />
-                  <span className="text-lg ml-4">{product.name}</span>
+                  <span className="text-body-reg font-medium text-blue ml-4">{product.name}</span>
                 </a>
               </Link>
             </li>

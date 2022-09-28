@@ -1,23 +1,33 @@
 import { GetServerSideProps, NextPage } from "next";
 import { withUrqlClient } from "next-urql";
 import { useRouter } from "next/router";
-import { ChangeEvent, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 
 import { BlockContent } from "../../components/BlockContent";
 import { ImageCarousel } from "../../components/ImageCarousel/ImageCarousel";
 import { useCart } from "../../components/CartContext";
-import { GetProductDocument, GetProductQuery, Maybe, useGetProductQuery } from "../../utils/generated/graphql";
+import {
+  GetProductAndRecommendationsDocument,
+  Maybe,
+  useGetProductAndRecommendationsQuery,
+} from "../../utils/generated/graphql";
 import { initializeUrql, urqlOptions, withUrqlOptions } from "../../utils/urql";
 import { setCachingHeaders } from "utils/setCachingHeaders";
 import { isSlug } from "utils/isSlug";
 import { SanityType } from "utils/consts";
 import { PageHead } from "../../components/PageHead";
 
-type ProductVariant = NonNullable<GetProductQuery["allProduct"][0]["variants"]>[0];
+import { Price } from "components/Price";
+import { QuantityInput } from "components/ProductPage/QuantityInput";
+import { SlicingOptions } from "components/ProductPage/SlicingOptions";
+import { ProductVariant, ProductVariantSelector } from "components/ProductPage/ProductVariantSelector";
+import { H6 } from "components/Typography/H6";
+import { Product } from "components/Product";
+import { CategoryPageProduct, Images, Slug } from "utils/groqTypes";
 
 const ProductPage: NextPage = () => {
   const { query } = useRouter();
-  const [{ data }] = useGetProductQuery({
+  const [{ data }] = useGetProductAndRecommendationsQuery({
     variables: {
       slug: query.slug as string,
     },
@@ -26,7 +36,8 @@ const ProductPage: NextPage = () => {
 
   const product = data?.allProduct[0];
   const [selectedVariant, setSelectedVariant] = useState<Maybe<ProductVariant> | undefined>();
-  const [qty, setQty] = useState("1");
+  const [selectedSlicing, setSelectedSlicing] = useState<string>("");
+  const [quantity, setQuantity] = useState("1");
 
   useEffect(() => {
     if (product) {
@@ -34,63 +45,80 @@ const ProductPage: NextPage = () => {
     }
   }, [product]);
 
-  const onVariantChange = (e: ChangeEvent<HTMLSelectElement>) => {
-    const productVariant = product?.variants?.find((variant) => variant?.id === e.target.value);
+  const onVariantChange = (id?: string) => {
+    const productVariant = product?.variants?.find((variant) => variant?.id === id);
 
     setSelectedVariant(productVariant);
   };
 
-  const addToCart = () => {
+  const onAddToCart = () => {
     if (selectedVariant?.id) {
       // If the item is already in the cart allow user to click add to cart multiple times
       const existingCartItem = cartItems.find((item) => item.id === selectedVariant.id);
-      const quantity = parseInt(qty, 10);
 
-      updateCart(selectedVariant?.id, existingCartItem ? existingCartItem.qty + quantity : quantity);
+      updateCart(selectedVariant?.id, existingCartItem ? existingCartItem.qty + Number(quantity) : Number(quantity));
     }
   };
 
   return (
     <>
       <PageHead title={product?.name || "Product details"} description={`Product details page for ${product?.name}.`} />
-      <div className="container my-5">
-        <div className="grid grid-cols-3 gap-4">
-          <div>{product?.images && <ImageCarousel productImages={product?.images} />}</div>
-          <div className="col-span-2 col-start-2">
-            <h1 className="text-2xl font-bold">{product?.name}</h1>
-            <select className="my-2" onChange={onVariantChange} value={selectedVariant?.id || ""}>
-              {product?.variants?.map((variant) => (
-                <option key={variant?.id} value={variant?.id || ""}>
-                  {variant?.size?.name}
-                </option>
-              ))}
-            </select>
+      <div className="border-b-2 border-b-blue">
+        <div className="container mb-8 sm:my-8">
+          <div className="grid grid-rows-2 sm:grid-cols-2 sm:grid-rows-none items-center">
+            <div>{selectedVariant?.images && <ImageCarousel productImages={selectedVariant?.images} />}</div>
+            <div className=" text-blue">
+              <h4 className="text-h4 font-medium mb-2">{product?.name}</h4>
 
-            {selectedVariant?.price !== selectedVariant?.msrp ? (
-              <>
-                <h3 className="text-xl font-bold text-red-500 line-through">$ {selectedVariant?.msrp ?? 0}</h3>
-                <h3 className="text-xl font-bold text-green-600">$ {selectedVariant?.price ?? 0}</h3>
-              </>
-            ) : (
-              <h3 className="text-xl font-bold">$ {selectedVariant?.price ?? 0}</h3>
-            )}
+              <Price msrp={selectedVariant?.msrp} price={selectedVariant?.price} />
 
-            <div className="my-4">
-              <input
-                className="border rounded w-10 mr-4"
-                placeholder="1"
-                min={1}
-                type="number"
-                value={qty}
-                onChange={(e) => setQty(e.target.value)}
+              <BlockContent
+                value={selectedVariant?.descriptionRaw}
+                className="text-body-reg text-blue font-medium my-8"
               />
-              <button onClick={addToCart} className="rounded border border-black p-2">
-                Add to Cart
-              </button>
-            </div>
 
-            <BlockContent value={selectedVariant?.descriptionRaw} />
+              <hr className="border-t border-t-blue my-5" />
+              <ProductVariantSelector
+                variants={product?.variants}
+                selectedVariant={selectedVariant}
+                onVariantChange={onVariantChange}
+              />
+
+              <hr className="border-t border-t-blue my-5" />
+              <SlicingOptions
+                options={selectedVariant?.slicingOption}
+                onChange={setSelectedSlicing}
+                selectedSlicing={selectedSlicing}
+              />
+
+              <hr className="border-t border-t-blue my-5" />
+              <QuantityInput quantity={quantity} onAddToCart={onAddToCart} onQuantityChange={setQuantity} />
+            </div>
           </div>
+        </div>
+      </div>
+
+      <div className="container py-8 flex flex-col items-center sm:items-start sm:flex-row justify-between">
+        <H6>Related Products</H6>
+        <div className="flex flex-col items-center mt-4 sm:mt-0 sm:flex-row gap-5">
+          {data?.recommendations.map((product) => (
+            <div key={product._id} className="w-[350px]">
+              <Product
+                // TODO: make the interface for Product more generic so it can take result from GQL also
+                item={
+                  {
+                    _id: product._id ?? "",
+                    imageAlt: product.images?.[0]?.name ?? "",
+                    images: product.images?.[0]?.images as Images,
+                    msrp: product.variants?.[0]?.msrp ?? 0,
+                    name: product.name ?? "",
+                    price: product.variants?.[0]?.price ?? 0,
+                    slug: product.slug as Slug,
+                  } as CategoryPageProduct
+                }
+              />
+            </div>
+          ))}
         </div>
       </div>
     </>
@@ -107,7 +135,7 @@ export const getServerSideProps: GetServerSideProps = async ({ res, query }) => 
 
   // This query is used to populate the cache for the query
   // used on this page.
-  await client?.query(GetProductDocument, { slug }).toPromise();
+  await client?.query(GetProductAndRecommendationsDocument, { slug }).toPromise();
 
   return {
     props: {

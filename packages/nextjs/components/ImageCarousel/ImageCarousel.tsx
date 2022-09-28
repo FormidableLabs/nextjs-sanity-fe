@@ -12,11 +12,11 @@ export const ImageCarousel: React.FC<ImageCarouselProps> = ({ productImages }) =
     (productImages?.filter((image) => image && image.images) as FilteredProductImage[]) || [];
 
   const innerNode = filteredProductImages.map(({ images, name }) => (
-    <Image key={images?.asset?._id} width={400} height={400} src={images} alt={name ?? ""} />
+    <Image className="rounded-2xl" key={images?.asset?._id} width={700} height={700} src={images} alt={name ?? ""} />
   ));
 
   return (
-    <div className="text-cyan-800">
+    <div className="text-blue">
       {filteredProductImages?.length > 1 ? (
         <Carousel
           animation="fade"

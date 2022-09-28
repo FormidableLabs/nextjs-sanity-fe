@@ -1,17 +1,19 @@
+import { Eyebrow } from "components/Typography/Eyebrow";
+
 interface Props {
-  msrp: number;
-  price: number;
+  msrp?: number | null;
+  price?: number | null;
 }
 
 export const Price: React.FC<Props> = ({ msrp, price }) => {
   if (price !== msrp) {
     return (
       <span className="flex gap-x-2">
-        <h4 className="text-h6 font-bold text-red line-through">${msrp ?? 0}</h4>
-        <h4 className="text-h6 font-bold text-green-600">${price ?? 0}</h4>
+        <Eyebrow className="text-red line-through">${msrp ?? 0}</Eyebrow>
+        <Eyebrow className="">${price ?? 0}</Eyebrow>
       </span>
     );
   }
 
-  return <h4 className="text-h6 font-bold">$ {price ?? 0}</h4>;
+  return <Eyebrow className="">${price ?? 0}</Eyebrow>;
 };
