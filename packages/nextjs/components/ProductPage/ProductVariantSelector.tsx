@@ -22,10 +22,16 @@ export const ProductVariantSelector: React.FC<Props> = ({ variants, selectedVari
     [variants]
   );
 
+  if (!options?.length) {
+    return null;
+  }
+
   return (
     <div className="flex items-center justify-between">
       <H6>Flavour</H6>
-      {options?.length && selectedVariant && (
+      {options.length <= 1 ? (
+        <H6>{selectedVariant?.name}</H6>
+      ) : (
         <Select
           options={options}
           placeholder="Select a flavour"
