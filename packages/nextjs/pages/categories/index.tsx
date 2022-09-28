@@ -6,14 +6,18 @@ import { initializeUrql, urqlOptions, withUrqlOptions } from "utils/urql";
 import { CategoryList } from "components/CategoryList";
 import { setCachingHeaders } from "utils/setCachingHeaders";
 import { SanityType } from "utils/consts";
+import { WeDontSellBreadBanner } from "../../components/WeDontSellBreadBanner";
 
 const CategoriesPage: NextPage = () => {
   const [{ data }] = useGetCategoriesQuery();
 
   return (
-    <div className="m-4">
-      <h3 className="text-lg text-center font-bold my-5">Categories</h3>
-      <CategoryList items={data?.allCategory} />
+    <div>
+      <WeDontSellBreadBanner />
+      <div className="container py-9 text-blue flex flex-col gap-9">
+        <h1 className="text-h1">Categories</h1>
+        <CategoryList items={data?.allCategory} />
+      </div>
     </div>
   );
 };

@@ -1,3 +1,4 @@
+import * as React from "react";
 import Link from "next/link";
 import { useRouter } from "next/router";
 import { FaChevronLeft, FaChevronRight } from "react-icons/fa";
@@ -89,5 +90,9 @@ const MaybeDisabledLink = ({
     );
   }
 
-  return <span className={className}>{children}</span>;
+  return (
+    <span aria-disabled className={classNames(className, "opacity-60")}>
+      {children}
+    </span>
+  );
 };

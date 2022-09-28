@@ -1,9 +1,4 @@
 import type { GetServerSideProps, NextPage } from "next";
-
-import { Pagination } from "components/Pagination";
-import { Product } from "components/Product";
-import { ProductFilters } from "components/ProductFilters";
-import { ProductSort } from "components/ProductSort";
 import { getPaginationFromQuery } from "utils/getPaginationFromQuery";
 import { CategoryPageCategory, CategoryPageProduct, CategoryPageResult } from "utils/groqTypes";
 import { setCachingHeaders } from "utils/setCachingHeaders";
@@ -13,6 +8,7 @@ import { getFiltersFromQuery } from "utils/getFiltersFromQuery";
 import { GetFilteredCategoryProducts, getFilteredPaginatedQuery } from "utils/getFilteredPaginatedQuery";
 import { getSizeFilters } from "utils/getSizeFilters";
 import { SanityType } from "utils/consts";
+import { PLPLayout } from "../../components/PLPLayout";
 
 interface Props {
   products: CategoryPageProduct[];
@@ -26,30 +22,14 @@ interface Props {
 
 const CategoryPage: NextPage<Props> = ({ category, products, sizeFilters, pageCount, currentPage }) => {
   return (
-    <div className="h-full mb-4">
-      <h1 className="text-2xl font-bold m-4">{category.name}</h1>
-      <div className="flex px-4 h-full">
-        <div className="min-w-[350px]">
-          <ProductSort />
-          <hr className="slate-700 my-4" />
-          <ProductFilters sizeFilters={sizeFilters} />
-        </div>
-        <div className="flex flex-auto flex-col">
-          <div className="flex-1 flex flex-wrap">
-            {products.length ? (
-              products.map((product) => <Product key={product._id} item={product} />)
-            ) : (
-              <div className="flex-1 flex flex-col justify-center items-center">
-                <div className="text-center text-gray-500">No products found</div>
-              </div>
-            )}
-          </div>
-          <div className="py-10">
-            <Pagination pageCount={pageCount} currentPage={currentPage} />
-          </div>
-        </div>
-      </div>
-    </div>
+    <PLPLayout
+      title={category.name}
+      pageCount={pageCount}
+      currentPage={currentPage}
+      products={products}
+      sizeFilters={sizeFilters}
+      disablePagination
+    />
   );
 };
 
