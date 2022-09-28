@@ -6,10 +6,10 @@ type CategoryListProps = {
 };
 
 export const CategoryList = ({ items }: CategoryListProps) => {
-  if (!items) return null;
+  if (!items) return <div>No categories to show 🤷‍♂️</div>;
 
   return (
-    <ul className="flex justify-evenly flex-wrap">
+    <ul className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-9">
       {items.map((category) => (
         <li key={category._id}>
           <Card
