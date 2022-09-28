@@ -51,10 +51,10 @@ export const FeaturedList = ({ items }: Props) => {
 
         return (
           <React.Fragment key={item._id}>
-            <li className="flex justify-center">
+            <li>
               <Card {...props} />
             </li>
-            {i % N < N - 1 && <li className="invisible sm:visible h-full w-full border-r-2 border-r-blue"></li>}
+            {i % N < N - 1 && <li className="invisible sm:visible w-full border-r-2 border-r-blue"></li>}
           </React.Fragment>
         );
       })}
