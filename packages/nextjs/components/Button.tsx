@@ -24,13 +24,7 @@ function ButtonComponent(
   ref: ForwardedRef<HTMLButtonElement | HTMLAnchorElement>
 ) {
   const styles = classNames(
-    "rounded-lg",
-    "py-4",
-    "px-8",
-    "text-body-reg",
-    "transition",
-    "transition-colors",
-    "duration-150",
+    "rounded-lg py-4 px-8 text-body-reg transition transition-colors duration-150 text-center",
     {
       "bg-blue text-white hover:text-sky": variant === "primary",
       "bg-[transparent] text-blue hover:bg-blue hover:text-sky border border-blue": variant === "secondary",
