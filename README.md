@@ -158,7 +158,7 @@ There are two main categories for which purging is necessary.
 
 The following simplified process diagram illustrates what conditions are checked when content is modified.
 
-![Process Diagram](https://user-images.githubusercontent.com/3632381/190230732-0bd2ff41-eadf-4816-92b0-6968363b0ee0.png)
+![Process Diagram](https://user-images.githubusercontent.com/3632381/192895638-85574a1e-bb59-44dd-b897-a68c6dcc3db1.png)
 
 #### Category PLP page i.e. (`/categories/tops`)
 
