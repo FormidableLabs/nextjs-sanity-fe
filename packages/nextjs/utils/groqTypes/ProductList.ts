@@ -31,3 +31,8 @@ export interface StyleFilterItem {
   name: string;
   slug: string;
 }
+
+export interface CategoryFilterItem {
+  name: string;
+  slug: string;
+}

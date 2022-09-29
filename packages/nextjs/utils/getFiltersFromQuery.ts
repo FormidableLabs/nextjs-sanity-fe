@@ -3,10 +3,10 @@ import { ParsedUrlQuery } from "querystring";
 
 export const getFiltersFromQuery = (
   query: ParsedUrlQuery,
-  { flavourFilters, styleFilters }: FilterGroupParams = {}
+  { flavourFilters, styleFilters, categoryFilters }: FilterGroupParams = {}
 ) => {
   // Filters
-  const filterGroups = getFilterGroups({ flavourFilters, styleFilters }).reduce(
+  const filterGroups = getFilterGroups({ flavourFilters, styleFilters, categoryFilters }).reduce(
     (acc: string[][], { value: groupValue, options }) => {
       const queryValue = query[groupValue];
       if (!queryValue) {

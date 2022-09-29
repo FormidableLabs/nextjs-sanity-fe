@@ -3,6 +3,7 @@ import Link from "next/link";
 import { useRouter } from "next/router";
 import { FaChevronLeft, FaChevronRight } from "react-icons/fa";
 import classNames from "classnames";
+import { motion } from "framer-motion";
 
 type PaginationProps = {
   pageCount: number;
@@ -35,7 +36,7 @@ export const Pagination = ({ onPageChange, pageCount = 1, currentPage = 1 }: Pag
   const nextUrlObj = currentPage >= pageCount ? baseUrlObj : getUrlObjWithPage(currentPage + 1);
 
   return (
-    <nav className="flex items-center justify-between text-blue">
+    <motion.nav className="flex items-center justify-between text-blue" layoutId="pagination-nav">
       <MaybeDisabledLink
         urlObject={prevUrlObj}
         isDisabled={currentPage <= 1}
@@ -68,7 +69,7 @@ export const Pagination = ({ onPageChange, pageCount = 1, currentPage = 1 }: Pag
         Next
         <FaChevronRight className="h-5 w-5" aria-hidden="true" />
       </MaybeDisabledLink>
-    </nav>
+    </motion.nav>
   );
 };
 

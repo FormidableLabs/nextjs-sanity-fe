@@ -5,15 +5,21 @@ import { getPaginationFromQuery } from "utils/getPaginationFromQuery";
 import { getFiltersFromQuery } from "utils/getFiltersFromQuery";
 import { getOrderingFromQuery } from "utils/getOrderingFromQuery";
 import { setCachingHeaders } from "utils/setCachingHeaders";
-import { getSizeFilters } from "utils/getSizeFilters";
 import { SanityType } from "utils/consts";
 import { PLPLayout } from "../../components/PLPLayout";
 import { PageHead } from "../../components/PageHead";
 import * as React from "react";
 import { pluralize } from "../../utils/pluralize";
-import { FlavourFilterItem, PLPVariant, PLPVariantList, StyleFilterItem } from "../../utils/groqTypes/ProductList";
+import {
+  CategoryFilterItem,
+  FlavourFilterItem,
+  PLPVariant,
+  PLPVariantList,
+  StyleFilterItem,
+} from "../../utils/groqTypes/ProductList";
 import { getFlavourFilters } from "../../utils/getFlavourFilters";
 import { getStyleFilters } from "../../utils/getStyleFilters";
+import { getCategoryFilters } from "../../utils/getCategoryFilters";
 
 interface ProductsPageProps {
   variants: PLPVariant[];
@@ -21,6 +27,7 @@ interface ProductsPageProps {
   pageSize: number;
   pageCount: number;
   currentPage?: number;
+  categoryFilters: CategoryFilterItem[];
   flavourFilters: FlavourFilterItem[];
   styleFilters: StyleFilterItem[];
 }
@@ -29,6 +36,7 @@ const ProductsPage: NextPage<ProductsPageProps> = ({
   variants,
   pageCount,
   currentPage,
+  categoryFilters,
   flavourFilters,
   styleFilters,
 }) => {
@@ -45,6 +53,7 @@ const ProductsPage: NextPage<ProductsPageProps> = ({
         pageCount={pageCount}
         currentPage={currentPage}
         variants={variants}
+        categoryFilters={categoryFilters}
         flavourFilters={flavourFilters}
         styleFilters={styleFilters}
       />
@@ -59,23 +68,22 @@ export const getServerSideProps: GetServerSideProps<ProductsPageProps> = async (
   const order = getOrderingFromQuery(query);
 
   // Fetch size filters from sanity
-  const sizeFilters = await getSizeFilters();
-
+  const categoryFilters = await getCategoryFilters();
   const flavourFilters = await getFlavourFilters();
   const styleFilters = await getStyleFilters();
 
   // Filters.
-  const filters = getFiltersFromQuery(query, { flavourFilters, styleFilters });
+  const filters = getFiltersFromQuery(query, { flavourFilters, styleFilters, categoryFilters });
   // Pagination data.
   const pagination = getPaginationFromQuery(query);
-
-  console.log(filters);
 
   const result = await getFilteredPaginatedQuery<PLPVariantList>(GetAllFilteredVariants(filters, order), pagination);
 
   const { variants, itemCount } = result;
   const { currentPage, pageSize } = pagination;
   const pageCount = Math.ceil(itemCount / pageSize);
+
+  console.log("FILTERS!", filters);
 
   /**
    * Scenario: If user is on the third page and then enables
@@ -94,7 +102,7 @@ export const getServerSideProps: GetServerSideProps<ProductsPageProps> = async (
 
   return {
     props: {
-      sizeFilters,
+      categoryFilters,
       flavourFilters,
       styleFilters,
       variants,

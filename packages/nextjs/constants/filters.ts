@@ -1,4 +1,4 @@
-import { FlavourFilterItem, StyleFilterItem } from "../utils/groqTypes/ProductList";
+import { CategoryFilterItem, FlavourFilterItem, StyleFilterItem } from "../utils/groqTypes/ProductList";
 
 export type FilterOption = {
   value: string;
@@ -13,12 +13,32 @@ export type FilterGroup = {
 };
 
 export interface FilterGroupParams {
+  categoryFilters?: CategoryFilterItem[];
   flavourFilters?: FlavourFilterItem[];
   styleFilters?: StyleFilterItem[];
 }
 
-export const getFilterGroups = ({ flavourFilters = [], styleFilters = [] }: FilterGroupParams = {}): FilterGroup[] => {
+/**
+ * *[_type == "variant" && $slug in *[_type == "product" && references(^._id)][].categories[]->slug.current ] {
+ *   name
+ * }
+ */
+
+export const getFilterGroups = ({
+  categoryFilters = [],
+  flavourFilters = [],
+  styleFilters = [],
+}: FilterGroupParams = {}): FilterGroup[] => {
   return [
+    {
+      value: "category",
+      label: "Category",
+      options: categoryFilters.map((cat) => ({
+        value: cat.slug,
+        label: cat.name,
+        filter: `'${cat.slug}' in *[_type == "product" && references(^._id)][].categories[]->slug.current`,
+      })),
+    },
     {
       value: "flavour",
       label: "Flavour",
