@@ -15,12 +15,17 @@ import NextImage from "next/image";
 
 import featuredImg from "assets/featured-story.jpg";
 import { localImageLoader } from "../utils/localImageLoader";
+import { PageHead } from "../components/PageHead";
 
 const Home: NextPage = () => {
   const [{ data }] = useGetProductsAndCategoriesQuery();
 
   return (
     <>
+      <PageHead
+        title="Home"
+        description="Formidable Boulangerie home page. A showcase of Next.js, Sanity CMS, and Fastly CDN."
+      />
       <section className="container">
         <div className="flex justify-between items-center py-9">
           <div className="max-w-[600px]">

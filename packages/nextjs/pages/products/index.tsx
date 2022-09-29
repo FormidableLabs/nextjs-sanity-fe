@@ -9,6 +9,9 @@ import { setCachingHeaders } from "utils/setCachingHeaders";
 import { getSizeFilters } from "utils/getSizeFilters";
 import { SanityType } from "utils/consts";
 import { PLPLayout } from "../../components/PLPLayout";
+import { PageHead } from "../../components/PageHead";
+import * as React from "react";
+import { pluralize } from "../../utils/pluralize";
 
 interface ProductsPageProps {
   products: CategoryPageProduct[];
@@ -20,14 +23,22 @@ interface ProductsPageProps {
 }
 
 const ProductsPage: NextPage<ProductsPageProps> = ({ products, pageCount, currentPage, sizeFilters }) => {
+  const productNames = pluralize(products.map((prod) => prod.name));
+
   return (
-    <PLPLayout
-      title="Products"
-      pageCount={pageCount}
-      currentPage={currentPage}
-      products={products}
-      sizeFilters={sizeFilters}
-    />
+    <>
+      <PageHead
+        title="Products"
+        description={`Formidable Boulangerie product listing page, featuring ${productNames}.`}
+      />
+      <PLPLayout
+        title="Products"
+        pageCount={pageCount}
+        currentPage={currentPage}
+        products={products}
+        sizeFilters={sizeFilters}
+      />
+    </>
   );
 };
 

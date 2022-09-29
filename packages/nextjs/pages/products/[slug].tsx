@@ -11,6 +11,7 @@ import { initializeUrql, urqlOptions, withUrqlOptions } from "../../utils/urql";
 import { setCachingHeaders } from "utils/setCachingHeaders";
 import { isSlug } from "utils/isSlug";
 import { SanityType } from "utils/consts";
+import { PageHead } from "../../components/PageHead";
 
 type ProductVariant = NonNullable<GetProductQuery["allProduct"][0]["variants"]>[0];
 
@@ -50,46 +51,49 @@ const ProductPage: NextPage = () => {
   };
 
   return (
-    <div className="container my-5">
-      <div className="grid grid-cols-3 gap-4">
-        <div>{product?.images && <ImageCarousel productImages={product?.images} />}</div>
-        <div className="col-span-2 col-start-2">
-          <h1 className="text-2xl font-bold">{product?.name}</h1>
-          <select className="my-2" onChange={onVariantChange} value={selectedVariant?.id || ""}>
-            {product?.variants?.map((variant) => (
-              <option key={variant?.id} value={variant?.id || ""}>
-                {variant?.size?.name}
-              </option>
-            ))}
-          </select>
+    <>
+      <PageHead title={product?.name || "Product details"} description={`Product details page for ${product?.name}.`} />
+      <div className="container my-5">
+        <div className="grid grid-cols-3 gap-4">
+          <div>{product?.images && <ImageCarousel productImages={product?.images} />}</div>
+          <div className="col-span-2 col-start-2">
+            <h1 className="text-2xl font-bold">{product?.name}</h1>
+            <select className="my-2" onChange={onVariantChange} value={selectedVariant?.id || ""}>
+              {product?.variants?.map((variant) => (
+                <option key={variant?.id} value={variant?.id || ""}>
+                  {variant?.size?.name}
+                </option>
+              ))}
+            </select>
 
-          {selectedVariant?.price !== selectedVariant?.msrp ? (
-            <>
-              <h3 className="text-xl font-bold text-red-500 line-through">$ {selectedVariant?.msrp ?? 0}</h3>
-              <h3 className="text-xl font-bold text-green-600">$ {selectedVariant?.price ?? 0}</h3>
-            </>
-          ) : (
-            <h3 className="text-xl font-bold">$ {selectedVariant?.price ?? 0}</h3>
-          )}
+            {selectedVariant?.price !== selectedVariant?.msrp ? (
+              <>
+                <h3 className="text-xl font-bold text-red-500 line-through">$ {selectedVariant?.msrp ?? 0}</h3>
+                <h3 className="text-xl font-bold text-green-600">$ {selectedVariant?.price ?? 0}</h3>
+              </>
+            ) : (
+              <h3 className="text-xl font-bold">$ {selectedVariant?.price ?? 0}</h3>
+            )}
 
-          <div className="my-4">
-            <input
-              className="border rounded w-10 mr-4"
-              placeholder="1"
-              min={1}
-              type="number"
-              value={qty}
-              onChange={(e) => setQty(e.target.value)}
-            />
-            <button onClick={addToCart} className="rounded border border-black p-2">
-              Add to Cart
-            </button>
+            <div className="my-4">
+              <input
+                className="border rounded w-10 mr-4"
+                placeholder="1"
+                min={1}
+                type="number"
+                value={qty}
+                onChange={(e) => setQty(e.target.value)}
+              />
+              <button onClick={addToCart} className="rounded border border-black p-2">
+                Add to Cart
+              </button>
+            </div>
+
+            <BlockContent value={selectedVariant?.descriptionRaw} />
           </div>
-
-          <BlockContent value={selectedVariant?.descriptionRaw} />
         </div>
       </div>
-    </div>
+    </>
   );
 };
 
