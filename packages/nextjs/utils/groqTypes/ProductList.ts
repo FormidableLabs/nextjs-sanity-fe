@@ -5,6 +5,7 @@ export interface PLPVariant {
   price: number;
   images: Asset[];
   imageAlt: string;
+  productSlug: string;
 }
 
 export interface PLPVariantList {

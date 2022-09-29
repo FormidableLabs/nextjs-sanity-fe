@@ -1,26 +1,7 @@
 import groq from "groq";
 import { sanityClient } from "./sanityClient";
 
-export function GetFilteredCategoryProducts(filters = "", order = "") {
-  return groq`{
-      'products': *[_type == "product" && $slug in categories[]->slug.current ${filters}] {
-        ...,
-        'imageAlt': images[0]->name,
-        'images': images[0]->images,
-        'msrp': variants | order(price asc)[0]->msrp,
-        'price': variants | order(price asc)[0]->price,
-        'variants': variants[]->{
-          ...,
-          'size': size->name
-        }
-      } ${order} [$offsetPage...$limit],
-      'productsCount': count(*[_type == "product" && $slug in categories[]->slug.current ${filters}]),
-      'category': *[_type == "category" && slug.current == $slug][0] {
-        name
-      }
-    }`;
-}
-
+// TODO: Delete this
 export function GetAllFilteredProducts(filters = "", order = "") {
   return groq`{
       'products': *[_type == "product" ${filters}] {
@@ -45,7 +26,7 @@ export function GetAllFilteredVariants(filters = "", order = "") {
       _id, name, msrp, price,
       'imageAlt': images[0]->name,
       'images': images[0]->images,
-      'product': *[_type == "product" && references(^._id)][0].name
+      'productSlug': *[_type == "product" && references(^._id)][0].slug.current
     } ${order} [$offsetPage...$limit],
     'itemCount': count(*[_type == "variant" ${filters}]),
   }`;
