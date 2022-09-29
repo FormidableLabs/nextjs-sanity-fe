@@ -1107,17 +1107,17 @@ export type GetCategoriesSlugsQueryVariables = Exact<{ [key: string]: never; }>;
 
 export type GetCategoriesSlugsQuery = { __typename?: 'RootQuery', allCategory: Array<{ __typename?: 'Category', _id?: string | null, name?: string | null, slug?: { __typename?: 'Slug', current?: string | null } | null }> };
 
-export type GetProductQueryVariables = Exact<{
-  slug: Scalars['String'];
-}>;
-
-
-export type GetProductQuery = { __typename?: 'RootQuery', allProduct: Array<{ __typename?: 'Product', _id?: string | null, name?: string | null, categories?: Array<{ __typename?: 'Category', name?: string | null } | null> | null, slug?: { __typename?: 'Slug', current?: string | null } | null, images?: Array<{ __typename?: 'ProductImage', name?: string | null, images?: { __typename?: 'Image', asset?: { __typename?: 'SanityImageAsset', _id?: string | null } | null } | null } | null> | null, variants?: Array<{ __typename?: 'Variant', id?: string | null, name?: string | null, descriptionRaw?: any | null, msrp?: number | null, price?: number | null, size?: { __typename?: 'Size', name?: string | null } | null } | null> | null }> };
-
 export type GetProductsAndCategoriesQueryVariables = Exact<{ [key: string]: never; }>;
 
 
 export type GetProductsAndCategoriesQuery = { __typename?: 'RootQuery', allCategory: Array<{ __typename?: 'Category', _id?: string | null, name?: string | null, description?: string | null, slug?: { __typename?: 'Slug', current?: string | null } | null, images?: Array<{ __typename?: 'CategoryImage', name?: string | null, images?: { __typename?: 'Image', asset?: { __typename?: 'SanityImageAsset', url?: string | null } | null } | null } | null> | null }>, allProduct: Array<{ __typename?: 'Product', _id?: string | null, name?: string | null, slug?: { __typename?: 'Slug', current?: string | null } | null, variants?: Array<{ __typename?: 'Variant', price?: number | null, images?: Array<{ __typename?: 'ProductImage', name?: string | null, images?: { __typename?: 'Image', asset?: { __typename?: 'SanityImageAsset', url?: string | null } | null } | null } | null> | null } | null> | null }>, allProductImage: Array<{ __typename?: 'ProductImage', _id?: string | null, name?: string | null, images?: { __typename?: 'Image', asset?: { __typename?: 'SanityImageAsset', _id?: string | null, url?: string | null } | null } | null }> };
+
+export type GetProductAndRecommendationsQueryVariables = Exact<{
+  slug: Scalars['String'];
+}>;
+
+
+export type GetProductAndRecommendationsQuery = { __typename?: 'RootQuery', allProduct: Array<{ __typename?: 'Product', _id?: string | null, name?: string | null, categories?: Array<{ __typename?: 'Category', name?: string | null } | null> | null, slug?: { __typename?: 'Slug', current?: string | null } | null, variants?: Array<{ __typename?: 'Variant', id?: string | null, name?: string | null, descriptionRaw?: any | null, msrp?: number | null, price?: number | null, images?: Array<{ __typename?: 'ProductImage', images?: { __typename?: 'Image', asset?: { __typename?: 'SanityImageAsset', _id?: string | null } | null } | null } | null> | null, size?: { __typename?: 'Size', name?: string | null } | null, slicingOption?: Array<{ __typename?: 'Size', _id?: string | null, name?: string | null } | null> | null } | null> | null }>, recommendations: Array<{ __typename?: 'Product', _id?: string | null, name?: string | null, slug?: { __typename?: 'Slug', current?: string | null } | null, images?: Array<{ __typename?: 'ProductImage', name?: string | null, images?: { __typename?: 'Image', asset?: { __typename?: 'SanityImageAsset', url?: string | null } | null } | null } | null> | null, variants?: Array<{ __typename?: 'Variant', price?: number | null, msrp?: number | null } | null> | null }> };
 
 export type GetProductsQueryVariables = Exact<{ [key: string]: never; }>;
 
@@ -1198,45 +1198,9 @@ export const GetCategoriesSlugsDocument = gql`
 export function useGetCategoriesSlugsQuery(options?: Omit<Urql.UseQueryArgs<GetCategoriesSlugsQueryVariables>, 'query'>) {
   return Urql.useQuery<GetCategoriesSlugsQuery, GetCategoriesSlugsQueryVariables>({ query: GetCategoriesSlugsDocument, ...options });
 };
-export const GetProductDocument = gql`
-    query getProduct($slug: String!) {
-  allProduct(where: {slug: {current: {eq: $slug}}}) {
-    _id
-    name
-    categories {
-      name
-    }
-    slug {
-      current
-    }
-    images {
-      images {
-        asset {
-          _id
-        }
-      }
-      name
-    }
-    variants {
-      id
-      name
-      descriptionRaw
-      msrp
-      price
-      size {
-        name
-      }
-    }
-  }
-}
-    `;
-
-export function useGetProductQuery(options: Omit<Urql.UseQueryArgs<GetProductQueryVariables>, 'query'>) {
-  return Urql.useQuery<GetProductQuery, GetProductQueryVariables>({ query: GetProductDocument, ...options });
-};
 export const GetProductsAndCategoriesDocument = gql`
     query getProductsAndCategories {
-  allCategory(limit: 3, sort: {_updatedAt: ASC}) {
+  allCategory(limit: 2, sort: {_updatedAt: ASC}) {
     _id
     name
     description
@@ -1285,6 +1249,64 @@ export const GetProductsAndCategoriesDocument = gql`
 
 export function useGetProductsAndCategoriesQuery(options?: Omit<Urql.UseQueryArgs<GetProductsAndCategoriesQueryVariables>, 'query'>) {
   return Urql.useQuery<GetProductsAndCategoriesQuery, GetProductsAndCategoriesQueryVariables>({ query: GetProductsAndCategoriesDocument, ...options });
+};
+export const GetProductAndRecommendationsDocument = gql`
+    query getProductAndRecommendations($slug: String!) {
+  allProduct(where: {slug: {current: {eq: $slug}}}) {
+    _id
+    name
+    categories {
+      name
+    }
+    slug {
+      current
+    }
+    variants {
+      id
+      name
+      descriptionRaw
+      msrp
+      price
+      images {
+        images {
+          asset {
+            _id
+          }
+        }
+      }
+      size {
+        name
+      }
+      slicingOption {
+        _id
+        name
+      }
+    }
+  }
+  recommendations: allProduct(limit: 3, sort: {_updatedAt: ASC}) {
+    _id
+    name
+    slug {
+      current
+    }
+    images {
+      name
+      images {
+        asset {
+          url
+        }
+      }
+    }
+    variants {
+      price
+      msrp
+    }
+  }
+}
+    `;
+
+export function useGetProductAndRecommendationsQuery(options: Omit<Urql.UseQueryArgs<GetProductAndRecommendationsQueryVariables>, 'query'>) {
+  return Urql.useQuery<GetProductAndRecommendationsQuery, GetProductAndRecommendationsQueryVariables>({ query: GetProductAndRecommendationsDocument, ...options });
 };
 export const GetProductsDocument = gql`
     query getProducts {

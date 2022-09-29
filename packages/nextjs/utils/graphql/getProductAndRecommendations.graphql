@@ -1,0 +1,52 @@
+query getProductAndRecommendations($slug: String!) {
+  allProduct(where: { slug: { current: { eq: $slug } } }) {
+    _id
+    name
+    categories {
+      name
+    }
+    slug {
+      current
+    }
+    variants {
+      id
+      name
+      descriptionRaw
+      msrp
+      price
+      images {
+        images {
+          asset {
+            _id
+          }
+        }
+      }
+      size {
+        name
+      }
+      slicingOption {
+        _id
+        name
+      }
+    }
+  }
+  recommendations: allProduct(limit: 3, sort: { _updatedAt: ASC }) {
+    _id
+    name
+    slug {
+      current
+    }
+    images {
+      name
+      images {
+        asset {
+          url
+        }
+      }
+    }
+    variants {
+      price
+      msrp
+    }
+  }
+}

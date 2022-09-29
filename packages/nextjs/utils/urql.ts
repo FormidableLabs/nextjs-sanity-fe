@@ -1,8 +1,10 @@
 import { initUrqlClient, WithUrqlClientOptions } from "next-urql";
 import { cacheExchange, dedupExchange, fetchExchange, ssrExchange } from "urql";
 
+const GRAPHQL_URL = `https://${process.env.NEXT_PUBLIC_SANITY_PROJECT_ID}.apicdn.sanity.io/v1/graphql/production/default`;
+
 export const urqlOptions = {
-  url: process.env.NEXT_PUBLIC_SANITY_GRAPHQL_URL,
+  url: GRAPHQL_URL,
 };
 
 // https://formidable.com/open-source/urql/docs/advanced/server-side-rendering/

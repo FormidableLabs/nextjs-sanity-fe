@@ -1,5 +1,5 @@
 query getProductsAndCategories {
-  allCategory(limit: 3, sort: { _updatedAt: ASC }) {
+  allCategory(limit: 2, sort: { _updatedAt: ASC }) {
     _id
     name
     description

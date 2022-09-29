@@ -1,5 +1,6 @@
 import classNames from "classnames";
 import { useSelect } from "downshift";
+import { useEffect, useState } from "react";
 import { MdOutlineKeyboardArrowDown, MdOutlineKeyboardArrowUp } from "react-icons/md";
 
 interface Option {
@@ -9,25 +10,42 @@ interface Option {
 
 export interface Props {
   options: Option[];
-  label: string;
+  label?: string;
   placeholder: string;
+  defaultSelectedItem?: Option | null;
+  onChange?: (value?: Option | null) => void;
 }
 
 const itemToString = (item: Option | null) => (item ? item.title : "");
 
-export function Select({ label, placeholder, options }: Props) {
-  const { isOpen, selectedItem, getToggleButtonProps, getLabelProps, getMenuProps, highlightedIndex, getItemProps } =
-    useSelect({
-      items: options,
-      itemToString,
-    });
+export function Select({ label, placeholder, options, defaultSelectedItem, onChange }: Props) {
+  const [selectedItem, setSelectedItem] = useState<Option | null | undefined>(defaultSelectedItem);
+
+  // This is needed if you change route so that it updates the currently selected dropdown
+  useEffect(() => {
+    if (defaultSelectedItem) {
+      setSelectedItem(defaultSelectedItem);
+    }
+  }, [defaultSelectedItem]);
+
+  const { isOpen, getToggleButtonProps, getLabelProps, getMenuProps, highlightedIndex, getItemProps } = useSelect({
+    items: options,
+    itemToString,
+    selectedItem,
+    onSelectedItemChange({ selectedItem }) {
+      setSelectedItem(selectedItem);
+      onChange && onChange(selectedItem);
+    },
+  });
 
   return (
     <div>
       <div className="w-72 flex flex-col gap-1">
-        <label className="text-body-reg text-blue mb-2" {...getLabelProps()}>
-          {label}
-        </label>
+        {label && (
+          <label className="text-body-reg text-blue mb-2" {...getLabelProps()}>
+            {label}
+          </label>
+        )}
         <button
           aria-label="toggle menu"
           className="px-4 py-2 border border-blue text-blue rounded-lg hover:bg-blue/20 flex justify-between"
@@ -50,6 +68,7 @@ export function Select({ label, placeholder, options }: Props) {
           "border-blue",
           "rounded",
           "overflow-auto",
+          "bg-yellow",
           {
             hidden: !isOpen,
           }
@@ -60,14 +79,15 @@ export function Select({ label, placeholder, options }: Props) {
             <li
               className={classNames(
                 "first:pt-2",
-                "last:pb-2",
+                "pb-2",
                 "pt-3",
                 "px-4",
                 "flex",
                 "flex-col",
                 "text-blue",
+                "cursor-pointer",
                 highlightedIndex === index && "bg-blue text-yellow",
-                selectedItem === item && "font-bold"
+                selectedItem?.value === item.value && "font-bold"
               )}
               key={`${item.value}${index}`}
               {...getItemProps({ item, index })}
