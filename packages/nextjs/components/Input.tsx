@@ -6,9 +6,13 @@ interface Props extends InputHTMLAttributes<HTMLInputElement> {
   placeholder: string;
   disabled?: boolean;
   inputEndIcon?: ReactNode;
+  inputClassName?: string;
 }
 
-const InputComponent = ({ label, disabled, inputEndIcon, ...props }: Props, ref: ForwardedRef<HTMLInputElement>) => {
+const InputComponent = (
+  { label, disabled, inputEndIcon, inputClassName = "", ...props }: Props,
+  ref: ForwardedRef<HTMLInputElement>
+) => {
   const [isFocused, setIsFocused] = useState(false);
   const id = useId();
 
@@ -42,7 +46,8 @@ const InputComponent = ({ label, disabled, inputEndIcon, ...props }: Props, ref:
             {
               "border-thunder-cloud text-thunder-cloud placeholder:text-thunder-cloud": disabled,
             },
-            "flex-grow"
+            "flex-grow",
+            inputClassName
           )}
           id={id}
           disabled={disabled}
