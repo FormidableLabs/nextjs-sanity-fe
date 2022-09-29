@@ -44,7 +44,7 @@ export const Pagination = ({ onPageChange, pageCount = 1, currentPage = 1 }: Pag
         <FaChevronLeft className="h-5 w-5" aria-hidden="true" />
         Previous
       </MaybeDisabledLink>
-      <div>
+      <div className="flex gap-x-1">
         {totalPages.map((page) => (
           <Link key={`page-${page}`} href={page === 1 ? baseUrlObj : getUrlObjWithPage(page)} passHref>
             <a
