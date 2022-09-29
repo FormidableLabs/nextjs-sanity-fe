@@ -7,18 +7,24 @@ import { CategoryList } from "components/CategoryList";
 import { setCachingHeaders } from "utils/setCachingHeaders";
 import { SanityType } from "utils/consts";
 import { WeDontSellBreadBanner } from "../../components/WeDontSellBreadBanner";
+import { PageHead } from "../../components/PageHead";
+import { isString, pluralize } from "../../utils/pluralize";
 
 const CategoriesPage: NextPage = () => {
   const [{ data }] = useGetCategoriesQuery();
+  const categoryNames = pluralize((data?.allCategory || []).map((cat) => cat.name).filter(isString));
 
   return (
-    <div>
-      <WeDontSellBreadBanner />
-      <div className="container py-9 text-blue flex flex-col gap-9">
-        <h1 className="text-h1">Categories</h1>
-        <CategoryList items={data?.allCategory} />
+    <>
+      <PageHead title="Categories" description={`Product categories, including ${categoryNames}.`} />
+      <div>
+        <WeDontSellBreadBanner />
+        <div className="container py-9 text-blue flex flex-col gap-9">
+          <h1 className="text-h1">Categories</h1>
+          <CategoryList items={data?.allCategory} />
+        </div>
       </div>
-    </div>
+    </>
   );
 };
 

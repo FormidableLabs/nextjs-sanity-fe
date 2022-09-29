@@ -9,6 +9,8 @@ import { GetFilteredCategoryProducts, getFilteredPaginatedQuery } from "utils/ge
 import { getSizeFilters } from "utils/getSizeFilters";
 import { SanityType } from "utils/consts";
 import { PLPLayout } from "../../components/PLPLayout";
+import { PageHead } from "../../components/PageHead";
+import { pluralize } from "../../utils/pluralize";
 
 interface Props {
   products: CategoryPageProduct[];
@@ -21,15 +23,23 @@ interface Props {
 }
 
 const CategoryPage: NextPage<Props> = ({ category, products, sizeFilters, pageCount, currentPage }) => {
+  const productNames = pluralize(products.map((prod) => prod.name));
+
   return (
-    <PLPLayout
-      title={category.name}
-      pageCount={pageCount}
-      currentPage={currentPage}
-      products={products}
-      sizeFilters={sizeFilters}
-      disablePagination
-    />
+    <>
+      <PageHead
+        title={category.name}
+        description={`Products for category ${category.name}, including ${productNames}.`}
+      />
+      <PLPLayout
+        title={category.name}
+        pageCount={pageCount}
+        currentPage={currentPage}
+        products={products}
+        sizeFilters={sizeFilters}
+        disablePagination
+      />
+    </>
   );
 };
 
