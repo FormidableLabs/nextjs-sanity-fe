@@ -1,5 +1,4 @@
 export enum SanityType {
-  Blog = "blog",
   Category = "category",
   CategoryImage = "categoryImage",
   Product = "product",

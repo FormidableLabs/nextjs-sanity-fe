@@ -2,7 +2,6 @@
 import schemaTypes from "all:part:@sanity/base/schema-type";
 import createSchema from "part:@sanity/base/schema-creator";
 
-import blog from "./blog";
 import category from "./category";
 import categoryImage from "./categoryImage";
 import description from "./description";
@@ -27,6 +26,5 @@ export default createSchema({
     variant,
     size,
     description,
-    blog,
   ]),
 });

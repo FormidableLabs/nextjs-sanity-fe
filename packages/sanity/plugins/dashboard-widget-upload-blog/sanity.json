@@ -1,9 +1,0 @@
-{
-  "parts": [
-    {
-      "name": "part:@sanity/dashboard/widget/dashboard-widget-upload-blog",
-      "implements": "part:@sanity/dashboard/widget",
-      "path": "index.tsx"
-    }
-  ]
-}
