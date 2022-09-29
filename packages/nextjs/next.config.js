@@ -5,6 +5,9 @@ const nextConfig = {
     domains: ["cdn.sanity.io"],
     loader: "custom",
   },
+  eslint: {
+    ignoreDuringBuilds: true,
+  },
 };
 
 module.exports = nextConfig;

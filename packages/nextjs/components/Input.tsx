@@ -39,10 +39,7 @@ const InputComponent = (
           onFocus={() => setIsFocused((val) => true)}
           onBlur={() => setIsFocused((val) => false)}
           className={classNames(
-            "bg-yellow",
-            "text-blue",
-            "placeholder:text-blue",
-            "focus:outline-none",
+            "bg-yellow text-blue placeholder:text-blue focus:outline-none w-full",
             {
               "border-thunder-cloud text-thunder-cloud placeholder:text-thunder-cloud": disabled,
             },
