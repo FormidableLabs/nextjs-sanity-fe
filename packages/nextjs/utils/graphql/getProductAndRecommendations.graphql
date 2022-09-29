@@ -11,6 +11,9 @@ query getProductAndRecommendations($slug: String!) {
     variants {
       id
       name
+      slug {
+        current
+      }
       descriptionRaw
       msrp
       price

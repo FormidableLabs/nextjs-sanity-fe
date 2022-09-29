@@ -35,9 +35,17 @@ const ProductPage: NextPage = () => {
   const { updateCart, cartItems } = useCart();
 
   const product = data?.allProduct[0];
-  const [selectedVariant, setSelectedVariant] = useState<Maybe<ProductVariant> | undefined>();
+  const [selectedVariant, setSelectedVariant] = useState<Maybe<ProductVariant> | undefined>(() =>
+    (product?.variants || []).find((v) => {
+      console.log(v);
+
+      return v?.slug?.current && v.slug.current === query.variant;
+    })
+  );
   const [selectedSlicing, setSelectedSlicing] = useState<string>("");
   const [quantity, setQuantity] = useState("1");
+
+  console.log(selectedVariant);
 
   useEffect(() => {
     if (product) {

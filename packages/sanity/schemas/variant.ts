@@ -35,6 +35,18 @@ export default {
       type: "string",
       validation: (rule) => rule.required(),
     },
+    // TODO: Ensure this is unique
+    {
+      name: "slug",
+      title: "Slug",
+      type: "slug",
+      validation: (rule) => rule.required(),
+      options: {
+        source: "name",
+        maxLength: 200,
+        slugify: (input: string) => input.toLowerCase().replace(/\s+/g, "-").slice(0, 200),
+      },
+    },
     {
       name: "description",
       title: "Description",
