@@ -6,9 +6,9 @@ import { initializeUrql, urqlOptions, withUrqlOptions } from "utils/urql";
 import { CategoryList } from "components/CategoryList";
 import { setCachingHeaders } from "utils/setCachingHeaders";
 import { SanityType } from "utils/consts";
-import { WeDontSellBreadBanner } from "../../components/WeDontSellBreadBanner";
-import { PageHead } from "../../components/PageHead";
-import { isString, pluralize } from "../../utils/pluralize";
+import { WeDontSellBreadBanner } from "../components/WeDontSellBreadBanner";
+import { PageHead } from "../components/PageHead";
+import { isString, pluralize } from "../utils/pluralize";
 
 const CategoriesPage: NextPage = () => {
   const [{ data }] = useGetCategoriesQuery();

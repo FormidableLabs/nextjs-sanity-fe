@@ -13,7 +13,12 @@ export const CategoryList = ({ items }: CategoryListProps) => {
       {items.map((category) => (
         <li key={category._id}>
           <Card
-            to={`/categories/${category.slug?.current}`}
+            to={{
+              pathname: "/products",
+              query: {
+                category: category.slug?.current,
+              },
+            }}
             imageProps={{
               src: category.images?.[0]?.images ?? "",
               alt: category.images?.[0]?.name ?? "",
