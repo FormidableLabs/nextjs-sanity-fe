@@ -1,3 +1,5 @@
+import { FlavourFilterItem } from "../utils/groqTypes/ProductList";
+
 export type FilterOption = {
   value: string;
   label: string;
@@ -11,18 +13,18 @@ export type FilterGroup = {
 };
 
 export interface FilterGroupParams {
-  sizeFilters?: string[];
+  flavourFilters?: FlavourFilterItem[];
 }
 
-export const getFilterGroups = ({ sizeFilters = [] }: FilterGroupParams = {}): FilterGroup[] => {
+export const getFilterGroups = ({ flavourFilters = [] }: FilterGroupParams = {}): FilterGroup[] => {
   return [
     {
-      value: "size",
-      label: "Size",
-      options: sizeFilters.map((size) => ({
-        value: size,
-        label: size,
-        filter: `'${size}' in variants[]->size->name`,
+      value: "flavour",
+      label: "Flavour",
+      options: flavourFilters.map((flavour) => ({
+        value: flavour.name,
+        label: flavour.name,
+        filter: `'${flavour.name}' in flavour[]->name`,
       })),
     },
     {
@@ -32,7 +34,7 @@ export const getFilterGroups = ({ sizeFilters = [] }: FilterGroupParams = {}): F
         {
           value: "sale",
           label: "Sale",
-          filter: "variants | order(price asc)[0]->msrp > variants | order(price asc)[0]->price",
+          filter: "msrp > price",
         },
       ],
     },

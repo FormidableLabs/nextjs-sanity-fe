@@ -1,9 +1,9 @@
 import { FilterGroupParams, getFilterGroups } from "constants/filters";
 import { ParsedUrlQuery } from "querystring";
 
-export const getFiltersFromQuery = (query: ParsedUrlQuery, { sizeFilters }: FilterGroupParams = {}) => {
+export const getFiltersFromQuery = (query: ParsedUrlQuery, { flavourFilters }: FilterGroupParams = {}) => {
   // Filters
-  const filterGroups = getFilterGroups({ sizeFilters }).reduce((acc: string[][], { value: groupValue, options }) => {
+  const filterGroups = getFilterGroups({ flavourFilters }).reduce((acc: string[][], { value: groupValue, options }) => {
     const queryValue = query[groupValue];
     if (!queryValue) {
       // No filter query param

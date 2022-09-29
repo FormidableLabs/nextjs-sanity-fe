@@ -38,6 +38,19 @@ export function GetAllFilteredProducts(filters = "", order = "") {
     }`;
 }
 
+export function GetAllFilteredVariants(filters = "", order = "") {
+  return groq`
+  {
+    'variants': *[_type == "variant" ${filters}] {
+      _id, name, msrp, price,
+      'imageAlt': images[0]->name,
+      'images': images[0]->images,
+      'product': *[_type == "product" && references(^._id)][0].name
+    } ${order} [$offsetPage...$limit],
+    'itemCount': count(*[_type == "variant" ${filters}]),
+  }`;
+}
+
 export const getFilteredPaginatedQuery = async <T>(
   query: string,
   queryOptions: {
