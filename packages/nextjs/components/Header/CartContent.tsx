@@ -55,10 +55,10 @@ export const CartContent = ({ onClose }: CartContentProps) => {
             {isFetchingCartItems ? "..." : currencyFormatter.format(totalCartPrice)}
           </span>
         </div>
-        <Button variant="primary" as="button">
+        <Button variant="primary" as="button" onClick={notifyWeDontSellBread}>
           Checkout
         </Button>
-        <Button variant="text" as="button">
+        <Button variant="text" as="button" onClick={notifyWeDontSellBread}>
           View your cart
         </Button>
       </div>
@@ -67,3 +67,6 @@ export const CartContent = ({ onClose }: CartContentProps) => {
 };
 
 const Divider = () => <div className="h-0 border-t-2 border-blue"></div>;
+
+const notifyWeDontSellBread = () =>
+  alert("Sorry, we don't actually sell bread 😅 This button doesn't actually do anything.");
