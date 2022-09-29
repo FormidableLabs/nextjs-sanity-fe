@@ -1,7 +1,7 @@
 import * as React from "react";
 import Head from "next/head";
 import type { AppProps } from "next/app";
-import { AnimatePresence, motion } from "framer-motion";
+import { AnimatePresence, motion, MotionConfig } from "framer-motion";
 
 import { CartProvider } from "../components/CartContext";
 import { Layout } from "../components/Layout";
@@ -13,15 +13,17 @@ function MyApp({ Component, pageProps, router }: AppProps) {
       <Head>
         <meta name="viewport" content="width=device-width" />
       </Head>
-      <CartProvider>
-        <Layout>
-          <AnimatePresence initial={false} mode="wait">
-            <PageWrapper key={router.route}>
-              <Component {...pageProps} />
-            </PageWrapper>
-          </AnimatePresence>
-        </Layout>
-      </CartProvider>
+      <MotionConfig reducedMotion="user">
+        <CartProvider>
+          <Layout>
+            <AnimatePresence initial={false} mode="wait">
+              <PageWrapper key={router.route}>
+                <Component {...pageProps} />
+              </PageWrapper>
+            </AnimatePresence>
+          </Layout>
+        </CartProvider>
+      </MotionConfig>
     </>
   );
 }

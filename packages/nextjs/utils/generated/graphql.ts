@@ -1085,18 +1085,6 @@ export type VariantSorting = {
   price?: InputMaybe<SortOrder>;
 };
 
-export type GetBlogQueryVariables = Exact<{
-  slug: Scalars['String'];
-}>;
-
-
-export type GetBlogQuery = { __typename?: 'RootQuery', allBlog: Array<{ __typename?: 'Blog', _id?: string | null, title?: string | null, contentRaw?: any | null }> };
-
-export type GetBlogsSlugsQueryVariables = Exact<{ [key: string]: never; }>;
-
-
-export type GetBlogsSlugsQuery = { __typename?: 'RootQuery', allBlog: Array<{ __typename?: 'Blog', _id?: string | null, title?: string | null, _createdAt?: any | null, slug?: { __typename?: 'Slug', current?: string | null } | null }> };
-
 export type GetCategoriesQueryVariables = Exact<{ [key: string]: never; }>;
 
 
@@ -1130,35 +1118,6 @@ export type GetProductsSlugsQueryVariables = Exact<{ [key: string]: never; }>;
 export type GetProductsSlugsQuery = { __typename?: 'RootQuery', allProduct: Array<{ __typename?: 'Product', slug?: { __typename?: 'Slug', current?: string | null } | null }> };
 
 
-export const GetBlogDocument = gql`
-    query getBlog($slug: String!) {
-  allBlog(where: {slug: {current: {eq: $slug}}}) {
-    _id
-    title
-    contentRaw
-  }
-}
-    `;
-
-export function useGetBlogQuery(options: Omit<Urql.UseQueryArgs<GetBlogQueryVariables>, 'query'>) {
-  return Urql.useQuery<GetBlogQuery, GetBlogQueryVariables>({ query: GetBlogDocument, ...options });
-};
-export const GetBlogsSlugsDocument = gql`
-    query getBlogsSlugs {
-  allBlog(sort: {_createdAt: ASC}) {
-    _id
-    title
-    slug {
-      current
-    }
-    _createdAt
-  }
-}
-    `;
-
-export function useGetBlogsSlugsQuery(options?: Omit<Urql.UseQueryArgs<GetBlogsSlugsQueryVariables>, 'query'>) {
-  return Urql.useQuery<GetBlogsSlugsQuery, GetBlogsSlugsQueryVariables>({ query: GetBlogsSlugsDocument, ...options });
-};
 export const GetCategoriesDocument = gql`
     query getCategories {
   allCategory {

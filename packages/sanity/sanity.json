@@ -13,8 +13,7 @@
     "@sanity/default-layout",
     "@sanity/default-login",
     "@sanity/desk-tool",
-    "@sanity/vision",
-    "dashboard-widget-upload-blog"
+    "@sanity/vision"
   ],
   "parts": [
     {

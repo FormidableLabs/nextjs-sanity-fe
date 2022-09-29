@@ -14,6 +14,7 @@ const initialValue = {
   cartItems: [] as CartItem[],
   cartItemsErrorIds: [] as string[] | undefined,
   cartTotal: 0,
+  totalCartPrice: 0,
   updateCart: (() => {}) as (productId: string, quantity: number) => void,
   clearCart: (() => {}) as () => void,
   updateCartFromApi: (() => {}) as () => void,
@@ -145,6 +146,11 @@ export const CartProvider: React.FC<Props> = ({ children }) => {
   // Calculates the total quantity of all items in the cart
   const cartTotal = useMemo(() => cartItems.reduce((acc, { qty }) => acc + qty, 0), [cartItems]);
 
+  const totalCartPrice = useMemo(
+    () => cartItems.reduce((acc, { qty, item }) => acc + qty * item.price, 0),
+    [cartItems]
+  );
+
   return (
     <CartContext.Provider
       value={{
@@ -155,6 +161,7 @@ export const CartProvider: React.FC<Props> = ({ children }) => {
         clearCart,
         cartTotal,
         updateCartFromApi,
+        totalCartPrice,
       }}
     >
       {children}

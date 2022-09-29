@@ -1,7 +1,0 @@
-query getBlog($slug: String!) {
-  allBlog(where: { slug: { current: { eq: $slug } } }) {
-    _id
-    title
-    contentRaw
-  }
-}
