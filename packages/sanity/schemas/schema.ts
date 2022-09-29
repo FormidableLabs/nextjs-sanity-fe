@@ -10,6 +10,8 @@ import product from "./product";
 import productImage from "./productImage";
 import size from "./size";
 import variant from "./variant";
+import flavour from "./flavour";
+import style from "./style";
 
 // Then import schema types from any plugins that might expose them
 // Then we give our schema to the builder and provide the result to Sanity
@@ -25,8 +27,9 @@ export default createSchema({
     productImage,
     product,
     variant,
-    size,
     description,
     blog,
+    flavour,
+    style,
   ]),
 });

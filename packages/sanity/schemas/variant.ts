@@ -76,19 +76,24 @@ export default {
       ],
     },
     {
-      name: "size",
-      title: "Size",
-      type: "reference",
-      to: [{ type: "size" }],
-    },
-    {
-      name: "slicingOption",
-      title: "Slicing Option",
+      name: "flavour",
+      title: "Flavour",
       type: "array",
       of: [
         {
           type: "reference",
-          to: [{ type: "size" }],
+          to: [{ type: "flavour" }],
+        },
+      ],
+    },
+    {
+      name: "style",
+      title: "Style (options)",
+      type: "array",
+      of: [
+        {
+          type: "reference",
+          to: [{ type: "style" }],
         },
       ],
     },
@@ -97,7 +102,7 @@ export default {
     select: {
       title: "name",
       media: "images.0.images",
-      subtitle: "size.name",
+      subtitle: "style.name",
     },
   },
 };
