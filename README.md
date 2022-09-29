@@ -41,13 +41,7 @@ source ~/<file you modified>
 
 ## Environment Variables
 
-There is an `.env.sample` committed to the repo which contains the list of env variables for the project. The redacted values can be found in 1Password IC Vault. The secrets are only needed for specific use case and not needed for just running the NextJS application.
-
-The following command copies `.env.sample` into a file named `.env`
-
-```bash
-cp .env.sample .env
-```
+There is an `.env.sample` committed to the repo which contains the list of env variables for the project. For running Nextjs and Sanity Studio locally, only the `NEXT_PUBLIC_SANITY_PROJECT_ID` variable is needed. The other values in the sample file are only needed if you intend to test the purging scenarios on your local machine. I.e. the `/api/webhook` route.
 
 ### Scripts
 
@@ -73,7 +67,7 @@ cp .env.sample .env
 
 ## NextJS App
 
-The NextJs App is demonstrating the use of Sanity headless CMS to create a e-commerce site. The goal of this site is to provide a real world example on running a highly scalable e-commerce site.
+The Nextjs Application is intended to demonstrate the use of Sanity headless CMS to create an e-commerce site. The goal of this site is to provide a real world example on running a highly scalable e-commerce site.
 
 ### CMS - Sanity
 
@@ -119,7 +113,7 @@ The relevant webhook configuration is as follows:
 - **URL**: points to our `<host url>/api/webhook` route in the nextjs project
 - **Dataset**: set to `*` (since we only have a single dataset)
 - **Trigger on**: create, update & delete
-- **Filter**: currently set to `_type in ["blog", "category", "categoryImage", "product", "productImage", "size", "variant"]`. Since this is all sanity types, we could also just remove the filter if we wanted.
+- **Filter**: currently set to `_type in ["category", "categoryImage", "product", "productImage", "size", "variant"]`.
 - **Status**: enabled
 - **Http method**: POST
 - **Secret**: we have a secret setup, so we can authenticate the webhook requests to ensure they're came from sanity.
@@ -164,13 +158,7 @@ There are two main categories for which purging is necessary.
 
 The following simplified process diagram illustrates what conditions are checked when content is modified.
 
-![Process Diagram](https://user-images.githubusercontent.com/3632381/190230732-0bd2ff41-eadf-4816-92b0-6968363b0ee0.png)
-
-#### Blog Page i.e. (`/blogs` or `/blogs/white-tees-are-in`)
-
-This is the simplest purging scenario. Since blogs are only shown under /blogs, we can purge them specifically by id.
-
-When a blog is created, updated, or deleted, we should purge the associated blog page as well as the blog listing page.
+![Process Diagram](https://user-images.githubusercontent.com/3632381/192895638-85574a1e-bb59-44dd-b897-a68c6dcc3db1.png)
 
 #### Category PLP page i.e. (`/categories/tops`)
 
@@ -190,7 +178,7 @@ The Home and Categories Pages list Categories set up in Sanity, and therefore sh
 
 When a Category is created, updated, or deleted, a purge should be executed using the `category` surrogate-key.
 
-#### PDP page i.e. (`/products/blank-t-shirt`)
+#### PDP page i.e. (`/products/croissant`)
 
 A PDP page lists metadata about a specific product.
 
@@ -198,9 +186,9 @@ When a product is created, updated, or deleted, we should purge that specific pa
 
 Specific situation:
 
-In Sanity, the product with a slug of `blank-t-shirt` had it's metadata modified (name, description, etc).
+In Sanity, the product with a slug of `croissant` had it's metadata modified (name, description, etc).
 
-When that payload is received, a purge request should be done for the following surrogate-key `blank-t-shirt`
+When that payload is received, a purge request should be done for the following surrogate-key `croissant`
 
 ### Troubleshooting purging
 
@@ -244,11 +232,11 @@ If the `surrogate-control` or `surrogate-keys` response headers aren't set corre
 1. Load the [vercel app](https://nextjs-sanity-fe.vercel.app/) in chrome.
 2. Run the app locally and open in chrome.
 
-Once you have the app open in Chrome. Open Dev tools. View the "Doc" network request. Under response headers you should see something similar to this (sample from a blog page):
+Once you have the app open in Chrome. Open Dev tools. View the "Doc" network request. Under response headers you should see something similar to this (sample from a product page):
 
 ```
 surrogate-control: max-age=604800, stale-while-revalidate=120000, stale-if-error=600000
-surrogate-key: blog_limited-release-of-white-tees
+surrogate-key: product_croissant productImage variant
 ```
 
 #### Check api/webhook logs
@@ -263,12 +251,12 @@ authorization step has passed
 parsed body:
 {
   _id: '38b0346a-5106-4bed-a010-a306035c6d5a',
-  _type: 'blog',
-  slug: 'limited-release-of-white-tees'
+  _type: 'product',
+  slug: 'croissant'
 }
-initiating cache purge for blog blog_limited-release-of-white-tees
+initiating cache purge for product product_croissant
 cache purge successfully requested {
-  blog: '7100059-1662806213-2227868',
-  'blog_limited-release-of-white-tees': '7100059-1662806213-2227869'
+  product: '7100059-1662806213-2227868',
+  'product_croissant': '7100059-1662806213-2227869'
 }
 ```
