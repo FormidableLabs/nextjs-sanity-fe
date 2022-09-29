@@ -82,7 +82,7 @@ export const Cart = ({
         {isCartOpen && (
           <motion.div
             ref={cartPopup}
-            className="cart-popup fixed inset-0 sm:absolute bg-yellow sm:top-10 sm:right-0 sm:left-[inherit] sm:bottom-[inherit] sm:w-[400px] sm:min-h-[600px] sm:shadow-lg sm:rounded sm:border border-blue flex cursor-auto"
+            className="cart-popup fixed inset-0 sm:absolute bg-yellow sm:top-10 sm:right-0 sm:left-[inherit] sm:bottom-[inherit] sm:w-[400px] sm:max-h-[calc(100vh-100px)] sm:shadow-lg sm:rounded sm:border border-blue flex cursor-auto"
             initial={{ opacity: 0, y: -10 }}
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: -10 }}
