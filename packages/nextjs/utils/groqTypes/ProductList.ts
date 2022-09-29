@@ -26,3 +26,8 @@ export interface FlavourFilterItem {
   name: string;
   slug: string;
 }
+
+export interface StyleFilterItem {
+  name: string;
+  slug: string;
+}

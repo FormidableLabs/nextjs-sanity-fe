@@ -4,7 +4,7 @@ import { ProductSort } from "./ProductSort";
 import { ProductFilters } from "./ProductFilters";
 import { Product } from "./Product";
 import { Pagination } from "./Pagination";
-import { FlavourFilterItem, PLPVariant } from "../utils/groqTypes/ProductList";
+import { FlavourFilterItem, PLPVariant, StyleFilterItem } from "../utils/groqTypes/ProductList";
 
 type PLPLayoutProps = {
   title: string;
@@ -12,12 +12,14 @@ type PLPLayoutProps = {
   pageCount: number;
   currentPage?: number;
   flavourFilters: FlavourFilterItem[];
+  styleFilters: StyleFilterItem[];
   disablePagination?: boolean;
 };
 
 export const PLPLayout = ({
   title,
   flavourFilters,
+  styleFilters,
   variants,
   pageCount,
   currentPage,
@@ -31,7 +33,7 @@ export const PLPLayout = ({
         <div className="flex gap-9 flex-col md:flex-row">
           <div className="w-full md:w-72 order-2 md:order-1 flex flex-col gap-9">
             <ProductSort />
-            <ProductFilters flavourFilters={flavourFilters} />
+            <ProductFilters flavourFilters={flavourFilters} styleFilters={styleFilters} />
           </div>
 
           <div className="flex-1 order-1 md:order-2">

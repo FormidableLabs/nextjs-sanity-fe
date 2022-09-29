@@ -11,8 +11,9 @@ import { PLPLayout } from "../../components/PLPLayout";
 import { PageHead } from "../../components/PageHead";
 import * as React from "react";
 import { pluralize } from "../../utils/pluralize";
-import { FlavourFilterItem, PLPVariant, PLPVariantList } from "../../utils/groqTypes/ProductList";
+import { FlavourFilterItem, PLPVariant, PLPVariantList, StyleFilterItem } from "../../utils/groqTypes/ProductList";
 import { getFlavourFilters } from "../../utils/getFlavourFilters";
+import { getStyleFilters } from "../../utils/getStyleFilters";
 
 interface ProductsPageProps {
   variants: PLPVariant[];
@@ -21,9 +22,16 @@ interface ProductsPageProps {
   pageCount: number;
   currentPage?: number;
   flavourFilters: FlavourFilterItem[];
+  styleFilters: StyleFilterItem[];
 }
 
-const ProductsPage: NextPage<ProductsPageProps> = ({ variants, pageCount, currentPage, flavourFilters }) => {
+const ProductsPage: NextPage<ProductsPageProps> = ({
+  variants,
+  pageCount,
+  currentPage,
+  flavourFilters,
+  styleFilters,
+}) => {
   const productNames = pluralize(variants.map((prod) => prod.name));
 
   return (
@@ -38,6 +46,7 @@ const ProductsPage: NextPage<ProductsPageProps> = ({ variants, pageCount, curren
         currentPage={currentPage}
         variants={variants}
         flavourFilters={flavourFilters}
+        styleFilters={styleFilters}
       />
     </>
   );
@@ -53,11 +62,14 @@ export const getServerSideProps: GetServerSideProps<ProductsPageProps> = async (
   const sizeFilters = await getSizeFilters();
 
   const flavourFilters = await getFlavourFilters();
+  const styleFilters = await getStyleFilters();
 
   // Filters.
-  const filters = getFiltersFromQuery(query, { flavourFilters });
+  const filters = getFiltersFromQuery(query, { flavourFilters, styleFilters });
   // Pagination data.
   const pagination = getPaginationFromQuery(query);
+
+  console.log(filters);
 
   const result = await getFilteredPaginatedQuery<PLPVariantList>(GetAllFilteredVariants(filters, order), pagination);
 
@@ -84,6 +96,7 @@ export const getServerSideProps: GetServerSideProps<ProductsPageProps> = async (
     props: {
       sizeFilters,
       flavourFilters,
+      styleFilters,
       variants,
       itemCount,
       pageCount,
