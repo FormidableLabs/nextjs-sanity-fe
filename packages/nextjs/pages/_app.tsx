@@ -1,7 +1,7 @@
 import * as React from "react";
 import Head from "next/head";
 import type { AppProps } from "next/app";
-import { AnimatePresence, motion, MotionConfig } from "framer-motion";
+import { AnimatePresence, MotionConfig } from "framer-motion";
 
 import { CartProvider } from "../components/CartContext";
 import { Layout } from "../components/Layout";
