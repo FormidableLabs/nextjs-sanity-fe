@@ -13,6 +13,8 @@
     "build:sanity": "pnpm run --filter sanity build",
     "deploy-sanity-studio": "pnpm run -C packages/sanity --filter sanity deploy-studio",
     "deploy-sanity-graphql": "pnpm run -C packages/sanity --filter sanity deploy-graphql",
+    "init-sanity": "pnpm run -C packages/sanity --filter sanity init",
+    "seed-sanity": "pnpm run -C packages/sanity --filter sanity import-dataset",
     "prepare": "husky install"
   },
   "keywords": [],
