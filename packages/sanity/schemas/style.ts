@@ -1,4 +1,6 @@
 import { RiKnifeLine } from "react-icons/ri";
+import groq from "groq";
+import client from "part:@sanity/base/client";
 
 export default {
   name: "style",
@@ -16,6 +18,7 @@ export default {
       name: "slug",
       title: "Slug",
       type: "slug",
+      // TODO: Enforce that this is unique
       options: {
         source: "name",
         maxLength: 200,
