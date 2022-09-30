@@ -18,12 +18,6 @@ export interface FilterGroupParams {
   styleFilters?: StyleFilterItem[];
 }
 
-/**
- * *[_type == "variant" && $slug in *[_type == "product" && references(^._id)][].categories[]->slug.current ] {
- *   name
- * }
- */
-
 export const getFilterGroups = ({
   categoryFilters = [],
   flavourFilters = [],

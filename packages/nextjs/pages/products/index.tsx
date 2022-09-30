@@ -17,9 +17,7 @@ import {
   PLPVariantList,
   StyleFilterItem,
 } from "../../utils/groqTypes/ProductList";
-import { getFlavourFilters } from "../../utils/getFlavourFilters";
-import { getStyleFilters } from "../../utils/getStyleFilters";
-import { getCategoryFilters } from "../../utils/getCategoryFilters";
+import { getCategoryFilters, getFlavourFilters, getStyleFilters } from "../../utils/getFilters";
 
 interface ProductsPageProps {
   variants: PLPVariant[];
@@ -82,8 +80,6 @@ export const getServerSideProps: GetServerSideProps<ProductsPageProps> = async (
   const { variants, itemCount } = result;
   const { currentPage, pageSize } = pagination;
   const pageCount = Math.ceil(itemCount / pageSize);
-
-  console.log("FILTERS!", filters);
 
   /**
    * Scenario: If user is on the third page and then enables

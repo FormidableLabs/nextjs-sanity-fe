@@ -30,7 +30,6 @@ export const FeaturedList = ({ items }: Props) => {
                 variant: item.variants?.[0]?.slug?.current,
               },
             },
-            // `/products/${item.slug?.current}`,
             title: item.name ?? "",
             price: item.variants?.[0]?.price ?? "",
             imageProps: {

@@ -21,7 +21,7 @@ export const QuantityInput = ({ quantity, onQuantityChange, onAddToCart }: Props
             value={quantity}
             onChange={(e) => onQuantityChange(e.target.value)}
             placeholder="1"
-            inputClassName="w-full h-full"
+            inputClassName="w-full"
           />
         </div>
         <Button variant="primary" className="flex items-center" onClick={onAddToCart}>
