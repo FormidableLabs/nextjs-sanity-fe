@@ -6,7 +6,6 @@ import { getFiltersFromQuery } from "utils/getFiltersFromQuery";
 import { getOrderingFromQuery } from "utils/getOrderingFromQuery";
 import { setCachingHeaders } from "utils/setCachingHeaders";
 import { SanityType } from "utils/consts";
-import { PLPLayout } from "../../components/PLPLayout";
 import { PageHead } from "../../components/PageHead";
 import * as React from "react";
 import { pluralize } from "../../utils/pluralize";
@@ -18,6 +17,16 @@ import {
   StyleFilterItem,
 } from "../../utils/groqTypes/ProductList";
 import { getCategoryFilters, getFlavourFilters, getStyleFilters } from "../../utils/getFilters";
+import { WeDontSellBreadBanner } from "../../components/WeDontSellBreadBanner";
+import { ProductSort } from "../../components/ProductSort";
+import { ProductFilters } from "../../components/ProductFilters";
+import { Product } from "../../components/Product";
+import { H6 } from "../../components/Typography/H6";
+import { Pagination } from "../../components/Pagination";
+import { AnimatePresence } from "framer-motion";
+import { FadeInOut } from "../../components/FadeInOut";
+import { useRouter } from "next/router";
+import classNames from "classnames";
 
 interface ProductsPageProps {
   variants: PLPVariant[];
@@ -39,6 +48,7 @@ const ProductsPage: NextPage<ProductsPageProps> = ({
   styleFilters,
 }) => {
   const productNames = pluralize(variants.map((prod) => prod.name));
+  const { query } = useRouter();
 
   return (
     <>
@@ -46,15 +56,52 @@ const ProductsPage: NextPage<ProductsPageProps> = ({
         title="Products"
         description={`Formidable Boulangerie product listing page, featuring ${productNames}.`}
       />
-      <PLPLayout
-        title="Products"
-        pageCount={pageCount}
-        currentPage={currentPage}
-        variants={variants}
-        categoryFilters={categoryFilters}
-        flavourFilters={flavourFilters}
-        styleFilters={styleFilters}
-      />
+      <div>
+        <WeDontSellBreadBanner />
+        <div className="py-9 container">
+          <h1 className="text-h1 text-blue mb-9">Products</h1>
+          <div className="flex gap-9 flex-col md:flex-row">
+            <div className="w-full md:w-72 order-2 md:order-1 flex flex-col gap-9">
+              <ProductSort />
+              <ProductFilters
+                flavourFilters={flavourFilters}
+                styleFilters={styleFilters}
+                categoryFilters={categoryFilters}
+              />
+            </div>
+
+            <div className="flex-1 order-1 md:order-2">
+              <AnimatePresence mode="wait">
+                {variants.length > 0 && (
+                  <FadeInOut
+                    className={classNames(
+                      "w-full grid grid-cols-2 sm:grid-cols-3 md:grid-cols-2 lg:grid-cols-3 gap-x-3 gap-y-9 mb-9",
+                      +(query?.page || 1) > 1 && "grid-rows-2"
+                    )}
+                    key={productNames}
+                  >
+                    {variants.map((variant) => (
+                      <Product key={variant._id} item={variant} />
+                    ))}
+                    {/* Add padder items when on page > 1 so pagination bar isn't moving around */}
+                    {+(query?.page || 1) > 1 &&
+                      Array.from({ length: 6 - variants.length })
+                        .fill(undefined)
+                        .map((_, i) => <div className="invisible" />)}
+                  </FadeInOut>
+                )}
+
+                {variants.length === 0 && (
+                  <div className="flex-1 flex flex-col justify-center items-center">
+                    <H6 className="text-center">No products found</H6>
+                  </div>
+                )}
+              </AnimatePresence>
+              {variants.length > 0 && <Pagination key="pagination" pageCount={pageCount} currentPage={currentPage} />}
+            </div>
+          </div>
+        </div>
+      </div>
     </>
   );
 };

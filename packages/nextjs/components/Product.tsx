@@ -1,4 +1,3 @@
-import { motion } from "framer-motion";
 import Link from "next/link";
 import { Image } from "./Image";
 import { Price } from "./Price";
@@ -13,7 +12,7 @@ export const Product = ({ item }: { item: PLPVariant }) => {
   };
 
   return (
-    <motion.div className="flex flex-col gap-3 group" layoutId={item._id}>
+    <div className="flex flex-col gap-3 group">
       <Link href={href} passHref>
         <a className="group-hover:shadow-lg rounded-lg overflow-hidden transition transition-shadow duration-150">
           <Image width={600} height={600} src={item.images} alt={item.imageAlt} layout="responsive" />
@@ -25,6 +24,6 @@ export const Product = ({ item }: { item: PLPVariant }) => {
           <Price msrp={item.msrp} price={item.price} />
         </a>
       </Link>
-    </motion.div>
+    </div>
   );
 };
