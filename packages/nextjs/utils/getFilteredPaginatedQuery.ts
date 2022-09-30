@@ -1,24 +1,6 @@
 import groq from "groq";
 import { sanityClient } from "./sanityClient";
 
-// TODO: Delete this
-export function GetAllFilteredProducts(filters = "", order = "") {
-  return groq`{
-      'products': *[_type == "product" ${filters}] {
-        ...,
-        'imageAlt': images[0]->name,
-        'images': images[0]->images,
-        'msrp': variants | order(price asc)[0]->msrp,
-        'price': variants | order(price asc)[0]->price,
-        'variants': variants[]->{
-          ...,
-          'size': size->name
-        }
-      } ${order} [$offsetPage...$limit],
-      'productsCount': count(*[_type == "product" ${filters}]),
-    }`;
-}
-
 export function GetAllFilteredVariants(filters = "", order = "") {
   return groq`
   {
