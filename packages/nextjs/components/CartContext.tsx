@@ -1,12 +1,13 @@
+import * as React from "react";
 import { createContext, ReactNode, useCallback, useContext, useEffect, useMemo, useState } from "react";
 import groq from "groq";
-import { CategoryPageProduct } from "utils/groqTypes";
 import { sanityClient } from "utils/sanityClient";
 
-type CartItem = {
-  id: string;
+export type CartItem = {
+  _id: string;
   qty: number;
-  item: CategoryPageProduct;
+  variantInfo: CartItemVariant;
+  style?: string;
 };
 
 const initialValue = {
@@ -15,7 +16,7 @@ const initialValue = {
   cartItemsErrorIds: [] as string[] | undefined,
   cartTotal: 0,
   totalCartPrice: 0,
-  updateCart: (() => {}) as (productId: string, quantity: number) => void,
+  updateCart: (() => {}) as (productId: string, quantity: number, style?: string) => void,
   clearCart: (() => {}) as () => void,
   updateCartFromApi: (() => {}) as () => void,
 };
@@ -40,37 +41,22 @@ export const CartProvider: React.FC<Props> = ({ children }) => {
 
     if (cartEntries.length > 0) {
       // Fetch all products with a variant with the same ID
-      const variantIdFilters = cartEntries.map(([id, _]) => `("${id}" in variants[]->id)`);
+      const variantIdFilters = cartEntries.map(([id, _]) => `(_id == "${id}")`);
       const groqFilters = variantIdFilters.length ? `&& (${variantIdFilters.join(" || ")})` : "";
       const getResults = () =>
-        sanityClient.fetch(
-          groq`{
-          'products': *[_type == "product" ${groqFilters}] {
-            ...,
-            'imageAlt': images[0]->name,
-            'images': images[0]->images,
-            'msrp': variants | order(price asc)[0]->msrp,
-            'price': variants | order(price asc)[0]->price,
-            'variants': variants[]->{
-              ...,
-              'size': size->name
-            }
-          }
-        }`
+        sanityClient.fetch<CartItemVariant[]>(
+          groq`*[_type == "variant" ${groqFilters}] {
+            _id, name, price, msrp
+          }`
         );
       const res = await throttle(getResults, 1000);
 
       const errorRetrievingIds: string[] = [];
 
-      const formattedItems = cartEntries.reduce((acc: CartItem[], [variantId, qty]) => {
-        // Find first product that includes variant with matching ID
-        const productInfo = (res.products as CategoryPageProduct[]).find(({ variants }) => {
-          const productVariantIds = variants.map(({ id }) => id);
-          return productVariantIds.includes(variantId);
-        });
-
+      const formattedItems = cartEntries.reduce<CartItem[]>((acc, [variantId, qty]) => {
+        const productInfo = res.find((variant) => variant._id === variantId);
         if (productInfo) {
-          return [...acc, { id: variantId, qty, item: productInfo }];
+          return [...acc, { _id: variantId, qty, variantInfo: productInfo }];
         }
 
         errorRetrievingIds.push(variantId);
@@ -102,7 +88,7 @@ export const CartProvider: React.FC<Props> = ({ children }) => {
 
   //
   const updateCart = useCallback(
-    async (variantId: string, quantity: number) => {
+    async (variantId: string, quantity: number, style?: string) => {
       if (!variantId) {
         return;
       }
@@ -113,6 +99,7 @@ export const CartProvider: React.FC<Props> = ({ children }) => {
           body: JSON.stringify({
             id: variantId,
             quantity,
+            style,
           }),
           headers: {
             "Content-Type": "application/json",
@@ -147,7 +134,7 @@ export const CartProvider: React.FC<Props> = ({ children }) => {
   const cartTotal = useMemo(() => cartItems.reduce((acc, { qty }) => acc + qty, 0), [cartItems]);
 
   const totalCartPrice = useMemo(
-    () => cartItems.reduce((acc, { qty, item }) => acc + qty * item.price, 0),
+    () => cartItems.reduce((acc, { qty, variantInfo }) => acc + qty * variantInfo.price, 0),
     [cartItems]
   );
 
@@ -173,3 +160,10 @@ const wait = (ms: number) => new Promise((res) => setTimeout(res, ms));
 
 const throttle = <T,>(action: () => Promise<T>, ms: number): Promise<T> =>
   Promise.all([action(), wait(ms)]).then((res) => res[0]);
+
+type CartItemVariant = {
+  _id: string;
+  name: string;
+  msrp: number;
+  price: number;
+};

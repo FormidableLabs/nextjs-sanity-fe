@@ -1,23 +1,20 @@
 import * as React from "react";
 import { IoMdClose } from "react-icons/io";
-import { useCart } from "./CartContext";
-import { CategoryPageProduct } from "utils/groqTypes";
+import { CartItem as CartItemType, useCart } from "./CartContext";
 import { currencyFormatter } from "../utils/currencyFormatter";
 import { Input } from "./Input";
 
 type CartItemProps = {
-  id: string;
-  item: CategoryPageProduct;
-  qty: number;
+  item: CartItemType;
 };
 
-export const CartItem: React.FC<CartItemProps> = ({ id, item, qty }) => {
+export const CartItem: React.FC<CartItemProps> = ({ item }) => {
   const { updateCart } = useCart();
-  const [desiredQty, setDesiredQty] = React.useState(qty);
+  const [desiredQty, setDesiredQty] = React.useState(item.qty);
 
   const updateQty = React.useCallback(
     (value: number) => {
-      updateCart(id, value);
+      updateCart(item._id, value);
     },
     [updateCart]
   );
@@ -34,16 +31,16 @@ export const CartItem: React.FC<CartItemProps> = ({ id, item, qty }) => {
     };
   }, [desiredQty]);
 
-  const variantDescription = item.variants.map((variant) => variant.name).join(", ");
-
   return (
     <div className="flex flex-col gap-2">
       <div className="flex justify-between items-center">
         <div>
-          <h6 className="text-h6">{item.name}</h6>
-          <div>{variantDescription}</div>
+          <h6 className="text-h6">{item.variantInfo.name}</h6>
+          {item.style && <div>{item.style}</div>}
         </div>
-        <h6 className="text-h6 font-bold font-jeanLuc">{currencyFormatter.format(qty * item.price)}</h6>
+        <h6 className="text-h6 font-bold font-jeanLuc">
+          {currencyFormatter.format(item.qty * item.variantInfo.price)}
+        </h6>
       </div>
       <div className="flex gap-2 items-center">
         <div className="w-16">
