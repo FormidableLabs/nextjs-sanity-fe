@@ -35,6 +35,18 @@ export default {
       type: "string",
       validation: (rule) => rule.required(),
     },
+    // TODO: Ensure this is unique
+    {
+      name: "slug",
+      title: "Slug",
+      type: "slug",
+      validation: (rule) => rule.required(),
+      options: {
+        source: "name",
+        maxLength: 200,
+        slugify: (input: string) => input.toLowerCase().replace(/\s+/g, "-").slice(0, 200),
+      },
+    },
     {
       name: "description",
       title: "Description",
@@ -76,19 +88,24 @@ export default {
       ],
     },
     {
-      name: "size",
-      title: "Size",
-      type: "reference",
-      to: [{ type: "size" }],
-    },
-    {
-      name: "slicingOption",
-      title: "Slicing Option",
+      name: "flavour",
+      title: "Flavour",
       type: "array",
       of: [
         {
           type: "reference",
-          to: [{ type: "size" }],
+          to: [{ type: "flavour" }],
+        },
+      ],
+    },
+    {
+      name: "style",
+      title: "Style (options)",
+      type: "array",
+      of: [
+        {
+          type: "reference",
+          to: [{ type: "style" }],
         },
       ],
     },
@@ -97,7 +114,7 @@ export default {
     select: {
       title: "name",
       media: "images.0.images",
-      subtitle: "size.name",
+      subtitle: "style.name",
     },
   },
 };

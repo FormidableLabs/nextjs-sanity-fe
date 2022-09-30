@@ -1,32 +1,38 @@
 import { FilterGroupParams, getFilterGroups } from "constants/filters";
 import { ParsedUrlQuery } from "querystring";
 
-export const getFiltersFromQuery = (query: ParsedUrlQuery, { sizeFilters }: FilterGroupParams = {}) => {
+export const getFiltersFromQuery = (
+  query: ParsedUrlQuery,
+  { flavourFilters, styleFilters, categoryFilters }: FilterGroupParams = {}
+) => {
   // Filters
-  const filterGroups = getFilterGroups({ sizeFilters }).reduce((acc: string[][], { value: groupValue, options }) => {
-    const queryValue = query[groupValue];
-    if (!queryValue) {
-      // No filter query param
+  const filterGroups = getFilterGroups({ flavourFilters, styleFilters, categoryFilters }).reduce(
+    (acc: string[][], { value: groupValue, options }) => {
+      const queryValue = query[groupValue];
+      if (!queryValue) {
+        // No filter query param
+        return acc;
+      }
+
+      const queryValueIsString = typeof queryValue === "string" || queryValue instanceof String;
+      if (queryValueIsString) {
+        const filterOption = options.find(({ value }) => value === queryValue);
+        // Check query value validity
+        if (filterOption) {
+          return [...acc, [filterOption.filter]];
+        }
+      } else {
+        // Check query value validity
+        const validOptions = options.filter(({ value: optionValue }) => queryValue.includes(optionValue));
+        if (validOptions.length) {
+          return [...acc, validOptions.map(({ filter }) => filter)];
+        }
+      }
+
       return acc;
-    }
-
-    const queryValueIsString = typeof queryValue === "string" || queryValue instanceof String;
-    if (queryValueIsString) {
-      const filterOption = options.find(({ value }) => value === queryValue);
-      // Check query value validity
-      if (filterOption) {
-        return [...acc, [filterOption.filter]];
-      }
-    } else {
-      // Check query value validity
-      const validOptions = options.filter(({ value: optionValue }) => queryValue.includes(optionValue));
-      if (validOptions.length) {
-        return [...acc, validOptions.map(({ filter }) => filter)];
-      }
-    }
-
-    return acc;
-  }, []);
+    },
+    []
+  );
 
   /**
    * Creates OR statements for filters of each group

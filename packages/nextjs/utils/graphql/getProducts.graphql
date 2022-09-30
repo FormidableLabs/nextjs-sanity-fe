@@ -21,9 +21,6 @@ query getProducts {
       id
       msrp
       price
-      size {
-        name
-      }
     }
   }
 }

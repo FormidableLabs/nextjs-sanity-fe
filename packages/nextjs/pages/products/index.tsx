@@ -1,29 +1,44 @@
 import { GetServerSideProps, NextPage } from "next";
 
-import { GetAllFilteredProducts, getFilteredPaginatedQuery } from "utils/getFilteredPaginatedQuery";
+import { GetAllFilteredVariants, getFilteredPaginatedQuery } from "utils/getFilteredPaginatedQuery";
 import { getPaginationFromQuery } from "utils/getPaginationFromQuery";
-import { AllProductsPageResult, CategoryPageProduct } from "utils/groqTypes";
 import { getFiltersFromQuery } from "utils/getFiltersFromQuery";
 import { getOrderingFromQuery } from "utils/getOrderingFromQuery";
 import { setCachingHeaders } from "utils/setCachingHeaders";
-import { getSizeFilters } from "utils/getSizeFilters";
 import { SanityType } from "utils/consts";
 import { PLPLayout } from "../../components/PLPLayout";
 import { PageHead } from "../../components/PageHead";
 import * as React from "react";
 import { pluralize } from "../../utils/pluralize";
+import {
+  CategoryFilterItem,
+  FlavourFilterItem,
+  PLPVariant,
+  PLPVariantList,
+  StyleFilterItem,
+} from "../../utils/groqTypes/ProductList";
+import { getCategoryFilters, getFlavourFilters, getStyleFilters } from "../../utils/getFilters";
 
 interface ProductsPageProps {
-  products: CategoryPageProduct[];
-  productsCount: number;
+  variants: PLPVariant[];
+  itemCount: number;
   pageSize: number;
   pageCount: number;
   currentPage?: number;
-  sizeFilters: string[];
+  categoryFilters: CategoryFilterItem[];
+  flavourFilters: FlavourFilterItem[];
+  styleFilters: StyleFilterItem[];
 }
 
-const ProductsPage: NextPage<ProductsPageProps> = ({ products, pageCount, currentPage, sizeFilters }) => {
-  const productNames = pluralize(products.map((prod) => prod.name));
+const ProductsPage: NextPage<ProductsPageProps> = ({
+  variants,
+  pageCount,
+  currentPage,
+  categoryFilters,
+  flavourFilters,
+  styleFilters,
+}) => {
+  const productNames = pluralize(variants.map((prod) => prod.name));
 
   return (
     <>
@@ -35,36 +50,42 @@ const ProductsPage: NextPage<ProductsPageProps> = ({ products, pageCount, curren
         title="Products"
         pageCount={pageCount}
         currentPage={currentPage}
-        products={products}
-        sizeFilters={sizeFilters}
+        variants={variants}
+        categoryFilters={categoryFilters}
+        flavourFilters={flavourFilters}
+        styleFilters={styleFilters}
       />
     </>
   );
 };
 
 export const getServerSideProps: GetServerSideProps<ProductsPageProps> = async ({ query, res, resolvedUrl }) => {
-  setCachingHeaders(res, [SanityType.Product, SanityType.ProductImage, SanityType.Size, SanityType.Variant]);
+  setCachingHeaders(res, [
+    SanityType.Product,
+    SanityType.ProductImage,
+    SanityType.Style,
+    SanityType.Flavour,
+    SanityType.Variant,
+  ]);
 
   // Sort/ordering.
   const order = getOrderingFromQuery(query);
 
   // Fetch size filters from sanity
-  const sizeFilters = await getSizeFilters();
+  const categoryFilters = await getCategoryFilters();
+  const flavourFilters = await getFlavourFilters();
+  const styleFilters = await getStyleFilters();
 
   // Filters.
-  const filters = getFiltersFromQuery(query, { sizeFilters });
+  const filters = getFiltersFromQuery(query, { flavourFilters, styleFilters, categoryFilters });
   // Pagination data.
   const pagination = getPaginationFromQuery(query);
 
-  const result = await getFilteredPaginatedQuery<AllProductsPageResult>(
-    GetAllFilteredProducts(filters, order),
-    pagination
-  );
+  const result = await getFilteredPaginatedQuery<PLPVariantList>(GetAllFilteredVariants(filters, order), pagination);
 
-  const { products, productsCount } = result;
+  const { variants, itemCount } = result;
   const { currentPage, pageSize } = pagination;
-
-  const pageCount = Math.ceil(productsCount / pageSize);
+  const pageCount = Math.ceil(itemCount / pageSize);
 
   /**
    * Scenario: If user is on the third page and then enables
@@ -83,9 +104,11 @@ export const getServerSideProps: GetServerSideProps<ProductsPageProps> = async (
 
   return {
     props: {
-      sizeFilters,
-      products,
-      productsCount,
+      categoryFilters,
+      flavourFilters,
+      styleFilters,
+      variants,
+      itemCount,
       pageCount,
       pageSize,
       currentPage,

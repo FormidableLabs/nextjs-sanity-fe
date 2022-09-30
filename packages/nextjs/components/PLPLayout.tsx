@@ -1,24 +1,29 @@
 import * as React from "react";
-import { CategoryPageProduct } from "../utils/groqTypes";
 import { WeDontSellBreadBanner } from "./WeDontSellBreadBanner";
 import { ProductSort } from "./ProductSort";
 import { ProductFilters } from "./ProductFilters";
 import { Product } from "./Product";
 import { Pagination } from "./Pagination";
+import { CategoryFilterItem, FlavourFilterItem, PLPVariant, StyleFilterItem } from "../utils/groqTypes/ProductList";
+import { H6 } from "./Typography/H6";
 
 type PLPLayoutProps = {
   title: string;
-  products: CategoryPageProduct[];
+  variants: PLPVariant[];
   pageCount: number;
   currentPage?: number;
-  sizeFilters: string[];
+  categoryFilters: CategoryFilterItem[];
+  flavourFilters: FlavourFilterItem[];
+  styleFilters: StyleFilterItem[];
   disablePagination?: boolean;
 };
 
 export const PLPLayout = ({
   title,
-  sizeFilters,
-  products,
+  categoryFilters,
+  flavourFilters,
+  styleFilters,
+  variants,
   pageCount,
   currentPage,
   disablePagination,
@@ -31,20 +36,28 @@ export const PLPLayout = ({
         <div className="flex gap-9 flex-col md:flex-row">
           <div className="w-full md:w-72 order-2 md:order-1 flex flex-col gap-9">
             <ProductSort />
-            <ProductFilters sizeFilters={sizeFilters} />
+            <ProductFilters
+              flavourFilters={flavourFilters}
+              styleFilters={styleFilters}
+              categoryFilters={categoryFilters}
+            />
           </div>
 
           <div className="flex-1 order-1 md:order-2">
-            <div className="w-full grid grid-cols-2 sm:grid-cols-3 md:grid-cols-2 lg:grid-cols-3 gap-x-3 gap-y-9 mb-9">
-              {products && products.length ? (
-                products.map((product) => <Product key={product._id} item={product} />)
-              ) : (
-                <div className="flex-1 flex flex-col justify-center items-center">
-                  <div className="text-center text-gray-500">No products found</div>
-                </div>
-              )}
-            </div>
-            {!disablePagination && <Pagination pageCount={pageCount} currentPage={currentPage} />}
+            {variants && variants.length ? (
+              <div className="w-full grid grid-cols-2 sm:grid-cols-3 md:grid-cols-2 lg:grid-cols-3 gap-x-3 gap-y-9 mb-9">
+                {variants.map((variant) => (
+                  <Product key={variant._id} item={variant} />
+                ))}
+              </div>
+            ) : (
+              <div className="flex-1 flex flex-col justify-center items-center">
+                <H6 className="text-center">No products found</H6>
+              </div>
+            )}
+            {!disablePagination && variants.length > 0 && (
+              <Pagination pageCount={pageCount} currentPage={currentPage} />
+            )}
           </div>
         </div>
       </div>

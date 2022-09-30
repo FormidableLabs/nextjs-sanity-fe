@@ -1,6 +1,6 @@
 import * as React from "react";
 import { SanityImageSource } from "@sanity/image-url/lib/types/types";
-import Link from "next/link";
+import Link, { LinkProps } from "next/link";
 
 import { Image } from "./Image";
 import classNames from "classnames";
@@ -9,7 +9,7 @@ export interface CardProps {
   title: string;
   price?: string | number;
   subTitle?: string;
-  to: string;
+  to: LinkProps["href"];
   className?: string;
   imageProps: {
     src: SanityImageSource;

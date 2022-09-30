@@ -24,7 +24,12 @@ export const FeaturedList = ({ items }: Props) => {
 
         if (item.__typename === "Product") {
           props = {
-            to: `/products/${item.slug?.current}`,
+            to: {
+              pathname: `/products/${item.slug?.current}`,
+              query: {
+                variant: item.variants?.[0]?.slug?.current,
+              },
+            },
             title: item.name ?? "",
             price: item.variants?.[0]?.price ?? "",
             imageProps: {
@@ -35,7 +40,12 @@ export const FeaturedList = ({ items }: Props) => {
           };
         } else if (item.__typename === "Category") {
           props = {
-            to: `/categories/${item.slug?.current}`,
+            to: {
+              pathname: `/products`,
+              query: {
+                category: item.slug?.current,
+              },
+            },
             title: item.name ?? "",
             subTitle: item.description ?? "",
             imageProps: {

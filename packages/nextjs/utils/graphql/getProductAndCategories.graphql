@@ -23,6 +23,9 @@ query getProductsAndCategories {
     }
     variants {
       price
+      slug {
+        current
+      }
       images {
         name
         images {
