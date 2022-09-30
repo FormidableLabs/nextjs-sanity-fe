@@ -11,34 +11,24 @@ A manually created Fastly CDN is used for the demo project to facilitate caching
 
 ![Architecture](https://user-images.githubusercontent.com/3632381/190230431-bf530eeb-9926-4c43-8a39-a7f7f882276e.png)
 
-The deployed Nextjs demo site can be found at https://sanity-nextjs.formidable.dev
+The deployed Nextjs demo site can be found at https://nextjs-sanity.formidable.dev
 
 ## Getting Started
 
-If you don't want to bother with local setup, feel free to visit the demo site (https://sanity-nextjs.formidable.dev).
+If you want to run the repo locally, you will need to clone it. Feel free to fork the project if you'd like to make updates, or a Pull Request if you have improvements you'd like to add.
+
+If you don't want to bother with local setup, feel free to visit the demo site (https://nextjs-sanity.formidable.dev).
 
 If you do want to run this locally, there are a few different paths you can take
 
-1. Run the nextjs site locally and use our sanity project (easy)
-2. Run the nextjs site locally and use your own sanity project (medium)
+1. Run the Nextjs site locally and use our sanity project (easy)
+2. Run the Nextjs site locally and use your own sanity project (medium)
 
-We will start with the nextjs setup:
+We will start with the Nextjs setup:
 
 ### Install pnpm
 
 This project uses pnpm v7 for dependency management. Installation instructions can be found [here](https://pnpm.io/installation).
-
-### Install Sanity Cli
-
-Some of the project setup will require using the sanity cli. More info can be found [here](https://www.sanity.io/docs/getting-started-with-sanity-cli#ebd533aa3d4d). This can be done using the following command:
-
-```bash
-# using npm
-npm install -g @sanity/cli
-
-# using yarn
-yarn global add @sanity/cli
-```
 
 ### Installing dependencies
 
@@ -54,7 +44,9 @@ Sanity CMS is the backend of the project, and without a Sanity project id nothin
 
 #### Using the Formidable Boulangerie Sanity Project
 
-If you would like to use Formidable's Sanity project (`5bsv02jj`), setup is quite simple. Create a `.env` file under `/packages/nextjs` and place the environment variable into it:
+If you would like to use Formidable's Sanity project (`5bsv02jj`), setup is quite simple. If you use the Formidable project, you will not have access to sign in to Sanity Studio. If you want to play around in Sanity Studio, you will need to create your own project as outlined in the "Using your own Sanity Project" Section.
+
+Create a `.env` file under `./packages/nextjs` and place the environment variable into it:
 
 ```
 NEXT_PUBLIC_SANITY_PROJECT_ID=5bsv02jj
@@ -115,7 +107,7 @@ Now, if you reload Sanity Studio you should see content populated. Additionally,
 
 ## Environment Variables
 
-There is an `.env.sample` committed to the repo which contains the list of env variables for the project. For running Nextjs and Sanity Studio locally, only the `NEXT_PUBLIC_SANITY_PROJECT_ID` variable is needed. The other values in the sample file are only needed if you intend to test the purging scenarios on your local machine. I.e. the `/api/webhook` route.
+There is an `./packages/nextjs/.env.sample` committed to the repo which contains the list of env variables for the project. For running Nextjs and Sanity Studio locally, only the `NEXT_PUBLIC_SANITY_PROJECT_ID` variable is needed. The other values in the sample file are only needed if you intend to test the purging scenarios on your local machine. I.e. the `/api/webhook` route.
 
 ### Scripts
 
