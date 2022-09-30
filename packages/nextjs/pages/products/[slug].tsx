@@ -1,8 +1,8 @@
 import * as React from "react";
+import { useEffect, useState } from "react";
 import { GetServerSideProps, NextPage } from "next";
 import { withUrqlClient } from "next-urql";
 import { useRouter } from "next/router";
-import { useEffect, useState } from "react";
 
 import { BlockContent } from "../../components/BlockContent";
 import { ImageCarousel } from "../../components/ImageCarousel/ImageCarousel";
@@ -24,10 +24,20 @@ import { StyleOptions } from "components/ProductPage/StyleOptions";
 import { ProductVariant, ProductVariantSelector } from "components/ProductPage/ProductVariantSelector";
 import { H6 } from "components/Typography/H6";
 import { Product } from "components/Product";
-import { CategoryPageProduct, Images, Slug } from "utils/groqTypes";
+import { PageTransitionWrapper } from "../../components/PageTransitionWrapper";
 
 const ProductPage: NextPage = () => {
   const { query } = useRouter();
+
+  return (
+    <PageTransitionWrapper key={`${query.slug}:${query.variant}`}>
+      <PageBody />
+    </PageTransitionWrapper>
+  );
+};
+
+const PageBody = () => {
+  const { query, replace } = useRouter();
   const [{ data }] = useGetProductAndRecommendationsQuery({
     variables: {
       slug: query.slug as string,
@@ -36,15 +46,20 @@ const ProductPage: NextPage = () => {
   const { updateCart, cartItems } = useCart();
 
   const product = data?.allProduct[0];
-  const [selectedVariant, setSelectedVariant] = useState<Maybe<ProductVariant> | undefined>(() =>
-    (product?.variants || []).find((v) => v?._id && v._id === query.variantId)
+  const [selectedVariant, setSelectedVariant] = useState<Maybe<ProductVariant> | undefined>(
+    () =>
+      (product?.variants || []).find((v) => v?.slug?.current && v.slug.current === query.variant) ||
+      product?.variants?.[0]
   );
   const [selectedStyle, setSelectedStyle] = useState<string>("");
   const [quantity, setQuantity] = useState("1");
 
   useEffect(() => {
     if (product) {
-      setSelectedVariant((product?.variants || []).find((v) => v?._id && v._id === query.variantId));
+      setSelectedVariant(
+        (product?.variants || []).find((v) => v?.slug?.current && v.slug.current === query.variant) ||
+          product?.variants?.[0]
+      );
     }
   }, [product]);
 
@@ -57,10 +72,12 @@ const ProductPage: NextPage = () => {
   // When selected variant changes, update variantId in query params
   useEffect(() => {
     if (selectedVariant) {
-      const url = new URL(window.location.href);
-      const qp = url.searchParams;
-      qp.set("variantId", String(selectedVariant._id));
-      window.history.replaceState(null, "", url);
+      replace({
+        pathname: window.location.pathname,
+        query: {
+          variant: selectedVariant.slug?.current,
+        },
+      }).catch(() => null);
     }
   }, [selectedVariant]);
 
@@ -74,7 +91,7 @@ const ProductPage: NextPage = () => {
   };
 
   return (
-    <React.Fragment key={product?._id}>
+    <>
       <PageHead title={product?.name || "Product details"} description={`Product details page for ${product?.name}.`} />
       <div className="flex flex-col gap-6 py-6">
         <div>
@@ -145,7 +162,7 @@ const ProductPage: NextPage = () => {
           })}
         </div>
       </div>
-    </React.Fragment>
+    </>
   );
 };
 

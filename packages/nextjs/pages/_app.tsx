@@ -6,6 +6,7 @@ import { AnimatePresence, motion, MotionConfig } from "framer-motion";
 import { CartProvider } from "../components/CartContext";
 import { Layout } from "../components/Layout";
 import "../styles/global.css";
+import { PageTransitionWrapper } from "../components/PageTransitionWrapper";
 
 function MyApp({ Component, pageProps, router }: AppProps) {
   return (
@@ -17,9 +18,9 @@ function MyApp({ Component, pageProps, router }: AppProps) {
         <CartProvider>
           <Layout>
             <AnimatePresence initial={false} mode="wait">
-              <PageWrapper key={router.route}>
+              <PageTransitionWrapper key={router.route}>
                 <Component {...pageProps} />
-              </PageWrapper>
+              </PageTransitionWrapper>
             </AnimatePresence>
           </Layout>
         </CartProvider>
@@ -27,17 +28,5 @@ function MyApp({ Component, pageProps, router }: AppProps) {
     </>
   );
 }
-
-const PageWrapper = ({ children }: React.PropsWithChildren<{}>) => {
-  return (
-    <motion.main
-      initial={{ opacity: 0, y: 10 }}
-      animate={{ opacity: 1, y: 0, transition: { duration: 0.4 } }}
-      exit={{ opacity: 0.7, y: 10, transition: { duration: 0.15 } }}
-    >
-      {children}
-    </motion.main>
-  );
-};
 
 export default MyApp;
