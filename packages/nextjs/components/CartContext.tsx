@@ -7,7 +7,6 @@ export type CartItem = {
   _id: string;
   qty: number;
   variantInfo: CartItemVariant;
-  style?: string;
 };
 
 const initialValue = {
@@ -16,7 +15,7 @@ const initialValue = {
   cartItemsErrorIds: [] as string[] | undefined,
   cartTotal: 0,
   totalCartPrice: 0,
-  updateCart: (() => {}) as (productId: string, quantity: number, style?: string) => void,
+  updateCart: (() => {}) as (productId: string, quantity: number) => void,
   clearCart: (() => {}) as () => void,
   updateCartFromApi: (() => {}) as () => void,
 };
@@ -36,7 +35,7 @@ export const CartProvider: React.FC<Props> = ({ children }) => {
   const [cartItemsErrorIds, setCartItemsErrorIds] = useState<string[] | undefined>();
   const [isFetchingCartItems, setIsFetchingCartItems] = useState(true);
 
-  const retrieveCartItems = useCallback(async (cart: Record<string, { quantity: number; style?: string }>) => {
+  const retrieveCartItems = useCallback(async (cart: Record<string, number>) => {
     const cartEntries = Object.entries(cart);
 
     if (cartEntries.length > 0) {
@@ -53,10 +52,10 @@ export const CartProvider: React.FC<Props> = ({ children }) => {
 
       const errorRetrievingIds: string[] = [];
 
-      const formattedItems = cartEntries.reduce<CartItem[]>((acc, [variantId, { quantity, style }]) => {
+      const formattedItems = cartEntries.reduce<CartItem[]>((acc, [variantId, quantity]) => {
         const productInfo = res.find((variant) => variant._id === variantId);
         if (productInfo) {
-          return [...acc, { _id: variantId, qty: quantity, variantInfo: productInfo, style }];
+          return [...acc, { _id: variantId, qty: quantity, variantInfo: productInfo }];
         }
 
         errorRetrievingIds.push(variantId);
@@ -87,7 +86,7 @@ export const CartProvider: React.FC<Props> = ({ children }) => {
   }, [updateCartFromApi]);
 
   const updateCart = useCallback(
-    async (variantId: string, quantity: number, style?: string) => {
+    async (variantId: string, quantity: number) => {
       if (!variantId) {
         return;
       }
@@ -98,7 +97,6 @@ export const CartProvider: React.FC<Props> = ({ children }) => {
           body: JSON.stringify({
             _id: variantId,
             quantity,
-            style,
           }),
           headers: {
             "Content-Type": "application/json",

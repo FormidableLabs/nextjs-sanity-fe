@@ -11,8 +11,8 @@ function getCart(req: NextApiRequest, res: NextApiResponse) {
 
 function addToCart(req: NextApiRequest, res: NextApiResponse) {
   // TODO: use zod to validate this.
-  const cartItem: { _id: string; quantity: number; style?: string } = req.body;
-  const cookie: Record<string, { quantity: number; style?: string }> = getCookie(req.cookies);
+  const cartItem: { _id: string; quantity: number } = req.body;
+  const cookie: Record<string, number> = getCookie(req.cookies);
 
   const newCart = { ...cookie };
   // Removes empty quantity
@@ -20,10 +20,7 @@ function addToCart(req: NextApiRequest, res: NextApiResponse) {
     delete newCart[cartItem._id];
   } else {
     // Updates the cart with qty/style from FE
-    newCart[cartItem._id] = { quantity: cartItem.quantity };
-    if (cartItem.style) newCart[cartItem._id].style = cartItem.style;
-
-    console.log(newCart[cartItem._id]);
+    newCart[cartItem._id] = cartItem.quantity;
   }
 
   setCookie(res, newCart);

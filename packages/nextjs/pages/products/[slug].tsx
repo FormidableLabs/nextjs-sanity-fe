@@ -86,11 +86,7 @@ const PageBody = () => {
       // If the item is already in the cart allow user to click add to cart multiple times
       const existingCartItem = cartItems.find((item) => item._id === selectedVariant._id);
 
-      updateCart(
-        selectedVariant?._id,
-        existingCartItem ? existingCartItem.qty + Number(quantity) : Number(quantity),
-        selectedStyle
-      );
+      updateCart(selectedVariant?._id, existingCartItem ? existingCartItem.qty + Number(quantity) : Number(quantity));
     }
   };
 

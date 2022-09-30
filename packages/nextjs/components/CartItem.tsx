@@ -20,7 +20,7 @@ export const CartItem: React.FC<CartItemProps> = ({ item }) => {
   );
 
   React.useEffect(() => {
-    if (desiredQty === 0) return;
+    if (desiredQty === 0 || desiredQty === item.qty) return;
 
     const id = setTimeout(() => {
       updateQty(desiredQty);
@@ -36,7 +36,6 @@ export const CartItem: React.FC<CartItemProps> = ({ item }) => {
       <div className="flex justify-between items-center">
         <div>
           <h6 className="text-h6">{item.variantInfo.name}</h6>
-          {item.style && <div>{item.style}</div>}
         </div>
         <h6 className="text-h6 font-bold font-jeanLuc">
           {currencyFormatter.format(item.qty * item.variantInfo.price)}
