@@ -5,7 +5,7 @@ import { withUrqlClient } from "next-urql";
 import { useRouter } from "next/router";
 
 import { BlockContent } from "../../components/BlockContent";
-import { ImageCarousel } from "../../components/ImageCarousel/ImageCarousel";
+import { ImageCarousel } from "../../components/ImageCarousel";
 import { useCart } from "../../components/CartContext";
 import {
   GetProductAndRecommendationsDocument,
@@ -24,15 +24,15 @@ import { StyleOptions } from "components/ProductPage/StyleOptions";
 import { ProductVariant, ProductVariantSelector } from "components/ProductPage/ProductVariantSelector";
 import { H6 } from "components/Typography/H6";
 import { Product } from "components/Product";
-import { PageTransitionWrapper } from "../../components/PageTransitionWrapper";
+import { FadeInOut } from "../../components/FadeInOut";
 
 const ProductPage: NextPage = () => {
   const { query } = useRouter();
 
   return (
-    <PageTransitionWrapper key={`${query.slug}:${query.variant}`}>
+    <FadeInOut key={`${query.slug}:${query.variant}`}>
       <PageBody />
-    </PageTransitionWrapper>
+    </FadeInOut>
   );
 };
 

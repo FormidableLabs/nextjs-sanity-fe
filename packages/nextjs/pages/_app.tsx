@@ -6,7 +6,7 @@ import { AnimatePresence, MotionConfig } from "framer-motion";
 import { CartProvider } from "../components/CartContext";
 import { Layout } from "../components/Layout";
 import "../styles/global.css";
-import { PageTransitionWrapper } from "../components/PageTransitionWrapper";
+import { FadeInOut } from "../components/FadeInOut";
 
 function MyApp({ Component, pageProps, router }: AppProps) {
   return (
@@ -18,9 +18,9 @@ function MyApp({ Component, pageProps, router }: AppProps) {
         <CartProvider>
           <Layout>
             <AnimatePresence initial={false} mode="wait">
-              <PageTransitionWrapper key={router.route}>
+              <FadeInOut key={router.route}>
                 <Component {...pageProps} />
-              </PageTransitionWrapper>
+              </FadeInOut>
             </AnimatePresence>
           </Layout>
         </CartProvider>
