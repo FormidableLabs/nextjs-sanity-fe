@@ -3,6 +3,7 @@ export enum SanityType {
   CategoryImage = "categoryImage",
   Product = "product",
   ProductImage = "productImage",
-  Size = "size",
   Variant = "variant",
+  Style = "style",
+  Flavour = "flavour",
 }
