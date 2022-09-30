@@ -48,7 +48,7 @@ const ProductPage: NextPage = () => {
         <AnimatePresence initial={false} mode="wait">
           <React.Fragment key={`${query.slug}:${query.variant}`}>
             <FadeInOut>
-              <PageBody product={product} variant={selectedVariant} recommendations={data?.recommendations} />
+              <PageBody product={product} variant={selectedVariant} />
             </FadeInOut>
           </React.Fragment>
         </AnimatePresence>
