@@ -83,6 +83,7 @@ const ProductsPage: NextPage<ProductsPageProps> = ({
                     {variants.map((variant) => (
                       <Product key={variant._id} item={variant} />
                     ))}
+                    {/* Add padder items when on page > 1 so pagination bar isn't moving around */}
                     {+(query?.page || 1) > 1 &&
                       Array.from({ length: 6 - variants.length })
                         .fill(undefined)
@@ -104,8 +105,6 @@ const ProductsPage: NextPage<ProductsPageProps> = ({
     </>
   );
 };
-
-const PAGE_SIZE = 6;
 
 export const getServerSideProps: GetServerSideProps<ProductsPageProps> = async ({ query, res, resolvedUrl }) => {
   setCachingHeaders(res, [

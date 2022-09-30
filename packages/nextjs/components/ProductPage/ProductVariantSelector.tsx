@@ -9,7 +9,7 @@ export type ProductVariant = NonNullable<ProductVariants>[0];
 interface Props {
   variants: ProductVariants;
   selectedVariant?: ProductVariant;
-  onVariantChange: (id?: string) => void;
+  onVariantChange: (slug?: string) => void;
 }
 
 export const ProductVariantSelector: React.FC<Props> = ({ variants, selectedVariant, onVariantChange }) => {
@@ -17,7 +17,7 @@ export const ProductVariantSelector: React.FC<Props> = ({ variants, selectedVari
     () =>
       variants?.map((variant) => ({
         title: variant?.name ?? "",
-        value: variant?.id ?? "",
+        value: variant?.slug?.current ?? "",
       })),
     [variants]
   );
@@ -28,7 +28,7 @@ export const ProductVariantSelector: React.FC<Props> = ({ variants, selectedVari
 
   return (
     <div className="flex items-center justify-between">
-      <H6>Variant</H6>
+      <H6>Type</H6>
       {options.length <= 1 ? (
         <H6>{selectedVariant?.name}</H6>
       ) : (
@@ -37,7 +37,7 @@ export const ProductVariantSelector: React.FC<Props> = ({ variants, selectedVari
           placeholder="Select a flavour"
           defaultSelectedItem={{
             title: selectedVariant?.name ?? "",
-            value: selectedVariant?.id ?? "",
+            value: selectedVariant?.slug?.current ?? "",
           }}
           onChange={(o) => onVariantChange(o?.value)}
         />
