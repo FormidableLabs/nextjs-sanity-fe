@@ -15,7 +15,11 @@ export const StyleOptions: React.FC<Props> = ({ options, selectedStyle, onChange
       <H6>Style</H6>
       <div className="flex gap-2">
         {options?.map((option) => (
-          <Pill key={option?._id} selected={selectedStyle === option?._id} onClick={() => onChange(option?._id ?? "")}>
+          <Pill
+            key={option?._id}
+            selected={selectedStyle === option?.name}
+            onClick={() => onChange(option?.name ?? "")}
+          >
             {option?.name}
           </Pill>
         ))}

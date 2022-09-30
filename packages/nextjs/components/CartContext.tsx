@@ -36,7 +36,7 @@ export const CartProvider: React.FC<Props> = ({ children }) => {
   const [cartItemsErrorIds, setCartItemsErrorIds] = useState<string[] | undefined>();
   const [isFetchingCartItems, setIsFetchingCartItems] = useState(true);
 
-  const retrieveCartItems = useCallback(async (cart: Record<string, number>) => {
+  const retrieveCartItems = useCallback(async (cart: Record<string, { quantity: number; style?: string }>) => {
     const cartEntries = Object.entries(cart);
 
     if (cartEntries.length > 0) {
@@ -53,10 +53,10 @@ export const CartProvider: React.FC<Props> = ({ children }) => {
 
       const errorRetrievingIds: string[] = [];
 
-      const formattedItems = cartEntries.reduce<CartItem[]>((acc, [variantId, qty]) => {
+      const formattedItems = cartEntries.reduce<CartItem[]>((acc, [variantId, { quantity, style }]) => {
         const productInfo = res.find((variant) => variant._id === variantId);
         if (productInfo) {
-          return [...acc, { _id: variantId, qty, variantInfo: productInfo }];
+          return [...acc, { _id: variantId, qty: quantity, variantInfo: productInfo, style }];
         }
 
         errorRetrievingIds.push(variantId);
@@ -86,7 +86,6 @@ export const CartProvider: React.FC<Props> = ({ children }) => {
     updateCartFromApi();
   }, [updateCartFromApi]);
 
-  //
   const updateCart = useCallback(
     async (variantId: string, quantity: number, style?: string) => {
       if (!variantId) {
@@ -97,7 +96,7 @@ export const CartProvider: React.FC<Props> = ({ children }) => {
         const data = await fetch("/api/cart", {
           method: "PUT",
           body: JSON.stringify({
-            id: variantId,
+            _id: variantId,
             quantity,
             style,
           }),

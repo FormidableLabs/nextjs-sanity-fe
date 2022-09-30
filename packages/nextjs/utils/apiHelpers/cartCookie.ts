@@ -7,7 +7,7 @@ export function getCookie(cookies: NextApiRequest["cookies"]) {
   return cookies[CART_COOKIE_NAME] ? JSON.parse(cookies[CART_COOKIE_NAME]) : {};
 }
 
-export function setCookie(res: NextApiResponse, cookie: Record<string, number>) {
+export function setCookie(res: NextApiResponse, cookie: Record<string, { quantity: number; style?: string }>) {
   res.setHeader(
     "Set-Cookie",
     serialize(CART_COOKIE_NAME, JSON.stringify(cookie), {
