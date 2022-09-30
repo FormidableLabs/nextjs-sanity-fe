@@ -1,43 +1,117 @@
 # Formidable - NextJS Sanity E-Commerce Site
 
+<todo we should really start with something more engaging than immediately mentioning pnpm>
+
 This repo is a mono repo built using [pnpm](https://pnpm.io/) workspaces. It consists of two deployable applications.
 
 1. NextJs App (deployed to Vercel)
 2. Sanity Studio (deployed to Sanity)
 
-A manually created and managed Fastly CDN service is used to facilitate caching.
+A manually created Fastly CDN is used for the demo project to facilitate caching of SSR pages.
 
 ![Architecture](https://user-images.githubusercontent.com/3632381/190230431-bf530eeb-9926-4c43-8a39-a7f7f882276e.png)
 
+The deployed Nextjs demo site can be found at https://sanity-nextjs.formidable.dev
+
 ## Getting Started
 
-This project uses pnpm for dependency management. Make sure you have v7 of pnpm installed, instructions can be found [here](https://pnpm.io/installation) if you don't already have it installed.
+If you don't want to bother with local setup, feel free to visit the demo site (https://sanity-nextjs.formidable.dev).
+
+If you do want to run this locally, there are a few different paths you can take
+
+1. Run the nextjs site locally and use our sanity project (easy)
+2. Run the nextjs site locally and use your own sanity project (medium)
+
+We will start with the nextjs setup:
+
+### Install pnpm
+
+This project uses pnpm v7 for dependency management. Installation instructions can be found [here](https://pnpm.io/installation).
+
+### Install Sanity Cli
+
+Some of the project setup will require using the sanity cli. More info can be found [here](https://www.sanity.io/docs/getting-started-with-sanity-cli#ebd533aa3d4d). This can be done using the following command:
+
+```bash
+# using npm
+npm install -g @sanity/cli
+
+# using yarn
+yarn global add @sanity/cli
+```
+
+### Installing dependencies
+
+Once pnpm is installed, run the following command to install dependencies
 
 ```bash
 pnpm install
 ```
 
-### Aliasing pnpm command
+### Getting a Sanity ProjectId
 
-If you find 'pnpm' hard to spell and use, you're not alone. Many of us have set up an alias in our dot files `(.**rc)` to get around this. For example, this could go into your `.zshrc`, `.bashrc`, or whatever dot file you prefer.
+Sanity CMS is the backend of the project, and without a Sanity project id nothing will work. You can either use ours, or set up your own.
 
-This is the syntax:
+#### Using the Formidable Boulangerie Sanity Project
 
-```
-alias alias_name="command_to_run"
-```
-
-Sets `pn` as an alias for the `pnpm` command
+If you would like to use Formidable's Sanity project (`5bsv02jj`), setup is quite simple. Create a `.env` file under `/packages/nextjs` and place the environment variable into it:
 
 ```
-alias pn="pnpm"
+NEXT_PUBLIC_SANITY_PROJECT_ID=5bsv02jj
 ```
 
-The first time you add the alias, you need to ensure you re-load the terminal, or source the file. To source, type:
+Assuming you completed the previous steps, you should now be able to start the Nextjs app using:
 
 ```
-source ~/<file you modified>
+pnpm dev:nextjs
 ```
+
+That should've started a dev server running at `http:localhost:3000`. Go ahead and load it in the browser to ensure it works. If you only wanted to get the Nextjs app working, you're done! If you want to setup your _own_ Sanity project, proceed further.
+
+#### Using your own Sanity Project
+
+If you want to run the project _using your own Sanity project_, you will need to create a Sanity account. That project Id will be needed in the next section. If you'd rather use the deployed demo site, go [here](https://nextjs-sanity.formidable.dev).
+
+We can use the sanity cli to initialize the Sanity project (this is just running `sanity init` behind the scenes):
+
+```
+pnpm init-sanity
+```
+
+This will require you to login to Sanity. We recommend using the following choices in the prompts:
+
+```
+The current folder contains a configured Sanity studio. Would you like to reconfigure it? Yes
+Select project to use: **Create new project**
+Your project name: <whatever you want>
+Select organization to attach project to: **None**
+Use the default dataset configuration? **Yes**
+```
+
+Sanity cli will detect the project files in the repository and deploy automatically. Once Sanity has completed initialization, we need to use the newly created project id and place that in our `.env` file. To do this, go to the `sanity.json` file and grab the `projectId` (Sanity cli should have modified the value automatically). Put the new projectId into your `.env` file.
+
+You should now be able to run `pnpm local` which will:
+
+nextjs on `http://localhost:3000`
+sanity studio on `http://localhost:3333/desk`
+
+If you load up sanity studio, you will notice the schema is there, but there's no data. No worries, we've got a script which can add the same data we run on the Formidable Bread site!
+
+#### Seed Sanity project with data
+
+The final task is to seed the project with some data. To do that, run the following command to add all of our great Formidable Bread content :loaf: :bread: :
+
+```
+pnpm seed-sanity
+```
+
+This command is importing Formidable's dataset (stored in `production.tar.gz` file) into your project. Once complete, you should see output similar to this:
+
+```
+Done! Imported 43 documents to dataset "production"
+```
+
+Now, if you reload Sanity Studio you should see content populated. Additionally, you can now refresh the nextjs application to see some of that tasty bread!
 
 ## Environment Variables
 
@@ -45,17 +119,17 @@ There is an `.env.sample` committed to the repo which contains the list of env v
 
 ### Scripts
 
-:bulb: To get a list of scripts available, you can also run `pnpm run` or `yarn run` and it will output a list of available commands.
+:bulb: To get a list of scripts available, you can run `pnpm run` or `yarn run` and it will output a list of available commands.
 
-- `local` - Runs Sanity Studio, NextJs app and GraphQL codegen watch in parallel.
+- `local` - Runs Sanity Studio, NextJs app and GraphQL codegen watch in parallel
 
-- `dev:nextjs` - Runs NextJs app and GraphQL codegen.
+- `dev:nextjs` - Runs NextJs app and GraphQL codegen
 
 - `build:nextjs` - Builds NextJS app
 
-- `start:nextjs` - Starts built out NextJs app.
+- `start:nextjs` - Starts the built out NextJs app
 
-- `codegen:nextjs` - Runs GraphQL codegen in Nextjs App.
+- `codegen:nextjs` - Runs GraphQL codegen in Nextjs App
 
 - `dev:sanity` - Runs Sanity Studio locally
 
@@ -81,20 +155,9 @@ The site is deployed to [Vercel](https://nextjs-sanity-fe.vercel.app/) built out
 
 ## Sanity Studio
 
-Sanity Studio is a web interface for Sanity. It is used for creating and editing the data on the site. The models for Sanity are created in code and tracked in source control. The models can be found at `packages/sanity/schemas`. Sanity studio is deployed to Sanity's hosting located [here](https://nextjs-ecom.sanity.studio/).
-You do need access to Sanity Studio to modify this site. Please reach out to the Core Tech team to request access (#core-tech-discussion in Slack).
+Sanity Studio is a web interface for Sanity. It is used for creating and editing the data on the site. The models for Sanity are created in code and tracked in source control. The models can be found at `packages/sanity/schemas`. Sanity studio is deployed to Sanity [here](https://nextjs-ecom.sanity.studio/).
 
-### Sanity Studio + pnpm gotchas
-
-The way Sanity Studio works has issues with monorepos, especially when using pnpm. Sanity expects all dependencies to be hoisted. To solve the issue, we added the following to the `.npmrc`:
-
-```
-public-hoist-pattern[]=*@sanity/*
-```
-
-This hoists all dependencies and sub dependencies to the root node_modules.
-
-Another monorepo gotcha is Sanity cli expects to be run from the root where sanity `node_modules` are located. This is not ideal when using monorepos, to solve this issue all the scripts ran via pnpm have a flag to specify cwd to be the sanity package.
+If you want to look at the Studio site, you will need to go through the steps of creating your own Sanity account and project. Instructions for that are in the Getting Started section above.
 
 ### Sanity Webhooks
 
@@ -260,3 +323,39 @@ cache purge successfully requested {
   'product_croissant': '7100059-1662806213-2227869'
 }
 ```
+
+## Appendix
+
+### Aliasing pnpm command
+
+If you find 'pnpm' hard to spell and use, you're not alone. Many of us have set up an alias in our dot files `(.**rc)` to get around this. For example, this could go into your `.zshrc`, `.bashrc`, or whatever dot file you prefer.
+
+This is the syntax:
+
+```
+alias alias_name="command_to_run"
+```
+
+Sets `pn` as an alias for the `pnpm` command
+
+```
+alias pn="pnpm"
+```
+
+The first time you add the alias, you need to ensure you re-load the terminal, or source the file. To source, type:
+
+```
+source ~/<file you modified>
+```
+
+### Sanity Studio + pnpm gotchas
+
+The way Sanity Studio works has issues with monorepos, especially when using pnpm. Sanity expects all dependencies to be hoisted. To solve the issue, we added the following to the `.npmrc`:
+
+```
+public-hoist-pattern[]=*@sanity/*
+```
+
+This hoists all dependencies and sub dependencies to the root node_modules.
+
+Another monorepo gotcha is Sanity cli expects to be run from the root where sanity `node_modules` are located. This is not ideal when using monorepos, to solve this issue all the scripts ran via pnpm have a flag to specify cwd to be the sanity package.

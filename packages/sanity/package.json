@@ -7,10 +7,12 @@
   "author": "Binoy Patel <binoy.patel@formidable.com>",
   "license": "UNLICENSED",
   "scripts": {
-    "dev": "sanity start",
     "build": "sanity build",
     "deploy-graphql": "sanity graphql deploy",
-    "deploy-studio": "sanity deploy"
+    "deploy-studio": "sanity deploy",
+    "dev": "sanity start",
+    "export-dataset": "sanity dataset export production production.tar.gz --overwrite",
+    "import-dataset": "sanity dataset import production.tar.gz production"
   },
   "keywords": [
     "sanity"
