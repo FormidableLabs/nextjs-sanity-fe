@@ -8,7 +8,8 @@ export const Product = ({ item }: { item: PLPVariant }) => {
   const href = {
     pathname: `/products/${item.productSlug}`,
     query: {
-      variant: item.slug,
+      variantId: item._id,
+      // variant: item.slug,
     },
   };
 

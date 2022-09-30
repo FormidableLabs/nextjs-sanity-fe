@@ -203,6 +203,47 @@ export type FileSorting = {
   _type?: InputMaybe<SortOrder>;
 };
 
+export type Flavour = Document & {
+  __typename?: 'Flavour';
+  /** Date the document was created */
+  _createdAt?: Maybe<Scalars['DateTime']>;
+  /** Document ID */
+  _id?: Maybe<Scalars['ID']>;
+  _key?: Maybe<Scalars['String']>;
+  /** Current document revision */
+  _rev?: Maybe<Scalars['String']>;
+  /** Document type */
+  _type?: Maybe<Scalars['String']>;
+  /** Date the document was last modified */
+  _updatedAt?: Maybe<Scalars['DateTime']>;
+  name?: Maybe<Scalars['String']>;
+  slug?: Maybe<Slug>;
+};
+
+export type FlavourFilter = {
+  /** Apply filters on document level */
+  _?: InputMaybe<Sanity_DocumentFilter>;
+  _createdAt?: InputMaybe<DatetimeFilter>;
+  _id?: InputMaybe<IdFilter>;
+  _key?: InputMaybe<StringFilter>;
+  _rev?: InputMaybe<StringFilter>;
+  _type?: InputMaybe<StringFilter>;
+  _updatedAt?: InputMaybe<DatetimeFilter>;
+  name?: InputMaybe<StringFilter>;
+  slug?: InputMaybe<SlugFilter>;
+};
+
+export type FlavourSorting = {
+  _createdAt?: InputMaybe<SortOrder>;
+  _id?: InputMaybe<SortOrder>;
+  _key?: InputMaybe<SortOrder>;
+  _rev?: InputMaybe<SortOrder>;
+  _type?: InputMaybe<SortOrder>;
+  _updatedAt?: InputMaybe<SortOrder>;
+  name?: InputMaybe<SortOrder>;
+  slug?: InputMaybe<SlugSorting>;
+};
+
 export type FloatFilter = {
   /** Checks if the value is equal to the given input. */
   eq?: InputMaybe<Scalars['Float']>;
@@ -387,20 +428,22 @@ export type RootQuery = {
   Category?: Maybe<Category>;
   CategoryImage?: Maybe<CategoryImage>;
   Document?: Maybe<Document>;
+  Flavour?: Maybe<Flavour>;
   Product?: Maybe<Product>;
   ProductImage?: Maybe<ProductImage>;
   SanityFileAsset?: Maybe<SanityFileAsset>;
   SanityImageAsset?: Maybe<SanityImageAsset>;
-  Size?: Maybe<Size>;
+  Style?: Maybe<Style>;
   Variant?: Maybe<Variant>;
   allCategory: Array<Category>;
   allCategoryImage: Array<CategoryImage>;
   allDocument: Array<Document>;
+  allFlavour: Array<Flavour>;
   allProduct: Array<Product>;
   allProductImage: Array<ProductImage>;
   allSanityFileAsset: Array<SanityFileAsset>;
   allSanityImageAsset: Array<SanityImageAsset>;
-  allSize: Array<Size>;
+  allStyle: Array<Style>;
   allVariant: Array<Variant>;
 };
 
@@ -416,6 +459,11 @@ export type RootQueryCategoryImageArgs = {
 
 
 export type RootQueryDocumentArgs = {
+  id: Scalars['ID'];
+};
+
+
+export type RootQueryFlavourArgs = {
   id: Scalars['ID'];
 };
 
@@ -440,7 +488,7 @@ export type RootQuerySanityImageAssetArgs = {
 };
 
 
-export type RootQuerySizeArgs = {
+export type RootQueryStyleArgs = {
   id: Scalars['ID'];
 };
 
@@ -471,6 +519,14 @@ export type RootQueryAllDocumentArgs = {
   offset?: InputMaybe<Scalars['Int']>;
   sort?: InputMaybe<Array<DocumentSorting>>;
   where?: InputMaybe<DocumentFilter>;
+};
+
+
+export type RootQueryAllFlavourArgs = {
+  limit?: InputMaybe<Scalars['Int']>;
+  offset?: InputMaybe<Scalars['Int']>;
+  sort?: InputMaybe<Array<FlavourSorting>>;
+  where?: InputMaybe<FlavourFilter>;
 };
 
 
@@ -506,11 +562,11 @@ export type RootQueryAllSanityImageAssetArgs = {
 };
 
 
-export type RootQueryAllSizeArgs = {
+export type RootQueryAllStyleArgs = {
   limit?: InputMaybe<Scalars['Int']>;
   offset?: InputMaybe<Scalars['Int']>;
-  sort?: InputMaybe<Array<SizeSorting>>;
-  where?: InputMaybe<SizeFilter>;
+  sort?: InputMaybe<Array<StyleSorting>>;
+  where?: InputMaybe<StyleFilter>;
 };
 
 
@@ -893,44 +949,6 @@ export type Sanity_DocumentFilter = {
   references?: InputMaybe<Scalars['ID']>;
 };
 
-export type Size = Document & {
-  __typename?: 'Size';
-  /** Date the document was created */
-  _createdAt?: Maybe<Scalars['DateTime']>;
-  /** Document ID */
-  _id?: Maybe<Scalars['ID']>;
-  _key?: Maybe<Scalars['String']>;
-  /** Current document revision */
-  _rev?: Maybe<Scalars['String']>;
-  /** Document type */
-  _type?: Maybe<Scalars['String']>;
-  /** Date the document was last modified */
-  _updatedAt?: Maybe<Scalars['DateTime']>;
-  name?: Maybe<Scalars['String']>;
-};
-
-export type SizeFilter = {
-  /** Apply filters on document level */
-  _?: InputMaybe<Sanity_DocumentFilter>;
-  _createdAt?: InputMaybe<DatetimeFilter>;
-  _id?: InputMaybe<IdFilter>;
-  _key?: InputMaybe<StringFilter>;
-  _rev?: InputMaybe<StringFilter>;
-  _type?: InputMaybe<StringFilter>;
-  _updatedAt?: InputMaybe<DatetimeFilter>;
-  name?: InputMaybe<StringFilter>;
-};
-
-export type SizeSorting = {
-  _createdAt?: InputMaybe<SortOrder>;
-  _id?: InputMaybe<SortOrder>;
-  _key?: InputMaybe<SortOrder>;
-  _rev?: InputMaybe<SortOrder>;
-  _type?: InputMaybe<SortOrder>;
-  _updatedAt?: InputMaybe<SortOrder>;
-  name?: InputMaybe<SortOrder>;
-};
-
 export type Slug = {
   __typename?: 'Slug';
   _key?: Maybe<Scalars['String']>;
@@ -976,6 +994,47 @@ export type StringFilter = {
   nin?: InputMaybe<Array<Scalars['String']>>;
 };
 
+export type Style = Document & {
+  __typename?: 'Style';
+  /** Date the document was created */
+  _createdAt?: Maybe<Scalars['DateTime']>;
+  /** Document ID */
+  _id?: Maybe<Scalars['ID']>;
+  _key?: Maybe<Scalars['String']>;
+  /** Current document revision */
+  _rev?: Maybe<Scalars['String']>;
+  /** Document type */
+  _type?: Maybe<Scalars['String']>;
+  /** Date the document was last modified */
+  _updatedAt?: Maybe<Scalars['DateTime']>;
+  name?: Maybe<Scalars['String']>;
+  slug?: Maybe<Slug>;
+};
+
+export type StyleFilter = {
+  /** Apply filters on document level */
+  _?: InputMaybe<Sanity_DocumentFilter>;
+  _createdAt?: InputMaybe<DatetimeFilter>;
+  _id?: InputMaybe<IdFilter>;
+  _key?: InputMaybe<StringFilter>;
+  _rev?: InputMaybe<StringFilter>;
+  _type?: InputMaybe<StringFilter>;
+  _updatedAt?: InputMaybe<DatetimeFilter>;
+  name?: InputMaybe<StringFilter>;
+  slug?: InputMaybe<SlugFilter>;
+};
+
+export type StyleSorting = {
+  _createdAt?: InputMaybe<SortOrder>;
+  _id?: InputMaybe<SortOrder>;
+  _key?: InputMaybe<SortOrder>;
+  _rev?: InputMaybe<SortOrder>;
+  _type?: InputMaybe<SortOrder>;
+  _updatedAt?: InputMaybe<SortOrder>;
+  name?: InputMaybe<SortOrder>;
+  slug?: InputMaybe<SlugSorting>;
+};
+
 export type Variant = Document & {
   __typename?: 'Variant';
   /** Date the document was created */
@@ -990,13 +1049,14 @@ export type Variant = Document & {
   /** Date the document was last modified */
   _updatedAt?: Maybe<Scalars['DateTime']>;
   descriptionRaw?: Maybe<Scalars['JSON']>;
+  flavour?: Maybe<Array<Maybe<Flavour>>>;
   id?: Maybe<Scalars['String']>;
   images?: Maybe<Array<Maybe<ProductImage>>>;
   msrp?: Maybe<Scalars['Float']>;
   name?: Maybe<Scalars['String']>;
   price?: Maybe<Scalars['Float']>;
-  size?: Maybe<Size>;
-  slicingOption?: Maybe<Array<Maybe<Size>>>;
+  slug?: Maybe<Slug>;
+  style?: Maybe<Array<Maybe<Style>>>;
 };
 
 export type VariantFilter = {
@@ -1012,7 +1072,7 @@ export type VariantFilter = {
   msrp?: InputMaybe<FloatFilter>;
   name?: InputMaybe<StringFilter>;
   price?: InputMaybe<FloatFilter>;
-  size?: InputMaybe<SizeFilter>;
+  slug?: InputMaybe<SlugFilter>;
 };
 
 export type VariantSorting = {
@@ -1026,6 +1086,7 @@ export type VariantSorting = {
   msrp?: InputMaybe<SortOrder>;
   name?: InputMaybe<SortOrder>;
   price?: InputMaybe<SortOrder>;
+  slug?: InputMaybe<SlugSorting>;
 };
 
 export type GetCategoriesQueryVariables = Exact<{ [key: string]: never; }>;
@@ -1048,12 +1109,12 @@ export type GetProductAndRecommendationsQueryVariables = Exact<{
 }>;
 
 
-export type GetProductAndRecommendationsQuery = { __typename?: 'RootQuery', allProduct: Array<{ __typename?: 'Product', _id?: string | null, name?: string | null, categories?: Array<{ __typename?: 'Category', name?: string | null } | null> | null, slug?: { __typename?: 'Slug', current?: string | null } | null, variants?: Array<{ __typename?: 'Variant', id?: string | null, name?: string | null, descriptionRaw?: any | null, msrp?: number | null, price?: number | null, images?: Array<{ __typename?: 'ProductImage', images?: { __typename?: 'Image', asset?: { __typename?: 'SanityImageAsset', _id?: string | null } | null } | null } | null> | null, size?: { __typename?: 'Size', name?: string | null } | null, slicingOption?: Array<{ __typename?: 'Size', _id?: string | null, name?: string | null } | null> | null } | null> | null }>, recommendations: Array<{ __typename?: 'Product', _id?: string | null, name?: string | null, slug?: { __typename?: 'Slug', current?: string | null } | null, images?: Array<{ __typename?: 'ProductImage', name?: string | null, images?: { __typename?: 'Image', asset?: { __typename?: 'SanityImageAsset', url?: string | null } | null } | null } | null> | null, variants?: Array<{ __typename?: 'Variant', price?: number | null, msrp?: number | null } | null> | null }> };
+export type GetProductAndRecommendationsQuery = { __typename?: 'RootQuery', allProduct: Array<{ __typename?: 'Product', _id?: string | null, name?: string | null, categories?: Array<{ __typename?: 'Category', name?: string | null } | null> | null, slug?: { __typename?: 'Slug', current?: string | null } | null, variants?: Array<{ __typename?: 'Variant', _id?: string | null, id?: string | null, name?: string | null, descriptionRaw?: any | null, msrp?: number | null, price?: number | null, images?: Array<{ __typename?: 'ProductImage', images?: { __typename?: 'Image', asset?: { __typename?: 'SanityImageAsset', _id?: string | null } | null } | null } | null> | null, style?: Array<{ __typename?: 'Style', _id?: string | null, name?: string | null } | null> | null } | null> | null }>, recommendations: Array<{ __typename?: 'Product', _id?: string | null, name?: string | null, slug?: { __typename?: 'Slug', current?: string | null } | null, variants?: Array<{ __typename?: 'Variant', _id?: string | null, name?: string | null, price?: number | null, msrp?: number | null, slug?: { __typename?: 'Slug', current?: string | null } | null, images?: Array<{ __typename?: 'ProductImage', name?: string | null, images?: { __typename?: 'Image', asset?: { __typename?: 'SanityImageAsset', url?: string | null } | null } | null } | null> | null } | null> | null }> };
 
 export type GetProductsQueryVariables = Exact<{ [key: string]: never; }>;
 
 
-export type GetProductsQuery = { __typename?: 'RootQuery', allProduct: Array<{ __typename?: 'Product', _id?: string | null, name?: string | null, categories?: Array<{ __typename?: 'Category', name?: string | null } | null> | null, slug?: { __typename?: 'Slug', current?: string | null } | null, images?: Array<{ __typename?: 'ProductImage', name?: string | null, images?: { __typename?: 'Image', asset?: { __typename?: 'SanityImageAsset', url?: string | null } | null } | null } | null> | null, variants?: Array<{ __typename?: 'Variant', name?: string | null, id?: string | null, msrp?: number | null, price?: number | null, size?: { __typename?: 'Size', name?: string | null } | null } | null> | null }> };
+export type GetProductsQuery = { __typename?: 'RootQuery', allProduct: Array<{ __typename?: 'Product', _id?: string | null, name?: string | null, categories?: Array<{ __typename?: 'Category', name?: string | null } | null> | null, slug?: { __typename?: 'Slug', current?: string | null } | null, images?: Array<{ __typename?: 'ProductImage', name?: string | null, images?: { __typename?: 'Image', asset?: { __typename?: 'SanityImageAsset', url?: string | null } | null } | null } | null> | null, variants?: Array<{ __typename?: 'Variant', name?: string | null, id?: string | null, msrp?: number | null, price?: number | null } | null> | null }> };
 
 export type GetProductsSlugsQueryVariables = Exact<{ [key: string]: never; }>;
 
@@ -1164,6 +1225,7 @@ export const GetProductAndRecommendationsDocument = gql`
       current
     }
     variants {
+      _id
       id
       name
       descriptionRaw
@@ -1176,10 +1238,7 @@ export const GetProductAndRecommendationsDocument = gql`
           }
         }
       }
-      size {
-        name
-      }
-      slicingOption {
+      style {
         _id
         name
       }
@@ -1191,17 +1250,22 @@ export const GetProductAndRecommendationsDocument = gql`
     slug {
       current
     }
-    images {
-      name
-      images {
-        asset {
-          url
-        }
-      }
-    }
     variants {
+      _id
+      name
       price
       msrp
+      slug {
+        current
+      }
+      images {
+        name
+        images {
+          asset {
+            url
+          }
+        }
+      }
     }
   }
 }
@@ -1234,9 +1298,6 @@ export const GetProductsDocument = gql`
       id
       msrp
       price
-      size {
-        name
-      }
     }
   }
 }

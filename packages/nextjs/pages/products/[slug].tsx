@@ -1,3 +1,4 @@
+import * as React from "react";
 import { GetServerSideProps, NextPage } from "next";
 import { withUrqlClient } from "next-urql";
 import { useRouter } from "next/router";
@@ -19,7 +20,7 @@ import { PageHead } from "../../components/PageHead";
 
 import { Price } from "components/Price";
 import { QuantityInput } from "components/ProductPage/QuantityInput";
-import { SlicingOptions } from "components/ProductPage/SlicingOptions";
+import { StyleOptions } from "components/ProductPage/StyleOptions";
 import { ProductVariant, ProductVariantSelector } from "components/ProductPage/ProductVariantSelector";
 import { H6 } from "components/Typography/H6";
 import { Product } from "components/Product";
@@ -36,20 +37,14 @@ const ProductPage: NextPage = () => {
 
   const product = data?.allProduct[0];
   const [selectedVariant, setSelectedVariant] = useState<Maybe<ProductVariant> | undefined>(() =>
-    (product?.variants || []).find((v) => {
-      console.log(v);
-
-      return v?.slug?.current && v.slug.current === query.variant;
-    })
+    (product?.variants || []).find((v) => v?._id && v._id === query.variantId)
   );
-  const [selectedSlicing, setSelectedSlicing] = useState<string>("");
+  const [selectedStyle, setSelectedStyle] = useState<string>("");
   const [quantity, setQuantity] = useState("1");
-
-  console.log(selectedVariant);
 
   useEffect(() => {
     if (product) {
-      setSelectedVariant(product?.variants?.[0]);
+      setSelectedVariant((product?.variants || []).find((v) => v?._id && v._id === query.variantId));
     }
   }, [product]);
 
@@ -58,6 +53,16 @@ const ProductPage: NextPage = () => {
 
     setSelectedVariant(productVariant);
   };
+
+  // When selected variant changes, update variantId in query params
+  useEffect(() => {
+    if (selectedVariant) {
+      const url = new URL(window.location.href);
+      const qp = url.searchParams;
+      qp.set("variantId", String(selectedVariant._id));
+      window.history.replaceState(null, "", url);
+    }
+  }, [selectedVariant]);
 
   const onAddToCart = () => {
     if (selectedVariant?.id) {
@@ -69,67 +74,78 @@ const ProductPage: NextPage = () => {
   };
 
   return (
-    <>
+    <React.Fragment key={product?._id}>
       <PageHead title={product?.name || "Product details"} description={`Product details page for ${product?.name}.`} />
-      <div className="border-b-2 border-b-blue">
-        <div className="container mb-8 sm:my-8">
-          <div className="grid grid-rows-2 sm:grid-cols-2 sm:grid-rows-none items-center">
-            <div>{selectedVariant?.images && <ImageCarousel productImages={selectedVariant?.images} />}</div>
-            <div className=" text-blue">
-              <h4 className="text-h4 font-medium mb-2">{product?.name}</h4>
+      <div className="flex flex-col gap-6 py-6">
+        <div>
+          <div className="container">
+            <div className="grid md:grid-cols-2 md:grid-rows-none md:items-baseline gap-6">
+              <div className="md:row-span-2 order-2 md:order-1">
+                {selectedVariant?.images && <ImageCarousel productImages={selectedVariant?.images} />}
+              </div>
+              <div className="text-blue order-1 md:order-2">
+                <h4 className="text-h4 font-medium mb-2">{product?.name}</h4>
+                <Price msrp={selectedVariant?.msrp} price={selectedVariant?.price} />
+              </div>
 
-              <Price msrp={selectedVariant?.msrp} price={selectedVariant?.price} />
+              <div className="text-blue order-3">
+                <BlockContent value={selectedVariant?.descriptionRaw} className="text-body-reg text-blue font-medium" />
+                <hr className="border-t border-t-blue my-5" />
+                <ProductVariantSelector
+                  variants={product?.variants}
+                  selectedVariant={selectedVariant}
+                  onVariantChange={onVariantChange}
+                />
 
-              <BlockContent
-                value={selectedVariant?.descriptionRaw}
-                className="text-body-reg text-blue font-medium my-8"
-              />
+                {selectedVariant?.style?.length && (
+                  <React.Fragment>
+                    <hr className="border-t border-t-blue my-5" />
+                    <StyleOptions
+                      options={selectedVariant?.style}
+                      onChange={setSelectedStyle}
+                      selectedStyle={selectedStyle}
+                    />
+                  </React.Fragment>
+                )}
 
-              <hr className="border-t border-t-blue my-5" />
-              <ProductVariantSelector
-                variants={product?.variants}
-                selectedVariant={selectedVariant}
-                onVariantChange={onVariantChange}
-              />
-
-              <hr className="border-t border-t-blue my-5" />
-              <SlicingOptions
-                options={selectedVariant?.slicingOption}
-                onChange={setSelectedSlicing}
-                selectedSlicing={selectedSlicing}
-              />
-
-              <hr className="border-t border-t-blue my-5" />
-              <QuantityInput quantity={quantity} onAddToCart={onAddToCart} onQuantityChange={setQuantity} />
+                <hr className="border-t border-t-blue my-5" />
+                <QuantityInput quantity={quantity} onAddToCart={onAddToCart} onQuantityChange={setQuantity} />
+              </div>
             </div>
           </div>
         </div>
-      </div>
 
-      <div className="container py-8 flex flex-col items-center sm:items-start sm:flex-row justify-between">
-        <H6>Related Products</H6>
-        <div className="flex flex-col items-center mt-4 sm:mt-0 sm:flex-row gap-5">
-          {data?.recommendations.map((product) => (
-            <div key={product._id} className="w-[350px]">
-              <Product
-                // TODO: make the interface for Product more generic so it can take result from GQL also
-                item={
-                  {
-                    _id: product._id ?? "",
-                    imageAlt: product.images?.[0]?.name ?? "",
-                    images: product.images?.[0]?.images as Images,
-                    msrp: product.variants?.[0]?.msrp ?? 0,
-                    name: product.name ?? "",
-                    price: product.variants?.[0]?.price ?? 0,
-                    slug: product.slug as Slug,
-                  } as CategoryPageProduct
-                }
-              />
-            </div>
-          ))}
+        <div className="border-t-2 border-blue" />
+
+        <div className="container grid sm:grid-cols-2 md:grid-cols-4 gap-4">
+          <H6 className="col-span-2 md:col-span-1">Related Products</H6>
+          {data?.recommendations.slice(0, 3).map((product) => {
+            const variant = product.variants?.[0];
+            const image = variant?.images?.[0]?.images;
+            if (!variant || !image) return null;
+
+            return (
+              <div key={product._id} className="w-full">
+                <Product
+                  // TODO: make the interface for Product more generic so it can take result from GQL also
+                  item={{
+                    _id: variant._id ?? "",
+                    slug: variant?.slug?.current || "",
+                    productSlug: product.slug?.current || "",
+                    imageAlt: variant.images?.[0]?.name ?? "",
+                    // @ts-ignore
+                    images: image,
+                    msrp: variant.msrp ?? 0,
+                    name: variant.name ?? "",
+                    price: variant.price ?? 0,
+                  }}
+                />
+              </div>
+            );
+          })}
         </div>
       </div>
-    </>
+    </React.Fragment>
   );
 };
 

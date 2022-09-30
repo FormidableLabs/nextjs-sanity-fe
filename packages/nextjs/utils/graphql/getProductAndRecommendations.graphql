@@ -9,11 +9,9 @@ query getProductAndRecommendations($slug: String!) {
       current
     }
     variants {
+      _id
       id
       name
-      slug {
-        current
-      }
       descriptionRaw
       msrp
       price
@@ -24,10 +22,7 @@ query getProductAndRecommendations($slug: String!) {
           }
         }
       }
-      size {
-        name
-      }
-      slicingOption {
+      style {
         _id
         name
       }
@@ -39,17 +34,22 @@ query getProductAndRecommendations($slug: String!) {
     slug {
       current
     }
-    images {
-      name
-      images {
-        asset {
-          url
-        }
-      }
-    }
     variants {
+      _id
+      name
       price
       msrp
+      slug {
+        current
+      }
+      images {
+        name
+        images {
+          asset {
+            url
+          }
+        }
+      }
     }
   }
 }

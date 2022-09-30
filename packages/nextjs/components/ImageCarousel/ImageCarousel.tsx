@@ -1,3 +1,4 @@
+import * as React from "react";
 import type { FilteredProductImage, ImageCarouselProps } from "./types";
 
 import Carousel from "nuka-carousel";
@@ -12,11 +13,17 @@ export const ImageCarousel: React.FC<ImageCarouselProps> = ({ productImages }) =
     (productImages?.filter((image) => image && image.images) as FilteredProductImage[]) || [];
 
   const innerNode = filteredProductImages.map(({ images, name }) => (
-    <Image className="rounded-2xl" key={images?.asset?._id} width={700} height={700} src={images} alt={name ?? ""} />
+    <Image
+      className="rounded-2xl aspect-square w-full"
+      layout="fill"
+      key={images?.asset?._id}
+      src={images}
+      alt={name ?? ""}
+    />
   ));
 
   return (
-    <div className="text-blue">
+    <div className="text-blue relative w-full aspect-square">
       {filteredProductImages?.length > 1 ? (
         <Carousel
           animation="fade"
