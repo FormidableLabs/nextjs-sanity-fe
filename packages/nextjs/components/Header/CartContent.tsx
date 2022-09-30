@@ -26,10 +26,10 @@ export const CartContent = ({ onClose }: CartContentProps) => {
         {cartItems.length > 0 ? (
           <div>
             <ul className="flex flex-col gap-6">
-              {cartItems.map(({ id, qty, item }, i) => (
-                <React.Fragment key={id}>
+              {cartItems.map((item, i) => (
+                <React.Fragment key={item._id}>
                   <li>
-                    <CartItem id={id} qty={qty} item={item} />
+                    <CartItem item={item} />
                   </li>
                   {i < cartItems.length - 1 && <li className="border-t-2" />}
                 </React.Fragment>
