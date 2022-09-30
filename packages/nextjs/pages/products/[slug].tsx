@@ -41,96 +41,23 @@ const ProductPage: NextPage = () => {
     product?.variants?.[0];
 
   return (
-    <AnimatePresence initial={false} mode="wait">
-      <React.Fragment key={`${query.slug}:${query.variant}`}>
-        <FadeInOut>
-          <PageBody product={product} variant={selectedVariant} recommendations={data?.recommendations} />
-        </FadeInOut>
-      </React.Fragment>
-    </AnimatePresence>
-  );
-};
-
-const PageBody = ({
-  variant,
-  product,
-  recommendations,
-}: {
-  product?: PDPProduct;
-  variant?: PDPVariant;
-  recommendations?: PDPRecommendation[];
-}) => {
-  const { push } = useRouter();
-  const { updateCart, cartItems } = useCart();
-
-  const setSelectedVariant = React.useCallback((slug: string) => {
-    push({
-      pathname: window.location.pathname,
-      query: {
-        variant: slug,
-      },
-    }).catch(() => null);
-  }, []);
-
-  const [selectedStyle, setSelectedStyle] = useState<string>("");
-  const [quantity, setQuantity] = useState("1");
-
-  const onVariantChange = (slug?: string) => {
-    if (slug) setSelectedVariant(slug);
-  };
-
-  const onAddToCart = () => {
-    if (variant?._id) {
-      // If the item is already in the cart allow user to click add to cart multiple times
-      const existingCartItem = cartItems.find((item) => item._id === variant._id);
-
-      updateCart(variant?._id, existingCartItem ? existingCartItem.qty + Number(quantity) : Number(quantity));
-    }
-  };
-
-  return (
-    <>
+    <React.Fragment>
       <PageHead title={product?.name || "Product details"} description={`Product details page for ${product?.name}.`} />
+
       <div className="flex flex-col gap-6 py-6">
-        <div>
-          <div className="container">
-            <div className="grid md:grid-cols-2 md:grid-rows-none md:items-baseline gap-6">
-              <div className="md:row-span-2 order-2 md:order-1">
-                {variant?.images && <ImageCarousel productImages={variant?.images} />}
-              </div>
-              <div className="text-blue order-1 md:order-2">
-                <h4 className="text-h4 font-medium mb-2">{product?.name}</h4>
-                <Price msrp={variant?.msrp} price={variant?.price} />
-              </div>
-
-              <div className="text-blue order-3">
-                <BlockContent value={variant?.descriptionRaw} className="text-body-reg text-blue font-medium" />
-                <hr className="border-t border-t-blue my-5" />
-                <ProductVariantSelector
-                  variants={product?.variants}
-                  selectedVariant={variant}
-                  onVariantChange={onVariantChange}
-                />
-
-                {variant?.style?.length && (
-                  <React.Fragment>
-                    <hr className="border-t border-t-blue my-5" />
-                    <StyleOptions options={variant?.style} onChange={setSelectedStyle} selectedStyle={selectedStyle} />
-                  </React.Fragment>
-                )}
-
-                <hr className="border-t border-t-blue my-5" />
-                <QuantityInput quantity={quantity} onAddToCart={onAddToCart} onQuantityChange={setQuantity} />
-              </div>
-            </div>
-          </div>
-        </div>
+        <AnimatePresence initial={false} mode="wait">
+          <React.Fragment key={`${query.slug}:${query.variant}`}>
+            <FadeInOut>
+              <PageBody product={product} variant={selectedVariant} recommendations={data?.recommendations} />
+            </FadeInOut>
+          </React.Fragment>
+        </AnimatePresence>
 
         <div className="border-t-2 border-blue" />
 
         <div className="container grid sm:grid-cols-2 md:grid-cols-4 gap-4">
           <H6 className="col-span-2 md:col-span-1">Related Products</H6>
-          {recommendations.slice(0, 3).map((prod) => {
+          {data?.recommendations?.slice(0, 3).map((prod) => {
             const variant = prod.variants?.[0];
             const image = variant?.images?.[0]?.images;
             if (!variant || !image) return null;
@@ -156,13 +83,76 @@ const PageBody = ({
           })}
         </div>
       </div>
-    </>
+    </React.Fragment>
+  );
+};
+
+const PageBody = ({ variant, product }: { product?: PDPProduct; variant?: PDPVariant }) => {
+  const { replace } = useRouter();
+  const { updateCart, cartItems } = useCart();
+
+  const setSelectedVariant = React.useCallback((slug: string) => {
+    replace({
+      pathname: window.location.pathname,
+      query: {
+        variant: slug,
+      },
+    }).catch(() => null);
+  }, []);
+
+  const [selectedStyle, setSelectedStyle] = useState<string>("");
+  const [quantity, setQuantity] = useState("1");
+
+  const onVariantChange = (slug?: string) => {
+    if (slug) setSelectedVariant(slug);
+  };
+
+  const onAddToCart = () => {
+    if (variant?._id) {
+      // If the item is already in the cart allow user to click add to cart multiple times
+      const existingCartItem = cartItems.find((item) => item._id === variant._id);
+
+      updateCart(variant?._id, existingCartItem ? existingCartItem.qty + Number(quantity) : Number(quantity));
+    }
+  };
+
+  return (
+    <div className="container">
+      <div className="grid md:grid-cols-2 md:grid-rows-none md:items-baseline gap-6">
+        <div className="md:row-span-2 order-2 md:order-1">
+          {variant?.images && <ImageCarousel productImages={variant?.images} />}
+        </div>
+        <div className="text-blue order-1 md:order-2">
+          <h4 className="text-h4 font-medium mb-2">{product?.name}</h4>
+          <Price msrp={variant?.msrp} price={variant?.price} />
+        </div>
+
+        <div className="text-blue order-3">
+          <BlockContent value={variant?.descriptionRaw} className="text-body-reg text-blue font-medium" />
+          <hr className="border-t border-t-blue my-5" />
+          <ProductVariantSelector
+            variants={product?.variants}
+            selectedVariant={variant}
+            onVariantChange={onVariantChange}
+          />
+
+          {variant?.style?.length && (
+            <React.Fragment>
+              <hr className="border-t border-t-blue my-5" />
+              <StyleOptions options={variant?.style} onChange={setSelectedStyle} selectedStyle={selectedStyle} />
+            </React.Fragment>
+          )}
+
+          <hr className="border-t border-t-blue my-5" />
+          <QuantityInput quantity={quantity} onAddToCart={onAddToCart} onQuantityChange={setQuantity} />
+        </div>
+      </div>
+    </div>
   );
 };
 
 type PDPProduct = GetProductAndRecommendationsQuery["allProduct"][number];
 type PDPVariant = NonNullable<GetProductAndRecommendationsQuery["allProduct"][number]["variants"]>[number];
-type PDPRecommendation = GetProductAndRecommendationsQuery["recommendations"][number];
 
 export const getServerSideProps: GetServerSideProps = async ({ res, query }) => {
   const { client, ssrCache } = initializeUrql();
