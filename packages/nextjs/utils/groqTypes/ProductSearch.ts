@@ -1,9 +1,10 @@
 export interface ProductSearch {
   _id: string;
-  image: Image;
-  imageAlt: string;
   name: string;
   slug: Slug;
+  image: Image;
+  imageAlt: string;
+  productSlug: string;
 }
 
 export interface Image {
