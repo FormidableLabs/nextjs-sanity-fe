@@ -1,4 +1,4 @@
-import { CategoryFilterItem, FlavourFilterItem, StyleFilterItem } from "../utils/groqTypes/ProductList";
+import { CategoryFilterItem, FlavourFilterItem, StyleFilterItem } from "./groqTypes/ProductList";
 
 export type FilterOption = {
   value: string;
