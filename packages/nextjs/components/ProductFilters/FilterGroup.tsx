@@ -1,4 +1,5 @@
-import type { FilterGroup as FilterGroupType } from "../../constants/filters";
+import * as React from "react";
+import type { FilterGroup as FilterGroupType } from "../../utils/filters";
 import { ChangeEvent } from "react";
 import { useRouterQueryParams } from "../../utils/useRouterQueryParams";
 import { Checkbox } from "../Checkbox";

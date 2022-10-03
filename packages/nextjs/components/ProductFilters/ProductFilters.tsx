@@ -1,6 +1,6 @@
 import * as React from "react";
 import { FilterGroup } from "./FilterGroup";
-import { getFilterGroups } from "constants/filters";
+import { getFilterGroups } from "utils/filters";
 import { CategoryFilterItem, FlavourFilterItem, StyleFilterItem } from "../../utils/groqTypes/ProductList";
 
 interface Props {

@@ -1,11 +1,10 @@
 {
-  "name": "sanity",
+  "name": "nextjs-sanity-ecomm-sanity",
   "private": true,
-  "version": "1.0.0",
+  "version": "0.0.1",
   "description": "",
-  "main": "package.json",
-  "author": "Binoy Patel <binoy.patel@formidable.com>",
-  "license": "UNLICENSED",
+  "author": "Formidable",
+  "license": "MIT",
   "scripts": {
     "build": "sanity build",
     "deploy-graphql": "sanity graphql deploy",

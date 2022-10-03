@@ -1,8 +1,8 @@
-import { SORT_OPTIONS, SORT_QUERY_PARAM } from "constants/sorting";
+import { SORT_OPTIONS, SORT_QUERY_PARAM } from "utils/sorting";
 import { ParsedUrlQuery } from "querystring";
 
 export const getOrderingFromQuery = (query: ParsedUrlQuery) => {
-    const { [SORT_QUERY_PARAM]: sortValue } = query;
+  const { [SORT_QUERY_PARAM]: sortValue } = query;
 
   // Sort/ordering
   let ordering = "| order(_createdAt)";
@@ -17,4 +17,4 @@ export const getOrderingFromQuery = (query: ParsedUrlQuery) => {
   }
 
   return ordering;
-}
+};

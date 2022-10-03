@@ -9,7 +9,7 @@ interface Props {
   onChange: (slicing: string) => void;
 }
 
-export const StyleOptions: React.FC<Props> = ({ options, selectedStyle, onChange }) => {
+export const StyleOptions = ({ options, selectedStyle, onChange }: Props) => {
   return (
     <div className="flex items-center justify-between">
       <H6>Style</H6>

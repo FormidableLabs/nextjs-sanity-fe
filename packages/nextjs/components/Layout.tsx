@@ -1,13 +1,9 @@
+import * as React from "react";
 import Head from "next/head";
-import React from "react";
 import { Footer } from "./Footer/Footer";
 import { Header } from "./Header/Header";
 
-interface Props {
-  children: React.ReactNode;
-}
-
-export const Layout: React.FC<Props> = ({ children }) => {
+export const Layout = ({ children }: React.PropsWithChildren) => {
   return (
     <>
       <Head>

@@ -18,14 +18,14 @@ export interface CardProps {
   };
 }
 
-export const Card: React.FC<CardProps> = ({
+export const Card = ({
   to,
   subTitle,
   title,
   price,
   imageProps: { containerClassName, ...imageProps },
   className = "",
-}) => {
+}: CardProps) => {
   return (
     <Link href={to}>
       <a className={`flex flex-col justify-center text-primary group w-full ${className}`}>

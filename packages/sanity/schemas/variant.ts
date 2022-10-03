@@ -35,7 +35,6 @@ export default {
       type: "string",
       validation: (rule) => rule.required(),
     },
-    // TODO: Ensure this is unique
     {
       name: "slug",
       title: "Slug",

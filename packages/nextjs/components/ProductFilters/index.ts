@@ -1,1 +1,0 @@
-export { ProductFilters } from "./ProductFilters";

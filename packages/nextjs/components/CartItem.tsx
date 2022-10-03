@@ -8,7 +8,7 @@ type CartItemProps = {
   item: CartItemType;
 };
 
-export const CartItem: React.FC<CartItemProps> = ({ item }) => {
+export const CartItem = ({ item }: CartItemProps) => {
   const { updateCart } = useCart();
   const [desiredQty, setDesiredQty] = React.useState(item.qty);
 

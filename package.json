@@ -1,8 +1,11 @@
 {
-  "name": "nextjs-ecom-fe",
-  "version": "1.0.0",
-  "description": "",
+  "name": "next-sanity-fastly-ecomm-demo",
+  "version": "0.0.1",
+  "description": "A demo ecommerce site using Next.js, Sanity CMS, and Fastly.",
+  "keywords": [],
+  "author": "Formidable",
   "main": "index.js",
+  "license": "MIT",
   "scripts": {
     "local": "pnpm run --filter nextjs --filter sanity --parallel dev",
     "dev:nextjs": "pnpm run --filter nextjs dev",
@@ -17,9 +20,6 @@
     "seed-sanity": "pnpm run -C packages/sanity --filter sanity import-dataset",
     "prepare": "husky install"
   },
-  "keywords": [],
-  "author": "Binoy Patel",
-  "license": "ISC",
   "devDependencies": {
     "husky": "^8.0.1",
     "lint-staged": "^13.0.3",

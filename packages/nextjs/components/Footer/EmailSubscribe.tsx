@@ -2,6 +2,7 @@ import { Input } from "components/Input";
 import { H3 } from "components/Typography/H3";
 import { LinkText } from "components/LinkText";
 import { FaChevronRight } from "react-icons/fa";
+
 export const EmailSubscribe = () => {
   return (
     <div className="flex flex-col">

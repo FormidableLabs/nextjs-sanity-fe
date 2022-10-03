@@ -1,5 +1,6 @@
+import * as React from "react";
 import classNames from "classnames";
-import { AnchorHTMLAttributes, ButtonHTMLAttributes, ForwardedRef, forwardRef } from "react";
+import type { AnchorHTMLAttributes, ButtonHTMLAttributes, ForwardedRef } from "react";
 
 interface BaseProps {
   disabled?: boolean;
@@ -23,10 +24,7 @@ function LinkTextComponent(
   ref: ForwardedRef<HTMLButtonElement | HTMLAnchorElement>
 ) {
   const styles = classNames(
-    "text-body-reg",
-    "font-bold",
-    "text-primary",
-    "hover:border-b",
+    "text-body-reg font-bold text-primary hover:border-b",
     {
       "text-dark-thunder-cloud hover:text-dark-thunder-cloud hover:border-b-0": disabled,
     },
@@ -52,4 +50,4 @@ function LinkTextComponent(
   );
 }
 
-export const LinkText = forwardRef(LinkTextComponent);
+export const LinkText = React.forwardRef(LinkTextComponent);

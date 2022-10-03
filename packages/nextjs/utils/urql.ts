@@ -5,7 +5,7 @@ const GRAPHQL_URL = `https://${process.env.NEXT_PUBLIC_SANITY_PROJECT_ID}.apicdn
 
 export const urqlOptions = {
   url: GRAPHQL_URL,
-};
+} as const;
 
 // https://formidable.com/open-source/urql/docs/advanced/server-side-rendering/
 // When you are using getStaticProps, getServerSideProps, or getStaticPaths,

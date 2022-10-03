@@ -1,3 +1,4 @@
+import * as React from "react";
 import { SanityImageSource } from "@sanity/image-url/lib/types/types";
 import NextImage from "next/image";
 
@@ -20,7 +21,7 @@ const sanityLoader = (sanitySrc: SanityImageSource, { width, quality }: ImageLoa
   return url;
 };
 
-export const Image: React.FC<Props> = (props) => {
+export const Image = (props: Props) => {
   const baseURL = "https://cdn.sanity.io/images/";
 
   if (!props.src) return null;
