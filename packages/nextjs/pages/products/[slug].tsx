@@ -53,7 +53,7 @@ const ProductPage: NextPage = () => {
           </React.Fragment>
         </AnimatePresence>
 
-        <div className="border-t-2 border-blue" />
+        <div className="border-t-2 border-primary" />
 
         <div className="container grid sm:grid-cols-2 md:grid-cols-4 gap-4">
           <H6 className="col-span-2 md:col-span-1">Related Products</H6>
@@ -100,7 +100,7 @@ const PageBody = ({ variant, product }: { product?: PDPProduct; variant?: PDPVar
     }).catch(() => null);
   }, []);
 
-  const [selectedStyle, setSelectedStyle] = useState<string>("");
+  const [selectedStyle, setSelectedStyle] = useState<string>(() => variant?.style?.[0]?.name || "");
   const [quantity, setQuantity] = useState("1");
 
   const onVariantChange = (slug?: string) => {
@@ -122,14 +122,14 @@ const PageBody = ({ variant, product }: { product?: PDPProduct; variant?: PDPVar
         <div className="md:row-span-2 order-2 md:order-1">
           {variant?.images && <ImageCarousel productImages={variant?.images} />}
         </div>
-        <div className="text-blue order-1 md:order-2">
+        <div className="text-primary order-1 md:order-2">
           <h4 className="text-h4 font-medium mb-2">{product?.name}</h4>
           <Price msrp={variant?.msrp} price={variant?.price} />
         </div>
 
-        <div className="text-blue order-3">
-          <BlockContent value={variant?.descriptionRaw} className="text-body-reg text-blue font-medium" />
-          <hr className="border-t border-t-blue my-5" />
+        <div className="text-primary order-3">
+          <BlockContent value={variant?.descriptionRaw} className="text-body-reg text-primary font-medium" />
+          <hr className="border-t border-t-primary my-5" />
           <ProductVariantSelector
             variants={product?.variants}
             selectedVariant={variant}
@@ -138,12 +138,12 @@ const PageBody = ({ variant, product }: { product?: PDPProduct; variant?: PDPVar
 
           {variant?.style?.length && (
             <React.Fragment>
-              <hr className="border-t border-t-blue my-5" />
+              <hr className="border-t border-t-primary my-5" />
               <StyleOptions options={variant?.style} onChange={setSelectedStyle} selectedStyle={selectedStyle} />
             </React.Fragment>
           )}
 
-          <hr className="border-t border-t-blue my-5" />
+          <hr className="border-t border-t-primary my-5" />
           <QuantityInput quantity={quantity} onAddToCart={onAddToCart} onQuantityChange={setQuantity} />
         </div>
       </div>

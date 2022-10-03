@@ -19,13 +19,13 @@ const InputComponent = (
   return (
     <div className="flex flex-col w-full">
       {label && (
-        <label htmlFor={id} className="text-body-reg mb-2 text-blue font-medium">
+        <label htmlFor={id} className="text-body-reg mb-2 text-primary font-medium">
           {label}
         </label>
       )}
       <div
         className={classNames(
-          "border-blue",
+          "border-primary",
           { border: !isFocused },
           { "border-2": isFocused, "m-[-1px]": isFocused },
           "rounded-[10px]",
@@ -39,7 +39,7 @@ const InputComponent = (
           onFocus={() => setIsFocused((val) => true)}
           onBlur={() => setIsFocused((val) => false)}
           className={classNames(
-            "bg-yellow text-blue placeholder:text-blue focus:outline-none w-full",
+            "bg-secondary text-primary placeholder:text-primary focus:outline-none w-full",
             {
               "border-thunder-cloud text-thunder-cloud placeholder:text-thunder-cloud": disabled,
             },

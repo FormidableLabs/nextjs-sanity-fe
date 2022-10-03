@@ -59,7 +59,7 @@ const ProductsPage: NextPage<ProductsPageProps> = ({
       <div>
         <WeDontSellBreadBanner />
         <div className="py-9 container">
-          <h1 className="text-h1 text-blue mb-9">Products</h1>
+          <h1 className="text-h1 text-primary mb-9">Products</h1>
           <div className="flex gap-9 flex-col md:flex-row">
             <div className="w-full md:w-72 order-2 md:order-1 flex flex-col gap-9">
               <ProductSort />
@@ -87,7 +87,7 @@ const ProductsPage: NextPage<ProductsPageProps> = ({
                     {+(query?.page || 1) > 1 &&
                       Array.from({ length: 6 - variants.length })
                         .fill(undefined)
-                        .map((_, i) => <div className="invisible" />)}
+                        .map((_, i) => <div key={i} className="invisible" />)}
                   </FadeInOut>
                 )}
 

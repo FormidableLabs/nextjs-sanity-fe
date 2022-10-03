@@ -21,11 +21,11 @@ export const Checkbox: React.FC<Props> = ({ name, label, ...checkboxInputProps }
           "h-6",
           "min-h-[24px]",
           "border",
-          "border-blue",
+          "border-primary",
           // Styles for custom checkbox
           "rounded",
           "appearance-none",
-          "checked:bg-blue",
+          "checked:bg-primary",
           // Custom checkbox icon, defined in tailwind.config.js
           "checked:bg-checkbox-checked",
           "checked:bg-no-repeat",
@@ -35,7 +35,7 @@ export const Checkbox: React.FC<Props> = ({ name, label, ...checkboxInputProps }
         {...checkboxInputProps}
       />
 
-      <label htmlFor={id} className={classNames("pl-2", "text-blue", "text-body-sm", "peer-hover:text-blue")}>
+      <label htmlFor={id} className={classNames("pl-2", "text-primary", "text-body-sm", "peer-hover:text-primary")}>
         {label}
       </label>
     </div>

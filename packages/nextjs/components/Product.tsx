@@ -19,7 +19,7 @@ export const Product = ({ item }: { item: PLPVariant }) => {
         </a>
       </Link>
       <Link href={href} passHref>
-        <a className="text-blue">
+        <a className="text-primary">
           <h3 className="text-h6 mb-1">{item.name}</h3>
           <Price msrp={item.msrp} price={item.price} />
         </a>

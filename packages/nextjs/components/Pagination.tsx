@@ -36,7 +36,7 @@ export const Pagination = ({ onPageChange, pageCount = 1, currentPage = 1 }: Pag
   const nextUrlObj = currentPage >= pageCount ? baseUrlObj : getUrlObjWithPage(currentPage + 1);
 
   return (
-    <motion.nav className="flex items-center justify-between text-blue" layoutId="pagination-nav">
+    <motion.nav className="flex items-center justify-between text-primary" layoutId="pagination-nav">
       <MaybeDisabledLink
         urlObject={prevUrlObj}
         isDisabled={currentPage <= 1}
@@ -52,7 +52,7 @@ export const Pagination = ({ onPageChange, pageCount = 1, currentPage = 1 }: Pag
               onClick={(e) => handlePageChanged(e, page)}
               className={classNames(
                 "border rounded w-10 aspect-square flex items-center justify-center",
-                page === currentPage ? "border-blue" : "border-[transparent]"
+                page === currentPage ? "border-primary" : "border-[transparent]"
               )}
               aria-current={page === currentPage ? "page" : "false"}
             >

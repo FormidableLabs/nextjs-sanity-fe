@@ -51,7 +51,7 @@ export const Cart = ({
   return (
     <div className="relative">
       <button
-        className="flex items-center text-blue text-body-reg gap-1"
+        className="flex items-center text-primary text-body-reg gap-1"
         onClick={(e) => {
           e.stopPropagation();
           onMobileNavClose();
@@ -82,7 +82,7 @@ export const Cart = ({
         {isCartOpen && (
           <motion.div
             ref={cartPopup}
-            className="cart-popup fixed inset-0 sm:absolute bg-yellow sm:top-10 sm:right-0 sm:left-[inherit] sm:bottom-[inherit] sm:w-[400px] sm:max-h-[calc(100vh-100px)] sm:shadow-lg sm:rounded sm:border border-blue flex cursor-auto"
+            className="cart-popup fixed inset-0 sm:absolute bg-secondary sm:top-10 sm:right-0 sm:left-[inherit] sm:bottom-[inherit] sm:w-[400px] sm:max-h-[calc(100vh-100px)] sm:shadow-lg sm:rounded sm:border border-primary flex cursor-auto"
             initial={{ opacity: 0, y: -10 }}
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: -10 }}

@@ -25,7 +25,7 @@ function LinkTextComponent(
   const styles = classNames(
     "text-body-reg",
     "font-bold",
-    "text-blue",
+    "text-primary",
     "hover:border-b",
     {
       "text-dark-thunder-cloud hover:text-dark-thunder-cloud hover:border-b-0": disabled,

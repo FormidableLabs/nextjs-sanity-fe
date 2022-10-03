@@ -23,7 +23,7 @@ export const ImageCarousel: React.FC<ImageCarouselProps> = ({ productImages }) =
   ));
 
   return (
-    <div className="text-blue relative w-full aspect-square">
+    <div className="text-primary relative w-full aspect-square">
       {filteredProductImages?.length > 1 ? (
         <Carousel
           animation="fade"
