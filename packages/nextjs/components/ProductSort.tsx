@@ -20,7 +20,7 @@ export const ProductSort: React.FC = () => {
 
   return (
     <div className="flex flex-col gap-4">
-      <h4 className="text-h4 text-blue">Sort by</h4>
+      <h4 className="text-h4 text-primary">Sort by</h4>
       <div className="flex flex-wrap gap-2">
         {SORT_OPTIONS_ARRAY.map(({ value, label }) => (
           <Pill

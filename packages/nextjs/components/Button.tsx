@@ -26,10 +26,10 @@ function ButtonComponent(
   const styles = classNames(
     "rounded-lg py-4 px-8 text-body-reg transition transition-colors duration-150 text-center",
     {
-      "bg-blue text-white hover:text-sky": variant === "primary",
-      "bg-[transparent] text-blue hover:bg-blue hover:text-sky border border-blue": variant === "secondary",
-      "bg-[transparent] text-blue border border-[transparent] hover:border-blue": variant === "text",
-      "bg-[transparent] text-yellow border-yellow border hover:bg-yellow hover:text-blue": variant === "tertiary",
+      "bg-primary text-white hover:text-sky": variant === "primary",
+      "bg-[transparent] text-primary hover:bg-primary hover:text-sky border border-primary": variant === "secondary",
+      "bg-[transparent] text-primary border border-[transparent] hover:border-primary": variant === "text",
+      "bg-[transparent] text-secondary border-secondary border hover:bg-secondary hover:text-primary": variant === "tertiary",
       "bg-thunder-cloud text-dark-thunder-cloud hover:text-dark-thunder-cloud": disabled,
       "cursor-pointer": as === "a",
     },

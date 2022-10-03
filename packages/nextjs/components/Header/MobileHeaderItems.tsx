@@ -12,7 +12,7 @@ export const MobileHeaderItems = ({ navOpen, onMobileNavClose }: MobileHeaderIte
 
   return (
     <ul
-      className={classNames("flex", "flex-col", "sm:hidden", "bg-yellow", "text-blue", "transition-all", {
+      className={classNames("flex", "flex-col", "sm:hidden", "bg-secondary", "text-primary", "transition-all", {
         "h-screen": navOpen === true,
         "max-h-0": navOpen === false,
       })}
@@ -22,7 +22,7 @@ export const MobileHeaderItems = ({ navOpen, onMobileNavClose }: MobileHeaderIte
           return (
             <li
               key={href}
-              className={classNames("border-b border-b-blue text-h5 py-4 px-3", {
+              className={classNames("border-b border-b-primary text-h5 py-4 px-3", {
                 "font-bold": router.pathname === href,
               })}
             >

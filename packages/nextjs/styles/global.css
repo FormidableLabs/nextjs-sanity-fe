@@ -3,7 +3,7 @@
 @tailwind utilities;
 
 body {
-	@apply bg-yellow;
+	@apply bg-secondary;
 }
 
 

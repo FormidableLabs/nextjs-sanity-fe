@@ -42,13 +42,13 @@ export function Select({ label, placeholder, options, defaultSelectedItem, onCha
     <div>
       <div className="w-72 flex flex-col gap-1">
         {label && (
-          <label className="text-body-reg text-blue mb-2" {...getLabelProps()}>
+          <label className="text-body-reg text-primary mb-2" {...getLabelProps()}>
             {label}
           </label>
         )}
         <button
           aria-label="toggle menu"
-          className="px-4 py-2 border border-blue text-blue rounded-lg hover:bg-blue/20 flex justify-between"
+          className="px-4 py-2 border border-primary text-primary rounded-lg hover:bg-primary/20 flex justify-between"
           type="button"
           {...getToggleButtonProps()}
         >
@@ -65,10 +65,10 @@ export function Select({ label, placeholder, options, defaultSelectedItem, onCha
           "shadow-md",
           "max-h-80",
           "border",
-          "border-blue",
+          "border-primary",
           "rounded",
           "overflow-auto",
-          "bg-yellow",
+          "bg-secondary",
           {
             hidden: !isOpen,
           }
@@ -84,9 +84,9 @@ export function Select({ label, placeholder, options, defaultSelectedItem, onCha
                 "px-4",
                 "flex",
                 "flex-col",
-                "text-blue",
+                "text-primary",
                 "cursor-pointer",
-                highlightedIndex === index && "bg-blue text-yellow",
+                highlightedIndex === index && "bg-primary text-secondary",
                 selectedItem?.value === item.value && "font-bold"
               )}
               key={`${item.value}${index}`}

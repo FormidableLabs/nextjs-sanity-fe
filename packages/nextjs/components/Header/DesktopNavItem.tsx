@@ -14,8 +14,8 @@ export const DesktopNavItem = ({ label, href }: DesktopNavItemProps) => {
     <li
       key={label}
       className={classNames(
-        "text-blue text-body-reg mr-1 last:mr-0 py-1 px-4 rounded-2xl relative border-2 transition transition-colors duration-300",
-        router.pathname === href ? "border-blue" : "border-[transparent]"
+        "text-primary text-body-reg mr-1 last:mr-0 py-1 px-4 rounded-2xl relative border-2 transition transition-colors duration-300",
+        router.pathname === href ? "border-primary" : "border-[transparent]"
       )}
     >
       <Link href={href} passHref>
