@@ -1,5 +1,4 @@
 import * as React from "react";
-import { createContext, ReactNode, useCallback, useContext, useEffect, useMemo, useState } from "react";
 import groq from "groq";
 import { sanityClient } from "utils/sanityClient";
 
@@ -22,20 +21,16 @@ const initialValue = {
 
 type CartContextValue = typeof initialValue;
 
-export const CartContext = createContext<CartContextValue>(initialValue);
+export const CartContext = React.createContext<CartContextValue>(initialValue);
 
-interface Props {
-  children: ReactNode;
-}
+export const useCart = () => React.useContext(CartContext);
 
-export const useCart = () => useContext(CartContext);
+export const CartProvider = ({ children }: React.PropsWithChildren) => {
+  const [cartItems, setCartItems] = React.useState<CartItem[]>([]);
+  const [cartItemsErrorIds, setCartItemsErrorIds] = React.useState<string[] | undefined>();
+  const [isFetchingCartItems, setIsFetchingCartItems] = React.useState(true);
 
-export const CartProvider: React.FC<Props> = ({ children }) => {
-  const [cartItems, setCartItems] = useState<CartItem[]>([]);
-  const [cartItemsErrorIds, setCartItemsErrorIds] = useState<string[] | undefined>();
-  const [isFetchingCartItems, setIsFetchingCartItems] = useState(true);
-
-  const retrieveCartItems = useCallback(async (cart: Record<string, number>) => {
+  const retrieveCartItems = React.useCallback(async (cart: Record<string, number>) => {
     const cartEntries = Object.entries(cart);
 
     if (cartEntries.length > 0) {
@@ -73,7 +68,7 @@ export const CartProvider: React.FC<Props> = ({ children }) => {
     setIsFetchingCartItems(false);
   }, []);
 
-  const updateCartFromApi = useCallback(async () => {
+  const updateCartFromApi = React.useCallback(async () => {
     const data = await fetch("/api/cart", {
       credentials: "same-origin",
     }).then((res) => res.json());
@@ -81,11 +76,11 @@ export const CartProvider: React.FC<Props> = ({ children }) => {
     retrieveCartItems(data);
   }, [retrieveCartItems]);
 
-  useEffect(() => {
+  React.useEffect(() => {
     updateCartFromApi();
   }, [updateCartFromApi]);
 
-  const updateCart = useCallback(
+  const updateCart = React.useCallback(
     async (variantId: string, quantity: number) => {
       if (!variantId) {
         return;
@@ -128,9 +123,9 @@ export const CartProvider: React.FC<Props> = ({ children }) => {
   };
 
   // Calculates the total quantity of all items in the cart
-  const cartTotal = useMemo(() => cartItems.reduce((acc, { qty }) => acc + qty, 0), [cartItems]);
+  const cartTotal = React.useMemo(() => cartItems.reduce((acc, { qty }) => acc + qty, 0), [cartItems]);
 
-  const totalCartPrice = useMemo(
+  const totalCartPrice = React.useMemo(
     () => cartItems.reduce((acc, { qty, variantInfo }) => acc + qty * variantInfo.price, 0),
     [cartItems]
   );

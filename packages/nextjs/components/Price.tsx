@@ -1,3 +1,4 @@
+import * as React from "react";
 import { Eyebrow } from "components/Typography/Eyebrow";
 
 interface Props {

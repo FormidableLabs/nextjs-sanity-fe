@@ -25,13 +25,9 @@ const InputComponent = (
       )}
       <div
         className={classNames(
-          "border-primary",
+          "border-primary rounded-[10px] px-4 py-2 flex",
           { border: !isFocused },
-          { "border-2": isFocused, "m-[-1px]": isFocused },
-          "rounded-[10px]",
-          "px-4",
-          "py-2",
-          "flex"
+          { "border-2 { ButtonHTMLAttributes }": isFocused }
         )}
       >
         <input

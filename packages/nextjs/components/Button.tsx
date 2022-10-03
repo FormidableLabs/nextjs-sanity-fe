@@ -1,5 +1,6 @@
+import * as React from "react";
 import classNames from "classnames";
-import { AnchorHTMLAttributes, ButtonHTMLAttributes, ForwardedRef, forwardRef } from "react";
+import type { AnchorHTMLAttributes, ButtonHTMLAttributes, ForwardedRef } from "react";
 
 interface BaseProps {
   variant: "primary" | "secondary" | "tertiary" | "text";
@@ -29,7 +30,8 @@ function ButtonComponent(
       "bg-primary text-white hover:text-sky": variant === "primary",
       "bg-[transparent] text-primary hover:bg-primary hover:text-sky border border-primary": variant === "secondary",
       "bg-[transparent] text-primary border border-[transparent] hover:border-primary": variant === "text",
-      "bg-[transparent] text-secondary border-secondary border hover:bg-secondary hover:text-primary": variant === "tertiary",
+      "bg-[transparent] text-secondary border-secondary border hover:bg-secondary hover:text-primary":
+        variant === "tertiary",
       "bg-thunder-cloud text-dark-thunder-cloud hover:text-dark-thunder-cloud": disabled,
       "cursor-pointer": as === "a",
     },
@@ -55,4 +57,4 @@ function ButtonComponent(
   );
 }
 
-export const Button = forwardRef(ButtonComponent);
+export const Button = React.forwardRef(ButtonComponent);

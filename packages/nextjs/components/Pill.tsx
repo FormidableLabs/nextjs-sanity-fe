@@ -1,5 +1,6 @@
+import * as React from "react";
+import type { ButtonHTMLAttributes } from "react";
 import classNames from "classnames";
-import { ButtonHTMLAttributes } from "react";
 
 interface Props extends ButtonHTMLAttributes<HTMLButtonElement> {
   disabled?: boolean;
