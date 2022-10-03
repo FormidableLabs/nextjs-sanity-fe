@@ -1,3 +1,4 @@
+import * as React from "react";
 import { Select } from "components/Select";
 import { H6 } from "components/Typography/H6";
 import { useMemo } from "react";
@@ -35,7 +36,7 @@ export const ProductVariantSelector: React.FC<Props> = ({ variants, selectedVari
         <Select
           options={options}
           placeholder="Select a flavour"
-          defaultSelectedItem={{
+          selectedItem={{
             title: selectedVariant?.name ?? "",
             value: selectedVariant?.slug?.current ?? "",
           }}
