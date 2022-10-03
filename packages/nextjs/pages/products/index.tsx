@@ -87,7 +87,7 @@ const ProductsPage: NextPage<ProductsPageProps> = ({
                     {+(query?.page || 1) > 1 &&
                       Array.from({ length: 6 - variants.length })
                         .fill(undefined)
-                        .map((_, i) => <div className="invisible" />)}
+                        .map((_, i) => <div key={i} className="invisible" />)}
                   </FadeInOut>
                 )}
 

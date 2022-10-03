@@ -100,7 +100,7 @@ const PageBody = ({ variant, product }: { product?: PDPProduct; variant?: PDPVar
     }).catch(() => null);
   }, []);
 
-  const [selectedStyle, setSelectedStyle] = useState<string>("");
+  const [selectedStyle, setSelectedStyle] = useState<string>(() => variant?.style?.[0]?.name || "");
   const [quantity, setQuantity] = useState("1");
 
   const onVariantChange = (slug?: string) => {
