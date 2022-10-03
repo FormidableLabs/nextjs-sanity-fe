@@ -6,7 +6,7 @@ export const FooterLinks = () => {
         <div className="flex md:pr-[100px] pr-[140px]">
           <ul>
             <li className="pb-4">
-              <h6 className="text-h6 text-blue font-medium">Shop</h6>
+              <h6 className="text-h6 text-primary font-medium">Shop</h6>
             </li>
             <li className="pb-2">
               <LinkText>Shop All</LinkText>
@@ -32,7 +32,7 @@ export const FooterLinks = () => {
           <div className="flex md:pr-[100px] pb-8 md:pb-0">
             <ul>
               <li className="pb-4">
-                <h6 className="text-h6 text-blue font-medium">Help</h6>
+                <h6 className="text-h6 text-primary font-medium">Help</h6>
               </li>
               <li className="pb-2">
                 <LinkText>FAQ</LinkText>
@@ -45,7 +45,7 @@ export const FooterLinks = () => {
           <div className="flex pr-[100px]">
             <ul>
               <li className="pb-4">
-                <h6 className="text-h6 text-blue font-medium">Social</h6>
+                <h6 className="text-h6 text-primary font-medium">Social</h6>
               </li>
               <li className="pb-2">
                 <LinkText>Instagram</LinkText>

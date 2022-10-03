@@ -19,7 +19,7 @@ const CategoriesPage: NextPage = () => {
       <PageHead title="Categories" description={`Product categories, including ${categoryNames}.`} />
       <div>
         <WeDontSellBreadBanner />
-        <div className="container py-9 text-blue flex flex-col gap-9">
+        <div className="container py-9 text-primary flex flex-col gap-9">
           <h1 className="text-h1">Categories</h1>
           <CategoryList items={data?.allCategory} />
         </div>

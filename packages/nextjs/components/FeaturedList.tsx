@@ -64,7 +64,7 @@ export const FeaturedList = ({ items }: Props) => {
             <li>
               <Card {...props} />
             </li>
-            {i % N < N - 1 && <li className="invisible sm:visible w-full border-r-2 border-r-blue"></li>}
+            {i % N < N - 1 && <li className="invisible sm:visible w-full border-r-2 border-r-primary"></li>}
           </React.Fragment>
         );
       })}

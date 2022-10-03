@@ -9,7 +9,7 @@ export const MobileNavMenu = ({ navOpen, onMobileNavClick }: MobileNavMenuProps)
   <div className="sm:hidden">
     <button
       type="button"
-      className="flex ml-4 text-blue"
+      className="flex ml-4 text-primary"
       aria-controls="mobile-menu"
       aria-expanded="false"
       onClick={onMobileNavClick}

@@ -28,7 +28,7 @@ export const Card: React.FC<CardProps> = ({
 }) => {
   return (
     <Link href={to}>
-      <a className={`flex flex-col justify-center text-blue group w-full ${className}`}>
+      <a className={`flex flex-col justify-center text-primary group w-full ${className}`}>
         <span
           className={classNames(
             "rounded-xl group-hover:shadow-lg transition transition-shadow duration-150 overflow-hidden relative",

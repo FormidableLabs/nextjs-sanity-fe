@@ -27,7 +27,7 @@ export const FilterGroup: React.FC<FilterGroupProps> = ({ group }) => {
 
   return (
     <fieldset>
-      <legend className="text-h5 text-blue mb-2">{groupLabel}</legend>
+      <legend className="text-h5 text-primary mb-2">{groupLabel}</legend>
       <ul>
         {options.map(({ value: optionValue, label: optionLabel }) => {
           const isChecked =

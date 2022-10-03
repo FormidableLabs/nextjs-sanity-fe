@@ -6,5 +6,5 @@ interface Props {
 }
 
 export const Eyebrow = ({ children, className = "" }: Props) => {
-  return <div className={`font-jeanLuc font-bold text-eyebrow text-blue ${className}`}>{children}</div>;
+  return <div className={`font-jeanLuc font-bold text-eyebrow text-primary ${className}`}>{children}</div>;
 };

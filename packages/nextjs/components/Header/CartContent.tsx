@@ -14,7 +14,7 @@ export const CartContent = ({ onClose }: CartContentProps) => {
   const { isFetchingCartItems, totalCartPrice, cartItems } = useCart();
 
   return (
-    <div className="flex-1 w-full flex flex-col text-blue p-4 gap-4">
+    <div className="flex-1 w-full flex flex-col text-primary p-4 gap-4">
       <div className="w-full flex justify-end items-center gap-x-1">
         <button className="gap-x-1 items-center inline-flex" onClick={onClose}>
           <span>Close</span>
@@ -66,7 +66,7 @@ export const CartContent = ({ onClose }: CartContentProps) => {
   );
 };
 
-const Divider = () => <div className="h-0 border-t-2 border-blue"></div>;
+const Divider = () => <div className="h-0 border-t-2 border-primary"></div>;
 
 const notifyWeDontSellBread = () =>
   alert("Sorry, we don't actually sell bread 😅 This button doesn't actually do anything.");

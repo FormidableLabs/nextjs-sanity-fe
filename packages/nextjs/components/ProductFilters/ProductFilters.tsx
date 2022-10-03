@@ -11,7 +11,7 @@ interface Props {
 
 export const ProductFilters = ({ flavourFilters, styleFilters, categoryFilters }: Props) => (
   <div className="flex flex-col gap-y-4">
-    <h4 className="text-h4 text-blue">Filters</h4>
+    <h4 className="text-h4 text-primary">Filters</h4>
     <div className="flex flex-col gap-y-4">
       {getFilterGroups({ flavourFilters, styleFilters, categoryFilters }).map((group) => (
         <FilterGroup key={group.value} group={group} />
