@@ -3,10 +3,11 @@ import { sanityClient } from "./sanityClient";
 import groq from "groq";
 
 /**
- * Fetches flavours.
- * Note that the `count(*[_type=="product" && references(^._id)]) > 0` ensures filter is only present
- *   if attached to at least one product.
- * This is nice, but you pay a perf penalty for it. Trade-offs 🤷‍
+ * Fetches categories for filters.
+ * Note that the `count(*[_type=="product" && references(^._id)]) > 0` ensures category is only returned
+ *   if at least one product is in the category (e.g., no empty categories)
+ * This is a nice feature, but you pay a perf penalty for it. Trade-offs 🤷‍
+ * 	(since we've got a strong caching strategy, this penalty is minimized)
  */
 export const getCategoryFilters = (categorySlug = ""): Promise<FlavourFilterItem[]> =>
   sanityClient.fetch(groq`
@@ -17,9 +18,7 @@ export const getCategoryFilters = (categorySlug = ""): Promise<FlavourFilterItem
 
 /**
  * Fetches "styles".
- * Note that the `count(*[_type=="variant" && references(^._id)]) > 0` ensures filter is only present
- *   if attached to at least one variant.
- * This is nice, but you pay a perf penalty for it. Trade-offs 🤷‍
+ * Similar trade-off as above.
  */
 export const getStyleFilters = (categorySlug = ""): Promise<StyleFilterItem[]> =>
   sanityClient.fetch(groq`
@@ -30,9 +29,7 @@ export const getStyleFilters = (categorySlug = ""): Promise<StyleFilterItem[]> =
 
 /**
  * Fetches flavours.
- * Note that the `count(*[_type=="variant" && references(^._id)]) > 0` ensures filter is only present
- *   if attached to at least one variant.
- * This is nice, but you pay a perf penalty for it. Trade-offs 🤷‍
+ * Similar trade-off as above.
  */
 export const getFlavourFilters = (categorySlug = ""): Promise<FlavourFilterItem[]> =>
   sanityClient.fetch(groq`

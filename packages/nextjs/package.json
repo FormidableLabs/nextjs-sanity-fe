@@ -1,7 +1,9 @@
 {
-  "name": "nextjs",
-  "version": "0.1.0",
+  "name": "nextjs-sanity-ecomm-frontend",
+  "version": "0.0.1",
   "private": true,
+  "author": "Formidable",
+  "license": "MIT",
   "scripts": {
     "dev": "concurrently \"yarn next:dev\" \"yarn codegen:watch\"",
     "next:dev": "next dev",
