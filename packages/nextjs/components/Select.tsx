@@ -1,6 +1,5 @@
 import classNames from "classnames";
 import { useSelect } from "downshift";
-import { useEffect, useState } from "react";
 import { MdOutlineKeyboardArrowDown, MdOutlineKeyboardArrowUp } from "react-icons/md";
 
 interface Option {
@@ -12,28 +11,18 @@ export interface Props {
   options: Option[];
   label?: string;
   placeholder: string;
-  defaultSelectedItem?: Option | null;
+  selectedItem?: Option | null;
   onChange?: (value?: Option | null) => void;
 }
 
 const itemToString = (item: Option | null) => (item ? item.title : "");
 
-export function Select({ label, placeholder, options, defaultSelectedItem, onChange }: Props) {
-  const [selectedItem, setSelectedItem] = useState<Option | null | undefined>(defaultSelectedItem);
-
-  // This is needed if you change route so that it updates the currently selected dropdown
-  useEffect(() => {
-    if (defaultSelectedItem) {
-      setSelectedItem(defaultSelectedItem);
-    }
-  }, [defaultSelectedItem]);
-
+export function Select({ label, placeholder, options, selectedItem, onChange }: Props) {
   const { isOpen, getToggleButtonProps, getLabelProps, getMenuProps, highlightedIndex, getItemProps } = useSelect({
     items: options,
     itemToString,
     selectedItem,
     onSelectedItemChange({ selectedItem }) {
-      setSelectedItem(selectedItem);
       onChange && onChange(selectedItem);
     },
   });
