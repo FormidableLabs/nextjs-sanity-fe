@@ -7,6 +7,7 @@ import { MobileHeaderItems } from "./MobileHeaderItems";
 import { NAV_ITEMS } from "./NavItems";
 import { MobileNavMenu } from "./MobileNavMenu";
 import { DesktopNavItem } from "./DesktopNavItem";
+import { Logo } from "./Logo";
 
 export const Header = () => {
   const [navOpen, setNavOpen] = useState(false);
@@ -18,13 +19,12 @@ export const Header = () => {
 
   return (
     <>
-      <nav className="h-[66px] sm:h-[110px] border-b-2 border-b-primary bg-secondary shadow transition-all sticky top-0 z-10">
+      <nav className="h-[66px] sm:h-[110px] border-b-2 border-b-primary bg-secondary shadow transition-all sticky top-0 z-10 text-primary">
         <div className="h-full container flex items-center justify-between px-6">
           <div className="flex items-center">
             <Link href="/">
               <a onClick={onMobileNavClose}>
-                {/* eslint-disable-next-line @next/next/no-img-element */}
-                <img src="/Logo.svg" alt="Formidable Boulangerie" className="h-10" />
+                <Logo className="w-24" />
               </a>
             </Link>
             <ul className="ml-8 hidden sm:flex sm:flex-1">
