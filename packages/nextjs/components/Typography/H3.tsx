@@ -1,5 +1,5 @@
-import { ReactNode } from "react";
+import * as React from "react";
 
-export const H3 = ({ children }: { children: ReactNode }) => {
+export const H3 = ({ children }: React.PropsWithChildren) => {
   return <h3 className="font-medium text-h3 text-primary">{children}</h3>;
 };

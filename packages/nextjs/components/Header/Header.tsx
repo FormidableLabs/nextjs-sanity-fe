@@ -1,5 +1,5 @@
+import * as React from "react";
 import Link from "next/link";
-import React, { useState } from "react";
 import { Cart } from "./Cart";
 import { useCart } from "../CartContext";
 import { Search } from "../Search";
@@ -10,8 +10,8 @@ import { DesktopNavItem } from "./DesktopNavItem";
 import { Logo } from "./Logo";
 
 export const Header = () => {
-  const [navOpen, setNavOpen] = useState(false);
-  const [isCartOpen, setIsCartOpen] = useState(false);
+  const [navOpen, setNavOpen] = React.useState(false);
+  const [isCartOpen, setIsCartOpen] = React.useState(false);
   const { cartTotal, isFetchingCartItems } = useCart();
 
   const onMobileNavClick = () => setNavOpen((prev) => !prev);

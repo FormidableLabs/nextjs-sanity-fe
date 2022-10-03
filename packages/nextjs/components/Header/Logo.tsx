@@ -2,12 +2,9 @@ import * as React from "react";
 
 type LogoProps = { className?: string };
 
-const OG_WIDTH = 278;
-const OG_HEIGHT = 95;
-
 export const Logo = ({ className }: LogoProps) => {
   return (
-    <svg viewBox={`0 0 ${OG_WIDTH} ${OG_HEIGHT}`} fill="none" xmlns="http://www.w3.org/2000/svg" className={className}>
+    <svg viewBox="0 0 278 95" fill="none" xmlns="http://www.w3.org/2000/svg" className={className}>
       <path
         fillRule="evenodd"
         clipRule="evenodd"

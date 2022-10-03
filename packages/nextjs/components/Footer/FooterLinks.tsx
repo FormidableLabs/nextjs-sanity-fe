@@ -1,4 +1,5 @@
 import { LinkText } from "components/LinkText";
+
 export const FooterLinks = () => {
   return (
     <div className="flex flex-col justify-between h-full w-full">

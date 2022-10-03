@@ -12,10 +12,10 @@ export const MobileHeaderItems = ({ navOpen, onMobileNavClose }: MobileHeaderIte
 
   return (
     <ul
-      className={classNames("flex", "flex-col", "sm:hidden", "bg-secondary", "text-primary", "transition-all", {
-        "h-screen": navOpen === true,
-        "max-h-0": navOpen === false,
-      })}
+      className={classNames(
+        "flex flex-col sm:hidden bg-secondary text-primary transition-all",
+        navOpen ? "h-screen" : "max-h-0"
+      )}
     >
       {navOpen &&
         NAV_ITEMS?.map(({ label, href }) => {

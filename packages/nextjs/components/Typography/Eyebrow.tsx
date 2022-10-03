@@ -1,10 +1,9 @@
-import { ReactNode } from "react";
+import * as React from "react";
 
 interface Props {
-  children: ReactNode;
   className?: string;
 }
 
-export const Eyebrow = ({ children, className = "" }: Props) => {
+export const Eyebrow = ({ children, className = "" }: React.PropsWithChildren<Props>) => {
   return <div className={`font-jeanLuc font-bold text-eyebrow text-primary ${className}`}>{children}</div>;
 };

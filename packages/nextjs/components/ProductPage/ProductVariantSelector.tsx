@@ -13,7 +13,7 @@ interface Props {
   onVariantChange: (slug?: string) => void;
 }
 
-export const ProductVariantSelector: React.FC<Props> = ({ variants, selectedVariant, onVariantChange }) => {
+export const ProductVariantSelector = ({ variants, selectedVariant, onVariantChange }: Props) => {
   const options = useMemo(
     () =>
       variants?.map((variant) => ({

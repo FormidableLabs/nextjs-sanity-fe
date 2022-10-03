@@ -19,7 +19,7 @@ import {
 import { getCategoryFilters, getFlavourFilters, getStyleFilters } from "../../utils/getFilters";
 import { WeDontSellBreadBanner } from "../../components/WeDontSellBreadBanner";
 import { ProductSort } from "../../components/ProductSort";
-import { ProductFilters } from "../../components/ProductFilters";
+import { ProductFilters } from "../../components/ProductFilters/ProductFilters";
 import { Product } from "../../components/Product";
 import { H6 } from "../../components/Typography/H6";
 import { Pagination } from "../../components/Pagination";
