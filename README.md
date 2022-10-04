@@ -42,7 +42,7 @@ pnpm install
 
 Sanity CMS is the backend of the project, and without a Sanity project id nothing will work. You can either use ours, or set up your own.
 
-#### Using the Formidable Boulangerie Sanity Project
+#### Using the Formidable Sanity Project
 
 If you would like to use Formidable's Sanity project (`5bsv02jj`), setup is quite simple. If you use the Formidable project, you will not have access to sign in to Sanity Studio. If you want to play around in Sanity Studio, you will need to create your own project as outlined in the "Using your own Sanity Project" Section.
 
