@@ -14,9 +14,9 @@ const initialValue = {
   cartItemsErrorIds: [] as string[] | undefined,
   cartTotal: 0,
   totalCartPrice: 0,
-  updateCart: (() => {}) as (productId: string, quantity: number) => void,
-  clearCart: (() => {}) as () => void,
-  updateCartFromApi: (() => {}) as () => void,
+  updateCart: (() => null) as (productId: string, quantity: number) => void,
+  clearCart: (() => null) as () => void,
+  updateCartFromApi: (() => null) as () => void,
 };
 
 type CartContextValue = typeof initialValue;

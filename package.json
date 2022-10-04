@@ -18,7 +18,8 @@
     "deploy-sanity-graphql": "pnpm run -C packages/sanity --filter sanity deploy-graphql",
     "init-sanity": "pnpm run -C packages/sanity --filter sanity init",
     "seed-sanity": "pnpm run -C packages/sanity --filter sanity import-dataset",
-    "prepare": "husky install"
+    "prepare": "husky install",
+    "lint": "pnpm run --parallel lint"
   },
   "devDependencies": {
     "@typescript-eslint/eslint-plugin": "^5.39.0",

@@ -9,7 +9,7 @@
     "next:dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint",
+    "lint": "next lint --quiet",
     "codegen": "graphql-codegen --config codegen.yml -r dotenv/config",
     "codegen:watch": "yarn codegen --watch"
   },

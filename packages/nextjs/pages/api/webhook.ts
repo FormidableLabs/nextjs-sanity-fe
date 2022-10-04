@@ -7,14 +7,14 @@ const secret = process.env.SANITY_WEBHOOK_SECRET ?? "";
 
 /**
  * This is based off of the projection set up in the webhook
- * 
+ *
     *[_type in ["category", "product"]]
     {
         _id,
         _type,
         'slug': slug.current
     }
- *   
+ *
  */
 interface WebhookPayload {
   _id: string;
@@ -62,7 +62,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
 
     const { slug, _type } = parsedBody;
 
-    let keysToPurge = [_type];
+    const keysToPurge = [_type];
 
     if (slug) keysToPurge.push(`${_type}_${slug}`);
 
