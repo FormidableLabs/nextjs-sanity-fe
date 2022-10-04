@@ -28,7 +28,7 @@ We will start with the Nextjs setup:
 
 ### Install pnpm
 
-[//]: # (TODO: briefly make the case for using pnpm instead of npm/yarn)
+<!-- TODO: briefly make the case for using pnpm instead of npm/yarn -->
 
 This project uses pnpm v7 for dependency management. Installation instructions can be found [here](https://pnpm.io/installation).
 
