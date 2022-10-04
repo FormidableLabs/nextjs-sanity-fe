@@ -16,7 +16,7 @@ function addToCart(req: NextApiRequest, res: NextApiResponse) {
 
   const newCart = { ...cookie };
   // Removes empty quantity
-  if (newCart.hasOwnProperty(cartItem._id) && cartItem.quantity === 0) {
+  if (cartItem._id in newCart && cartItem.quantity === 0) {
     delete newCart[cartItem._id];
   } else {
     // Updates the cart with qty/style from FE

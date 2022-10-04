@@ -1,6 +1,4 @@
 import { RiKnifeLine } from "react-icons/ri";
-import groq from "groq";
-import client from "part:@sanity/base/client";
 
 export default {
   name: "style",

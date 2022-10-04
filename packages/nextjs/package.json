@@ -9,9 +9,10 @@
     "next:dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint",
+    "lint": "next lint --quiet",
     "codegen": "graphql-codegen --config codegen.yml -r dotenv/config",
-    "codegen:watch": "yarn codegen --watch"
+    "codegen:watch": "yarn codegen --watch",
+    "typecheck": "tsc --noEmit"
   },
   "dependencies": {
     "@portabletext/react": "^1.0.6",
@@ -62,7 +63,6 @@
     "eslint-config-next": "12.2.5",
     "graphql-tag": "^2.0.0",
     "postcss": "^8.4.16",
-    "tailwindcss": "^3.1.8",
-    "typescript": "4.8.2"
+    "tailwindcss": "^3.1.8"
   }
 }

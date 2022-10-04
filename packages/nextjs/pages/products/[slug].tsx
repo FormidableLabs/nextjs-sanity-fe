@@ -71,6 +71,7 @@ const ProductPage: NextPage = () => {
                     slug: variant?.slug?.current || "",
                     productSlug: prod.slug?.current || "",
                     imageAlt: variant.images?.[0]?.name ?? "",
+                    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
                     // @ts-ignore
                     images: image,
                     msrp: variant.msrp ?? 0,
