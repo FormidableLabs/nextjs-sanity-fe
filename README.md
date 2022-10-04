@@ -15,7 +15,7 @@ The deployed Nextjs demo site can be found at https://nextjs-sanity.formidable.d
 
 ## Getting Started
 
-If you want to run the repo locally, you will need to clone it. Feel free to fork the project if you'd like to make updates, or a Pull Request if you have improvements you'd like to add.
+If you want to run the repo locally, you will need to clone it. Feel free to fork the project if you'd like to make updates, and create a Pull Request if you have improvements you'd like to add.
 
 If you don't want to bother with local setup, feel free to visit the demo site (https://nextjs-sanity.formidable.dev).
 
@@ -28,11 +28,13 @@ We will start with the Nextjs setup:
 
 ### Install pnpm
 
+<!-- TODO: briefly make the case for using pnpm instead of npm/yarn -->
+
 This project uses pnpm v7 for dependency management. Installation instructions can be found [here](https://pnpm.io/installation).
 
 ### Installing dependencies
 
-Once pnpm is installed, run the following command to install dependencies
+Once `pnpm` is installed, run the following command to install dependencies
 
 ```bash
 pnpm install
@@ -42,7 +44,7 @@ pnpm install
 
 Sanity CMS is the backend of the project, and without a Sanity project id nothing will work. You can either use ours, or set up your own.
 
-#### Using the Formidable Boulangerie Sanity Project
+#### Using the "Formidable Boulangerie" Sanity Project
 
 If you would like to use Formidable's Sanity project (`5bsv02jj`), setup is quite simple. If you use the Formidable project, you will not have access to sign in to Sanity Studio. If you want to play around in Sanity Studio, you will need to create your own project as outlined in the "Using your own Sanity Project" Section.
 
@@ -58,11 +60,11 @@ Assuming you completed the previous steps, you should now be able to start the N
 pnpm dev:nextjs
 ```
 
-That should've started a dev server running at `http:localhost:3000`. Go ahead and load it in the browser to ensure it works. If you only wanted to get the Nextjs app working, you're done! If you want to setup your _own_ Sanity project, proceed further.
+That will start a dev server running at `http:localhost:3000`. Open in your browser to ensure it works. If you only want to get the Nextjs app working, you're done! If you want to setup your _own_ Sanity project, proceed further.
 
 #### Using your own Sanity Project
 
-If you want to run the project _using your own Sanity project_, you will need to create a Sanity account. That project Id will be needed in the next section. If you'd rather use the deployed demo site, go [here](https://nextjs-sanity.formidable.dev).
+If you want to run the project _using your own Sanity project_, you will need to create a Sanity account. That project Id will be needed in the next section.
 
 We can use the sanity cli to initialize the Sanity project (this is just running `sanity init` behind the scenes):
 
@@ -70,7 +72,7 @@ We can use the sanity cli to initialize the Sanity project (this is just running
 pnpm init-sanity
 ```
 
-This will require you to login to Sanity. We recommend using the following choices in the prompts:
+This will require you to log in to Sanity. We recommend using the following choices in the prompts:
 
 ```
 The current folder contains a configured Sanity studio. Would you like to reconfigure it? Yes
@@ -82,16 +84,16 @@ Use the default dataset configuration? **Yes**
 
 Sanity cli will detect the project files in the repository and deploy automatically. Once Sanity has completed initialization, we need to use the newly created project id and place that in our `.env` file. To do this, go to the `sanity.json` file and grab the `projectId` (Sanity cli should have modified the value automatically). Put the new projectId into your `.env` file.
 
-You should now be able to run `pnpm local` which will:
+You should now be able to run `pnpm local` which will run:
 
-nextjs on `http://localhost:3000`
-sanity studio on `http://localhost:3333/desk`
+- Nextjs on `http://localhost:3000`
+- Sanity Studio on `http://localhost:3333/desk`
 
-If you load up sanity studio, you will notice the schema is there, but there's no data. No worries, we've got a script which can add the same data we run on the Formidable Bread site!
+If you load up Sanity Studio, you will notice the schema is there, but there's no data. No worries, we have a script which can add the same data we run on the Formidable Bread site!
 
 #### Seed Sanity project with data
 
-The final task is to seed the project with some data. To do that, run the following command to add all of our great Formidable Bread content :loaf: :bread: :
+The final task is to seed the project with some data. To do that, run the following command to add all of our great Formidable Bread content :bread: :
 
 ```
 pnpm seed-sanity
@@ -111,7 +113,7 @@ There is an `./packages/nextjs/.env.sample` committed to the repo which contains
 
 ### Scripts
 
-:bulb: To get a list of scripts available, you can run `pnpm run` or `yarn run` and it will output a list of available commands.
+:bulb: To get a list of scripts available, you can run `pnpm run` and it will output a list of available commands.
 
 - `local` - Runs Sanity Studio, NextJs app and GraphQL codegen watch in parallel
 
@@ -133,13 +135,16 @@ There is an `./packages/nextjs/.env.sample` committed to the repo which contains
 
 ## NextJS App
 
+
+<!-- TODO: This is a good intro to the repo, maybe promote to the top? -->
+
 The Nextjs Application is intended to demonstrate the use of Sanity headless CMS to create an e-commerce site. The goal of this site is to provide a real world example on running a highly scalable e-commerce site.
 
-### CMS - Sanity
+## CMS: Sanity
 
-Sanity is used for storing information about products. The data from Sanity is fetched via two ways:
+Sanity is used for storing information about products. The data from Sanity is fetched two ways:
 
-1. _GraphQL_ - is used for fetching data when no filtering is required. The reason being GraphQL does not support filtering on custom fields other than name, description and slug.
+1. _GraphQL_ - is used for fetching data when no filtering is required. The reason being Sanity's GraphQL does not support filtering on custom fields other than name, description or slug.
 
 2. [Groq](https://www.sanity.io/docs/groq) - is used for fetching data when filtering is required, it supports filtering on fields in the model.
 
@@ -153,15 +158,15 @@ If you want to look at the Studio site, you will need to go through the steps of
 
 ### Sanity Webhooks
 
-Webhooks are an important part of this project. In order to serve accurate data and cache it for long periods of time, there must be notifications when content changes occur. Luckily, sanity has excellent support for [webhooks](https://www.sanity.io/docs/webhooks).
+Webhooks are an important part of this project. In order to serve accurate data and cache it for long periods of time, there must be notifications when content changes occur. Sanity has excellent support for [webhooks](https://www.sanity.io/docs/webhooks).
 
-Webhook(s) are utilized as the change detection mechanism. Our current cache strategy is based around using the Fastly `surrogate-key` header with the value of the `slug` for that content item.
+Webhooks are utilized as the change detection mechanism. Our current cache strategy is based around using the Fastly `surrogate-key` header with the value of the `slug` for that content item.
 
 [Slugs](https://www.sanity.io/docs/slug-type) are an important part of our caching strategy. Sanity defines them as:
 
 > A slug is a unique string (typically a normalized version of title or other representative string), often used as part of a URL. The input form will render an error message if the current slug field is not unique (see note on uniqueness below).
 
-Since most all content has a slug, it's very easy to use that slug for caching purposes. When a webhook is triggered, we essentially only need to know the Sanity Type and the Slug, in order to perform a cache purge for the relevant content.
+Since nearly all content has a slug, it's very easy to use that slug for caching purposes. When a webhook is triggered, we only need to know the Sanity Type and the Slug, in order to perform a cache purge for the relevant content.
 
 The relevant webhook configuration is as follows:
 
@@ -185,8 +190,8 @@ In order to enhance the speed of the app, we are utilizing a cdn with a high cac
 
 The Fastly caching piece requires a couple of things:
 
-1. Surrogate-Control Response header needs to be added to pages where caching is desired
-2. Surrogate-Key Response header needs to be added to make cache invalidation easier
+1. `Surrogate-Control` Response header needs to be added to pages where caching is desired
+2. `Surrogate-Key` Response header needs to be added to make cache invalidation easier
 
 [Surrogate Key reference](https://docs.fastly.com/en/guides/working-with-surrogate-keys)
 
@@ -208,16 +213,16 @@ The following request headers can also be useful.
 
 There are two main categories for which purging is necessary.
 
-1. Deployments of new code - Vercel automatically purges on deployment. Todo: purge fastly cache on deployment.
+1. Deployments of new code - Vercel automatically purges on deployment. (TODO: purge fastly cache on deployment).
 2. Content modifications in Sanity Studio
 
 The following simplified process diagram illustrates what conditions are checked when content is modified.
 
 ![Process Diagram](./docs/img/purging-diagram.png)
 
-#### Category PLP page i.e. (`/categories/tops`)
+#### Category PLP page i.e. (`/categories/pastries`)
 
-A Category PLP page lists all products for a given Category.
+A Category Product List Page lists all products for a given Category.
 
 When a product is created, updated, or deleted, we should purge the associated category page.
 
@@ -318,17 +323,13 @@ cache purge successfully requested {
 
 ## Appendix
 
+<!-- TODO: This entire section is dealing with PNPM pitfalls, let's remove it -->
+
 ### Aliasing pnpm command
 
-If you find 'pnpm' hard to spell and use, you're not alone. Many of us have set up an alias in our dot files `(.**rc)` to get around this. For example, this could go into your `.zshrc`, `.bashrc`, or whatever dot file you prefer.
+If you find `pnpm` hard to spell and use, you're not alone. Many of us have set up an alias in our dot files `(.**rc)` to get around this. For example, this could go into your `~/.zshrc`, `~/.bashrc`, or whatever dot file you prefer.
 
-This is the syntax:
-
-```
-alias alias_name="command_to_run"
-```
-
-Sets `pn` as an alias for the `pnpm` command
+Set `pn` as an alias for the `pnpm` command
 
 ```
 alias pn="pnpm"
@@ -342,7 +343,7 @@ source ~/<file you modified>
 
 ### Sanity Studio + pnpm gotchas
 
-The way Sanity Studio works has issues with monorepos, especially when using pnpm. Sanity expects all dependencies to be hoisted. To solve the issue, we added the following to the `.npmrc`:
+The way Sanity Studio works has issues with monorepos, especially when using `pnpm`. Sanity expects all dependencies to be hoisted. To solve the issue, we added the following to the `.npmrc`:
 
 ```
 public-hoist-pattern[]=*@sanity/*
