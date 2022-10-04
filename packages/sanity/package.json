@@ -12,11 +12,9 @@
     "dev": "sanity start",
     "export-dataset": "sanity dataset export production production.tar.gz --overwrite",
     "import-dataset": "sanity dataset import production.tar.gz production",
-    "lint": "eslint . --ext ts,tsx,js"
+    "lint": "eslint . --ext ts,tsx,js",
+    "typecheck": "tsc --noEmit"
   },
-  "keywords": [
-    "sanity"
-  ],
   "dependencies": {
     "@sanity/base": "^2.31.1",
     "@sanity/core": "^2.31.1",
