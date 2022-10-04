@@ -9,7 +9,7 @@ This repo is a mono repo built using [pnpm](https://pnpm.io/) workspaces. It con
 
 A manually created Fastly CDN is used for the demo project to facilitate caching of SSR pages.
 
-![Architecture](https://user-images.githubusercontent.com/3632381/190230431-bf530eeb-9926-4c43-8a39-a7f7f882276e.png)
+![Architecture](./docs/img/public-internet-diagram.png)
 
 The deployed Nextjs demo site can be found at https://nextjs-sanity.formidable.dev
 
@@ -177,7 +177,7 @@ The relevant webhook configuration is as follows:
 
 We are using Fastly to cache and host the subdomain used for this app. The data flow involved in caching is illustrated below.
 
-![Caching Flow](https://user-images.githubusercontent.com/3632381/190230067-7bfa2559-6067-4ae6-b1e0-fabca62ab96b.png)
+![Caching Flow](./docs/img/caching-diagram.png)
 
 NOTE: If the [Vercel url](https://nextjs-sanity-fe.vercel.app/) is used directly, there will be no caching. In order to utilize caching, the fastly url should be used at `https://nextjs-sanity.formidable.dev`.
 
@@ -213,7 +213,7 @@ There are two main categories for which purging is necessary.
 
 The following simplified process diagram illustrates what conditions are checked when content is modified.
 
-![Process Diagram](https://user-images.githubusercontent.com/3632381/192895638-85574a1e-bb59-44dd-b897-a68c6dcc3db1.png)
+![Process Diagram](./docs/img/purging-diagram.png)
 
 #### Category PLP page i.e. (`/categories/tops`)
 
