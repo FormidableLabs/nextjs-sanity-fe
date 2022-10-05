@@ -1,17 +1,13 @@
-# Contributing
-
-<todo we should really start with something more engaging than immediately mentioning pnpm>
+# Setup Guide
 
 This repo is a mono repo built using [pnpm](https://pnpm.io/) workspaces. It consists of two deployable applications.
 
-1. NextJs App (deployed to Vercel)
+1. Next.js app (deployed to Vercel)
 2. Sanity Studio (deployed to Sanity)
 
 A manually created Fastly CDN is used for the demo project to facilitate caching of SSR pages.
 
-![Architecture](./docs/img/public-internet-diagram.png)
-
-The deployed Nextjs demo site can be found at https://nextjs-sanity.formidable.dev
+The deployed Next.js demo site can be found at https://nextjs-sanity.formidable.dev
 
 ## Getting Started
 
@@ -19,16 +15,14 @@ If you want to run the repo locally, you will need to clone it. Feel free to for
 
 If you don't want to bother with local setup, feel free to visit the demo site (https://nextjs-sanity.formidable.dev).
 
-If you do want to run this locally, there are a few different paths you can take
+If you do want to run this locally, there are a few different paths you can take:
 
-1. Run the Nextjs site locally and use our sanity project (easy)
-2. Run the Nextjs site locally and use your own sanity project (medium)
+1. Run the Next.js site locally and use our Sanity project (easy);
+2. Run the Next.js site locally and use your own Sanity project (medium).
 
-We will start with the Nextjs setup:
+We will start with the Next.js setup:
 
 ### Install pnpm
-
-<!-- TODO: briefly make the case for using pnpm instead of npm/yarn -->
 
 This project uses pnpm v7 for dependency management. Installation instructions can be found [here](https://pnpm.io/installation).
 
@@ -40,7 +34,7 @@ Once `pnpm` is installed, run the following command to install dependencies
 pnpm install
 ```
 
-### Getting a Sanity ProjectId
+### Getting a Sanity Project ID
 
 Sanity CMS is the backend of the project, and without a Sanity project id nothing will work. You can either use ours, or set up your own.
 
@@ -60,13 +54,13 @@ Assuming you completed the previous steps, you should now be able to start the N
 pnpm dev:nextjs
 ```
 
-That will start a dev server running at `http:localhost:3000`. Open in your browser to ensure it works. If you only want to get the Nextjs app working, you're done! If you want to setup your _own_ Sanity project, proceed further.
+That will start a dev server running at `http:localhost:3000`. Open in your browser to ensure it works. If you only want to get the Next.js app working, you're done! If you want to setup your _own_ Sanity project, proceed further.
 
 #### Using your own Sanity Project
 
 If you want to run the project _using your own Sanity project_, you will need to create a Sanity account. That project Id will be needed in the next section.
 
-We can use the sanity cli to initialize the Sanity project (this is just running `sanity init` behind the scenes):
+We can use the Sanity cli to initialize the Sanity project (this is just running `sanity init` behind the scenes):
 
 ```
 pnpm init-sanity
@@ -86,7 +80,7 @@ Sanity cli will detect the project files in the repository and deploy automatica
 
 You should now be able to run `pnpm local` which will run:
 
-- Nextjs on `http://localhost:3000`
+- Next.js on `http://localhost:3000`
 - Sanity Studio on `http://localhost:3333/desk`
 
 If you load up Sanity Studio, you will notice the schema is there, but there's no data. No worries, we have a script which can add the same data we run on the Formidable Bread site!
@@ -105,30 +99,22 @@ This command is importing Formidable's dataset (stored in `production.tar.gz` fi
 Done! Imported 43 documents to dataset "production"
 ```
 
-Now, if you reload Sanity Studio you should see content populated. Additionally, you can now refresh the nextjs application to see some of that tasty bread!
+Now, if you reload Sanity Studio you should see content populated. Additionally, you can now refresh the Next.js application to see some of that tasty bread!
 
 ## Environment Variables
 
-There is an `./packages/nextjs/.env.sample` committed to the repo which contains the list of env variables for the project. For running Nextjs and Sanity Studio locally, only the `NEXT_PUBLIC_SANITY_PROJECT_ID` variable is needed. The other values in the sample file are only needed if you intend to test the purging scenarios on your local machine. I.e. the `/api/webhook` route.
+There is an `./packages/nextjs/.env.sample` committed to the repo which contains the list of env variables for the project. For running Next.js and Sanity Studio locally, only the `NEXT_PUBLIC_SANITY_PROJECT_ID` variable is needed. The other values in the sample file are only needed if you intend to test the purging scenarios on your local machine. I.e. the `/api/webhook` route.
 
 ### Scripts
 
 :bulb: To get a list of scripts available, you can run `pnpm run` and it will output a list of available commands.
 
-- `local` - Runs Sanity Studio, NextJs app and GraphQL codegen watch in parallel
-
+- `local` - Runs Sanity Studio, Next.js app and GraphQL codegen watch in parallel
 - `dev:nextjs` - Runs NextJs app and GraphQL codegen
-
 - `build:nextjs` - Builds NextJS app
-
 - `start:nextjs` - Starts the built out NextJs app
-
 - `codegen:nextjs` - Runs GraphQL codegen in Nextjs App
-
 - `dev:sanity` - Runs Sanity Studio locally
-
 - `build:sanity` - Builds Sanity Studio
-
 - `deploy-sanity-studio` - Deploys Sanity Studio to Sanity
-
 - `deploy-sanity-graphql` - Deploys GraphQL schema to Sanity

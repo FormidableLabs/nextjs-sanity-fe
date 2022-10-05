@@ -1,29 +1,40 @@
+# Appendix
 
+This document contains additional information and resources in regards to this project.
 
+## Sanity Webhook Setup
 
-#### Category PLP page i.e. (`/categories/pastries`)
+The relevant Sanity webhook configuration for this project is as follows:
 
-A Category Product List Page lists all products for a given Category.
+<!-- TODO: This is now outdated, and probably needs to be updated/validated -->
+- **URL**: points to our `<host url>/api/webhook` route in the nextjs project
+- **Dataset**: set to `*` (since we only have a single dataset)
+- **Trigger on**: create, update & delete
+- **Filter**: currently set to `_type in ["category", "categoryImage", "product", "productImage", "size", "variant"]`.
+- **Status**: enabled
+- **Http method**: POST
+- **Secret**: we have a secret set up so that we can authenticate the webhook requests to ensure they came from our Sanity instance.
 
-When a product is created, updated, or deleted, we should purge the associated category page.
+## Site pages
 
-#### Home Page i.e. (`/`)
+### Home Page i.e. (`/`)
 
 The Home Page is enriched with data from multiple sources. Specifically, it displays the top products and categories within the site.
 
 When a Category or Product is created, updated, or deleted, a purge should be executed for the appropriate surrogate-key.
 
-#### Category Listing Page i.e. `/categories`
+
+### Category Listing Page i.e. `/categories`
 
 The Home and Categories Pages list Categories set up in Sanity, and therefore should be kept up to date when Categories change.
 
 When a Category is created, updated, or deleted, a purge should be executed using the `category` surrogate-key.
 
-#### PDP page i.e. (`/products/croissant`)
 
-A PDP page lists metadata about a specific product.
 
-When a product is created, updated, or deleted, we should purge that specific page.
+### PDP page i.e. (`/products/croissant`)
+
+A PDP page lists metadata about a specific product. When a product is created, updated, or deleted, we should purge that specific page.
 
 Specific situation:
 
@@ -31,17 +42,17 @@ In Sanity, the product with a slug of `croissant` had it's metadata modified (na
 
 When that payload is received, a purge request should be done for the following surrogate-key `croissant`
 
-### Troubleshooting purging
+## Troubleshooting purging
 
 If you want to test or troubleshoot purging, here are some tips:
 
-#### Check sanity webhook is enabled
+### Check sanity webhook is enabled
 
 Seems obvious, but it's always possible someone disabled the webhook. If the webhook is disabled, content will NEVER be purged and will only be evicted from the cache upon expiration.
 
 To verify the sanity webhook is enabled, go to the management dashboard, api tab, and verify the webhook is listed as enabled.
 
-#### Check sanity webhook attempts log
+### Check sanity webhook attempts log
 
 Sanity records each time a webhook payload is sent. Reviewing the attempt log can help identify potential problems.
 
@@ -66,7 +77,7 @@ Open the management dashboard, click the hamburger menu and choose "Show attempt
 ]
 ```
 
-#### Check Headers
+### Check Headers
 
 If the `surrogate-control` or `surrogate-keys` response headers aren't set correctly, that could also cause problems. By default, Fastly strips away the `surrogate-key` header, which makes it harder to know what the keys are. The easiest ways to view the keys are:
 
@@ -80,7 +91,7 @@ surrogate-control: max-age=604800, stale-while-revalidate=120000, stale-if-error
 surrogate-key: product_croissant productImage variant
 ```
 
-#### Check api/webhook logs
+### Check api/webhook logs
 
 If webhooks appear to be getting triggered, but a purge isn't working, you can view real-time logs within vercel. Keep in mind we don't currently have any log storage setup for Vercel, so you can only live stream the logs to get the information you need.
 
@@ -102,27 +113,8 @@ cache purge successfully requested {
 }
 ```
 
-## Appendix
 
-<!-- TODO: This entire section is dealing with PNPM pitfalls, let's remove it -->
-
-### Aliasing pnpm command
-
-If you find `pnpm` hard to spell and use, you're not alone. Many of us have set up an alias in our dot files `(.**rc)` to get around this. For example, this could go into your `~/.zshrc`, `~/.bashrc`, or whatever dot file you prefer.
-
-Set `pn` as an alias for the `pnpm` command
-
-```
-alias pn="pnpm"
-```
-
-The first time you add the alias, you need to ensure you re-load the terminal, or source the file. To source, type:
-
-```
-source ~/<file you modified>
-```
-
-### Sanity Studio + pnpm gotchas
+## Sanity Studio + `pnpm` gotchas
 
 The way Sanity Studio works has issues with monorepos, especially when using `pnpm`. Sanity expects all dependencies to be hoisted. To solve the issue, we added the following to the `.npmrc`:
 

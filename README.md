@@ -4,7 +4,7 @@ This repo contains a demo of a (partial) e-commerce site powered by [Next.js](ht
 
 The general architecture of the site is shown below:
 
-![Caching Flow](./docs/img/caching-diagram.png)
+![Diagram of big-picture architecture](./docs/img/big-picture.png)
 
 The e-commerce data is stored in a headless CMS (powered by Sanity). The project uses Next.js (deployed on Vercel) to render the site, and Fastly is placed in front of Vercel to cache server-rendered webpages for _speed_ and availability.
 
@@ -21,10 +21,11 @@ Sanity is used for storing information about our e-commerce products. The data f
 
 Sanity Studio is a web interface for Sanity's headless CMS. It is used for creating and editing the data on the site. The models for Sanity are created in code and tracked in source control. The models can be found at [`packages/sanity/schemas`](./packages/sanity/schemas). The production Sanity Studio instance is deployed to Sanity's cloud [here](https://nextjs-ecom.sanity.studio/).
 
-<!-- probably grab a screenshot to throw in here... -->
+<p align="center">
+  <img src="./docs/img/sanity-studio-sample.png" alt="Sample of sanity studio" />
+</p>
 
-<!-- TODO: Should reference CONTRIBUTING, or setup guide... -->
-If you want to poke around the Studio site, you will need to go through the steps of creating your own Sanity account and project. Instructions for that are in the Getting Started section above.
+If you want to poke around the Studio site, you will need to go through the steps of creating your own Sanity account and project. Instructions for that can be found in [the setup guide](./setup.md).
 
 ## The Next.js app
 
@@ -32,7 +33,9 @@ To show the CMS data to end-users we created a Next.js web app that server-rende
 
 The CMS data is fetched on the server via GraphQL using [urql](https://formidable.com/open-source/urql/) and via GROQ using the standard `fetch` API. With a sprinkle of [TailwindCSS](https://tailwindcss.com/) styling we have something that looks like the following.
 
-<!-- TODO: Screnshot -->
+<p align="center">
+  <img src="./docs/img/website-sample.png" alt="Sample of the deployed website" />
+</p>
 
 The Next.js app is deployed to [Vercel](https://vercel.com) via their git pipeline. In a real-world e-commerce app, we expect to experience some heavy loads on pages whose data doesn't change much between visits, and therefore we can deploy caching strategies to reduce the load on our source server.
 
@@ -42,9 +45,9 @@ In order to enhance the speed of the app, we are utilizing Fastly's CDN with a h
 
 ![Caching Flow](./docs/img/caching-diagram.png)
 
-See TODO: for some technical details on how the caching is implemented.
+See [caching details](#fastly-caching-details) for some technical details on how the caching is implemented.
 
-The caveat to this approach of aggressive caching is that it is important to invalidate the cache when our source data changes. Otherwise, we will be showing stale data to end-users, even if that data has been updated in the CMS. See TODO: for more details on cache invalidation.
+The caveat to this approach of aggressive caching is that it is important to invalidate the cache when our source data changes. Otherwise, we will be showing stale data to end-users, even if that data has been updated in the CMS. See [cache invalidation and purging](#cache-invalidation-and-purging) for more details on cache invalidation.
 
 ### Fastly Caching Details
 
@@ -61,7 +64,7 @@ On the Next.js side we'll need to include a few primary response headers to then
 
 With these response headers implemented, Fastly will start caching our responses and give us a path to invalidate our cache when necessary.
 
-<!-- TODO: probably mention our current caching strategy --> 
+In our case, we use data items' `slug`s as part of our `surrogate-key` header to indicate what items' data are used to render a page so that we can invalidate accordingly when any of those items' data changes.
 
 ### Cache Invalidation and Purging
 
@@ -73,18 +76,6 @@ When CMS data changes, a Sanity webhook is triggered and makes a request to an A
 
 <!-- TODO: Diagram for this flow, too... -->
 
-#### Sanity Webhook Setup
-
-The relevant Sanity webhook configuration is as follows:
-
-- **URL**: points to our `<host url>/api/webhook` route in the nextjs project
-- **Dataset**: set to `*` (since we only have a single dataset)
-- **Trigger on**: create, update & delete
-<!-- TODO: This is now outdated, and probably needs to be updated/validated -->
-- **Filter**: currently set to `_type in ["category", "categoryImage", "product", "productImage", "size", "variant"]`.
-- **Status**: enabled
-- **Http method**: POST
-- **Secret**: we have a secret set up so that we can authenticate the webhook requests to ensure they came from our Sanity instance.
 
 #### Purging on code deploy
 
