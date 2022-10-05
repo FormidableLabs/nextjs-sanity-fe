@@ -37,10 +37,11 @@ jobs:
       - name: Install dependencies
         run: pnpm install
 
+      - name: Copy dummy pnpm-lock.yaml
+        run: cp pnpm-lock.yaml ./packages/tests-e2e/pnpm-lock.yaml
+
       - name: Cypress Run
         uses: cypress-io/github-action@v4
         with:
-          start: "pnpm run dev:nextjs"
-          project: "packages/tests-e2e"
-
-
+          start: "pnpm --dir ../.. run dev:nextjs"
+          working-directory: "packages/tests-e2e"
