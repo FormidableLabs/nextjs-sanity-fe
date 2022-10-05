@@ -2,16 +2,19 @@ import faker from "faker";
 import type {
   Category,
   CategoryImage,
+  Flavour,
   Image,
   Product,
   ProductImage,
+  SanityImageCrop,
+  SanityImageHotspot,
   Slug,
   Style,
   Variant,
 } from "utils/generated/graphql";
 
 const forms = ["croissant", "roll", "loaf", "baguette", "breadstick", "cracker"];
-const flavors = ["wheat", "rye", "sourdough", "white", "whole grain", "cracked wheat"];
+const flavors = ["wheat", "rye", "sourdough", "white", "whole grain", "cracked wheat", "potato"];
 const variants = ["sliced", "unsliced", "dozen"];
 
 export class MockFactory {
@@ -34,7 +37,7 @@ export class MockFactory {
     const name = data.name || this.productName();
     const slug = data.slug || this.slug(name);
 
-    const result: Required<Omit<Product, IgnoredFields>> = {
+    const result: FullData<Product> = {
       __typename: "Product",
       name,
       slug,
@@ -48,7 +51,7 @@ export class MockFactory {
   }
 
   productImage(data: Partial<ProductImage>, name: string, size: MockImageSize): ProductImage {
-    const result: Required<Omit<ProductImage, IgnoredFields>> = {
+    const result: FullData<ProductImage> = {
       __typename: "ProductImage",
       images: this.image({}, name, size),
       name,
@@ -65,11 +68,27 @@ export class MockFactory {
     }[size];
 
     const url = faker.image.imageUrl(width, height, name, false, false);
-    const result: Required<Omit<Image, IgnoredFields>> = {
+    const result: FullData<Image> = {
       __typename: "Image",
-      asset: { __typename: "SanityImageAsset", url },
-      crop: { __typename: "SanityImageCrop", top: 0, bottom: 0, left: 0, right: 0 },
-      hotspot: { __typename: "SanityImageHotspot", x: 0, y: 0, width, height },
+      asset: {
+        __typename: "SanityImageAsset",
+        url,
+        // TODO: assets have a lot more fields
+      },
+      crop: satisfies<FullData<SanityImageCrop>>()({
+        __typename: "SanityImageCrop",
+        top: 0,
+        bottom: 0,
+        left: 0,
+        right: 0,
+      }),
+      hotspot: satisfies<FullData<SanityImageHotspot>>()({
+        __typename: "SanityImageHotspot",
+        x: 0,
+        y: 0,
+        width,
+        height,
+      }),
       ...data,
     };
     return result;
@@ -80,14 +99,20 @@ export class MockFactory {
     const price =
       data.price || faker.random.arrayElement([msrp, msrp, msrp, faker.datatype.number({ min: 2, max: msrp })]);
 
-    const result: Required<Omit<Variant, IgnoredFields>> = {
+    const result: FullData<Variant> = {
       __typename: "Variant",
       name,
       slug: this.slug(name),
       images: [this.productImage({}, name, "small")],
       descriptionRaw: {},
       id: faker.datatype.uuid(),
-      flavour: [{ name: "flavor", slug: this.slug("flavor") }],
+      flavour: [
+        satisfies<FullData<Flavour>>()({
+          __typename: "Flavour",
+          name: "flavor",
+          slug: this.slug("flavor"),
+        }),
+      ],
       msrp,
       price,
       style: [this.style({})],
@@ -97,7 +122,7 @@ export class MockFactory {
   }
   style(data: Partial<Style>): Style {
     const name = data.name || "";
-    const result: Required<Omit<Style, IgnoredFields>> = {
+    const result: FullData<Style> = {
       __typename: "Style",
       name,
       slug: this.slug(name),
@@ -114,7 +139,7 @@ export class MockFactory {
     const name = data.name || this.categoryName();
     const slug = data.slug || this.slug(name);
 
-    const result: Required<Omit<Category, IgnoredFields>> = {
+    const result: FullData<Category> = {
       __typename: "Category",
       name,
       slug,
@@ -125,7 +150,7 @@ export class MockFactory {
     return result;
   }
   categoryImage(data: Partial<CategoryImage>, name: string, size: MockImageSize): CategoryImage {
-    const result: Required<Omit<CategoryImage, IgnoredFields>> = {
+    const result: FullData<CategoryImage> = {
       __typename: "CategoryImage",
       name,
       description: "",
@@ -137,4 +162,11 @@ export class MockFactory {
 }
 
 type IgnoredFields = keyof Pick<Product, "_rev" | "_key" | "_id" | "_type" | "_createdAt" | "_updatedAt">;
+type FullData<T> = Required<Omit<T, IgnoredFields>>;
 type MockImageSize = "small" | "medium" | "large";
+
+// Similar to TypeScript 4.8's "satisfies" operator
+const satisfies =
+  <TConstraint>() =>
+  <TActual extends TConstraint>(value: TActual) =>
+    value;
