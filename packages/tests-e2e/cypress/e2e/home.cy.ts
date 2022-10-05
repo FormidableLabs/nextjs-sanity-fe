@@ -1,16 +1,16 @@
-describe("home page", () => {
+describe("when I visit the home page", () => {
   before(() => {
     cy.visit("/");
   });
-  it("should load the home page with a tag line", () => {
+  it('I see the tag line "Formidable breads ..."', () => {
     cy.findByText("Formidable breads for your daily life.").should("exist");
     cy.findByText("INVALID TEXT").should("not.exist");
   });
-  it('should show "Our Bestsellers" section', async () => {
+  it('I see the "Our Bestsellers" section', async () => {
     cy.findByText("Our bestsellers");
     cy.findByText("Show all breads");
   });
-  it('should show "Top Categories" section', async () => {
+  it('I see the "Top Categories" section', async () => {
     cy.findByText("Top categories");
   });
 });

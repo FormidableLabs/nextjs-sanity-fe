@@ -1,4 +1,4 @@
-describe("product page", () => {
+describe("when I visit the Product Details Page", () => {
   const product = {
     slug: "sourdough-loaf", // TODO: mock this
     title: "Sourdough Loaf",
@@ -8,10 +8,10 @@ describe("product page", () => {
     cy.visit(`/products/${product.slug}`);
   });
 
-  it("should load the product details page", () => {
+  it(`I see the "${product.title}" title`, () => {
     cy.findAllByText(product.title).should("exist");
   });
-  it("should have a price", () => {
+  it("I see the item's price", () => {
     cy.findByText(product.price).should("exist");
   });
 });
