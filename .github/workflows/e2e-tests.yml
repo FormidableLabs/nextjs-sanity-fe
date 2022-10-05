@@ -43,7 +43,7 @@ jobs:
       - name: Cypress Run
         uses: cypress-io/github-action@v4
         with:
-          install-command: "pnpm install"
           start: "pnpm run dev:nextjs"
-          working-directory: "packages/tests-e2e"
+          project: "packages/tests-e2e"
+
 
