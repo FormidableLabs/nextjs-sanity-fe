@@ -1,7 +1,7 @@
 import { defineConfig } from "cypress";
 import { interceptSSR } from "./cypress/tasks/interceptSSR/task";
 
-import { startNextServer } from "../nextjs/next-server";
+import { startNextServer } from "../nextjs/start-test-server";
 
 const PORT = 9999;
 
