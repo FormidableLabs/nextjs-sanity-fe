@@ -37,8 +37,8 @@ jobs:
       - name: Install dependencies
         run: pnpm install
 
-      - name: Create dummy package-lock.json
-        run: "echo '{}' > ./packages/tests-e2e/package-lock.json"
+      - name: Create dummy pnpm-lock.yaml
+        run: "cp ./pnpm-lock.yaml ./packages/tests-e2e/pnpm-lock.yaml"
 
       - name: Cypress Run
         uses: cypress-io/github-action@v4
