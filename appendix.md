@@ -15,32 +15,6 @@ The relevant Sanity webhook configuration for this project is as follows:
 - **Http method**: POST
 - **Secret**: we have a secret set up so that we can authenticate the webhook requests to ensure they came from our Sanity instance.
 
-## Site pages
-
-### Home Page i.e. (`/`)
-
-The Home Page is enriched with data from multiple sources. Specifically, it displays the top products and categories within the site.
-
-When a Category or Product is created, updated, or deleted, a purge should be executed for the appropriate surrogate-key.
-
-
-### Category Listing Page i.e. `/categories`
-
-The Home and Categories Pages list Categories set up in Sanity, and therefore should be kept up to date when Categories change.
-
-When a Category is created, updated, or deleted, a purge should be executed using the `category` surrogate-key.
-
-
-
-### PDP page i.e. (`/products/croissant`)
-
-A PDP page lists metadata about a specific product. When a product is created, updated, or deleted, we should purge that specific page.
-
-Specific situation:
-
-In Sanity, the product with a slug of `croissant` had it's metadata modified (name, description, etc).
-
-When that payload is received, a purge request should be done for the following surrogate-key `croissant`
 
 ## Troubleshooting purging
 
@@ -112,6 +86,34 @@ cache purge successfully requested {
   'product_croissant': '7100059-1662806213-2227869'
 }
 ```
+
+## Site pages
+
+### Home Page i.e. (`/`)
+
+The Home Page is enriched with data from multiple sources. Specifically, it displays the top products and categories within the site.
+
+When a Category or Product is created, updated, or deleted, a purge should be executed for the appropriate surrogate-key.
+
+
+### Category Listing Page i.e. `/categories`
+
+The Home and Categories Pages list Categories set up in Sanity, and therefore should be kept up to date when Categories change.
+
+When a Category is created, updated, or deleted, a purge should be executed using the `category` surrogate-key.
+
+
+
+### PDP page i.e. (`/products/croissant`)
+
+A PDP page lists metadata about a specific product. When a product is created, updated, or deleted, we should purge that specific page.
+
+Specific situation:
+
+In Sanity, the product with a slug of `croissant` had it's metadata modified (name, description, etc).
+
+When that payload is received, a purge request should be done for the following surrogate-key `croissant`
+
 
 
 ## Sanity Studio + `pnpm` gotchas

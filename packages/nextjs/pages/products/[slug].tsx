@@ -159,6 +159,7 @@ export const getServerSideProps: GetServerSideProps = async ({ res, query }) => 
   const { client, ssrCache } = initializeUrql();
   const { slug } = query;
 
+  // TODO: if _any_ variant changes, this page gets invalidated... I'm not sure if that's right.
   if (isSlug(slug)) {
     setCachingHeaders(res, [`${SanityType.Product}_${slug}`, SanityType.ProductImage, SanityType.Variant]);
   }
