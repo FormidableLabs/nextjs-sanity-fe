@@ -1,4 +1,4 @@
-import { handlers } from "mocks/handlers";
+import { handlers } from "./handlers";
 
 /* eslint-disable @typescript-eslint/no-var-requires */
 

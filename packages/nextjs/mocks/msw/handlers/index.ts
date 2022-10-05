@@ -1,5 +1,5 @@
-import { createMswHandlers } from "mocks/utils/create-msw-handlers";
-import { ProductsQueries } from "mocks/handlers/products";
+import { createMswHandlers } from "../utils/create-msw-handlers";
+import { ProductsQueries } from "./products";
 
 const Queries = {
   ...ProductsQueries,
