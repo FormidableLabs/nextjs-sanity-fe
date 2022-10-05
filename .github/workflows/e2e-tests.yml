@@ -34,14 +34,15 @@ jobs:
           restore-keys: |
             ${{ runner.os }}-pnpm-store-
 
-      - name: Install dependencies
-        run: pnpm install
+#      - name: Install dependencies
+#        run: pnpm install
 
-      - name: Copy dummy pnpm-lock.yaml
-        run: cp pnpm-lock.yaml ./packages/tests-e2e/pnpm-lock.yaml
+#      - name: Copy dummy pnpm-lock.yaml
+#        run: cp pnpm-lock.yaml ./packages/tests-e2e/pnpm-lock.yaml
 
       - name: Cypress Run
         uses: cypress-io/github-action@v4
         with:
+          install-command: "pnpm install"
           start: "pnpm --dir ../.. run dev:nextjs"
           working-directory: "packages/tests-e2e"
