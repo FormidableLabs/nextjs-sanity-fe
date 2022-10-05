@@ -170,3 +170,5 @@ const satisfies =
   <TConstraint>() =>
   <TActual extends TConstraint>(value: TActual) =>
     value;
+
+export const mock = new MockFactory();

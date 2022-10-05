@@ -9,6 +9,11 @@ generates:
       - "typescript-urql"
     config:
       preResolveType: true
+  utils/generated/graphql-mock-types.ts:
+    plugins:
+      - "typescript"
+      - "typescript-operations"
+      - "typescript-graphql-request"
   ./graphql.schema.json:
     plugins:
       - "introspection"
