@@ -8,6 +8,9 @@ on:
     branches:
       - main
 
+env:
+  NEXT_PUBLIC_SANITY_PROJECT_ID: 5bsv02jj
+
 jobs:
   cypress-run:
     name: E2E Tests
@@ -31,7 +34,7 @@ jobs:
           path: ${{ steps.pnpm-cache.outputs.pnpm_cache_dir }}
           key: ${{ runner.os }}-pnpm-store-${{ hashFiles('./pnpm-lock.yaml') }}
           restore-keys: |
-            ${{ runner.os }}-pnpm-store-CACHEBREAKER
+            ${{ runner.os }}-pnpm-store-
 
       - name: Install dependencies
         run: pnpm install
