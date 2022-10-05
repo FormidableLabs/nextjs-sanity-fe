@@ -1,4 +1,4 @@
-import type { InterceptSSRConfig, InterceptSSRResult } from "./task";
+import type { InterceptSSRConfig } from "./task";
 
 declare global {
   // eslint-disable-next-line @typescript-eslint/no-namespace
@@ -7,7 +7,7 @@ declare global {
       /**
        * Intercepts HTTP requests on the server-side
        */
-      interceptSSR(url: string, staticResponse: unknown): Chainable<InterceptSSRResult>;
+      interceptSSR(url: string, staticResponse: unknown): Chainable<void>;
     }
   }
 }
