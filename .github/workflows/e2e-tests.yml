@@ -39,6 +39,8 @@ jobs:
       - name: Get Cypress cache path
         id: cypress-cache-path
         run: echo "::set-output name=cypress_cache_path::$(npx cypress cache path)"
+        working-directory: "packages/tests-e2e"
+
       - name: Setup Cypress cache
         uses: actions/cache@v3
         with:
