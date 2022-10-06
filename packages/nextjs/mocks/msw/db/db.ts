@@ -1,4 +1,5 @@
 import { mock } from "mocks/factory";
+import faker from "faker";
 
 type MockData = ReturnType<typeof generateMockData>;
 
@@ -16,8 +17,13 @@ export function seedMockData(newMockData: Partial<MockData>) {
 }
 
 function generateMockData() {
-  const products = mock.array(40, () => mock.product({}));
   const categories = mock.array(5, () => mock.category({}));
+
+  const products = mock.array(40, () =>
+    mock.product({
+      categories: faker.random.arrayElements(categories, faker.datatype.number({ min: 1, max: 3 })),
+    })
+  );
 
   return {
     products,

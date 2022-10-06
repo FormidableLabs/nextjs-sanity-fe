@@ -48,7 +48,7 @@ export class MockFactory {
       _id: this.id("Product"),
       name,
       slug,
-      categories: [this.category({}), this.category({})],
+      categories: [],
       descriptionRaw: this.descriptionRaw({}),
       images: [this.productImage({}, name, "small"), this.productImage({}, name, "large")],
       variants: faker.random.arrayElements(variants).map((variant) => this.variant({ name: variant + " " + name })),

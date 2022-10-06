@@ -17,7 +17,7 @@ export default function TestGroq(props: any) {
   return (
     <main>
       <h1>Testing GROQ</h1>
-      <pre>{JSON.stringify(props.result)}</pre>
+      <pre>{JSON.stringify(props.result, null, 2)}</pre>
     </main>
   );
 }
