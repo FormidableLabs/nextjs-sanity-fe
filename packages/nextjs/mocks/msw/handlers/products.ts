@@ -1,17 +1,18 @@
 import { Sdk } from "utils/generated/graphql-mock-types";
-import { mock } from "mocks/factory";
+import { getMockData } from "mocks/msw/db/db";
 
 export const ProductsQueries: Pick<Sdk, "getProducts" | "getProductAndRecommendations"> = {
   async getProducts(variables, requestHeaders) {
+    const mockData = getMockData();
     return {
-      allProduct: [mock.product({}), mock.product({})],
+      allProduct: mockData.products,
     };
   },
   async getProductAndRecommendations(variables, requestHeaders) {
-    console.log(variables.slug);
+    const mockData = getMockData();
     return {
-      allProduct: [mock.product({})],
-      recommendations: [mock.product({})],
+      allProduct: mockData.products.filter((p) => p.slug !== variables.slug),
+      recommendations: mockData.products.filter((p) => p.slug !== variables.slug),
     };
   },
 };
