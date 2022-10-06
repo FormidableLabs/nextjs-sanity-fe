@@ -44,6 +44,7 @@ export class MockFactory {
 
     const result: FullData<Product> = {
       __typename: "Product",
+      _type: "product",
       _id: this.id("Product"),
       name,
       slug,
@@ -59,6 +60,7 @@ export class MockFactory {
   productImage(data: Partial<ProductImage>, name: string, size: MockImageSize): ProductImage {
     const result: FullData<ProductImage> = {
       __typename: "ProductImage",
+      _type: "productimage",
       _id: this.id("ProductImage"),
       images: this.image({}, name, size),
       name,
@@ -89,6 +91,7 @@ export class MockFactory {
       },
       crop: satisfies<FullData<SanityImageCrop>>()({
         __typename: "SanityImageCrop",
+        _type: "sanityimagecrop",
         top: 0,
         bottom: 0,
         left: 0,
@@ -96,6 +99,7 @@ export class MockFactory {
       }),
       hotspot: satisfies<FullData<SanityImageHotspot>>()({
         __typename: "SanityImageHotspot",
+        _type: "sanityimagehotspot",
         x: 0,
         y: 0,
         width,
@@ -113,6 +117,7 @@ export class MockFactory {
 
     const result: FullData<Variant> = {
       __typename: "Variant",
+      _type: "variant",
       _id: this.id("Variant"),
       name,
       slug: this.slug(name),
@@ -122,6 +127,7 @@ export class MockFactory {
       flavour: [
         satisfies<FullData<Flavour>>()({
           __typename: "Flavour",
+          _type: "flavour",
           _id: this.id("Flavour"),
           name: "flavor",
           slug: this.slug("flavor"),
@@ -138,6 +144,7 @@ export class MockFactory {
     const name = data.name || "";
     const result: FullData<Style> = {
       __typename: "Style",
+      _type: "style",
       _id: this.id("Style"),
       name,
       slug: this.slug(name),
@@ -148,9 +155,9 @@ export class MockFactory {
   descriptionRaw({ text = "nom nom nom " + faker.lorem.paragraphs() }: { text?: string }) {
     return [
       {
+        _type: "block",
         style: "normal",
         markDefs: [],
-        _type: "block",
         children: [
           {
             _type: "span",
@@ -172,6 +179,7 @@ export class MockFactory {
 
     const result: FullData<Category> = {
       __typename: "Category",
+      _type: "category",
       _id: this.id("Category"),
       name,
       slug,
@@ -184,6 +192,7 @@ export class MockFactory {
   categoryImage(data: Partial<CategoryImage>, name: string, size: MockImageSize): CategoryImage {
     const result: FullData<CategoryImage> = {
       __typename: "CategoryImage",
+      _type: "categoryimage",
       _id: this.id("CategoryImage"),
       name,
       description: "",
@@ -194,7 +203,7 @@ export class MockFactory {
   }
 }
 
-type IgnoredFields = keyof Pick<Product, "_rev" | "_key" | "_type" | "_createdAt" | "_updatedAt">;
+type IgnoredFields = keyof Pick<Product, "_rev" | "_key" | "_createdAt" | "_updatedAt">;
 type FullData<T> = Required<Omit<T, IgnoredFields>>;
 type MockImageSize = "small" | "medium" | "large";
 
