@@ -1,13 +1,14 @@
 import { sanityClient } from "utils/sanityClient";
-import { getMockData } from "mocks/msw/db/db";
-import { mswGroqHandler } from "mocks/msw/utils/groq-handler";
+
+import { getMockData } from '../db/mock-db';
+import { createGroqHandler } from "./create-groq-handler";
 
 const config = sanityClient.config();
 // @ts-expect-error cdnUrl is not defined but it's there:
 const SANITY_GROQ_URL = `${config.cdnUrl}/data/query/${config.dataset}`;
 
 export const groqHandlers = [
-  mswGroqHandler(SANITY_GROQ_URL, () => {
+  createGroqHandler(SANITY_GROQ_URL, () => {
     return getAllMockData();
   }),
 ];

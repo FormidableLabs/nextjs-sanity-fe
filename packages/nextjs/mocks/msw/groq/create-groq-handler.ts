@@ -6,7 +6,7 @@ import * as groqJs from "groq-js";
  * @param url
  * @param getDataset
  */
-export function mswGroqHandler(url: string, getDataset: () => unknown[]) {
+export function createGroqHandler(url: string, getDataset: () => unknown[]) {
   return rest.get(url, async (req, res, ctx) => {
     // Parse the parameters:
     const { query, ...searchParams } = Object.fromEntries(req.url.searchParams.entries());

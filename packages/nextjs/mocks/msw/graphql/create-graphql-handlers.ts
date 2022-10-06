@@ -5,7 +5,7 @@ type Handlers = {
   [handlerName in string]: (vars: any, headers: Headers) => Promise<any>;
 };
 
-export function createMswHandlers(queryHandlers: Handlers, mutationHandlers: Handlers) {
+export function createGraphqlHandlers(queryHandlers: Handlers, mutationHandlers: Handlers) {
   return [
     ...mapValues(queryHandlers, (handler, handlerName) => {
       return graphql.query(handlerName, async (req, res, ctx) => {
