@@ -17,16 +17,26 @@ export const groqHandlers = [
  */
 function getAllMockData() {
   const data = getMockData();
-  const allData = flatten(data);
+  const allData = Array.from(flattenObjects(data));
   return allData;
 }
 
 /**
  * Recursively finds all nested objects
  */
-function flatten(obj: object): object[] {
-  const flatChildren = Object.values(obj)
-    .filter((child) => child && typeof child === "object")
-    .flatMap((child) => flatten(child));
-  return Array.isArray(obj) ? flatChildren : [obj, ...flatChildren];
+function flattenObjects(obj: object, results = new Set<object>()) {
+  if (results.has(obj)) {
+    // We've already traversed this object
+    return results;
+  }
+
+  results.add(obj);
+
+  Object.values(obj).forEach((child) => {
+    if (child && typeof child === "object") {
+      flattenObjects(child, results);
+    }
+  });
+
+  return results;
 }
