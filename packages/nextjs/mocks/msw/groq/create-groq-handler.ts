@@ -6,14 +6,15 @@ import * as groqJs from "groq-js";
  * @param url
  * @param getDataset
  */
-export function createGroqHandler(url: string, getDataset: () => unknown[]) {
+export function createGroqHandler(url: string, getDataset: () => object) {
   return rest.get(url, async (req, res, ctx) => {
     // Parse the parameters:
     const { query, ...searchParams } = Object.fromEntries(req.url.searchParams.entries());
     const params = parseParams(searchParams);
 
     // Grab all data:
-    const dataset = getDataset();
+    const rawData = getDataset();
+    const dataset = Array.from(flattenObjects(rawData));
 
     // Evaluate the query;
     const parsed = groqJs.parse(query, { params });
@@ -37,4 +38,24 @@ function parseParams(searchParams: object) {
       return [key, value];
     })
   );
+}
+
+/**
+ * Recursively finds all nested objects
+ */
+function flattenObjects(obj: object, results = new Set<object>()) {
+  if (results.has(obj)) {
+    // We've already traversed this object
+    return results;
+  }
+
+  results.add(obj);
+
+  Object.values(obj).forEach((child) => {
+    if (child && typeof child === "object") {
+      flattenObjects(child, results);
+    }
+  });
+
+  return results;
 }
