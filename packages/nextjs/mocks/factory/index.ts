@@ -21,6 +21,11 @@ export class MockFactory {
   array<T>(length: number, factory: (index: number) => T): T[] {
     return new Array(length).fill(null).map((_, i) => factory(i));
   }
+  idCount: Record<string, number> = {};
+  id(type: string) {
+    const count = (this.idCount[type] = (this.idCount[type] || 0) + 1);
+    return `${type}-${count}`;
+  }
 
   slug(input: string): Slug {
     return {
@@ -39,6 +44,7 @@ export class MockFactory {
 
     const result: FullData<Product> = {
       __typename: "Product",
+      _id: this.id("Product"),
       name,
       slug,
       categories: [this.category({}), this.category({})],
@@ -53,6 +59,7 @@ export class MockFactory {
   productImage(data: Partial<ProductImage>, name: string, size: MockImageSize): ProductImage {
     const result: FullData<ProductImage> = {
       __typename: "ProductImage",
+      _id: this.id("ProductImage"),
       images: this.image({}, name, size),
       name,
       description: "",
@@ -101,6 +108,7 @@ export class MockFactory {
 
     const result: FullData<Variant> = {
       __typename: "Variant",
+      _id: this.id("Variant"),
       name,
       slug: this.slug(name),
       images: [this.productImage({}, name, "small")],
@@ -109,6 +117,7 @@ export class MockFactory {
       flavour: [
         satisfies<FullData<Flavour>>()({
           __typename: "Flavour",
+          _id: this.id("Flavour"),
           name: "flavor",
           slug: this.slug("flavor"),
         }),
@@ -124,6 +133,7 @@ export class MockFactory {
     const name = data.name || "";
     const result: FullData<Style> = {
       __typename: "Style",
+      _id: this.id("Style"),
       name,
       slug: this.slug(name),
       ...data,
@@ -141,6 +151,7 @@ export class MockFactory {
 
     const result: FullData<Category> = {
       __typename: "Category",
+      _id: this.id("Category"),
       name,
       slug,
       images: [this.categoryImage({}, name, "small"), this.categoryImage({}, name, "large")],
@@ -152,6 +163,7 @@ export class MockFactory {
   categoryImage(data: Partial<CategoryImage>, name: string, size: MockImageSize): CategoryImage {
     const result: FullData<CategoryImage> = {
       __typename: "CategoryImage",
+      _id: this.id("CategoryImage"),
       name,
       description: "",
       images: this.image({}, name, size),
@@ -161,7 +173,7 @@ export class MockFactory {
   }
 }
 
-type IgnoredFields = keyof Pick<Product, "_rev" | "_key" | "_id" | "_type" | "_createdAt" | "_updatedAt">;
+type IgnoredFields = keyof Pick<Product, "_rev" | "_key" | "_type" | "_createdAt" | "_updatedAt">;
 type FullData<T> = Required<Omit<T, IgnoredFields>>;
 type MockImageSize = "small" | "medium" | "large";
 
