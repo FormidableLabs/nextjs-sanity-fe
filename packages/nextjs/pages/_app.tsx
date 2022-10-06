@@ -9,6 +9,7 @@ import "../styles/global.css";
 import { FadeInOut } from "../components/FadeInOut";
 
 if (process.env.NEXT_PUBLIC_API_MOCKING === "enabled") {
+  console.log("Using MSW Mock Server");
   require("mocks/msw/msw-enable");
 }
 
