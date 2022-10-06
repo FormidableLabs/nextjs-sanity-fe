@@ -61,6 +61,7 @@ importers:
       graphql: ^16.6.0
       graphql-tag: ^2.0.0
       groq: ^2.29.3
+      groq-js: ^1.1.0
       jsdom: ^20.0.0
       lodash.debounce: ^4.0.8
       msw: ^0.47.4
@@ -125,6 +126,7 @@ importers:
       eslint-config-next: 12.2.5_eslint@8.23.0
       faker: 5.5.3
       graphql-tag: 2.12.6_graphql@16.6.0
+      groq-js: 1.1.0
       msw: 0.47.4
       postcss: 8.4.16
       tailwindcss: 3.1.8_postcss@8.4.16
@@ -10459,6 +10461,10 @@ packages:
   /groq-js/0.2.0:
     resolution: {integrity: sha512-qJeuEgziddryH1ClsJvMoZM9aXNQbBViNZZrJwhHKr2wU8HGGM7uNWNVFglWXMX60MMaa2SClX3UohP76Ut68g==}
     dev: false
+
+  /groq-js/1.1.0:
+    resolution: {integrity: sha512-y87W921Jg9IAksKT9LFvDMrYG9KIcgUDyE4ccENV7K26CKvg1V0lOTJbE1UNI8DcSk/bvx/MWFI7j3iUkCe/gA==}
+    dev: true
 
   /groq/2.29.3:
     resolution: {integrity: sha512-j3HFq8Qwg36rREp2Xl2vecUz47LX6cedD8cqq+JKX0iNj9yiwelOSKpRS5jxhkDZQv5xBAiqtpU2Ylv5DQ5g2A==}
