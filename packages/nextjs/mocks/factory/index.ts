@@ -24,7 +24,7 @@ export class MockFactory {
   idCount: Record<string, number> = {};
   id(type: string) {
     const count = (this.idCount[type] = (this.idCount[type] || 0) + 1);
-    return `${type}-${count}`;
+    return `${type}__${count}`;
   }
 
   slug(input: string): Slug {
@@ -48,7 +48,7 @@ export class MockFactory {
       name,
       slug,
       categories: [this.category({}), this.category({})],
-      descriptionRaw: {},
+      descriptionRaw: this.descriptionRaw({}),
       images: [this.productImage({}, name, "small"), this.productImage({}, name, "large")],
       variants: variants.map((name) => this.variant({ name })),
       ...data,
@@ -75,10 +75,15 @@ export class MockFactory {
     }[size];
 
     const url = faker.image.imageUrl(width, height, name, false, false);
+    // Sanity expects this format:
+    const id = `image-${this.id("SanityImageAsset")}-${width}x${height}-jpg`;
     const result: FullData<Image> = {
       __typename: "Image",
+      // @ts-expect-error _id is a valid field, I think
+      _id: id,
       asset: {
         __typename: "SanityImageAsset",
+        _id: id,
         url,
         // TODO: assets have a lot more fields
       },
@@ -112,7 +117,7 @@ export class MockFactory {
       name,
       slug: this.slug(name),
       images: [this.productImage({}, name, "small")],
-      descriptionRaw: {},
+      descriptionRaw: this.descriptionRaw({}),
       id: faker.datatype.uuid(),
       flavour: [
         satisfies<FullData<Flavour>>()({
@@ -139,6 +144,22 @@ export class MockFactory {
       ...data,
     };
     return result;
+  }
+  descriptionRaw({ text = "nom nom nom " + faker.lorem.paragraphs() }: { text?: string }) {
+    return [
+      {
+        style: "normal",
+        markDefs: [],
+        _type: "block",
+        children: [
+          {
+            _type: "span",
+            marks: [],
+            text,
+          },
+        ],
+      },
+    ];
   }
 
   categoryName() {
