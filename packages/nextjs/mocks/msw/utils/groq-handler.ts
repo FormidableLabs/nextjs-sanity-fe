@@ -11,11 +11,14 @@ export function mswGroqHandler(url: string, getDataset: () => unknown[]) {
     // Parse the parameters:
     const { query, ...searchParams } = Object.fromEntries(req.url.searchParams.entries());
     const params = parseParams(searchParams);
-    const parsed = groqJs.parse(query, { params });
+
+    // Grab all data:
+    const dataset = getDataset();
 
     // Evaluate the query;
-    const dataset = getDataset();
-    const result = await groqJs.evaluate(parsed, { dataset, params });
+    const parsed = groqJs.parse(query, { params });
+    const streamResult = await groqJs.evaluate(parsed, { dataset, params });
+    const result = await streamResult.get();
 
     // Return the result:
     const body = { result };
