@@ -31,7 +31,7 @@ export const FeaturedList = ({ items }: Props) => {
               },
             },
             title: item.name ?? "",
-            price: item.variants?.[0]?.price ?? "",
+            price: item.variants?.[0]?.price ?? 0,
             imageProps: {
               src: item.variants?.[0]?.images?.[0]?.images ?? "",
               alt: item.variants?.[0]?.images?.[0]?.name ?? "",

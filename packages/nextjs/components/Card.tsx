@@ -4,10 +4,11 @@ import Link, { LinkProps } from "next/link";
 
 import { Image } from "./Image";
 import classNames from "classnames";
+import { currencyFormatter } from "utils/currencyFormatter";
 
 export interface CardProps {
   title: string;
-  price?: string | number;
+  price?: number;
   subTitle?: string;
   to: LinkProps["href"];
   className?: string;
@@ -38,7 +39,7 @@ export const Card = ({
           <Image layout="fill" src={imageProps.src} alt={imageProps.alt} objectFit="cover" objectPosition="center" />
         </span>
         <h2 className="text-h5 font-medium mt-4 mb-1">{title}</h2>
-        {price && <span className="text-eyebrow font-bold">${price}</span>}
+        {price && <span className="text-eyebrow font-bold">{currencyFormatter.format(price)}</span>}
         {subTitle && <span className="text-eyebrow">{subTitle}</span>}
       </a>
     </Link>
