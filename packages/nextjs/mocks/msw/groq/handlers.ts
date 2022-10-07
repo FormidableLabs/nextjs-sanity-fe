@@ -1,6 +1,6 @@
 import { sanityClient } from "utils/sanityClient";
 
-import { getMockData } from "../db/mock-db";
+import { getMockData } from '../db/mock-data';
 import { createGroqHandler } from "./create-groq-handler";
 
 const config = sanityClient.config();

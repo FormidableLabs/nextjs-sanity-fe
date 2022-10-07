@@ -1,5 +1,5 @@
 import { Sdk } from "utils/generated/graphql-mock-types";
-import { getMockData } from '../db/mock-db';
+import { getMockData } from '../db/mock-data';
 
 export const ProductsQueries: Pick<Sdk, "getProducts" | "getProductAndRecommendations"> = {
   async getProducts(variables, requestHeaders) {
