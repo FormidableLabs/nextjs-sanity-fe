@@ -20,11 +20,11 @@ export const Header = () => {
   const onMobileNavClose = () => setIsNavOpen(false);
 
   React.useEffect(() => {
-    document?.body?.classList?.[isNavOpen ? "add" : "remove"]?.("overflow-hidden");
+    document.body.classList[isNavOpen ? "add" : "remove"]("overflow-hidden");
   }, [isNavOpen]);
 
   React.useEffect(() => {
-    document?.body?.classList?.[isCartOpen ? "add" : "remove"]?.("overflow-hidden", "sm:overflow-auto");
+    document.body.classList[isCartOpen ? "add" : "remove"]("overflow-hidden", "sm:overflow-auto");
   }, [isCartOpen]);
 
   return (
