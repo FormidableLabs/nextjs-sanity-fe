@@ -27,6 +27,7 @@ importers:
       '@graphql-codegen/add': ^3.2.1
       '@graphql-codegen/cli': 2.11.8
       '@graphql-codegen/introspection': 2.2.1
+      '@graphql-codegen/schema-ast': ^2.5.1
       '@graphql-codegen/typescript': 2.7.3
       '@graphql-codegen/typescript-graphql-request': ^4.5.5
       '@graphql-codegen/typescript-operations': 2.5.3
@@ -107,6 +108,7 @@ importers:
       '@graphql-codegen/add': 3.2.1_graphql@16.6.0
       '@graphql-codegen/cli': 2.11.8_kkgf72yslujyuigxt3phk42gx4
       '@graphql-codegen/introspection': 2.2.1_graphql@16.6.0
+      '@graphql-codegen/schema-ast': 2.5.1_graphql@16.6.0
       '@graphql-codegen/typescript': 2.7.3_graphql@16.6.0
       '@graphql-codegen/typescript-graphql-request': 4.5.5_sy4knu3obj4ys7pjcqbyfxmqle
       '@graphql-codegen/typescript-operations': 2.5.3_graphql@16.6.0
@@ -3716,7 +3718,7 @@ packages:
     peerDependencies:
       graphql: ^0.8.0 || ^0.9.0 || ^0.10.0 || ^0.11.0 || ^0.12.0 || ^0.13.0 || ^14.0.0 || ^15.0.0 || ^16.0.0
     dependencies:
-      '@graphql-codegen/plugin-helpers': 2.6.2_graphql@16.6.0
+      '@graphql-codegen/plugin-helpers': 2.7.1_graphql@16.6.0
       '@graphql-tools/utils': 8.10.1_graphql@16.6.0
       graphql: 16.6.0
       tslib: 2.4.0
