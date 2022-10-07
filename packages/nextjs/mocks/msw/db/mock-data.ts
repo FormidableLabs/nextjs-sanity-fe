@@ -1,7 +1,7 @@
 import { mock } from "mocks/factory";
 import faker from "faker";
 
-type MockData = ReturnType<typeof generateMockData>;
+export type MockData = ReturnType<typeof generateMockData>;
 
 let mockData: null | MockData;
 

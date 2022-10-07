@@ -1,6 +1,6 @@
 import "@testing-library/cypress/add-commands";
 
-import "../tasks/interceptSSR/command";
+import "../tasks/commands";
 
 // ***********************************************
 // This example commands.js shows you how to

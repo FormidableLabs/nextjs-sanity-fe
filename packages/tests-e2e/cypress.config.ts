@@ -1,5 +1,6 @@
 import { defineConfig } from "cypress";
-import { interceptSSR } from "./cypress/tasks/interceptSSR/task";
+
+import { tasks } from "./cypress/tasks/tasks";
 
 import { startNextServer } from "../nextjs/start-test-server";
 
@@ -10,9 +11,7 @@ export default defineConfig({
     baseUrl: `http://localhost:${PORT}`,
     async setupNodeEvents(on, config) {
       // implement node event listeners here
-      on("task", {
-        interceptSSR,
-      });
+      on("task", tasks);
 
       await startNextServer({ port: PORT });
     },

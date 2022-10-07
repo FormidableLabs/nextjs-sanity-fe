@@ -7,7 +7,7 @@ export interface InterceptSSRConfig {
 }
 
 let mockServer: InterceptHandler;
-export function interceptSSR(config: InterceptSSRConfig) {
+export function interceptSSRTask(config: InterceptSSRConfig) {
   if (!mockServer) {
     mockServer = new InterceptHandler();
   }
