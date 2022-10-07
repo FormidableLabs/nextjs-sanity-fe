@@ -8,18 +8,21 @@ import { NAV_ITEMS } from "./NavItems";
 import { MobileNavMenu } from "./MobileNavMenu";
 import { DesktopNavItem } from "./DesktopNavItem";
 import { Logo } from "./Logo";
+import classNames from "classnames";
 
-export const Header = () => {
-  const [navOpen, setNavOpen] = React.useState(false);
+type HeaderProps = {
+  isNavOpen: boolean;
+  onMobileNavClick: () => void;
+  onMobileNavClose: () => void;
+};
+
+export const Header = ({ isNavOpen, onMobileNavClose, onMobileNavClick }: HeaderProps) => {
   const [isCartOpen, setIsCartOpen] = React.useState(false);
   const { cartTotal, isFetchingCartItems } = useCart();
 
-  const onMobileNavClick = () => setNavOpen((prev) => !prev);
-  const onMobileNavClose = () => setNavOpen(false);
-
   return (
-    <>
-      <nav className="h-[66px] sm:h-[110px] border-b-2 border-b-primary bg-secondary shadow transition-all sticky top-0 z-10 text-primary">
+    <div className={classNames("sticky top-0 z-10 flex flex-col", isNavOpen && "h-screen")}>
+      <nav className="h-[66px] sm:h-[110px] border-b-2 border-b-primary bg-secondary shadow transition-all text-primary">
         <div className="h-full container flex items-center justify-between px-6">
           <div className="flex items-center">
             <Link href="/">
@@ -44,11 +47,11 @@ export const Header = () => {
               isCartOpen={isCartOpen}
               onCartClose={() => setIsCartOpen(false)}
             />
-            <MobileNavMenu navOpen={navOpen} onMobileNavClick={onMobileNavClick} />
+            <MobileNavMenu navOpen={isNavOpen} onMobileNavClick={onMobileNavClick} />
           </div>
         </div>
       </nav>
-      <MobileHeaderItems navOpen={navOpen} onMobileNavClose={onMobileNavClose} />
-    </>
+      <MobileHeaderItems navOpen={isNavOpen} onMobileNavClose={onMobileNavClose} />
+    </div>
   );
 };
