@@ -2,6 +2,7 @@ import { NAV_ITEMS } from "./NavItems";
 import classNames from "classnames";
 import Link from "next/link";
 import { useRouter } from "next/router";
+
 type MobileHeaderItemsProps = {
   navOpen: boolean;
   onMobileNavClose: () => void;
@@ -11,12 +12,7 @@ export const MobileHeaderItems = ({ navOpen, onMobileNavClose }: MobileHeaderIte
   const router = useRouter();
 
   return (
-    <ul
-      className={classNames(
-        "flex flex-col sm:hidden bg-secondary text-primary transition-all",
-        navOpen ? "h-screen" : "max-h-0"
-      )}
-    >
+    <ul className="flex-1 flex flex-col sm:hidden bg-secondary text-primary transition-all">
       {navOpen &&
         NAV_ITEMS?.map(({ label, href }) => {
           return (
