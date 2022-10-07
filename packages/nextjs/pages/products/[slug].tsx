@@ -159,13 +159,25 @@ export const getServerSideProps: GetServerSideProps = async ({ res, query }) => 
   const { client, ssrCache } = initializeUrql();
   const { slug } = query;
 
+  const cacheKeys = [] as string[];
   if (isSlug(slug)) {
-    setCachingHeaders(res, [`${SanityType.Product}_${slug}`, SanityType.ProductImage, SanityType.Variant]);
+    cacheKeys.push(`${SanityType.Product}_${slug}`);
   }
 
   // This query is used to populate the cache for the query
   // used on this page.
-  await client?.query(GetProductAndRecommendationsDocument, { slug }).toPromise();
+  const pageData = await client?.query(GetProductAndRecommendationsDocument, { slug }).toPromise();
+
+  // Extract variant slugs to add to cache keys, in case any of those change.
+  const variantSlugs: string[] = (
+    pageData?.data?.allProduct?.[0]?.variants?.map((v: any) => v?.slug?.current) || []
+  ).filter(Boolean);
+  cacheKeys.push(...variantSlugs.map((s) => `${SanityType.Variant}_${s}`));
+
+  // TODO: This is sub-optimal, might look into how to cache on some sort of key
+  cacheKeys.push(SanityType.ProductImage);
+
+  setCachingHeaders(res, cacheKeys);
 
   return {
     props: {
