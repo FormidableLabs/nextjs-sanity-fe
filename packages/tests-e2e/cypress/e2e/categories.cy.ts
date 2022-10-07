@@ -1,5 +1,11 @@
+import { mock } from "mocks/factory";
+
 describe("categories page", () => {
+  const mockCategories = [mock.category({}), mock.category({}), mock.category({})];
+
   before(() => {
+    cy.setMockData({ categories: mockCategories });
+
     cy.visit("/categories");
   });
 
