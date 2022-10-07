@@ -1,5 +1,5 @@
 import * as React from "react";
-import { SORT_OPTIONS, SORT_OPTIONS_ARRAY, SORT_QUERY_PARAM, SortType } from "../utils/sorting";
+import { PAGE_QUERY_PARAM, SORT_OPTIONS, SORT_OPTIONS_ARRAY, SORT_QUERY_PARAM, SortType } from "../utils/sorting";
 import { useRouterQueryParams } from "../utils/useRouterQueryParams";
 import { Pill } from "./Pill";
 
@@ -10,7 +10,7 @@ export const ProductSort: React.FC = () => {
   const handleChange = (value: string) => {
     switch (SORT_OPTIONS[value].type) {
       case SortType.Natural: {
-        replace(SORT_QUERY_PARAM, value);
+        replace({ [SORT_QUERY_PARAM]: value, [PAGE_QUERY_PARAM]: "1" });
         break;
       }
       case SortType.Default:

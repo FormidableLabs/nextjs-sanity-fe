@@ -12,6 +12,8 @@ export type SortOption = {
 
 export const SORT_QUERY_PARAM = "sort";
 
+export const PAGE_QUERY_PARAM = "page";
+
 export const SORT_OPTIONS: Record<string, SortOption> = {
   default: {
     value: "default",

@@ -21,8 +21,8 @@ export const useRouterQueryParams = () => {
     router.replace({ query });
   };
 
-  const replace = (key: string, value: string) => {
-    const query = { ...router.query, [key]: value };
+  const replace = (args: Record<string, string>) => {
+    const query = { ...router.query, ...args };
     router.replace({ query });
   };
 
