@@ -10,15 +10,22 @@ import { DesktopNavItem } from "./DesktopNavItem";
 import { Logo } from "./Logo";
 import classNames from "classnames";
 
-type HeaderProps = {
-  isNavOpen: boolean;
-  onMobileNavClick: () => void;
-  onMobileNavClose: () => void;
-};
+export const Header = () => {
+  const [isNavOpen, setIsNavOpen] = React.useState(false);
 
-export const Header = ({ isNavOpen, onMobileNavClose, onMobileNavClick }: HeaderProps) => {
   const [isCartOpen, setIsCartOpen] = React.useState(false);
   const { cartTotal, isFetchingCartItems } = useCart();
+
+  const onMobileNavClick = () => setIsNavOpen((prev) => !prev);
+  const onMobileNavClose = () => setIsNavOpen(false);
+
+  React.useEffect(() => {
+    document?.body?.classList?.[isNavOpen ? "add" : "remove"]?.("overflow-hidden");
+  }, [isNavOpen]);
+
+  React.useEffect(() => {
+    document?.body?.classList?.[isCartOpen ? "add" : "remove"]?.("overflow-hidden", "sm:overflow-auto");
+  }, [isCartOpen]);
 
   return (
     <div className={classNames("sticky top-0 z-10 flex flex-col", isNavOpen && "h-screen")}>
