@@ -16,5 +16,5 @@ Cypress.Commands.add("setMockData", (mockData: Partial<MockData>) => {
   // Set the data on the client:
   setMockData(mockData);
   // And on the server:
-  cy.request("POST", "/api/mock", mockData);
+  cy.request("POST", "/api/mocks", mockData);
 });

@@ -7,6 +7,7 @@
   "scripts": {
     "dev": "concurrently \"yarn next:dev\" \"yarn codegen:watch\"",
     "next:dev": "next dev",
+    "next:dev:mock": "NEXT_PUBLIC_API_MOCKING=enabled next dev",
     "build": "next build",
     "start": "next start",
     "lint": "next lint --quiet",

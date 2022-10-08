@@ -1,6 +1,6 @@
 import "@testing-library/cypress/add-commands";
 
-import "../tasks/commands";
+import "./setMockData";
 
 // ***********************************************
 // This example commands.js shows you how to
