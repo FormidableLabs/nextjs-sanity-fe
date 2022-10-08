@@ -1,5 +1,6 @@
 import { Sdk } from "utils/generated/graphql-mock-types";
 import { getMockData } from "../db/mock-data";
+import faker from "faker";
 
 export const ProductsQueries: Pick<
   Sdk,
@@ -21,10 +22,11 @@ export const ProductsQueries: Pick<
 
   async getProductsAndCategories() {
     const mockData = getMockData();
+    const allImages = mockData.products.flatMap((p) => p.images).filter((x): x is NonNullable<typeof x> => !!x);
     return {
-      allProduct: mockData.products,
-      allCategory: mockData.categories,
-      allProductImage: mockData.products.flatMap((p) => p.images).filter((x): x is NonNullable<any> => !!x),
+      allProduct: mockData.products.slice(0, 3),
+      allCategory: mockData.categories.slice(0, 2),
+      allProductImage: [faker.random.arrayElement(allImages)],
     };
   },
 
