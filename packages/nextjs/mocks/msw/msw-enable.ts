@@ -9,9 +9,17 @@ if (mswUnsupported) {
   throw new Error(`[MSW Mock Server] MSW does not support mocking 'fetch' in Node v18`);
 }
 
-export async function initializeMSW() {
+async function initializeMSW() {
   console.log("[MSW Mock Server] Starting...");
   if (typeof window === "undefined") {
+    // 'next dev' will compile pages individually, so let's ensure we only install MSW once:
+    const isPatchedModule = Object.getOwnPropertySymbols(require("http")).find(
+      (s) => s.toString() === "Symbol(isPatchedModule)"
+    );
+    if (isPatchedModule) {
+      console.log("[MSW Mock Server] MSW already ready");
+      return;
+    }
     // Start the Node server
     const { setupServer } = require("msw/node");
     const server = setupServer(...handlers, ...groqHandlers);
