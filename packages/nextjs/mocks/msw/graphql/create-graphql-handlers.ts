@@ -5,15 +5,20 @@ type Handlers = {
   [handlerName in string]: (vars: any, headers: Headers) => Promise<any>;
 };
 
-export function createGraphqlHandlers(queryHandlers: Handlers, mutationHandlers: Handlers) {
+export function createGraphqlHandlers(
+  queryHandlers: Handlers,
+  mutationHandlers: Handlers,
+  { url }: { url?: string } = {}
+) {
+  const g = url ? graphql.link(url) : graphql;
   return [
     ...mapValues(queryHandlers, (handler, handlerName) => {
-      return graphql.query(handlerName, async (req, res, ctx) => {
+      return g.query(handlerName, async (req, res, ctx) => {
         return res(ctx.data(await handler(req.variables, req.headers)));
       });
     }),
     ...mapValues(mutationHandlers, (handler, handlerName) => {
-      return graphql.mutation(handlerName, async (req, res, ctx) => {
+      return g.mutation(handlerName, async (req, res, ctx) => {
         return res(ctx.data(await handler(req.variables, req.headers)));
       });
     }),

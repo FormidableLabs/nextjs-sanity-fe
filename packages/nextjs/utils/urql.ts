@@ -1,7 +1,7 @@
 import { initUrqlClient, WithUrqlClientOptions } from "next-urql";
 import { cacheExchange, dedupExchange, fetchExchange, ssrExchange } from "urql";
 
-const GRAPHQL_URL = `https://${process.env.NEXT_PUBLIC_SANITY_PROJECT_ID}.apicdn.sanity.io/v1/graphql/production/default`;
+export const GRAPHQL_URL = `https://${process.env.NEXT_PUBLIC_SANITY_PROJECT_ID}.apicdn.sanity.io/v1/graphql/production/default`;
 
 export const urqlOptions = {
   url: GRAPHQL_URL,
