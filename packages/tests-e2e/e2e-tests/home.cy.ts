@@ -12,5 +12,8 @@ describe("home page", () => {
   });
   it('should show "Top Categories" section', async () => {
     cy.findByText("Top categories");
+    cy.getPageData("/").then((query) => {
+      const { allCategory, allProduct, allProductImage } = query!;
+    });
   });
 });

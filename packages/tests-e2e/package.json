@@ -10,8 +10,10 @@
     "msw": "^0.47.4"
   },
   "scripts": {
-    "cypress:open": "cypress open --e2e --browser electron",
-    "cypress:run": "cypress run",
-    "typecheck": "tsc --noEmit"
+    "typecheck": "tsc --noEmit",
+    "test:e2e-real": "E2E_MODE=real cypress run",
+    "test:e2e-real:open": "E2E_MODE=real cypress open --e2e --browser electron",
+    "test:e2e-mock": "E2E_MODE=mock cypress run",
+    "test:e2e-mock:open": "E2E_MODE=mock cypress open --e2e --browser electron"
   }
 }

@@ -21,8 +21,10 @@
     "prepare": "husky install",
     "lint": "pnpm run --parallel lint",
     "typecheck": "pnpm run --parallel typecheck",
-    "test:e2e": "pnpm run --filter ./packages/tests-e2e cypress:run",
-    "test:e2e:open": "pnpm run --filter ./packages/tests-e2e cypress:open"
+    "test:e2e-real": "pnpm run --filter ./packages/tests-e2e test:e2e-real",
+    "test:e2e-real:open": "pnpm run --filter ./packages/tests-e2e test:e2e-real:open",
+    "test:e2e-mock": "pnpm run --filter ./packages/tests-e2e test:e2e-mock",
+    "test:e2e-mock:open": "pnpm run --filter ./packages/tests-e2e test:e2e-mock:open"
   },
   "devDependencies": {
     "@typescript-eslint/eslint-plugin": "^5.39.0",
