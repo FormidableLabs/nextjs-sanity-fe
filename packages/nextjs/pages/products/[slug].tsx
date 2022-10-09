@@ -26,6 +26,7 @@ import { H6 } from "components/Typography/H6";
 import { Product } from "components/Product";
 import { FadeInOut } from "../../components/FadeInOut";
 import { AnimatePresence } from "framer-motion";
+import { satisfies } from "utils/satisfies";
 
 const ProductPage: NextPage = () => {
   const { query } = useRouter();
@@ -155,7 +156,7 @@ const PageBody = ({ variant, product }: { product?: PDPProduct; variant?: PDPVar
 type PDPProduct = GetProductAndRecommendationsQuery["allProduct"][number];
 type PDPVariant = NonNullable<GetProductAndRecommendationsQuery["allProduct"][number]["variants"]>[number];
 
-export const getServerSideProps: GetServerSideProps = async ({ res, query }) => {
+export const getServerSideProps = satisfies<GetServerSideProps>()(async ({ res, query }) => {
   const { client, ssrCache } = initializeUrql();
   const { slug } = query;
 
@@ -184,7 +185,8 @@ export const getServerSideProps: GetServerSideProps = async ({ res, query }) => 
       // urqlState is a keyword here so withUrqlClient can pick it up.
       urqlState: ssrCache.extractData(),
     },
+    [Symbol.for("e2eData")]: pageData,
   };
-};
+});
 
 export default withUrqlClient(() => ({ ...urqlOptions }), withUrqlOptions)(ProductPage);

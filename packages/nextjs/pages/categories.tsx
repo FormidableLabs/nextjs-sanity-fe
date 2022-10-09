@@ -29,12 +29,12 @@ const CategoriesPage: NextPage = () => {
   );
 };
 
-export const getSSRProps = satisfies<GetServerSideProps<WithUrqlState>>()(async ({ res }) => {
+export const getServerSideProps = satisfies<GetServerSideProps<WithUrqlState>>()(async ({ res }) => {
   const { client, ssrCache } = initializeUrql();
 
   // This query is used to populate the cache for the query
   // used on this page.
-  const categories = await client?.query<GetCategoriesQuery>(GetCategoriesDocument, {}).toPromise();
+  const query = await client?.query<GetCategoriesQuery>(GetCategoriesDocument, {}).toPromise();
 
   setCachingHeaders(res, [SanityType.Category, SanityType.CategoryImage]);
 
@@ -43,19 +43,8 @@ export const getSSRProps = satisfies<GetServerSideProps<WithUrqlState>>()(async 
       // urqlState is a keyword here so withUrqlClient can pick it up.
       urqlState: ssrCache.extractData(),
     },
-    e2eData: {
-      categories: categories?.data,
-    },
+    [Symbol.for("e2eData")]: query?.data,
   };
 });
-
-export const getServerSideProps: GetServerSideProps<WithUrqlState> = async (context) => {
-  const {
-    // Omit the extra data, it's only used for E2E tests:
-    e2eData, // eslint-disable-line @typescript-eslint/no-unused-vars
-    ...serverSideProps
-  } = await getSSRProps(context);
-  return serverSideProps;
-};
 
 export default withUrqlClient(() => ({ ...urqlOptions }), withUrqlOptions)(CategoriesPage);

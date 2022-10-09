@@ -1,7 +1,11 @@
 import * as React from "react";
 import { GetServerSideProps, NextPage } from "next";
 import { withUrqlClient } from "next-urql";
-import { GetProductsAndCategoriesDocument, useGetProductsAndCategoriesQuery } from "utils/generated/graphql";
+import {
+  GetProductsAndCategoriesDocument,
+  GetProductsAndCategoriesQuery,
+  useGetProductsAndCategoriesQuery,
+} from "utils/generated/graphql";
 import { initializeUrql, urqlOptions, withUrqlOptions } from "utils/urql";
 import { setCachingHeaders } from "utils/setCachingHeaders";
 import { SanityType } from "utils/consts";
@@ -16,6 +20,7 @@ import NextImage from "next/image";
 import featuredImg from "assets/featured-story.jpg";
 import { localImageLoader } from "../utils/localImageLoader";
 import { PageHead } from "../components/PageHead";
+import { satisfies } from "utils/satisfies";
 
 const Home: NextPage = () => {
   const [{ data }] = useGetProductsAndCategoriesQuery();
@@ -95,12 +100,12 @@ const TitleBanner = ({ children }: React.PropsWithChildren) => (
   </div>
 );
 
-export const getServerSideProps: GetServerSideProps = async ({ res }) => {
+export const getServerSideProps = satisfies<GetServerSideProps>()(async ({ res }) => {
   const { client, ssrCache } = initializeUrql();
 
   // This query is used to populate the cache for the query
   // used on this page.
-  await client?.query(GetProductsAndCategoriesDocument, {}).toPromise();
+  const query = await client?.query<GetProductsAndCategoriesQuery>(GetProductsAndCategoriesDocument, {}).toPromise();
 
   setCachingHeaders(res, [
     SanityType.Category,
@@ -115,7 +120,8 @@ export const getServerSideProps: GetServerSideProps = async ({ res }) => {
       // urqlState is a keyword here so withUrqlClient can pick it up.
       urqlState: ssrCache.extractData(),
     },
+    [Symbol.for("e2eData")]: query?.data,
   };
-};
+});
 
 export default withUrqlClient(() => ({ ...urqlOptions }), withUrqlOptions)(Home);
