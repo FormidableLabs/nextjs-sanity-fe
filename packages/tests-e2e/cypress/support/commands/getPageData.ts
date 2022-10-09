@@ -1,4 +1,4 @@
-import type { PageDataTypes } from "pages/api/e2e-tests/page-data/[page]";
+import type { PageDataTypes } from "../../../../nextjs/pages/api/e2e-tests/page-data/[page]";
 
 declare global {
   // eslint-disable-next-line @typescript-eslint/no-namespace
