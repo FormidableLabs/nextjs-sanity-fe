@@ -15,9 +15,26 @@ describe("categories page", () => {
 
   // Flaky test, because it depends on prod data:
   it("should have 3 top categories listed", async () => {
-    const expectedCategories = ["Delectable Donuts", "Palatable Pastries", "Love Loaves"];
-    expectedCategories.forEach((categoryTitle) => {
-      cy.findByText("Categories").parent().findByText(categoryTitle).should("exist");
+    mockCategories.forEach((cat) => {
+      expect(cat.name).to.not.be.empty;
+      cy.findByText("Categories").parent().findByText(cat.name!).should("exist");
+    });
+  });
+});
+
+describe("categories page (no mocks)", () => {
+  before(() => {
+    cy.visit("/categories");
+  });
+  it("should have 3 categories on the page", () => {
+    cy.getPageData("/categories").then((data) => {
+      const categories = data.categories!.allCategory;
+
+      expect(categories).to.have.length(3);
+      categories.forEach((cat) => {
+        expect(cat.name).to.not.be.empty;
+        cy.findByText(cat.name!).should("exist");
+      });
     });
   });
 });

@@ -1,11 +1,12 @@
 import { GetServerSideProps, NextPage } from "next";
-import { withUrqlClient } from "next-urql";
+import { withUrqlClient, WithUrqlState } from "next-urql";
 
-import { GetCategoriesDocument, useGetCategoriesQuery } from "utils/generated/graphql";
+import { GetCategoriesDocument, GetCategoriesQuery, useGetCategoriesQuery } from "utils/generated/graphql";
 import { initializeUrql, urqlOptions, withUrqlOptions } from "utils/urql";
 import { CategoryList } from "components/CategoryList";
 import { setCachingHeaders } from "utils/setCachingHeaders";
 import { SanityType } from "utils/consts";
+import { satisfies } from "utils/satisfies";
 import { WeDontSellBreadBanner } from "../components/WeDontSellBreadBanner";
 import { PageHead } from "../components/PageHead";
 import { isString, pluralize } from "../utils/pluralize";
@@ -28,12 +29,12 @@ const CategoriesPage: NextPage = () => {
   );
 };
 
-export const getServerSideProps: GetServerSideProps = async ({ res }) => {
+export const getSSRProps = satisfies<GetServerSideProps<WithUrqlState>>()(async ({ res }) => {
   const { client, ssrCache } = initializeUrql();
 
   // This query is used to populate the cache for the query
   // used on this page.
-  await client?.query(GetCategoriesDocument, {}).toPromise();
+  const categories = await client?.query<GetCategoriesQuery>(GetCategoriesDocument, {}).toPromise();
 
   setCachingHeaders(res, [SanityType.Category, SanityType.CategoryImage]);
 
@@ -42,7 +43,19 @@ export const getServerSideProps: GetServerSideProps = async ({ res }) => {
       // urqlState is a keyword here so withUrqlClient can pick it up.
       urqlState: ssrCache.extractData(),
     },
+    e2eData: {
+      categories: categories?.data,
+    },
   };
+});
+
+export const getServerSideProps: GetServerSideProps<WithUrqlState> = async (context) => {
+  const {
+    // Omit the extra data, it's only used for E2E tests:
+    e2eData, // eslint-disable-line @typescript-eslint/no-unused-vars
+    ...serverSideProps
+  } = await getSSRProps(context);
+  return serverSideProps;
 };
 
 export default withUrqlClient(() => ({ ...urqlOptions }), withUrqlOptions)(CategoriesPage);

@@ -1,5 +1,6 @@
 import "@testing-library/cypress/add-commands";
 
+import "./getPageData";
 import "./setMockData";
 
 // ***********************************************
