@@ -1,7 +1,7 @@
 {
   "extends": "../nextjs/tsconfig.json",
   "compilerOptions": {
-    "types": ["cypress", "node", "@testing-library/cypress"],
+    "types": ["cypress", "node", "@testing-library/cypress", "../nextjs/next-env"],
     "isolatedModules": false,
     "noUnusedLocals": false
   },
