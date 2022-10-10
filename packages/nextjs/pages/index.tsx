@@ -21,6 +21,7 @@ import featuredImg from "assets/featured-story.jpg";
 import { localImageLoader } from "../utils/localImageLoader";
 import { PageHead } from "../components/PageHead";
 import { satisfies } from "utils/satisfies";
+import { TypedUrqlState } from "utils/parseUrqlState";
 
 const Home: NextPage = () => {
   const [{ data }] = useGetProductsAndCategoriesQuery();
@@ -118,7 +119,7 @@ export const getServerSideProps = satisfies<GetServerSideProps>()(async ({ res }
   return {
     props: {
       // urqlState is a keyword here so withUrqlClient can pick it up.
-      urqlState: ssrCache.extractData(),
+      urqlState: ssrCache.extractData() as TypedUrqlState<GetProductsAndCategoriesQuery>,
     },
     [Symbol.for("e2eData")]: query?.data,
   };

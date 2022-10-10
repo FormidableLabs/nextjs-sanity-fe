@@ -3,11 +3,7 @@ import type * as categories from " ../../../../nextjs/pages/categories";
 import type * as products from " ../../../../nextjs/pages/products/index";
 import type * as product from " ../../../../nextjs/pages/products/[slug]";
 import { satisfies } from "../../../../nextjs/utils/satisfies";
-import {
-  GetCategoriesQuery,
-  GetProductAndRecommendationsQuery,
-  GetProductsAndCategoriesQuery,
-} from "../../../../nextjs/utils/generated/graphql";
+import { parseUrqlState } from "../../../../nextjs/utils/parseUrqlState";
 
 type AsyncReturnType<TFunc extends (...args: any) => any> = UnwrapPromise<ReturnType<TFunc>>;
 type UnwrapPromise<TPromiseMaybe> = TPromiseMaybe extends Promise<infer TValue> ? TValue : TPromiseMaybe;
@@ -19,24 +15,11 @@ type PageProps = {
   "/product": AsyncReturnType<typeof product.getServerSideProps>["props"];
 };
 const getServerSidePropsForPage = satisfies<{ [P in keyof PageProps]: (props: PageProps[P]) => unknown }>()({
-  "/home": (props) => parseUrqlState<GetProductsAndCategoriesQuery>(props.urqlState),
-  "/categories": (props) => parseUrqlState<GetCategoriesQuery>(props.urqlState),
+  "/home": (props) => parseUrqlState(props.urqlState),
+  "/categories": (props) => parseUrqlState(props.urqlState),
   "/products": (props) => props,
-  "/product": (props) => parseUrqlState<GetProductAndRecommendationsQuery>(props.urqlState),
+  "/product": (props) => parseUrqlState(props.urqlState),
 });
-
-type SSRData = { [key: string]: { data?: string } };
-function parseUrqlState<TQueryResult>(urqlState: SSRData): TQueryResult {
-  const keys = Object.keys(urqlState);
-  if (keys.length === 0) throw new Error(`urqlState did not have any entries`);
-
-  const data = urqlState[keys[0]].data;
-  if (!data) {
-    throw new Error("urqlState did not have any data");
-  }
-
-  return JSON.parse(data);
-}
 
 type PageDataTypes = {
   [P in keyof typeof getServerSidePropsForPage]: ReturnType<typeof getServerSidePropsForPage[P]>;

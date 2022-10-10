@@ -27,6 +27,7 @@ import { Product } from "components/Product";
 import { FadeInOut } from "../../components/FadeInOut";
 import { AnimatePresence } from "framer-motion";
 import { satisfies } from "utils/satisfies";
+import { TypedUrqlState } from "utils/parseUrqlState";
 
 const ProductPage: NextPage = () => {
   const { query } = useRouter();
@@ -183,7 +184,7 @@ export const getServerSideProps = satisfies<GetServerSideProps>()(async ({ res, 
   return {
     props: {
       // urqlState is a keyword here so withUrqlClient can pick it up.
-      urqlState: ssrCache.extractData(),
+      urqlState: ssrCache.extractData() as TypedUrqlState<GetProductAndRecommendationsQuery>,
     },
     [Symbol.for("e2eData")]: pageData,
   };

@@ -10,6 +10,7 @@ import { satisfies } from "utils/satisfies";
 import { WeDontSellBreadBanner } from "../components/WeDontSellBreadBanner";
 import { PageHead } from "../components/PageHead";
 import { isString, pluralize } from "../utils/pluralize";
+import { TypedUrqlState } from "utils/parseUrqlState";
 
 const CategoriesPage: NextPage = () => {
   const [{ data }] = useGetCategoriesQuery();
@@ -41,7 +42,7 @@ export const getServerSideProps = satisfies<GetServerSideProps<WithUrqlState>>()
   return {
     props: {
       // urqlState is a keyword here so withUrqlClient can pick it up.
-      urqlState: ssrCache.extractData(),
+      urqlState: ssrCache.extractData() as TypedUrqlState<GetCategoriesQuery>,
     },
     [Symbol.for("e2eData")]: query?.data,
   };
