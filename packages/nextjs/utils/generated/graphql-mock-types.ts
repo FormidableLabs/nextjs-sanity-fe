@@ -1,5 +1,4 @@
-import { GraphQLClient } from 'graphql-request';
-import * as Dom from 'graphql-request/dist/types.dom';
+import { DocumentNode } from 'graphql';
 import gql from 'graphql-tag';
 export type Maybe<T> = T | null;
 export type InputMaybe<T> = Maybe<T>;
@@ -1301,31 +1300,26 @@ export const GetProductsSlugsDocument = gql`
   }
 }
     `;
-
-export type SdkFunctionWrapper = <T>(action: (requestHeaders?:Record<string, string>) => Promise<T>, operationName: string, operationType?: string) => Promise<T>;
-
-
-const defaultWrapper: SdkFunctionWrapper = (action, _operationName, _operationType) => action();
-
-export function getSdk(client: GraphQLClient, withWrapper: SdkFunctionWrapper = defaultWrapper) {
+export type Requester<C = {}, E = unknown> = <R, V>(doc: DocumentNode, vars?: V, options?: C) => Promise<R> | AsyncIterable<R>
+export function getSdk<C, E>(requester: Requester<C, E>) {
   return {
-    getCategories(variables?: GetCategoriesQueryVariables, requestHeaders?: Dom.RequestInit["headers"]): Promise<GetCategoriesQuery> {
-      return withWrapper((wrappedRequestHeaders) => client.request<GetCategoriesQuery>(GetCategoriesDocument, variables, {...requestHeaders, ...wrappedRequestHeaders}), 'getCategories', 'query');
+    getCategories(variables?: GetCategoriesQueryVariables, options?: C): Promise<GetCategoriesQuery> {
+      return requester<GetCategoriesQuery, GetCategoriesQueryVariables>(GetCategoriesDocument, variables, options) as Promise<GetCategoriesQuery>;
     },
-    getCategoriesSlugs(variables?: GetCategoriesSlugsQueryVariables, requestHeaders?: Dom.RequestInit["headers"]): Promise<GetCategoriesSlugsQuery> {
-      return withWrapper((wrappedRequestHeaders) => client.request<GetCategoriesSlugsQuery>(GetCategoriesSlugsDocument, variables, {...requestHeaders, ...wrappedRequestHeaders}), 'getCategoriesSlugs', 'query');
+    getCategoriesSlugs(variables?: GetCategoriesSlugsQueryVariables, options?: C): Promise<GetCategoriesSlugsQuery> {
+      return requester<GetCategoriesSlugsQuery, GetCategoriesSlugsQueryVariables>(GetCategoriesSlugsDocument, variables, options) as Promise<GetCategoriesSlugsQuery>;
     },
-    getProductsAndCategories(variables?: GetProductsAndCategoriesQueryVariables, requestHeaders?: Dom.RequestInit["headers"]): Promise<GetProductsAndCategoriesQuery> {
-      return withWrapper((wrappedRequestHeaders) => client.request<GetProductsAndCategoriesQuery>(GetProductsAndCategoriesDocument, variables, {...requestHeaders, ...wrappedRequestHeaders}), 'getProductsAndCategories', 'query');
+    getProductsAndCategories(variables?: GetProductsAndCategoriesQueryVariables, options?: C): Promise<GetProductsAndCategoriesQuery> {
+      return requester<GetProductsAndCategoriesQuery, GetProductsAndCategoriesQueryVariables>(GetProductsAndCategoriesDocument, variables, options) as Promise<GetProductsAndCategoriesQuery>;
     },
-    getProductAndRecommendations(variables: GetProductAndRecommendationsQueryVariables, requestHeaders?: Dom.RequestInit["headers"]): Promise<GetProductAndRecommendationsQuery> {
-      return withWrapper((wrappedRequestHeaders) => client.request<GetProductAndRecommendationsQuery>(GetProductAndRecommendationsDocument, variables, {...requestHeaders, ...wrappedRequestHeaders}), 'getProductAndRecommendations', 'query');
+    getProductAndRecommendations(variables: GetProductAndRecommendationsQueryVariables, options?: C): Promise<GetProductAndRecommendationsQuery> {
+      return requester<GetProductAndRecommendationsQuery, GetProductAndRecommendationsQueryVariables>(GetProductAndRecommendationsDocument, variables, options) as Promise<GetProductAndRecommendationsQuery>;
     },
-    getProducts(variables?: GetProductsQueryVariables, requestHeaders?: Dom.RequestInit["headers"]): Promise<GetProductsQuery> {
-      return withWrapper((wrappedRequestHeaders) => client.request<GetProductsQuery>(GetProductsDocument, variables, {...requestHeaders, ...wrappedRequestHeaders}), 'getProducts', 'query');
+    getProducts(variables?: GetProductsQueryVariables, options?: C): Promise<GetProductsQuery> {
+      return requester<GetProductsQuery, GetProductsQueryVariables>(GetProductsDocument, variables, options) as Promise<GetProductsQuery>;
     },
-    getProductsSlugs(variables?: GetProductsSlugsQueryVariables, requestHeaders?: Dom.RequestInit["headers"]): Promise<GetProductsSlugsQuery> {
-      return withWrapper((wrappedRequestHeaders) => client.request<GetProductsSlugsQuery>(GetProductsSlugsDocument, variables, {...requestHeaders, ...wrappedRequestHeaders}), 'getProductsSlugs', 'query');
+    getProductsSlugs(variables?: GetProductsSlugsQueryVariables, options?: C): Promise<GetProductsSlugsQuery> {
+      return requester<GetProductsSlugsQuery, GetProductsSlugsQueryVariables>(GetProductsSlugsDocument, variables, options) as Promise<GetProductsSlugsQuery>;
     }
   };
 }

@@ -16,7 +16,7 @@ generates:
     plugins:
       - "typescript"
       - "typescript-operations"
-      - "typescript-graphql-request"
+      - "typescript-generic-sdk"
   ./graphql.schema.json:
     plugins:
       - "introspection"
