@@ -1,17 +1,36 @@
 describe("when I visit the Product Details Page", () => {
-  const product = {
-    slug: "sourdough-loaf", // TODO: mock this
-    title: "Sourdough Loaf",
-    price: "$7.99",
-  };
   before(() => {
-    cy.visit(`/products/${product.slug}`);
+    // Find a product to test:
+    cy.visit("/products");
+    cy.getServerSideProps("/products").then((props) => {
+      const product = props.variants[0];
+      cy.visit(`/products/${product.productSlug}`);
+    });
   });
 
-  it(`I see the "${product.title}" title`, () => {
-    cy.findAllByText(product.title).should("exist");
+  it(`I see the product's title`, () => {
+    cy.getServerSideProps("/products/[slug]").then((data) => {
+      const product = data.allProduct[0];
+      cy.findAllByText(product.name!).should("exist");
+    });
   });
   it("I see the item's price", () => {
-    cy.findByText(product.price).should("exist");
+    cy.getServerSideProps("/products/[slug]").then((data) => {
+      const product = data.allProduct[0];
+      const variant = product.variants![0]!;
+      cy.findAllByText(/\$\d+\.\d\d/)
+        .should("exist")
+        .then((price) => {
+          const renderedPrice = price.first().text();
+          const expectedPrice = variant.price!;
+          expect(renderedPrice).to.equal(`$${expectedPrice}`);
+        });
+    });
+  });
+
+  ["Type", "Style", "Quantity"].forEach((option) => {
+    it(`I can see the "${option}" option`, async () => {
+      cy.findByText(option).scrollIntoView().should("be.visible");
+    });
   });
 });

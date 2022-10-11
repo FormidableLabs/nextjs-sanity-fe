@@ -12,13 +12,13 @@ type PageProps = {
   "/home": AsyncReturnType<typeof home.getServerSideProps>["props"];
   "/categories": AsyncReturnType<typeof categories.getServerSideProps>["props"];
   "/products": AsyncReturnType<typeof products.getServerSideProps>["props"];
-  "/product": AsyncReturnType<typeof product.getServerSideProps>["props"];
+  "/products/[slug]": AsyncReturnType<typeof product.getServerSideProps>["props"];
 };
 const getServerSidePropsForPage = satisfies<{ [P in keyof PageProps]: (props: PageProps[P]) => unknown }>()({
   "/home": (props) => parseUrqlState(props.urqlState),
   "/categories": (props) => parseUrqlState(props.urqlState),
   "/products": (props) => props,
-  "/product": (props) => parseUrqlState(props.urqlState),
+  "/products/[slug]": (props) => parseUrqlState(props.urqlState),
 });
 
 type PageDataTypes = {
