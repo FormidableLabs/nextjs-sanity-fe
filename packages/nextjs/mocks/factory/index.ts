@@ -1,4 +1,5 @@
 import faker from "faker";
+import { satisfies } from "utils/satisfies";
 import type {
   Category,
   CategoryImage,
@@ -206,11 +207,5 @@ export class MockFactory {
 type IgnoredFields = keyof Pick<Product, "_rev" | "_key" | "_createdAt" | "_updatedAt">;
 type FullData<T> = Required<Omit<T, IgnoredFields>>;
 type MockImageSize = "small" | "medium" | "large";
-
-// Similar to TypeScript 4.8's "satisfies" operator
-const satisfies =
-  <TConstraint>() =>
-  <TActual extends TConstraint>(value: TActual) =>
-    value;
 
 export const mock = new MockFactory();
