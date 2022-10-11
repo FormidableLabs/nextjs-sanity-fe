@@ -1,25 +1,51 @@
 import { graphql } from "msw";
 
-type Handlers = {
+type SdkHandlers = {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  [handlerName in string]: (vars: any, headers: Headers) => Promise<any>;
+  [operationName in string]: (vars: any) => Promise<any>;
 };
 
-export function createGraphqlHandlers(
-  queryHandlers: Handlers,
-  mutationHandlers: Handlers,
-  { url }: { url?: string } = {}
+/**
+ * Maps the queryHandlers and mutationHandlers into MSW handlers.
+ * This is designed to work with the `@graphql-codegen/typescript-generic-sdk`.
+ * This gives full type-safety, with minimal effort.
+ *
+ * @example
+ *    import * as msw from 'msw';
+ *    import { Sdk } from './graphql-mock-types.ts'; // generated using `@graphql-codegen/typescript-generic-sdk`
+ *
+ *    // Everything below is completely strongly-typed!
+ *    const handlers = createGraphqlHandlers<Sdk>({
+ *      async getMyValue(vars) {
+ *        return { myValue: "value" };
+ *      }
+ *    }, {
+ *      async setMyValue(vars) {
+ *        return { myValue: vars.newValue };
+ *      }
+ *    });
+ *
+ *    msw.setupWorker(...handlers).start();
+ *
+ * @param queryHandlers - All the mock handlers for queries
+ * @param mutationHandlers - All the mock handlers for mutations
+ * @param url - If supplied, all handlers will be scoped only to this GraphQL endpoint
+ */
+export function createGraphqlHandlers<Sdk extends SdkHandlers>(
+  queryHandlers: Partial<Sdk>,
+  mutationHandlers: Partial<Sdk>,
+  { url = "" } = {}
 ) {
   const g = url ? graphql.link(url) : graphql;
   return [
     ...mapValues(queryHandlers, (handler, handlerName) => {
       return g.query(handlerName, async (req, res, ctx) => {
-        return res(ctx.data(await handler(req.variables, req.headers)));
+        return res(ctx.data(await handler(req.variables)));
       });
     }),
     ...mapValues(mutationHandlers, (handler, handlerName) => {
       return g.mutation(handlerName, async (req, res, ctx) => {
-        return res(ctx.data(await handler(req.variables, req.headers)));
+        return res(ctx.data(await handler(req.variables)));
       });
     }),
   ];

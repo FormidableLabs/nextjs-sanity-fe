@@ -21,4 +21,4 @@ type UnmockedOperationsError = keyof UnmockedOperations extends never
 const ensureAllOperationsAreMocked: UnmockedOperationsError = null;
 ensureAllOperationsAreMocked; // (Suppress "unused variable" error)
 
-export const handlers = createGraphqlHandlers(Queries, Mutations, { url: GRAPHQL_URL });
+export const handlers = createGraphqlHandlers<Sdk>(Queries, Mutations, { url: GRAPHQL_URL });
