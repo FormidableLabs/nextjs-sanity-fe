@@ -47,7 +47,7 @@ declare global {
   namespace Cypress {
     export interface Chainable<Subject = any> {
       /**
-       *
+       * Retrieves the page's server-side props from __NEXT_DATA__.
        */
       getServerSideProps<TPage extends keyof PageDataTypes>(page: TPage): Chainable<PageDataTypes[TPage]>;
     }
