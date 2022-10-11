@@ -38,22 +38,15 @@ export function createGraphqlHandlers<Sdk extends SdkHandlers>(
 ) {
   const g = url ? graphql.link(url) : graphql;
   return [
-    ...mapValues(queryHandlers, (handler, handlerName) => {
+    ...Object.entries(queryHandlers).map(([handlerName, handler]) => {
       return g.query(handlerName, async (req, res, ctx) => {
         return res(ctx.data(await handler(req.variables)));
       });
     }),
-    ...mapValues(mutationHandlers, (handler, handlerName) => {
+    ...Object.entries(mutationHandlers).map(([handlerName, handler]) => {
       return g.mutation(handlerName, async (req, res, ctx) => {
         return res(ctx.data(await handler(req.variables)));
       });
     }),
   ];
-}
-
-function mapValues<TObj extends object, TResult>(
-  obj: TObj,
-  callback: (value: TObj[keyof TObj], key: keyof TObj) => TResult
-): TResult[] {
-  return (Object.keys(obj) as Array<keyof TObj>).map((key) => callback(obj[key], key));
 }
