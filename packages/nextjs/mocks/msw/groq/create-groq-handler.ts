@@ -3,8 +3,8 @@ import * as groqJs from "groq-js";
 
 /**
  * Returns a MSW handler for GROQ queries
- * @param url
- * @param getDataset
+ * @param url - The URL of the GROQ server to capture
+ * @param getDataset - Any object.  It will be recursively searched for all nested objects that match the GROQ query.
  */
 export function createGroqHandler(url: string, getDataset: () => object) {
   return rest.get(url, async (req, res, ctx) => {
