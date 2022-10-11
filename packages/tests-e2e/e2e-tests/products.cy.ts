@@ -1,12 +1,12 @@
-describe("products page", () => {
+describe("when I visit the products page", () => {
   before(() => {
     cy.visit("/products");
   });
 
-  it("should load the products page", () => {
+  it("I see the Products title", () => {
     cy.findAllByText("Products").should("exist");
   });
-  it("should have a sidebar with filters and sorts", () => {
+  it("I see a sidebar with filters and sorts", () => {
     cy.findByText("Sort by");
     cy.findByText("Filters");
     cy.findByText("Flavour");

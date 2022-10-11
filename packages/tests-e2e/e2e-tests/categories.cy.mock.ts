@@ -1,6 +1,6 @@
 import { mock } from "mocks/factory";
 
-describe("categories page", () => {
+describe(`when I visit the "Categories" page`, () => {
   const mockCategories = mock.array(10, () => mock.category({}));
 
   before(() => {
@@ -9,15 +9,14 @@ describe("categories page", () => {
     cy.visit("/categories");
   });
 
-  it("should load the categories page with a header", () => {
+  it(`I see the "Categories" header`, () => {
     cy.findAllByText("Categories").should("exist");
   });
 
-  // Flaky test, because it depends on prod data:
-  it(`should have all mock categories listed: ${mockCategories.map((c) => c.name).join(", ")}`, async () => {
-    mockCategories.forEach((cat) => {
-      expect(cat.name).to.not.be.empty;
-      cy.findByText("Categories").parent().findByText(cat.name!).should("exist");
+  for (const category of mockCategories) {
+    it(`I should see the category "${category.name}"`, () => {
+      expect(category.name).to.not.be.empty;
+      cy.findByText("Categories").parent().findByText(category.name!).should("exist");
     });
-  });
+  }
 });

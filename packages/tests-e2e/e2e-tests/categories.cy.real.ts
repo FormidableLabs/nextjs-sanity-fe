@@ -1,8 +1,8 @@
-describe("categories page (no mocks)", () => {
+describe(`when I visit the "Categories" page`, () => {
   before(() => {
     cy.visit("/categories");
   });
-  it("should have 3 categories on the page (uses getPageData)", () => {
+  it("I see 3 categories on the page (via getPageData)", () => {
     cy.getPageData("/categories").then((data) => {
       const categories = data!.allCategory;
 
@@ -13,7 +13,7 @@ describe("categories page (no mocks)", () => {
       });
     });
   });
-  it("should have 3 categories on the page (uses getServerSideProps)", () => {
+  it("I see 3 categories on the page (via getServerSideProps)", () => {
     cy.getServerSideProps("/categories").then((data) => {
       const categories = data.allCategory;
 
