@@ -5,7 +5,7 @@ declare global {
   namespace Cypress {
     export interface Chainable<Subject = any> {
       /**
-       *
+       * Retrieves the page's server-side props from the `/api/e2e-tests/page-data/...` helper.
        */
       getPageData<TPage extends keyof PageDataTypes>(page: TPage): Chainable<PageDataTypes[TPage]>;
     }
