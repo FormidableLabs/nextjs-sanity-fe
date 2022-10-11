@@ -56,8 +56,16 @@ jobs:
       - name: Copy dummy pnpm-lock.yaml
         run: cp pnpm-lock.yaml ./packages/tests-e2e/pnpm-lock.yaml
 
-      - name: Cypress Run
+      - name: Cypress Run (Production Backend)
         uses: cypress-io/github-action@v4
         with:
-          start: "pnpm --dir ../.. run dev:nextjs"
           working-directory: "packages/tests-e2e"
+          start: "pnpm --dir ../nextjs run next:dev"
+          command: "pnpm run test:e2e-real"
+
+      - name: Cypress Run (Mock Backend)
+        uses: cypress-io/github-action@v4
+        with:
+          working-directory: "packages/tests-e2e"
+          start: "pnpm --dir ../nextjs run next:dev:mock"
+          command: "pnpm run test:e2e-mock"
