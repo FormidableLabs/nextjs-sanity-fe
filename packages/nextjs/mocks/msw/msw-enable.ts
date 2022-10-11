@@ -1,6 +1,10 @@
 import { handlers } from "./graphql";
 import { groqHandlers } from "./groq/handlers";
 
+/**
+ * Importing this file enables MSW.  It works both client-side and server-side.
+ */
+
 /* eslint-disable @typescript-eslint/no-var-requires */
 
 // See https://github.com/mswjs/interceptors/issues/159
@@ -13,13 +17,14 @@ async function initializeMSW() {
   console.log("[MSW Mock Server] Starting...");
   if (typeof window === "undefined") {
     // 'next dev' will compile pages individually, so let's ensure we only install MSW once:
-    const isPatchedModule = Object.getOwnPropertySymbols(require("http")).find(
+    const isPatchedAlready = Object.getOwnPropertySymbols(require("http")).find(
       (s) => s.toString() === "Symbol(isPatchedModule)"
     );
-    if (isPatchedModule) {
+    if (isPatchedAlready) {
       console.log("[MSW Mock Server] MSW already ready");
       return;
     }
+
     // Start the Node server
     const { setupServer } = require("msw/node");
     const server = setupServer(...handlers, ...groqHandlers);
