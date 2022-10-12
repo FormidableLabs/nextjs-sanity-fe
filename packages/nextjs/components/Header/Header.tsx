@@ -28,7 +28,7 @@ export const Header = () => {
   }, [isCartOpen]);
 
   return (
-    <div className={classNames("sticky top-0 z-10 flex flex-col", isNavOpen && "h-screen")}>
+    <header className={classNames("sticky top-0 z-10 flex flex-col", isNavOpen && "h-screen")}>
       <nav className="h-[66px] sm:h-[110px] border-b-2 border-b-primary bg-secondary shadow transition-all text-primary">
         <div className="h-full container flex items-center justify-between px-6">
           <div className="flex items-center">
@@ -59,6 +59,6 @@ export const Header = () => {
         </div>
       </nav>
       <MobileHeaderItems navOpen={isNavOpen} onMobileNavClose={onMobileNavClose} />
-    </div>
+    </header>
   );
 };
