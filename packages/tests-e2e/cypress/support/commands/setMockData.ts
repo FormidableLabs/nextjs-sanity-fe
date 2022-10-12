@@ -13,6 +13,7 @@ declare global {
 }
 
 Cypress.Commands.add("setMockData", (mockData: Partial<MockData>) => {
+  throw new Error("[setMockData] It's currently broken, because 'next dev' keeps a separate module cache");
   // Set the data on the client:
   setMockData(mockData);
   // And on the server:
