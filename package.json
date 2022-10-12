@@ -9,6 +9,8 @@
   "scripts": {
     "local": "pnpm run --filter ./packages/nextjs --filter ./packages/sanity --parallel dev",
     "dev:nextjs": "pnpm run --filter ./packages/nextjs dev",
+    "next:dev": "pnpm run --filter ./packages/nextjs next:dev",
+    "next:dev:mock": "pnpm run --filter ./packages/nextjs next:dev:mock",
     "build:nextjs": "pnpm run --filter ./packages/nextjs build",
     "start:nextjs": "pnpm run --filter ./packages/nextjs start",
     "codegen:nextjs": "pnpm run --filter ./packages/nextjs codegen",
@@ -23,8 +25,10 @@
     "typecheck": "pnpm run --parallel typecheck",
     "test:e2e-real": "pnpm run --filter ./packages/tests-e2e test:e2e-real",
     "test:e2e-real:open": "pnpm run --filter ./packages/tests-e2e test:e2e-real:open",
+    "test:e2e-real:start": "start-server-and-test next:dev http://localhost:3000 test:e2e-real",
     "test:e2e-mock": "pnpm run --filter ./packages/tests-e2e test:e2e-mock",
-    "test:e2e-mock:open": "pnpm run --filter ./packages/tests-e2e test:e2e-mock:open"
+    "test:e2e-mock:open": "pnpm run --filter ./packages/tests-e2e test:e2e-mock:open",
+    "test:e2e-mock:start": "start-server-and-test next:dev:mock http://localhost:3000 test:e2e-real"
   },
   "devDependencies": {
     "@typescript-eslint/eslint-plugin": "^5.39.0",
@@ -34,6 +38,7 @@
     "husky": "^8.0.1",
     "lint-staged": "^13.0.3",
     "prettier": "^2.7.1",
+    "start-server-and-test": "^1.14.0",
     "typescript": "4.8.2"
   },
   "lint-staged": {

@@ -52,20 +52,8 @@ jobs:
           restore-keys: |
             ${{ runner.os }}-cypress-store-
 
-        # This is required to tell Cypress to use pnpm:
-      - name: Copy dummy pnpm-lock.yaml
-        run: cp pnpm-lock.yaml ./packages/tests-e2e/pnpm-lock.yaml
-
       - name: Cypress Run (Production Backend)
-        uses: cypress-io/github-action@v4
-        with:
-          working-directory: "packages/tests-e2e"
-          start: "pnpm --dir ../nextjs run next:dev"
-          command: "pnpm run test:e2e-real"
+        run: pnpm run test:e2e-real:start
 
       - name: Cypress Run (Mock Backend)
-        uses: cypress-io/github-action@v4
-        with:
-          working-directory: "packages/tests-e2e"
-          start: "pnpm --dir ../nextjs run next:dev:mock"
-          command: "pnpm run test:e2e-mock"
+        run: pnpm run test:e2e-mock:start
