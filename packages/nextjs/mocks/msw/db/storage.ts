@@ -1,3 +1,5 @@
+import * as JSON from "flatted"; // Supports circular references
+
 /* eslint-disable @typescript-eslint/no-var-requires */
 export const Storage =
   typeof window === "undefined"

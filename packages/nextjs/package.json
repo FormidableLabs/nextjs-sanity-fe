@@ -66,6 +66,7 @@
     "eslint": "8.23.0",
     "eslint-config-next": "12.2.5",
     "faker": "^5.5.3",
+    "flatted": "^3.2.7",
     "graphql-tag": "^2.0.0",
     "groq-js": "^1.1.0",
     "msw": "^0.47.4",

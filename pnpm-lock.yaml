@@ -59,6 +59,7 @@ importers:
       eslint: 8.23.0
       eslint-config-next: 12.2.5
       faker: ^5.5.3
+      flatted: ^3.2.7
       formidable: v3
       framer-motion: ^7.4.0
       graphql: ^16.6.0
@@ -129,11 +130,12 @@ importers:
       eslint: 8.23.0
       eslint-config-next: 12.2.5_eslint@8.23.0
       faker: 5.5.3
+      flatted: 3.2.7
       graphql-tag: 2.12.6_graphql@16.6.0
       groq-js: 1.1.0
       msw: 0.47.4
       postcss: 8.4.16
-      tailwindcss: 3.1.8_postcss@8.4.16
+      tailwindcss: 3.1.8
 
   packages/sanity:
     specifiers:
@@ -4637,7 +4639,7 @@ packages:
       react-props-stream: 1.0.1
       react-refractor: 2.1.7_react@17.0.2
       react-rx: 1.0.1_react@17.0.2+rxjs@6.6.7
-      react-sortable-hoc: 1.11.0_oxfzelaz5ynxsop2v2nu2h2m64
+      react-sortable-hoc: 1.11.0_sfoxds7t5ydpegc3knd667wn6m
       react-split-pane: 0.1.92_sfoxds7t5ydpegc3knd667wn6m
       refractor: 3.6.0
       rxjs: 6.6.7
@@ -5035,7 +5037,7 @@ packages:
       react-focus-lock: 2.9.1_react@17.0.2
       react-is: 17.0.2
       react-rx: 1.0.1_react@17.0.2+rxjs@6.6.7
-      react-sortable-hoc: 1.11.0_oxfzelaz5ynxsop2v2nu2h2m64
+      react-sortable-hoc: 1.11.0_sfoxds7t5ydpegc3knd667wn6m
       rxjs: 6.6.7
       scroll-into-view-if-needed: 2.2.29
       shallow-equals: 1.0.0
@@ -5558,7 +5560,7 @@ packages:
       lodash.castarray: 4.4.0
       lodash.isplainobject: 4.0.6
       lodash.merge: 4.6.2
-      tailwindcss: 3.1.8_postcss@8.4.16
+      tailwindcss: 3.1.8
     dev: false
 
   /@testing-library/cypress/8.0.3_cypress@10.9.0:
@@ -6656,12 +6658,12 @@ packages:
     resolution: {integrity: sha512-32+ub6kkdhhWick/UjvEwRchgoetXqTK14INLqbGm5U2TzBkBNF3nQtLYm8ovxSkQWArjEQvftCKryjZaATu3w==}
     engines: {node: '>=4'}
 
-  /axios/0.21.4_debug@4.3.2:
+  /axios/0.21.4:
     resolution: {integrity: sha512-ut5vewkiu8jjGBdqpM44XxjuCjq9LAKeHVmoVfHVzy8eHgxxq8SbAVQNovDA8mVi05kP0Ea/n/UzcSHcTJQfNg==}
     dependencies:
-      follow-redirects: 1.15.1_debug@4.3.2
+      follow-redirects: 1.15.1
     transitivePeerDependencies:
-      - debug
+      - supports-color
     dev: true
 
   /axobject-query/2.2.0:
@@ -9996,19 +9998,6 @@ packages:
       debug: 2.6.9
     transitivePeerDependencies:
       - supports-color
-    dev: false
-
-  /follow-redirects/1.15.1_debug@4.3.2:
-    resolution: {integrity: sha512-yLAMQs+k0b2m7cVxpS1VKJVvoz7SS9Td1zss3XRwXj+ZDH00RJgnuLx7E44wx02kQLrdM3aOOy+FpzS7+8OizA==}
-    engines: {node: '>=4.0'}
-    peerDependencies:
-      debug: '*'
-    peerDependenciesMeta:
-      debug:
-        optional: true
-    dependencies:
-      debug: 4.3.2
-    dev: true
 
   /for-each/0.3.3:
     resolution: {integrity: sha512-jqYfLp7mo9vIyQf8ykW2v7A+2N4QjeCeI5+Dz9XraiO1ign81wjiH7Fb9vSOWvQfNtmSa4H2RoQTrrXivdUZmw==}
@@ -14670,10 +14659,9 @@ packages:
       rxjs: 6.6.7
     dev: false
 
-  /react-sortable-hoc/1.11.0_oxfzelaz5ynxsop2v2nu2h2m64:
+  /react-sortable-hoc/1.11.0_sfoxds7t5ydpegc3knd667wn6m:
     resolution: {integrity: sha512-v1CDCvdfoR3zLGNp6qsBa4J1BWMEVH25+UKxF/RvQRh+mrB+emqtVHMgZ+WreUiKJoEaiwYoScaueIKhMVBHUg==}
     peerDependencies:
-      prop-types: ^15.5.7
       react: ^0.14.0 || ^15.0.0 || ^16.0.0
       react-dom: ^0.14.0 || ^15.0.0 || ^16.0.0
     dependencies:
@@ -15730,7 +15718,7 @@ packages:
       execa: 5.1.1
       lazy-ass: 1.6.0
       ps-tree: 1.2.0
-      wait-on: 6.0.0_debug@4.3.2
+      wait-on: 6.0.0
     transitivePeerDependencies:
       - supports-color
     dev: true
@@ -16084,12 +16072,10 @@ packages:
     resolution: {integrity: sha512-9QNk5KwDF+Bvz+PyObkmSYjI5ksVUYtjW7AU22r2NKcfLJcXp96hkDWU3+XndOsUb+AQ9QhfzfCT2O+CNWT5Tw==}
     dev: false
 
-  /tailwindcss/3.1.8_postcss@8.4.16:
+  /tailwindcss/3.1.8:
     resolution: {integrity: sha512-YSneUCZSFDYMwk+TGq8qYFdCA3yfBRdBlS7txSq0LUmzyeqRe3a8fBQzbz9M3WS/iFT4BNf/nmw9mEzrnSaC0g==}
     engines: {node: '>=12.13.0'}
     hasBin: true
-    peerDependencies:
-      postcss: ^8.0.9
     dependencies:
       arg: 5.0.2
       chokidar: 3.5.3
@@ -16928,18 +16914,18 @@ packages:
       xml-name-validator: 4.0.0
     dev: false
 
-  /wait-on/6.0.0_debug@4.3.2:
+  /wait-on/6.0.0:
     resolution: {integrity: sha512-tnUJr9p5r+bEYXPUdRseolmz5XqJTTj98JgOsfBn7Oz2dxfE2g3zw1jE+Mo8lopM3j3et/Mq1yW7kKX6qw7RVw==}
     engines: {node: '>=10.0.0'}
     hasBin: true
     dependencies:
-      axios: 0.21.4_debug@4.3.2
+      axios: 0.21.4
       joi: 17.6.3
       lodash: 4.17.21
       minimist: 1.2.6
       rxjs: 7.5.7
     transitivePeerDependencies:
-      - debug
+      - supports-color
     dev: true
 
   /warning/4.0.3:
