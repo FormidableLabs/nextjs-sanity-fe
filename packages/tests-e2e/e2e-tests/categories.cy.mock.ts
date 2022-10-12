@@ -1,8 +1,7 @@
 import { mock } from "mocks/factory";
 
-// Skipped because `setMockData` is broken
-describe.skip(`when I visit the "Categories" page`, () => {
-  const mockCategories = mock.categories(3);
+describe(`when I visit the "Categories" page`, () => {
+  const mockCategories = mock.categories(6);
 
   before(() => {
     cy.setMockData({ categories: mockCategories });

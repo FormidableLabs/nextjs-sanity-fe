@@ -16,5 +16,7 @@ export default function handler(req: NextApiRequest, res: NextApiResponse) {
     setMockData(mockData);
     res.status(200).send("Mock data updated");
     console.log("[api/e2e-data/mocks] Mock data updated");
+  } else {
+    res.status(400).send(`Unexpected method "${req.method}"`);
   }
 }
