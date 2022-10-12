@@ -14,9 +14,9 @@ import type {
   Variant,
 } from "utils/generated/graphql";
 
-const forms = ["croissant", "roll", "loaf", "baguette", "breadstick", "cracker"];
-const flavors = ["wheat", "rye", "sourdough", "white", "whole grain", "cracked wheat", "potato"];
-const variants = ["sliced", "unsliced", "dozen"];
+const forms = ["Croissant", "Roll", "Loaf", "Baguette", "Breadstick", "Cracker"];
+const flavors = ["Wheat", "Sourdough", "White", "Whole Grain", "Cracked Wheat", "Potato"];
+const variants = ["Sliced", "Unsliced", "Dozen"];
 
 export class MockFactory {
   array<T>(length: number, factory: (index: number) => T): T[] {
@@ -56,6 +56,13 @@ export class MockFactory {
       ...data,
     };
     return result;
+  }
+  products(length: number, categories: Category[]): Product[] {
+    return this.array(length, () =>
+      this.product({
+        categories: faker.random.arrayElements(categories),
+      })
+    );
   }
 
   productImage(data: Partial<ProductImage>, name: string, size: MockImageSize): ProductImage {
@@ -171,9 +178,16 @@ export class MockFactory {
   }
 
   categoryName() {
-    return faker.random.arrayElement(flavors);
+    return faker.random.arrayElement(forms);
   }
 
+  categories(length: number): Category[] {
+    return faker.random.arrayElements(forms, length).map((form) =>
+      this.category({
+        name: form,
+      })
+    );
+  }
   category(data: Partial<Category>): Category {
     const name = data.name || this.categoryName();
     const slug = data.slug || this.slug(name);
