@@ -35,7 +35,7 @@ export const getServerSideProps = satisfies<GetServerSideProps<WithUrqlState>>()
 
   // This query is used to populate the cache for the query
   // used on this page.
-  const query = await client?.query<GetCategoriesQuery>(GetCategoriesDocument, {}).toPromise();
+  await client?.query<GetCategoriesQuery>(GetCategoriesDocument, {}).toPromise();
 
   setCachingHeaders(res, [SanityType.Category, SanityType.CategoryImage]);
 
@@ -44,7 +44,6 @@ export const getServerSideProps = satisfies<GetServerSideProps<WithUrqlState>>()
       // urqlState is a keyword here so withUrqlClient can pick it up.
       urqlState: ssrCache.extractData() as SSRData<GetCategoriesQuery>,
     },
-    [Symbol.for("e2eData")]: query?.data,
   };
 });
 

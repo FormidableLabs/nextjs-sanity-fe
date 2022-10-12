@@ -107,65 +107,64 @@ const ProductsPage: NextPage<ProductsPageProps> = ({
   );
 };
 
-export const getServerSideProps = satisfies<GetServerSideProps>()(async ({ query, res, resolvedUrl }) => {
-  setCachingHeaders(res, [
-    SanityType.Product,
-    SanityType.ProductImage,
-    SanityType.Style,
-    SanityType.Flavour,
-    SanityType.Variant,
-  ]);
+export const getServerSideProps = satisfies<GetServerSideProps<ProductsPageProps>>()(
+  async ({ query, res, resolvedUrl }) => {
+    setCachingHeaders(res, [
+      SanityType.Product,
+      SanityType.ProductImage,
+      SanityType.Style,
+      SanityType.Flavour,
+      SanityType.Variant,
+    ]);
 
-  // Sort/ordering.
-  const order = getOrderingFromQuery(query);
+    // Sort/ordering.
+    const order = getOrderingFromQuery(query);
 
-  // Fetch size filters from sanity
-  const categoryFilters = await getCategoryFilters();
-  const flavourFilters = await getFlavourFilters();
-  const styleFilters = await getStyleFilters();
+    // Fetch size filters from sanity
+    const categoryFilters = await getCategoryFilters();
+    const flavourFilters = await getFlavourFilters();
+    const styleFilters = await getStyleFilters();
 
-  // Filters.
-  const filters = getFiltersFromQuery(query, { flavourFilters, styleFilters, categoryFilters });
-  // Pagination data.
-  const pagination = getPaginationFromQuery(query);
+    // Filters.
+    const filters = getFiltersFromQuery(query, { flavourFilters, styleFilters, categoryFilters });
+    // Pagination data.
+    const pagination = getPaginationFromQuery(query);
 
-  const result = await getFilteredPaginatedQuery<PLPVariantList>(GetAllFilteredVariants(filters, order), pagination);
+    const result = await getFilteredPaginatedQuery<PLPVariantList>(GetAllFilteredVariants(filters, order), pagination);
 
-  const { variants, itemCount } = result;
-  const { currentPage, pageSize } = pagination;
-  const pageCount = Math.ceil(itemCount / pageSize);
+    const { variants, itemCount } = result;
+    const { currentPage, pageSize } = pagination;
+    const pageCount = Math.ceil(itemCount / pageSize);
 
-  /**
-   * Scenario: If user is on the third page and then enables
-   * a filter that only returns two pages worth of products,
-   * redirect them to the last page/pageCount
-   */
-  if (pageCount > 0 && currentPage > pageCount) {
-    const destination = resolvedUrl.replace(`page=${currentPage}`, `page=${pageCount}`);
-    const redirect: GetServerSidePropsResult<unknown> = {
-      redirect: {
-        destination,
-        permanent: false,
+    /**
+     * Scenario: If user is on the third page and then enables
+     * a filter that only returns two pages worth of products,
+     * redirect them to the last page/pageCount
+     */
+    if (pageCount > 0 && currentPage > pageCount) {
+      const destination = resolvedUrl.replace(`page=${currentPage}`, `page=${pageCount}`);
+      const redirect: GetServerSidePropsResult<unknown> = {
+        redirect: {
+          destination,
+          permanent: false,
+        },
+      };
+      return redirect as never; // Exclude this return type from the return signature
+    }
+
+    return {
+      props: {
+        categoryFilters,
+        flavourFilters,
+        styleFilters,
+        variants,
+        itemCount,
+        pageCount,
+        pageSize,
+        currentPage,
       },
     };
-    return redirect as never; // Exclude this return type from the return signature
   }
-
-  const props: ProductsPageProps = {
-    categoryFilters,
-    flavourFilters,
-    styleFilters,
-    variants,
-    itemCount,
-    pageCount,
-    pageSize,
-    currentPage,
-  };
-
-  return {
-    props: props,
-    [Symbol.for("e2eData")]: props,
-  };
-});
+);
 
 export default ProductsPage;
