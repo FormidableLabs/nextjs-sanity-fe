@@ -5,6 +5,8 @@ export default function handler(req: NextApiRequest, res: NextApiResponse) {
     res.status(404).send("Error: mocks not enabled");
     return;
   }
+
+  // eslint-disable-next-line @typescript-eslint/no-var-requires
   const { getMockData, setMockData } = require("mocks/msw/db/mock-data");
 
   if (req.method === "GET") {
