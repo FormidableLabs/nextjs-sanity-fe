@@ -6,8 +6,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
     return;
   }
 
-  // eslint-disable-next-line @typescript-eslint/no-var-requires
-  const { getMockData, setMockData } = await require("mocks/msw/db/mock-data");
+  const { getMockData, setMockData } = await import("mocks/msw/db/mock-data");
 
   if (req.method === "GET") {
     const mockData = getMockData();
