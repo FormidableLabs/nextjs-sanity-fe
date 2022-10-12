@@ -9,10 +9,6 @@ describe(`when I visit the "Categories" page`, () => {
     cy.visit("/categories");
   });
 
-  it(`I see the "Categories" header`, () => {
-    cy.findAllByText("Categories").should("exist");
-  });
-
   for (const category of mockCategories) {
     it(`I should see the category "${category.name}"`, () => {
       expect(category.name).to.not.be.empty;
