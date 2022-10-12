@@ -28,7 +28,7 @@
     "test:e2e-real:start": "start-server-and-test next:dev http://localhost:3000 test:e2e-real",
     "test:e2e-mock": "pnpm run --filter ./packages/tests-e2e test:e2e-mock",
     "test:e2e-mock:open": "pnpm run --filter ./packages/tests-e2e test:e2e-mock:open",
-    "test:e2e-mock:start": "start-server-and-test next:dev:mock http://localhost:3000 test:e2e-real"
+    "test:e2e-mock:start": "start-server-and-test next:dev:mock http://localhost:3000 test:e2e-mock"
   },
   "devDependencies": {
     "@typescript-eslint/eslint-plugin": "^5.39.0",
