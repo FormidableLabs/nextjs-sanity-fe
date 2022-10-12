@@ -4,7 +4,9 @@ describe("when I visit the products page", () => {
   });
 
   it("I see the Products title", () => {
-    cy.findAllByText("Products").should("exist");
+    cy.get("main").within(() => {
+      cy.findByText("Products").should("exist");
+    });
   });
   it("I see a sidebar with filters and sorts", () => {
     cy.findByText("Sort by");
