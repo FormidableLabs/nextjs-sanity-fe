@@ -1,11 +1,13 @@
 import type { NextApiRequest, NextApiResponse } from "next";
 
-export default function handler(req: NextApiRequest, res: NextApiResponse) {
+export default async function handler(req: NextApiRequest, res: NextApiResponse) {
   if (process.env.NEXT_PUBLIC_API_MOCKING !== "enabled") {
     res.status(404).send("Error: mocks not enabled");
     return;
   }
-  const { getMockData, setMockData } = require("mocks/msw/db/mock-data");
+
+  // eslint-disable-next-line @typescript-eslint/no-var-requires
+  const { getMockData, setMockData } = await require("mocks/msw/db/mock-data");
 
   if (req.method === "GET") {
     const mockData = getMockData();
