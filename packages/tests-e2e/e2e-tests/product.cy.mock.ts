@@ -22,7 +22,7 @@ describe("when I visit the Product Details Page", () => {
         .then((price) => {
           const renderedPrice = price.first().text();
           const expectedPrice = variant.price!;
-          expect(renderedPrice).to.equal(`$${expectedPrice}`);
+          expect(renderedPrice).to.equal(`$${expectedPrice.toFixed(2)}`);
         });
     });
   });
