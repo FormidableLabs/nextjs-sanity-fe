@@ -22,8 +22,21 @@ const flavors = ["Wheat", "Sourdough", "White", "Whole Grain", "Cracked Wheat", 
 const variants = ["Sliced", "Unsliced", "Dozen"];
 
 export class MockFactory {
+  /**
+   * Returns an array filled with generated values
+   */
   array<T>(length: number, factory: (index: number) => T): T[] {
     return new Array(length).fill(null).map((_, i) => factory(i));
+  
+  /**
+   * Returns an array filled with **unique** generated values
+   */
+  set<T>(length: number, factory: (index: number) => T): T[] {
+    const result = new Set<T>();
+    while (result.size < length) {
+      result.add(factory(set.size));
+    }
+    return Array.from(result);
   }
   idCount: Record<string, number> = {};
   id(type: string) {
@@ -61,10 +74,11 @@ export class MockFactory {
     return result;
   }
   products(length: number, categories: Category[]): Product[] {
-    return this.array(length, () =>
+    return this.set(length, () => this.productName()).map((name) =>
       this.product({
+        name: name,
         categories: faker.random.arrayElements(categories),
-      })
+      })    
     );
   }
 
