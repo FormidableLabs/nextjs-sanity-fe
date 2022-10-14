@@ -14,6 +14,9 @@ import type {
   Variant,
 } from "utils/generated/graphql";
 
+// seeding our random data helps our tests to be consistent
+faker.seed(0);
+
 const forms = ["Croissant", "Roll", "Loaf", "Baguette", "Breadstick", "Cracker"];
 const flavors = ["Wheat", "Sourdough", "White", "Whole Grain", "Cracked Wheat", "Potato"];
 const variants = ["Sliced", "Unsliced", "Dozen"];
