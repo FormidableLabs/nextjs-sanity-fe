@@ -27,7 +27,7 @@ export class MockFactory {
    */
   array<T>(length: number, factory: (index: number) => T): T[] {
     return new Array(length).fill(null).map((_, i) => factory(i));
-  
+  }
   /**
    * Returns an array filled with **unique** generated values
    */
