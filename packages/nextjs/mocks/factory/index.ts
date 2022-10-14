@@ -34,7 +34,7 @@ export class MockFactory {
   set<T>(length: number, factory: (index: number) => T): T[] {
     const result = new Set<T>();
     while (result.size < length) {
-      result.add(factory(set.size));
+      result.add(factory(result.size));
     }
     return Array.from(result);
   }
