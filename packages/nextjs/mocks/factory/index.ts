@@ -23,21 +23,34 @@ const variants = ["Sliced", "Unsliced", "Dozen"];
 
 export class MockFactory {
   /**
-   * Returns an array filled with generated values
+   * Returns an array filled with generated values.
+   * Can also ensure items are unique.
    */
-  array<T>(length: number, factory: (index: number) => T): T[] {
-    return new Array(length).fill(null).map((_, i) => factory(i));
-  }
-  /**
-   * Returns an array filled with **unique** generated values
-   */
-  set<T>(length: number, factory: (index: number) => T): T[] {
-    const result = new Set<T>();
-    while (result.size < length) {
-      result.add(factory(result.size));
+  array<T>(
+    length: number,
+    factory: (index: number) => T,
+    uniqueKey?: (item: T) => unknown,
+  ): T[] {
+    const arr = new Array(length).fill(null);
+    if (!uniqueKey) {
+      return arr.map((_, i) => factory(i));
     }
-    return Array.from(result);
+
+    // Generate items, and ensure they have unique keys:
+    var set = new Set();
+    return arr.map((_, i) => {
+      let item: T;
+      let key: unknown;
+      // Keep generating items until it's unique
+      do {
+        item = factory(i);
+        key = uniqueKey(item);
+      } while (set.has(key));
+      set.add(key);
+      return item;
+    });
   }
+
   idCount: Record<string, number> = {};
   id(type: string) {
     const count = (this.idCount[type] = (this.idCount[type] || 0) + 1);
@@ -74,11 +87,12 @@ export class MockFactory {
     return result;
   }
   products(length: number, categories: Category[]): Product[] {
-    return this.set(length, () => this.productName()).map((name) =>
-      this.product({
-        name: name,
+    return this.array(
+      length,
+      () => this.product({
         categories: faker.random.arrayElements(categories),
-      })    
+      }),
+      (product) => product.name,
     );
   }
 
