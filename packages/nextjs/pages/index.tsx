@@ -90,7 +90,7 @@ const Home: NextPage = () => {
 };
 
 const TitleBanner = ({ children }: React.PropsWithChildren) => (
-  <div className="border-y-2 border-y-primary px-9 py-6">
+  <div className="border-y-2 border-y-primary py-6">
     <h4 className="text-h4 text-primary container">{children}</h4>
   </div>
 );
