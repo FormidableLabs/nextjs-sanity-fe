@@ -1,5 +1,9 @@
 import "@testing-library/cypress/add-commands";
 
+import "./getServerSideProps";
+import "./nextClosest";
+import "./setMockData";
+
 // ***********************************************
 // This example commands.js shows you how to
 // create various custom commands and overwrite

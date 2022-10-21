@@ -1,7 +1,7 @@
 import * as React from "react";
 import { useState } from "react";
 import { GetServerSideProps, NextPage } from "next";
-import { withUrqlClient } from "next-urql";
+import { withUrqlClient, WithUrqlState } from "next-urql";
 import { useRouter } from "next/router";
 
 import { BlockContent } from "../../components/BlockContent";
@@ -26,6 +26,8 @@ import { H6 } from "components/Typography/H6";
 import { Product } from "components/Product";
 import { FadeInOut } from "../../components/FadeInOut";
 import { AnimatePresence } from "framer-motion";
+import { SSRData } from "utils/typedUrqlState";
+import { satisfies } from "utils/satisfies";
 
 const ProductPage: NextPage = () => {
   const { query } = useRouter();
@@ -155,7 +157,7 @@ const PageBody = ({ variant, product }: { product?: PDPProduct; variant?: PDPVar
 type PDPProduct = GetProductAndRecommendationsQuery["allProduct"][number];
 type PDPVariant = NonNullable<GetProductAndRecommendationsQuery["allProduct"][number]["variants"]>[number];
 
-export const getServerSideProps: GetServerSideProps = async ({ res, query }) => {
+export const getServerSideProps = satisfies<GetServerSideProps<WithUrqlState>>()(async ({ res, query }) => {
   const { client, ssrCache } = initializeUrql();
   const { slug } = query;
 
@@ -182,9 +184,9 @@ export const getServerSideProps: GetServerSideProps = async ({ res, query }) => 
   return {
     props: {
       // urqlState is a keyword here so withUrqlClient can pick it up.
-      urqlState: ssrCache.extractData(),
+      urqlState: ssrCache.extractData() as SSRData<GetProductAndRecommendationsQuery>,
     },
   };
-};
+});
 
 export default withUrqlClient(() => ({ ...urqlOptions }), withUrqlOptions)(ProductPage);

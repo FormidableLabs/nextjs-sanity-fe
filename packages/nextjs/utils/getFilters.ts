@@ -1,4 +1,4 @@
-import { FlavourFilterItem, StyleFilterItem } from "./groqTypes/ProductList";
+import { CategoryFilterItem, FlavourFilterItem, StyleFilterItem } from "./groqTypes/ProductList";
 import { sanityClient } from "./sanityClient";
 import groq from "groq";
 
@@ -9,7 +9,7 @@ import groq from "groq";
  * This is a nice feature, but you pay a perf penalty for it. Trade-offs 🤷‍
  * 	(since we've got a strong caching strategy, this penalty is minimized)
  */
-export const getCategoryFilters = (categorySlug = ""): Promise<FlavourFilterItem[]> =>
+export const getCategoryFilters = (categorySlug = ""): Promise<CategoryFilterItem[]> =>
   sanityClient.fetch(groq`
   	*[_type == "category" && count(*[_type=="product" && references(^._id)]) > 0] {
   		name,

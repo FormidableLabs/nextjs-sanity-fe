@@ -1,14 +1,16 @@
 import { GetServerSideProps, NextPage } from "next";
-import { withUrqlClient } from "next-urql";
+import { withUrqlClient, WithUrqlState } from "next-urql";
 
-import { GetCategoriesDocument, useGetCategoriesQuery } from "utils/generated/graphql";
+import { GetCategoriesDocument, GetCategoriesQuery, useGetCategoriesQuery } from "utils/generated/graphql";
 import { initializeUrql, urqlOptions, withUrqlOptions } from "utils/urql";
 import { CategoryList } from "components/CategoryList";
 import { setCachingHeaders } from "utils/setCachingHeaders";
 import { SanityType } from "utils/consts";
+import { satisfies } from "utils/satisfies";
 import { WeDontSellBreadBanner } from "../components/WeDontSellBreadBanner";
 import { PageHead } from "../components/PageHead";
 import { isString, pluralize } from "../utils/pluralize";
+import { SSRData } from "utils/typedUrqlState";
 
 const CategoriesPage: NextPage = () => {
   const [{ data }] = useGetCategoriesQuery();
@@ -28,21 +30,21 @@ const CategoriesPage: NextPage = () => {
   );
 };
 
-export const getServerSideProps: GetServerSideProps = async ({ res }) => {
+export const getServerSideProps = satisfies<GetServerSideProps<WithUrqlState>>()(async ({ res }) => {
   const { client, ssrCache } = initializeUrql();
 
   // This query is used to populate the cache for the query
   // used on this page.
-  await client?.query(GetCategoriesDocument, {}).toPromise();
+  await client?.query<GetCategoriesQuery>(GetCategoriesDocument, {}).toPromise();
 
   setCachingHeaders(res, [SanityType.Category, SanityType.CategoryImage]);
 
   return {
     props: {
       // urqlState is a keyword here so withUrqlClient can pick it up.
-      urqlState: ssrCache.extractData(),
+      urqlState: ssrCache.extractData() as SSRData<GetCategoriesQuery>,
     },
   };
-};
+});
 
 export default withUrqlClient(() => ({ ...urqlOptions }), withUrqlOptions)(CategoriesPage);

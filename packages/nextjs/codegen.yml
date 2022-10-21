@@ -2,6 +2,9 @@ overwrite: true
 schema: https://${NEXT_PUBLIC_SANITY_PROJECT_ID}.apicdn.sanity.io/v1/graphql/production/default
 documents: "utils/graphql/**/*.graphql"
 generates:
+  utils/generated/graphql.schema.graphql:
+    plugins:
+      - "schema-ast"
   utils/generated/graphql.ts:
     plugins:
       - "typescript"
@@ -9,6 +12,11 @@ generates:
       - "typescript-urql"
     config:
       preResolveType: true
+  utils/generated/graphql-mock-types.ts:
+    plugins:
+      - "typescript"
+      - "typescript-operations"
+      - "typescript-generic-sdk"
   ./graphql.schema.json:
     plugins:
       - "introspection"
