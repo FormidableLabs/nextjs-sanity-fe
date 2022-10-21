@@ -22,7 +22,7 @@ module.exports = {
     },
     colors: {
       primary: "#364C99",
-      secondary: "#FFD77E",
+      secondary: "#F9F7F3", // old yellow: #FFD77E
 
       red: "#F04D21",
       navy: "#1E2852",
