@@ -3,10 +3,10 @@ import { mockOnly } from "../utils/real-or-mock";
 
 describe(`when I visit the "Categories" page`, () => {
   const mockCategories = mock.categories(6);
-
   mockOnly.before(() => {
     cy.setMockData({ categories: mockCategories });
   });
+
   before(() => {
     cy.visit("/categories");
   });
@@ -31,11 +31,11 @@ describe(`when I visit the "Categories" page`, () => {
   });
 
   if (mockOnly.isActive) {
-    for (const category of mockCategories) {
-      it(`I should see the mock category "${category.name}"`, () => {
-        expect(category.name).to.not.be.empty;
+    for (const cat of mockCategories) {
+      it(`I should see the mock category "${cat.name}"`, () => {
         cy.get("main").within(() => {
-          cy.findByText(category.name!).should("exist");
+          expect(cat.name).to.not.be.empty;
+          cy.findByText(cat.name!).should("exist");
         });
       });
     }

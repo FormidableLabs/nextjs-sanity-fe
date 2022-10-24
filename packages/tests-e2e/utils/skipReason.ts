@@ -50,5 +50,15 @@ function noop() {
  *
  */
 export function skipWhen(condition: unknown, reason: string): ReturnType<typeof skipReason> {
-  return condition ? skipReason(reason) : { describe, it, before, beforeEach, after, afterEach, isActive: true };
+  return condition
+    ? skipReason(reason)
+    : {
+        describe,
+        it,
+        before,
+        beforeEach,
+        after,
+        afterEach,
+        isActive: true,
+      };
 }
