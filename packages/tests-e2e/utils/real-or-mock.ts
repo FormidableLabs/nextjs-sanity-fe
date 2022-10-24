@@ -1,6 +1,7 @@
 import { skipWhen } from "../utils/skipReason";
 
-export const E2E_MODE = process.env.E2E_MODE as "real" | "mock";
+// Check the value of the CYPRESS_E2E_MODE env var:
+export const E2E_MODE = Cypress.env("E2E_MODE") as "real" | "mock";
 if (!E2E_MODE) {
   throw new Error(`[E2E_MODE] Missing env var: E2E_MODE`);
 } else if (!["real", "mock"].includes(E2E_MODE)) {
