@@ -14,28 +14,21 @@ export function skipReason(reason: string) {
   const describeSkip = (title: string, fn: () => void) => {
     describe.skip(`${title} (skipped: ${reason})`, fn);
   };
-  describeSkip.skip = describe.skip;
-  describeSkip.only = describe.only;
-
   const itSkip = (title: string, fn: () => void) => {
     it.skip(`${title} (skipped: ${reason})`, fn);
   };
-  itSkip.skip = it.skip;
-  itSkip.only = it.only;
 
+  // Also export the `skip/only` convenience methods:
   return {
-    describe: describeSkip,
-    it: itSkip,
-    before: noop as typeof before,
-    beforeEach: noop as typeof beforeEach,
-    after: noop as typeof after,
-    afterEach: noop as typeof afterEach,
-    isActive: false,
+    describe: Object.assign(describeSkip, {
+      skip: describe.skip,
+      only: describe.only,
+    }),
+    it: Object.assign(itSkip, {
+      skip: it.skip,
+      only: it.only,
+    }),
   };
-}
-
-function noop() {
-  /* noop */
 }
 
 /**
@@ -50,15 +43,5 @@ function noop() {
  *
  */
 export function skipWhen(condition: unknown, reason: string): ReturnType<typeof skipReason> {
-  return condition
-    ? skipReason(reason)
-    : {
-        describe,
-        it,
-        before,
-        beforeEach,
-        after,
-        afterEach,
-        isActive: true,
-      };
+  return condition ? skipReason(reason) : { describe, it };
 }

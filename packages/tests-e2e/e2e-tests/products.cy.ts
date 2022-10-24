@@ -1,7 +1,7 @@
-import { E2E_MODE } from "../utils/real-or-mock";
+import { mockOnly } from "../utils/real-or-mock";
 import { skipWhen } from "../utils/skipReason";
 
-const notMocks = skipWhen(E2E_MODE === "mock", "the mock server is broken for the product details page");
+const notMocks = skipWhen(mockOnly.isActive, "the mock server has performance problems for the product details page");
 
 notMocks.describe("when I visit the products page", () => {
   before(() => {
