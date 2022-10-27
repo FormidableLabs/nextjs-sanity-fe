@@ -1,8 +1,18 @@
 import { mock } from "mocks/factory";
+import { realOnly, mockOnly } from "../utils/real-or-mock";
 
 describe("when I visit the Product Details Page", () => {
-  const mockProduct = mock.product({});
-  before(() => {
+  realOnly.before(() => {
+    // Find a product to test:
+    cy.visit("/products");
+    cy.getServerSideProps("/products").then((props) => {
+      const product = props.variants[0];
+      cy.visit(`/products/${product.productSlug}`);
+    });
+  });
+
+  mockOnly.before(() => {
+    const mockProduct = mock.product({});
     cy.setMockData({ products: [mockProduct] });
     cy.visit(`/products/${mockProduct.slug!.current}`);
   });
