@@ -26,18 +26,14 @@ export class MockFactory {
    * Returns an array filled with generated values.
    * Can also ensure items are unique.
    */
-  array<T>(
-    length: number,
-    factory: (index: number) => T,
-    uniqueKey?: (item: T) => unknown,
-  ): T[] {
+  array<T>(length: number, factory: (index: number) => T, uniqueKey?: (item: T) => unknown): T[] {
     const arr = new Array(length).fill(null);
     if (!uniqueKey) {
       return arr.map((_, i) => factory(i));
     }
 
     // Generate items, and ensure they have unique keys:
-    var set = new Set();
+    const set = new Set();
     return arr.map((_, i) => {
       let item: T;
       let key: unknown;
@@ -89,10 +85,11 @@ export class MockFactory {
   products(length: number, categories: Category[]): Product[] {
     return this.array(
       length,
-      () => this.product({
-        categories: faker.random.arrayElements(categories),
-      }),
-      (product) => product.name,
+      () =>
+        this.product({
+          categories: faker.random.arrayElements(categories),
+        }),
+      (product) => product.name
     );
   }
 
@@ -249,8 +246,12 @@ export class MockFactory {
   }
 }
 
+/** Converts { prop?: number } into { prop: number | undefined } */
+type Complete<T> = {
+  [P in keyof Required<T>]: Pick<T, P> extends Required<Pick<T, P>> ? T[P] : T[P] | undefined;
+};
 type IgnoredFields = keyof Pick<Product, "_rev" | "_key" | "_createdAt" | "_updatedAt">;
-type FullData<T> = Required<Omit<T, IgnoredFields>>;
+type FullData<T> = Complete<Omit<T, IgnoredFields>>;
 type MockImageSize = "small" | "medium" | "large";
 
 export const mock = new MockFactory();
