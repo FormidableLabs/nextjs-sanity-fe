@@ -13,12 +13,42 @@ type AnyObject = Record<string, unknown>;
  */
 export function createDataset(data: Array<AnyObject>) {
   const builder = new DatasetBuilder();
-  data.forEach((item) => builder.addDatasetItem(item));
+  data.forEach((object) => builder.addData(object));
   return builder.dataset;
 }
 
 class DatasetBuilder {
   readonly dataset = [] as Dataset;
+
+  addData(object: unknown): unknown {
+    if (!isObject(object)) {
+      // We don't need to translate primitives
+      return object;
+    }
+
+    if (Array.isArray(object)) {
+      // We only need to translate the array's elements:
+      return object.map((value) => this.addData(value));
+    }
+
+    // Let's map this object:
+    const datasetItem: DatasetItem = {
+      // Map these values from common fields:
+      _id: (object._id as string) || (object.id as string) || undefined,
+      _type: (object._type as string) || (object.__typename as string) || undefined,
+    };
+    this.dataset.push(datasetItem);
+
+    // Map all the values from this object:
+    Object.keys(object).forEach((key) => {
+      const value = object[key];
+      datasetItem[key] = this.addData(value);
+    });
+
+    // Return a reference to this object:
+    return this.createReference(datasetItem);
+  }
+
   private lastId = 0;
   private nextId() {
     return `REF_ID_${++this.lastId}`;
@@ -33,31 +63,8 @@ class DatasetBuilder {
       _ref: value._id,
     };
   }
+}
 
-  addDatasetItem(object: AnyObject): DatasetItem {
-    const dataItem: DatasetItem = {
-      // Map these values from common fields:
-      _id: (object._id as string) || (object.id as string) || undefined,
-      _type: (object._type as string) || (object.__typename as string) || undefined,
-    };
-    this.dataset.push(dataItem);
-
-    Object.keys(object).forEach((key) => {
-      const value = object[key];
-      const isObject = typeof value === "object" && value !== null;
-      if (!isObject) {
-        dataItem[key] = value;
-      } else if (Array.isArray(value)) {
-        dataItem[key] = value.map((val) => {
-          const item = this.addDatasetItem(val);
-          return this.createReference(item);
-        });
-      } else {
-        const item = this.addDatasetItem(value as AnyObject);
-        dataItem[key] = this.createReference(item);
-      }
-    });
-
-    return dataItem;
-  }
+function isObject(obj: unknown): obj is AnyObject {
+  return typeof obj === "object" && obj !== null;
 }
