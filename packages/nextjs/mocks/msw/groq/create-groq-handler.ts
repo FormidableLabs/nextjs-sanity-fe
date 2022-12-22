@@ -1,26 +1,20 @@
 import { rest } from "msw";
 import * as groqJs from "groq-js";
+import { Dataset } from "./create-dataset";
 
 /**
  * Returns a MSW handler for GROQ queries
  * @param url - The URL of the GROQ server to capture
- * @param getDataset - Any object.  It will be recursively searched for all nested objects that match the GROQ query.
+ * @param getDataset - An array of flattened dataset objects.
  */
-export function createGroqHandler(url: string, getDataset: () => object) {
+export function createGroqHandler(url: string, getDataset: () => Dataset) {
   return rest.get(url, async (req, res, ctx) => {
     // Parse the parameters:
     const { query, ...searchParams } = Object.fromEntries(req.url.searchParams.entries());
     const params = parseParams(searchParams);
-
-    // Grab all data:
     const rawData = getDataset();
-    const dataset = Array.from(flattenObjects(rawData));
 
-    // Evaluate the query;
-    const parsed = groqJs.parse(query, { params });
-    const streamResult = await groqJs.evaluate(parsed, { dataset, params });
-    const result = await streamResult.get();
-
+    const result = await executeQuery(rawData, query, params);
     // Return the result:
     const body = { result };
     return res(ctx.json(body));
@@ -40,22 +34,9 @@ function parseParams(searchParams: object) {
   );
 }
 
-/**
- * Recursively finds all nested objects
- */
-function flattenObjects(obj: object, results = new Set<object>()) {
-  if (results.has(obj)) {
-    // We've already traversed this object
-    return results;
-  }
-
-  results.add(obj);
-
-  Object.values(obj).forEach((child) => {
-    if (child && typeof child === "object") {
-      flattenObjects(child, results);
-    }
-  });
-
-  return results;
+export async function executeQuery(dataset: Dataset, query: string, params: Record<string, string>) {
+  const parsed = groqJs.parse(query, { params });
+  const streamResult = await groqJs.evaluate(parsed, { dataset, params });
+  const result = await streamResult.get();
+  return result;
 }
