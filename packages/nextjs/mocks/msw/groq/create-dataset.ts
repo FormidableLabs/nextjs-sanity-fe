@@ -20,6 +20,8 @@ export function createDataset(data: Array<AnyObject>) {
 class DatasetBuilder {
   readonly dataset = [] as Dataset;
 
+  readonly references = new Map<object, DatasetItem>();
+
   addData(object: unknown): unknown {
     if (!isObject(object)) {
       // We don't need to translate primitives
@@ -31,6 +33,11 @@ class DatasetBuilder {
       return object.map((value) => this.addData(value));
     }
 
+    // For circular references:
+    if (this.references.has(object)) {
+      return this.references.get(object);
+    }
+
     // Let's map this object:
     const datasetItem: DatasetItem = {
       // Map these values from common fields:
@@ -38,15 +45,16 @@ class DatasetBuilder {
       _type: (object._type as string) || (object.__typename as string) || undefined,
     };
     this.dataset.push(datasetItem);
+    const reference = this.createReference(datasetItem);
+    this.references.set(object, reference);
 
-    // Map all the values from this object:
+    // Map all the object's values:
     Object.keys(object).forEach((key) => {
       const value = object[key];
       datasetItem[key] = this.addData(value);
     });
 
-    // Return a reference to this object:
-    return this.createReference(datasetItem);
+    return reference;
   }
 
   private lastId = 0;
