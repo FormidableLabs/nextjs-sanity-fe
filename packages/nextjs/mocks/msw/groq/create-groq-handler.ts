@@ -1,6 +1,6 @@
 import { rest } from "msw";
 import * as groqJs from "groq-js";
-import { Dataset } from "./create-dataset";
+import type { Dataset } from "./create-dataset";
 
 /**
  * Returns a MSW handler for GROQ queries

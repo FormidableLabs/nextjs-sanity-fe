@@ -9,6 +9,6 @@ const SANITY_GROQ_URL = `${config.cdnUrl}/data/query/${config.dataset}`;
 
 export const groqHandlers = [
   createGroqHandler(SANITY_GROQ_URL, () => {
-    return createDataset([getMockData()]);
+    return createDataset([getMockData()], { inlineTypes: ["Slug"] });
   }),
 ];
