@@ -10,13 +10,12 @@ type AnyObject = Record<string, unknown>;
 
 export type DatasetOptions = {
   /**
-   * This list determines what gets treated as a document.
+   * This list overrides what gets treated as a document.
    * Documents are always referenced using reference types, instead of being inline.
    */
   documentTypes?: string[];
   /**
-   * This list determines what gets treated as an inline type, and all other types get treated as a document.
-   * Documents are always referenced using reference types, instead of being inline.
+   * This list overrides what gets treated as an inline type.
    */
   inlineTypes?: string[];
 };
@@ -54,12 +53,14 @@ class DatasetBuilder {
     }
 
     // Let's map this object:
-    const datasetItem: DatasetItem = {
-      // Map these values from common fields:
-      _id: (object._id as string) || (object.id as string) || undefined,
-      _type: (object._type as string) || (object.__typename as string) || undefined,
-    };
+    const datasetItem: DatasetItem = {};
     this.dataset.push(datasetItem);
+
+    // Map these values from common fields:
+    const _id = object._id || object.id;
+    if (_id) datasetItem._id = _id as string;
+    const _type = object._type || object.__typename;
+    if (_type) datasetItem._type = _type as string;
 
     const reference = this.needsReference(datasetItem) ? this.createReference(datasetItem) : datasetItem;
     this.references.set(object, reference);
@@ -81,13 +82,16 @@ class DatasetBuilder {
   private needsReference(value: DatasetItem) {
     // Determine if this is a document that needs a reference:
     const { documentTypes, inlineTypes } = this.options;
-    if (documentTypes) {
-      return documentTypes.includes(value._type as string);
+    if (documentTypes && documentTypes.includes(value._type as string)) {
+      return true;
     }
-    if (inlineTypes) {
-      return !inlineTypes.includes(value._type as string);
+    if (inlineTypes && inlineTypes.includes(value._type as string)) {
+      return false;
     }
-    return true;
+
+    // Normally in Sanity, anything with an _id is a document
+    const hasId = !!value._id;
+    return hasId;
   }
   private createReference(value: DatasetItem) {
     if (!value._id) {
