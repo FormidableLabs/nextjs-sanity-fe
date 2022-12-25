@@ -7,13 +7,13 @@ export const ProductsQueries: Pick<
   "getProducts" | "getProductAndRecommendations" | "getProductsAndCategories" | "getProductsSlugs"
 > = {
   async getProducts() {
-    const mockData = getMockData();
+    const mockData = await getMockData();
     return {
       allProduct: mockData.products,
     };
   },
   async getProductAndRecommendations({ slug }) {
-    const mockData = getMockData();
+    const mockData = await getMockData();
     return {
       allProduct: mockData.products.filter((p) => p.slug !== slug),
       recommendations: mockData.products.filter((p) => p.slug !== slug),
@@ -21,7 +21,7 @@ export const ProductsQueries: Pick<
   },
 
   async getProductsAndCategories() {
-    const mockData = getMockData();
+    const mockData = await getMockData();
     const allImages = mockData.products.flatMap((p) => p.images).filter((x): x is NonNullable<typeof x> => !!x);
     return {
       allProduct: mockData.products.slice(0, 3),
@@ -31,7 +31,7 @@ export const ProductsQueries: Pick<
   },
 
   async getProductsSlugs() {
-    const mockData = getMockData();
+    const mockData = await getMockData();
     return {
       allProduct: mockData.products,
     };

@@ -7,12 +7,12 @@ import type { Dataset } from "./create-dataset";
  * @param url - The URL of the GROQ server to capture
  * @param getDataset - An array of flattened dataset objects.
  */
-export function createGroqHandler(url: string, getDataset: () => Dataset) {
+export function createGroqHandler(url: string, getDataset: () => Dataset | Promise<Dataset>) {
   return rest.get(url, async (req, res, ctx) => {
     // Parse the parameters:
     const { query, ...searchParams } = Object.fromEntries(req.url.searchParams.entries());
     const params = parseParams(searchParams);
-    const rawData = getDataset();
+    const rawData = await getDataset();
 
     const result = await executeQuery(rawData, query, params);
     // Return the result:

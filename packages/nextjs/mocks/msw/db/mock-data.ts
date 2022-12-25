@@ -9,13 +9,13 @@ const storage = new Storage<MockData>();
  * Retrieves the mock data.
  * Seeds if necessary.
  */
-export function getMockData(): MockData {
-  let mockData = storage.readData();
+export async function getMockData(): Promise<MockData> {
+  let mockData = await storage.readData();
 
   if (!mockData) {
     mockData = seedMockData();
     const expires = Date.now() + 300_000;
-    storage.storeData(mockData, expires);
+    await storage.storeData(mockData, expires);
   }
   return mockData;
 }
@@ -23,10 +23,10 @@ export function getMockData(): MockData {
 /**
  * Sets the mock data
  */
-export function setMockData(newMockData: Partial<MockData>) {
-  const mockData = getMockData();
+export async function setMockData(newMockData: Partial<MockData>): Promise<void> {
+  const mockData = await getMockData();
   Object.assign(mockData, newMockData);
 
   const expires = Date.now() + 30_000;
-  storage.storeData(mockData, expires);
+  await storage.storeData(mockData, expires);
 }

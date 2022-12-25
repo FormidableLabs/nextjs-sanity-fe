@@ -23,7 +23,7 @@ export type DatasetOptions = {
 /**
  * Builds a flattened dataset from any type of deeply-nested data.
  */
-export function createDataset(data: Array<AnyObject>, options: DatasetOptions) {
+export function createDataset(data: Array<AnyObject>, options: DatasetOptions = {}) {
   const builder = new DatasetBuilder(options);
   data.forEach((object) => builder.addData(object));
   return builder.dataset;
