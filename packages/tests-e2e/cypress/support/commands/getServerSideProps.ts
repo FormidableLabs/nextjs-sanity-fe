@@ -21,7 +21,7 @@ const getServerSidePropsForPage = satisfies<{ [P in keyof PageProps]: (props: Pa
   "/products/[slug]": (props) => parseUrqlState(props.urqlState),
 });
 
-type PageDataTypes = {
+export type PageDataTypes = {
   [P in keyof typeof getServerSidePropsForPage]: ReturnType<typeof getServerSidePropsForPage[P]>;
 };
 
