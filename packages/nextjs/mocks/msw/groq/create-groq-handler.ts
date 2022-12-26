@@ -52,9 +52,22 @@ function parseParams(searchParams: object) {
   );
 }
 
+const INEFFICIENT_QUERY_THRESHOLD = 5_000;
+
 export async function executeQuery(dataset: Dataset, query: string, params: Record<string, string>): Promise<unknown> {
   const parsed = groqJs.parse(query, { params });
   const streamResult = await groqJs.evaluate(parsed, { dataset, params });
+  const start = Date.now();
   const result = await streamResult.get();
+  const elapsed = Date.now() - start;
+  if (elapsed >= INEFFICIENT_QUERY_THRESHOLD) {
+    // Issue a warning!
+    console.warn(`
+      [groq-handler] WARNING: this query took ${elapsed} ms to mock execute.
+      This usually indicates an inefficient query, and you should consider improving it.
+      ${query.includes("&&") ? "Instead of using [a && b], consider using [a][b] instead!" : ""}
+      Inefficient query: \n${query}
+    `);
+  }
   return result;
 }
