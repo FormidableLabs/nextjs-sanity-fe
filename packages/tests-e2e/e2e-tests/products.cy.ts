@@ -1,9 +1,4 @@
-import { mockOnly } from "../utils/real-or-mock";
-import { skipWhen } from "../utils/skipReason";
-
-const notMocks = skipWhen(mockOnly.isActive, "the mock server has performance problems for the product details page");
-
-notMocks.describe("when I visit the products page", () => {
+describe("when I visit the products page", () => {
   before(() => {
     cy.visit("/products");
   });
