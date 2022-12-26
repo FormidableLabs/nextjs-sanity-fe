@@ -18,7 +18,7 @@ import type {
 faker.seed(0);
 
 const forms = ["Croissant", "Roll", "Loaf", "Baguette", "Breadstick", "Cracker", "Bagel", "Muffin"];
-const flavors = ["Wheat", "Sourdough", "White", "Whole Grain", "Cracked Wheat", "Potato"];
+const flavours = ["Wheat", "Sourdough", "White", "Whole Grain", "Cracked Wheat", "Potato"];
 const variants = ["Sliced", "Unsliced", "Dozen"];
 
 export class MockFactory {
@@ -61,7 +61,7 @@ export class MockFactory {
   }
 
   productName() {
-    return [faker.random.arrayElement(flavors), faker.random.arrayElement(forms)].join(" ");
+    return [faker.random.arrayElement(flavours), faker.random.arrayElement(forms)].join(" ");
   }
 
   product(data: Partial<Product>): Product {
@@ -160,15 +160,7 @@ export class MockFactory {
       images: [this.productImage({}, name, "small")],
       descriptionRaw: this.descriptionRaw({}),
       id: faker.datatype.uuid(),
-      flavour: [
-        satisfies<FullData<Flavour>>()({
-          __typename: "Flavour",
-          _type: "flavour",
-          _id: this.id("Flavour"),
-          name: "flavor",
-          slug: this.slug("flavor"),
-        }),
-      ],
+      flavour: [this.flavour({})],
       msrp,
       price,
       style: [this.style({})],
@@ -203,6 +195,18 @@ export class MockFactory {
         ],
       },
     ];
+  }
+  flavour(data: Partial<Flavour>): Flavour {
+    const name = data.name || faker.random.arrayElement(flavours);
+    const result: FullData<Flavour> = {
+      __typename: "Flavour",
+      _type: "flavour",
+      _id: this.id("Flavour"),
+      name,
+      slug: this.slug(name),
+      ...data,
+    };
+    return result;
   }
 
   categoryName() {
