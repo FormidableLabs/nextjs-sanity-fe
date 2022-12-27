@@ -27,7 +27,7 @@ describe("when I visit the products page", () => {
     });
 
     const EXPECTED_ITEMS_PER_PAGE = 6;
-    const EXPECTED_ITEMS_MINIMUM = 20;
+    const EXPECTED_ITEMS_MINIMUM = 10;
 
     it("I see 6 products", () => {
       expect(pageProps.variants.length).to.equal(
