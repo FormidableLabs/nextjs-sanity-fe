@@ -1,7 +1,9 @@
+import { generateMockData } from "mocks/msw/db/mock-data";
 import type { PageDataTypes } from "../cypress/support/commands/getServerSideProps";
 
 describe("when I visit the products page", () => {
   before(() => {
+    cy.setMockData(generateMockData());
     cy.visit("/products");
   });
 

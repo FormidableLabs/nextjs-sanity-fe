@@ -1,7 +1,5 @@
 import { Storage } from "./storage";
-import { seedMockData, MockData } from "mocks/msw/db/seed-data";
-
-export type { MockData }; // For convenience
+import { mock } from "mocks/factory";
 
 const storage = new Storage<MockData>();
 
@@ -13,7 +11,7 @@ export async function getMockData(): Promise<MockData> {
   let mockData = await storage.readData();
 
   if (!mockData) {
-    mockData = seedMockData();
+    mockData = generateMockData();
     const expires = Date.now() + 300_000;
     await storage.storeData(mockData, expires);
   }
@@ -30,3 +28,16 @@ export async function setMockData(newMockData: Partial<MockData>): Promise<void>
   const expires = Date.now() + 30_000;
   await storage.storeData(mockData, expires);
 }
+
+/**
+ * Generate some random mock data
+ */
+export function generateMockData() {
+  const categories = mock.categories(5);
+  const products = mock.products(40, categories);
+  return {
+    products,
+    categories,
+  };
+}
+export type MockData = ReturnType<typeof generateMockData>;
