@@ -1,25 +1,37 @@
 import { rest } from "msw";
 import * as groqJs from "groq-js";
+import type { Dataset } from "./create-dataset";
+
+/**
+ * Note, this cache is never cleaned up, so it will accumulate in size during development.
+ */
+const cache = new Map<string, unknown>();
 
 /**
  * Returns a MSW handler for GROQ queries
  * @param url - The URL of the GROQ server to capture
- * @param getDataset - Any object.  It will be recursively searched for all nested objects that match the GROQ query.
+ * @param getDataset - An array of flattened dataset objects.
  */
-export function createGroqHandler(url: string, getDataset: () => object) {
+export function createGroqHandler(url: string, getDataset: () => Dataset | Promise<Dataset>) {
   return rest.get(url, async (req, res, ctx) => {
     // Parse the parameters:
     const { query, ...searchParams } = Object.fromEntries(req.url.searchParams.entries());
     const params = parseParams(searchParams);
 
-    // Grab all data:
-    const rawData = getDataset();
-    const dataset = Array.from(flattenObjects(rawData));
+    const dataset = await getDataset();
 
-    // Evaluate the query;
-    const parsed = groqJs.parse(query, { params });
-    const streamResult = await groqJs.evaluate(parsed, { dataset, params });
-    const result = await streamResult.get();
+    // Don't worry ... even though this stringify looks large, it only takes like 1ms
+    const cacheKey = JSON.stringify([dataset, query, params]);
+    const cached = cache.get(cacheKey);
+
+    let result: unknown;
+    if (cached) {
+      result = cached;
+    } else {
+      result = await executeQuery(dataset, query, params);
+
+      cache.set(cacheKey, result);
+    }
 
     // Return the result:
     const body = { result };
@@ -40,22 +52,22 @@ function parseParams(searchParams: object) {
   );
 }
 
-/**
- * Recursively finds all nested objects
- */
-function flattenObjects(obj: object, results = new Set<object>()) {
-  if (results.has(obj)) {
-    // We've already traversed this object
-    return results;
+const INEFFICIENT_QUERY_THRESHOLD = 5_000;
+
+export async function executeQuery(dataset: Dataset, query: string, params: Record<string, string>): Promise<unknown> {
+  const parsed = groqJs.parse(query, { params });
+  const streamResult = await groqJs.evaluate(parsed, { dataset, params });
+  const start = Date.now();
+  const result = await streamResult.get();
+  const elapsed = Date.now() - start;
+  if (elapsed >= INEFFICIENT_QUERY_THRESHOLD) {
+    // Issue a warning!
+    console.warn(`
+      [groq-handler] WARNING: this query took ${elapsed} ms to mock execute.
+      This usually indicates an inefficient query, and you should consider improving it.
+      ${query.includes("&&") ? "Instead of using [a && b], consider using [a][b] instead!" : ""}
+      Inefficient query: \n${query}
+    `);
   }
-
-  results.add(obj);
-
-  Object.values(obj).forEach((child) => {
-    if (child && typeof child === "object") {
-      flattenObjects(child, results);
-    }
-  });
-
-  return results;
+  return result;
 }

@@ -9,12 +9,12 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
   const { getMockData, setMockData } = await import("mocks/msw/db/mock-data");
 
   if (req.method === "GET") {
-    const mockData = getMockData();
+    const mockData = await getMockData();
     res.status(200).json(mockData);
     console.log("[api/e2e-data/mocks] Mock data retrieved");
   } else if (req.method === "PUT" || req.method === "POST") {
     const mockData = req.body;
-    setMockData(mockData);
+    await setMockData(mockData);
     res.status(200).send("Mock data updated");
     console.log("[api/e2e-data/mocks] Mock data updated");
   } else {

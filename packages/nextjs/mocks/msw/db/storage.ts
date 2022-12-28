@@ -10,12 +10,12 @@ export const Storage =
          * So, we must share this data via a temporary file instead.
          */
         tempFile = require("path").join(process.cwd(), "./mocks/msw/db/mock-data.temp.json");
-        storeData(data: TData, expires: number) {
+        async storeData(data: TData, expires: number): Promise<void> {
           const serialized = JSON.stringify({ data, expires });
           require("fs").writeFileSync(this.tempFile, serialized);
           console.log("SAVED FILE ", this.tempFile);
         }
-        readData(): TData | null {
+        async readData(): Promise<TData | null> {
           try {
             const serialized = require("fs").readFileSync(this.tempFile, "utf8");
             const { data, expires } = JSON.parse(serialized);
@@ -38,10 +38,10 @@ export const Storage =
        */
       class BrowserStorage<TData> {
         data: TData | null = null;
-        storeData(data: TData, expires: number) {
+        async storeData(data: TData, expires: number) {
           this.data = data;
         }
-        readData(): TData | null {
+        async readData(): Promise<TData | null> {
           return this.data;
         }
       };

@@ -1,4 +1,5 @@
 import { CategoryFilterItem, FlavourFilterItem, StyleFilterItem } from "./groqTypes/ProductList";
+import groq from "groq";
 
 export type FilterOption = {
   value: string;
@@ -30,7 +31,7 @@ export const getFilterGroups = ({
       options: categoryFilters.map((cat) => ({
         value: cat.slug,
         label: cat.name,
-        filter: `'${cat.slug}' in *[_type == "product" && references(^._id)][].categories[]->slug.current`,
+        filter: groq`'${cat.slug}' in *[_type == "product"][references(^._id)][].categories[]->slug.current`,
       })),
     },
     {
@@ -39,7 +40,7 @@ export const getFilterGroups = ({
       options: flavourFilters.map((flavour) => ({
         value: flavour.slug,
         label: flavour.name,
-        filter: `'${flavour.slug}' in flavour[]->slug.current`,
+        filter: groq`'${flavour.slug}' in flavour[]->slug.current`,
       })),
     },
     {
@@ -48,7 +49,7 @@ export const getFilterGroups = ({
       options: styleFilters.map((style) => ({
         value: style.slug,
         label: style.name,
-        filter: `'${style.slug}' in style[]->slug.current`,
+        filter: groq`'${style.slug}' in style[]->slug.current`,
       })),
     },
     {
