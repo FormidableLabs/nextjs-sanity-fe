@@ -1,3 +1,4 @@
+[![E-Commerce – powered by Next.js + Sanity CMS + Fastly — Formidable, We build the modern web](https://raw.githubusercontent.com/FormidableLabs/nextjs-sanity-fe/main/nextjs-sanity-fe-Hero.png)](https://formidable.com/open-source/)
 # E-Commerce – powered by Next.js + Sanity CMS + Fastly
 
 This repo contains a demo of a (partial) e-commerce site powered by [Next.js](https://nextjs.org/), [Sanity CMS](https://www.sanity.io/), and [Fastly](https://www.fastly.com/). The goal of the project is to provide a realistic demonstration of running a highly performant and available e-commerce site with data sourced from Sanity's headless CMS.
