@@ -1,5 +1,3 @@
-import faker from "faker";
-import { satisfies } from "utils/satisfies";
 import type {
   Category,
   CategoryImage,
@@ -13,6 +11,7 @@ import type {
   Style,
   Variant,
 } from "utils/generated/graphql";
+import faker from "faker";
 
 // seeding our random data helps our tests to be consistent
 faker.seed(0);
@@ -112,6 +111,15 @@ export class MockFactory {
       large: { width: 1200, height: 800 },
     }[size];
 
+    const crop = {
+      __typename: "SanityImageCrop",
+      _type: "sanityimagecrop",
+      top: 0,
+      bottom: 0,
+      left: 0,
+      right: 0,
+    } satisfies SanityImageCrop;
+
     const url = faker.image.imageUrl(width, height, name, false, false);
     // Sanity expects this format:
     const id = `image-${this.id("SanityImageAsset")}-${width}x${height}-jpg`;
@@ -125,22 +133,15 @@ export class MockFactory {
         url,
         // TODO: assets have a lot more fields
       },
-      crop: satisfies<FullData<SanityImageCrop>>()({
-        __typename: "SanityImageCrop",
-        _type: "sanityimagecrop",
-        top: 0,
-        bottom: 0,
-        left: 0,
-        right: 0,
-      }),
-      hotspot: satisfies<FullData<SanityImageHotspot>>()({
+      crop,
+      hotspot: {
         __typename: "SanityImageHotspot",
         _type: "sanityimagehotspot",
         x: 0,
         y: 0,
         width,
         height,
-      }),
+      } satisfies SanityImageHotspot,
       ...data,
     };
     return result;

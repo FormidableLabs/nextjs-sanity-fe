@@ -1,11 +1,10 @@
-import * as React from "react";
 import type { FilteredProductImage, ImageCarouselProps } from "./types";
-
+import * as React from "react";
 import Carousel from "nuka-carousel";
+import { Image } from "components/Image";
 import { ImageCarouselDots } from "./ImageCarouselDots";
 import { ImageCarouselNext } from "./ImageCarouselNext";
 import { ImageCarouselPrev } from "./ImageCarouselPrev";
-import { Image } from "../Image";
 
 export const ImageCarousel: React.FC<ImageCarouselProps> = ({ productImages }) => {
   // Ensures array elements are defined and have defined "images" property

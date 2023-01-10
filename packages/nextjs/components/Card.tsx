@@ -1,10 +1,10 @@
 import * as React from "react";
 import { SanityImageSource } from "@sanity/image-url/lib/types/types";
 import Link, { LinkProps } from "next/link";
-
-import { Image } from "./Image";
 import classNames from "classnames";
+
 import { currencyFormatter } from "utils/currencyFormatter";
+import { Image } from "./Image";
 
 export interface CardProps {
   title: string;

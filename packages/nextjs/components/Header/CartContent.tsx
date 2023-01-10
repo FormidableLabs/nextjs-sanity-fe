@@ -1,10 +1,10 @@
 import * as React from "react";
 import { IoIosClose } from "react-icons/io";
-import { Button } from "../Button";
-import { useCart } from "../CartContext";
 import Link from "next/link";
-import { CartItem } from "../CartItem";
-import { currencyFormatter } from "../../utils/currencyFormatter";
+import { Button } from "components/Button";
+import { useCart } from "components/CartContext";
+import { CartItem } from "components/CartItem";
+import { currencyFormatter } from "utils/currencyFormatter";
 
 type CartContentProps = {
   onClose: () => void;

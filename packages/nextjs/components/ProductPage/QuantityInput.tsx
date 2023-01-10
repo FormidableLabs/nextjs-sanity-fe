@@ -1,7 +1,7 @@
+import { FiPlus } from "react-icons/fi";
 import { Button } from "components/Button";
 import { Input } from "components/Input";
 import { H6 } from "components/Typography/H6";
-import { FiPlus } from "react-icons/fi";
 
 interface Props {
   quantity: string;

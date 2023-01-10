@@ -4,9 +4,9 @@ import NextImage from "next/image";
 
 import cinderbread from "assets/cinderbread.jpg";
 import bagelAndBread from "assets/bagel-and-bread.jpg";
-import { localImageLoader } from "../utils/localImageLoader";
-import { BreadIcon } from "../components/Bread.icon";
-import { PageHead } from "../components/PageHead";
+import { localImageLoader } from "utils/localImageLoader";
+import { BreadIcon } from "components/Bread.icon";
+import { PageHead } from "components/PageHead";
 
 const AboutPage: NextPage = () => {
   return (

@@ -1,12 +1,12 @@
+import type { AppProps } from "next/app";
 import * as React from "react";
 import Head from "next/head";
-import type { AppProps } from "next/app";
 import { AnimatePresence, MotionConfig } from "framer-motion";
 
-import { CartProvider } from "../components/CartContext";
-import { Layout } from "../components/Layout";
-import "../styles/global.css";
-import { FadeInOut } from "../components/FadeInOut";
+import { CartProvider } from "components/CartContext";
+import { Layout } from "components/Layout";
+import "styles/global.css";
+import { FadeInOut } from "components/FadeInOut";
 
 if (process.env.NEXT_PUBLIC_API_MOCKING === "enabled") {
   // eslint-disable-next-line @typescript-eslint/no-var-requires

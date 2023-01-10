@@ -2,10 +2,11 @@ import * as React from "react";
 import { useCombobox } from "downshift";
 import groq from "groq";
 import { useCallback, useEffect, useRef, useState } from "react";
-import { sanityClient } from "utils/sanityClient";
 import debounce from "lodash.debounce";
-import { ProductSearch } from "utils/groqTypes/ProductSearch";
 import Link from "next/link";
+
+import { sanityClient } from "utils/sanityClient";
+import { ProductSearch } from "utils/groqTypes/ProductSearch";
 import { Image } from "./Image";
 import { Input } from "./Input";
 

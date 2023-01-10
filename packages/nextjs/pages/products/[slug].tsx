@@ -4,19 +4,20 @@ import { GetServerSideProps, NextPage } from "next";
 import { withUrqlClient, WithUrqlState } from "next-urql";
 import { useRouter } from "next/router";
 
-import { BlockContent } from "../../components/BlockContent";
-import { ImageCarousel } from "../../components/ImageCarousel";
-import { useCart } from "../../components/CartContext";
+import { AnimatePresence } from "framer-motion";
+import { BlockContent } from "components/BlockContent";
+import { ImageCarousel } from "components/ImageCarousel";
+import { useCart } from "components/CartContext";
 import {
   GetProductAndRecommendationsDocument,
   GetProductAndRecommendationsQuery,
   useGetProductAndRecommendationsQuery,
-} from "../../utils/generated/graphql";
-import { initializeUrql, urqlOptions, withUrqlOptions } from "../../utils/urql";
+} from "utils/generated/graphql";
+import { initializeUrql, urqlOptions, withUrqlOptions } from "utils/urql";
 import { setCachingHeaders } from "utils/setCachingHeaders";
 import { isSlug } from "utils/isSlug";
 import { SanityType } from "utils/consts";
-import { PageHead } from "../../components/PageHead";
+import { PageHead } from "components/PageHead";
 
 import { Price } from "components/Price";
 import { QuantityInput } from "components/ProductPage/QuantityInput";
@@ -24,10 +25,8 @@ import { StyleOptions } from "components/ProductPage/StyleOptions";
 import { ProductVariantSelector } from "components/ProductPage/ProductVariantSelector";
 import { H6 } from "components/Typography/H6";
 import { Product } from "components/Product";
-import { FadeInOut } from "../../components/FadeInOut";
-import { AnimatePresence } from "framer-motion";
+import { FadeInOut } from "components/FadeInOut";
 import { SSRData } from "utils/typedUrqlState";
-import { satisfies } from "utils/satisfies";
 
 const ProductPage: NextPage = () => {
   const { query } = useRouter();
@@ -157,7 +156,7 @@ const PageBody = ({ variant, product }: { product?: PDPProduct; variant?: PDPVar
 type PDPProduct = GetProductAndRecommendationsQuery["allProduct"][number];
 type PDPVariant = NonNullable<GetProductAndRecommendationsQuery["allProduct"][number]["variants"]>[number];
 
-export const getServerSideProps = satisfies<GetServerSideProps<WithUrqlState>>()(async ({ res, query }) => {
+export const getServerSideProps =(async ({ res, query }) => {
   const { client, ssrCache } = initializeUrql();
   const { slug } = query;
 
@@ -187,6 +186,6 @@ export const getServerSideProps = satisfies<GetServerSideProps<WithUrqlState>>()
       urqlState: ssrCache.extractData() as SSRData<GetProductAndRecommendationsQuery>,
     },
   };
-});
+}) satisfies GetServerSideProps<WithUrqlState>;
 
 export default withUrqlClient(() => ({ ...urqlOptions }), withUrqlOptions)(ProductPage);

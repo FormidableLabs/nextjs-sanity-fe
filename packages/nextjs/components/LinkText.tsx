@@ -1,6 +1,6 @@
+import type { AnchorHTMLAttributes, ButtonHTMLAttributes, ForwardedRef } from "react";
 import * as React from "react";
 import classNames from "classnames";
-import type { AnchorHTMLAttributes, ButtonHTMLAttributes, ForwardedRef } from "react";
 
 interface BaseProps {
   disabled?: boolean;
