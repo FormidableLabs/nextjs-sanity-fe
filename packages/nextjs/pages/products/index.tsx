@@ -108,13 +108,7 @@ const ProductsPage: NextPage<ProductsPageProps> = ({
 };
 
 export const getServerSideProps = (async ({ query, res, resolvedUrl }) => {
-  setCachingHeaders(res, [
-    SanityType.Product,
-    SanityType.ProductImage,
-    SanityType.Style,
-    SanityType.Flavour,
-    SanityType.Variant,
-  ]);
+  setCachingHeaders(res, [SanityType.Product, SanityType.Style, SanityType.Flavour, SanityType.Variant]);
 
   // Sort/ordering.
   const order = getOrderingFromQuery(query);
