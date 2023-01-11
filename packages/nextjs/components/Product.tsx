@@ -1,7 +1,7 @@
 import Link from "next/link";
+import { PLPVariant } from "utils/groqTypes/ProductList";
 import { Image } from "./Image";
 import { Price } from "./Price";
-import { PLPVariant } from "../utils/groqTypes/ProductList";
 
 export const Product = ({ item }: { item: PLPVariant }) => {
   const href = {
@@ -13,16 +13,12 @@ export const Product = ({ item }: { item: PLPVariant }) => {
 
   return (
     <div className="flex flex-col gap-3 group">
-      <Link href={href} passHref>
-        <a className="group-hover:shadow-lg rounded-lg overflow-hidden transition transition-shadow duration-150">
-          <Image width={600} height={600} src={item.images} alt={item.imageAlt} layout="responsive" />
-        </a>
+      <Link href={href} className="group-hover:shadow-lg rounded-lg overflow-hidden transition-shadow duration-150">
+        <Image width={600} height={600} src={item.images} alt={item.imageAlt} layout="responsive" />
       </Link>
-      <Link href={href} passHref>
-        <a className="text-primary">
-          <h3 className="text-h6 mb-1">{item.name}</h3>
-          <Price msrp={item.msrp} price={item.price} />
-        </a>
+      <Link href={href} className="text-primary">
+        <h3 className="text-h6 mb-1">{item.name}</h3>
+        <Price msrp={item.msrp} price={item.price} />
       </Link>
     </div>
   );

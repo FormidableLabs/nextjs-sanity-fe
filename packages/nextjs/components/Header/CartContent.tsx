@@ -39,7 +39,7 @@ export const CartContent = ({ onClose }: CartContentProps) => {
         ) : (
           <div className="py-3 flex flex-col gap-3">
             <p className="text-h6">You don&apos;t have anything in your cart.</p>
-            <Link href="/products" passHref>
+            <Link href="/products" passHref legacyBehavior>
               <Button as="a" variant="secondary" onClick={onClose}>
                 View Products
               </Button>

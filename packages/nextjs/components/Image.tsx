@@ -1,7 +1,7 @@
-import type { ImageProps, ImageLoaderProps } from "next/image";
+import type { ImageProps, ImageLoaderProps } from "next/legacy/image";
 import * as React from "react";
 import { SanityImageSource } from "@sanity/image-url/lib/types/types";
-import NextImage from "next/image";
+import NextImage from "next/legacy/image";
 import { imageBuilder } from "utils/sanityClient";
 
 interface Props extends Omit<ImageProps, "src"> {

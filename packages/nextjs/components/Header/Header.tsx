@@ -32,10 +32,8 @@ export const Header = () => {
       <nav className="h-[66px] sm:h-[110px] border-b-2 border-b-primary bg-secondary shadow transition-all text-primary">
         <div className="h-full container flex items-center justify-between px-6">
           <div className="flex items-center">
-            <Link href="/">
-              <a onClick={onMobileNavClose}>
-                <Logo className="w-24" />
-              </a>
+            <Link href="/" onClick={onMobileNavClose}>
+              <Logo className="w-24" />
             </Link>
             <ul className="ml-8 hidden sm:flex sm:flex-1">
               {/* Desktop Nav */}

@@ -18,9 +18,7 @@ export const DesktopNavItem = ({ label, href }: DesktopNavItemProps) => {
         router.pathname === href ? "border-primary" : "border-[transparent]"
       )}
     >
-      <Link href={href} passHref>
-        <a>{label}</a>
-      </Link>
+      <Link href={href}>{label}</Link>
     </li>
   );
 };

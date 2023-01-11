@@ -22,8 +22,8 @@ export const MobileHeaderItems = ({ navOpen, onMobileNavClose }: MobileHeaderIte
                 "font-bold": router.pathname === href,
               })}
             >
-              <Link href={href}>
-                <a onClick={onMobileNavClose}>{label}</a>
+              <Link href={href} onClick={onMobileNavClose}>
+                {label}
               </Link>
             </li>
           );

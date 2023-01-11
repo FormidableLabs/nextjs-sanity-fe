@@ -96,11 +96,13 @@ export const Search: React.FC = () => {
         {isOpen && variants.length ? (
           variants.map((variant) => (
             <li key={variant._id} className="border-b last:border-b-0 py-2 last:pb-0 first:pt-0">
-              <Link href={{ pathname: `/products/${variant.productSlug}`, query: { variant: variant.slug.current } }}>
-                <a className="flex items-center" onClick={clearSearch}>
-                  <Image className="rounded" src={variant.image} width={50} height={50} alt={variant.imageAlt} />
-                  <span className="text-body-reg font-medium text-primary ml-4">{variant.name}</span>
-                </a>
+              <Link
+                href={{ pathname: `/products/${variant.productSlug}`, query: { variant: variant.slug.current } }}
+                className="flex items-center"
+                onClick={clearSearch}
+              >
+                <Image className="rounded" src={variant.image} width={50} height={50} alt={variant.imageAlt} />
+                <span className="text-body-reg font-medium text-primary ml-4">{variant.name}</span>
               </Link>
             </li>
           ))

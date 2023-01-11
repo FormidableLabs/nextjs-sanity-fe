@@ -1,9 +1,9 @@
 import * as React from "react";
 import { GetServerSideProps, NextPage } from "next";
-import { withUrqlClient, WithUrqlState } from "next-urql";
+import { withUrqlClient } from "next-urql";
 import { FiArrowRight } from "react-icons/fi";
 import Link from "next/link";
-import NextImage from "next/image";
+import NextImage from "next/legacy/image";
 
 import {
   GetProductsAndCategoriesDocument,
@@ -36,7 +36,7 @@ const Home: NextPage = () => {
         <div className="flex justify-between items-center py-9">
           <div className="max-w-[600px]">
             <h1 className="text-primary text-h1">Formidable breads for your daily life.</h1>
-            <Link href="/products">
+            <Link href="/products" legacyBehavior>
               <Button as="a" variant="secondary" className="inline-flex items-center mt-6">
                 <FiArrowRight size={24} className="mr-2" /> Show now
               </Button>
@@ -58,7 +58,7 @@ const Home: NextPage = () => {
       <TitleBanner>Our bestsellers</TitleBanner>
       <section className="container py-9 flex flex-col gap-9">
         <FeaturedList items={data?.allProduct} />
-        <Link href="/products">
+        <Link href="/products" legacyBehavior>
           <Button as="a" variant="primary" className="w-full inline-block text-center">
             Show all breads
           </Button>
@@ -79,6 +79,7 @@ const Home: NextPage = () => {
               src={featuredImg}
               loader={localImageLoader}
               layout="intrinsic"
+              alt="featured image"
               className="rounded-full overflow-hidden aspect-square"
             />
           </div>
