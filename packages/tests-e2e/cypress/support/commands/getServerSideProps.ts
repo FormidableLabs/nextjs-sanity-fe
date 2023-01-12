@@ -2,7 +2,6 @@ import type * as home from " ../../../../nextjs/pages/index";
 import type * as categories from " ../../../../nextjs/pages/categories";
 import type * as products from " ../../../../nextjs/pages/products/index";
 import type * as product from " ../../../../nextjs/pages/products/[slug]";
-import { satisfies } from "../../../../nextjs/utils/satisfies";
 import { SSRData } from "../../../../nextjs/utils/typedUrqlState";
 
 type AsyncReturnType<TFunc extends (...args: any) => any> = UnwrapPromise<ReturnType<TFunc>>;
@@ -14,12 +13,12 @@ type PageProps = {
   "/products": AsyncReturnType<typeof products.getServerSideProps>["props"];
   "/products/[slug]": AsyncReturnType<typeof product.getServerSideProps>["props"];
 };
-const getServerSidePropsForPage = satisfies<{ [P in keyof PageProps]: (props: PageProps[P]) => unknown }>()({
+const getServerSidePropsForPage = {
   "/home": (props) => parseUrqlState(props.urqlState),
   "/categories": (props) => parseUrqlState(props.urqlState),
   "/products": (props) => props,
   "/products/[slug]": (props) => parseUrqlState(props.urqlState),
-});
+} satisfies {[P in keyof PageProps]: (props: PageProps[P]) => unknown};
 
 export type PageDataTypes = {
   [P in keyof typeof getServerSidePropsForPage]: ReturnType<typeof getServerSidePropsForPage[P]>;

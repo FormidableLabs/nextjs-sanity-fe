@@ -1,7 +1,7 @@
-import { NAV_ITEMS } from "./NavItems";
 import classNames from "classnames";
 import Link from "next/link";
 import { useRouter } from "next/router";
+import { NAV_ITEMS } from "./NavItems";
 
 type MobileHeaderItemsProps = {
   navOpen: boolean;
@@ -22,8 +22,8 @@ export const MobileHeaderItems = ({ navOpen, onMobileNavClose }: MobileHeaderIte
                 "font-bold": router.pathname === href,
               })}
             >
-              <Link href={href}>
-                <a onClick={onMobileNavClose}>{label}</a>
+              <Link href={href} onClick={onMobileNavClose}>
+                {label}
               </Link>
             </li>
           );

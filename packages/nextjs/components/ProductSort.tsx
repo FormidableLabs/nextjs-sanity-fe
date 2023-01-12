@@ -1,6 +1,6 @@
 import * as React from "react";
-import { PAGE_QUERY_PARAM, SORT_OPTIONS, SORT_OPTIONS_ARRAY, SORT_QUERY_PARAM, SortType } from "../utils/sorting";
-import { useRouterQueryParams } from "../utils/useRouterQueryParams";
+import { PAGE_QUERY_PARAM, SORT_OPTIONS, SORT_OPTIONS_ARRAY, SORT_QUERY_PARAM, SortType } from "utils/sorting";
+import { useRouterQueryParams } from "utils/useRouterQueryParams";
 import { Pill } from "./Pill";
 
 export const ProductSort: React.FC = () => {

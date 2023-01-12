@@ -1,8 +1,8 @@
+import type { FilterGroup as FilterGroupType } from "utils/filters";
 import * as React from "react";
-import type { FilterGroup as FilterGroupType } from "../../utils/filters";
 import { ChangeEvent } from "react";
-import { useRouterQueryParams } from "../../utils/useRouterQueryParams";
-import { Checkbox } from "../Checkbox";
+import { useRouterQueryParams } from "utils/useRouterQueryParams";
+import { Checkbox } from "components/Checkbox";
 
 type FilterGroupProps = {
   group: FilterGroupType;

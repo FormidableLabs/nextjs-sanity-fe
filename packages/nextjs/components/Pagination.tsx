@@ -47,7 +47,7 @@ export const Pagination = ({ onPageChange, pageCount = 1, currentPage = 1 }: Pag
       </MaybeDisabledLink>
       <div className="flex gap-x-1">
         {totalPages.map((page) => (
-          <Link key={`page-${page}`} href={page === 1 ? baseUrlObj : getUrlObjWithPage(page)} passHref>
+          <Link key={`page-${page}`} href={page === 1 ? baseUrlObj : getUrlObjWithPage(page)} passHref legacyBehavior>
             <a
               onClick={(e) => handlePageChanged(e, page)}
               className={classNames(
@@ -85,8 +85,8 @@ const MaybeDisabledLink = ({
 }>) => {
   if (!isDisabled) {
     return (
-      <Link href={urlObject} className={className} passHref>
-        <a className={className}>{children}</a>
+      <Link href={urlObject} className={className}>
+        {children}
       </Link>
     );
   }

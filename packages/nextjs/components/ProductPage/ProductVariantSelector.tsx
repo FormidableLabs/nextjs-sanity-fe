@@ -1,7 +1,7 @@
 import * as React from "react";
+import { useMemo } from "react";
 import { Select } from "components/Select";
 import { H6 } from "components/Typography/H6";
-import { useMemo } from "react";
 import { GetProductAndRecommendationsQuery } from "utils/generated/graphql";
 
 export type ProductVariants = GetProductAndRecommendationsQuery["allProduct"][0]["variants"];

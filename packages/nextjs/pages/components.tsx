@@ -1,10 +1,10 @@
+import { MdArrowForward } from "react-icons/md";
 import { Button } from "components/Button";
 import { Checkbox } from "components/Checkbox";
 import { Input } from "components/Input";
 import { LinkText } from "components/LinkText";
 import { Pill } from "components/Pill";
 import { Select } from "components/Select";
-import { MdArrowForward } from "react-icons/md";
 
 export default function ComponentsPage() {
   return (

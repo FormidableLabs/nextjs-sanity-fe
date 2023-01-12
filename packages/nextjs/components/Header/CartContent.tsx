@@ -1,10 +1,10 @@
 import * as React from "react";
 import { IoIosClose } from "react-icons/io";
-import { Button } from "../Button";
-import { useCart } from "../CartContext";
 import Link from "next/link";
-import { CartItem } from "../CartItem";
-import { currencyFormatter } from "../../utils/currencyFormatter";
+import { Button } from "components/Button";
+import { useCart } from "components/CartContext";
+import { CartItem } from "components/CartItem";
+import { currencyFormatter } from "utils/currencyFormatter";
 
 type CartContentProps = {
   onClose: () => void;
@@ -39,7 +39,7 @@ export const CartContent = ({ onClose }: CartContentProps) => {
         ) : (
           <div className="py-3 flex flex-col gap-3">
             <p className="text-h6">You don&apos;t have anything in your cart.</p>
-            <Link href="/products" passHref>
+            <Link href="/products" passHref legacyBehavior>
               <Button as="a" variant="secondary" onClick={onClose}>
                 View Products
               </Button>

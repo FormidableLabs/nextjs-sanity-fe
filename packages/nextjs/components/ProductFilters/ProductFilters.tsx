@@ -1,7 +1,7 @@
 import * as React from "react";
-import { FilterGroup } from "./FilterGroup";
 import { getFilterGroups } from "utils/filters";
-import { CategoryFilterItem, FlavourFilterItem, StyleFilterItem } from "../../utils/groqTypes/ProductList";
+import { CategoryFilterItem, FlavourFilterItem, StyleFilterItem } from "utils/groqTypes/ProductList";
+import { FilterGroup } from "./FilterGroup";
 
 interface Props {
   categoryFilters: CategoryFilterItem[];

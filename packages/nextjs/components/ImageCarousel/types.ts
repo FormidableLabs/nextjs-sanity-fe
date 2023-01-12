@@ -1,4 +1,4 @@
-import { GetProductAndRecommendationsQuery, GetProductsAndCategoriesQuery } from "../../utils/generated/graphql";
+import { GetProductAndRecommendationsQuery, GetProductsAndCategoriesQuery } from "utils/generated/graphql";
 
 export type ProductVariantImage = NonNullable<
   NonNullable<GetProductAndRecommendationsQuery["allProduct"][0]["variants"]>[0]
