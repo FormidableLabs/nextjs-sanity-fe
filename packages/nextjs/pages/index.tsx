@@ -109,13 +109,7 @@ export const getServerSideProps = (async ({ res }) => {
   // used on this page.
   await client?.query(GetProductsAndCategoriesDocument, {}).toPromise();
 
-  setCachingHeaders(res, [
-    SanityType.Category,
-    SanityType.CategoryImage,
-    SanityType.Product,
-    SanityType.ProductImage,
-    SanityType.Variant,
-  ]);
+  setCachingHeaders(res, [SanityType.Category, SanityType.CategoryImage, SanityType.Product, SanityType.Variant]);
 
   return {
     props: {

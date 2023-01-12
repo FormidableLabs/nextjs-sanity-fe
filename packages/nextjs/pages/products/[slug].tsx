@@ -156,7 +156,7 @@ const PageBody = ({ variant, product }: { product?: PDPProduct; variant?: PDPVar
 type PDPProduct = GetProductAndRecommendationsQuery["allProduct"][number];
 type PDPVariant = NonNullable<GetProductAndRecommendationsQuery["allProduct"][number]["variants"]>[number];
 
-export const getServerSideProps =(async ({ res, query }) => {
+export const getServerSideProps = (async ({ res, query }) => {
   const { client, ssrCache } = initializeUrql();
   const { slug } = query;
 
@@ -174,10 +174,6 @@ export const getServerSideProps =(async ({ res, query }) => {
     pageData?.data?.allProduct?.[0]?.variants?.map((v: any) => v?.slug?.current) || []
   ).filter(Boolean);
   cacheKeys.push(...variantSlugs.map((s) => `${SanityType.Variant}_${s}`));
-
-  // TODO: This is sub-optimal, might look into how to cache on some sort of key
-  cacheKeys.push(SanityType.ProductImage);
-
   setCachingHeaders(res, cacheKeys);
 
   return {

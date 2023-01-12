@@ -5,7 +5,6 @@ import category from "./category";
 import categoryImage from "./categoryImage";
 import description from "./description";
 import product from "./product";
-import productImage from "./productImage";
 import variant from "./variant";
 import flavour from "./flavour";
 import style from "./style";
@@ -21,7 +20,6 @@ export default createSchema({
     /* Your types here! */
     categoryImage,
     category,
-    productImage,
     product,
     variant,
     description,
