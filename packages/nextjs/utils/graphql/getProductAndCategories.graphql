@@ -21,6 +21,12 @@ query getProductsAndCategories {
     slug {
       current
     }
+    images {
+      asset {
+        _id
+        url
+      }
+    }
     variants {
       price
       slug {
@@ -31,16 +37,6 @@ query getProductsAndCategories {
         asset {
           url
         }
-      }
-    }
-  }
-  allProductImage: allProduct(limit: 1, sort: { _updatedAt: ASC }) {
-    _id
-    name
-    images {
-      asset {
-        _id
-        url
       }
     }
   }

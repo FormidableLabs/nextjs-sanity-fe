@@ -93,13 +93,38 @@ export class MockFactory {
   }
 
   productImage(data: Partial<ProductImage>, name: string, size: MockImageSize): ProductImage {
+    const { width, height } = {
+      small: { width: 100, height: 100 },
+      medium: { width: 600, height: 400 },
+      large: { width: 1200, height: 800 },
+    }[size];
+
+    const crop = {
+      __typename: "SanityImageCrop",
+      _type: "sanityimagecrop",
+      top: 0,
+      bottom: 0,
+      left: 0,
+      right: 0,
+    } satisfies SanityImageCrop;
+
+    const url = faker.image.imageUrl(width, height, name, false, false);
+
     const result: FullData<ProductImage> = {
       __typename: "ProductImage",
-      _type: "productimage",
-      _id: this.id("ProductImage"),
-      images: this.image({}, name, size),
+      _type: "image",
+      asset: { _type: "image", url },
       name,
       description: "",
+      crop,
+      hotspot: {
+        __typename: "SanityImageHotspot",
+        _type: "sanityimagehotspot",
+        x: 0,
+        y: 0,
+        width,
+        height,
+      } satisfies SanityImageHotspot,
       ...data,
     };
     return result;
@@ -122,17 +147,13 @@ export class MockFactory {
 
     const url = faker.image.imageUrl(width, height, name, false, false);
     // Sanity expects this format:
-    const id = `image-${this.id("SanityImageAsset")}-${width}x${height}-jpg`;
+    const id = `image-${this.id("Image")}-${width}x${height}-jpg`;
     const result: FullData<Image> = {
       __typename: "Image",
       // @ts-expect-error _id is a valid field, I think
       _id: id,
-      asset: {
-        __typename: "SanityImageAsset",
-        _id: id,
-        url,
-        // TODO: assets have a lot more fields
-      },
+      url,
+      // TODO: assets have a lot more fields
       crop,
       hotspot: {
         __typename: "SanityImageHotspot",
