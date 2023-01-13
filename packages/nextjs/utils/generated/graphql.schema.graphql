@@ -411,50 +411,32 @@ input ProductFilter {
   slug: SlugFilter
 }
 
-type ProductImage implements Document {
-  """Date the document was created"""
-  _createdAt: DateTime
-
-  """Document ID"""
-  _id: ID
+type ProductImage {
   _key: String
-
-  """Current document revision"""
-  _rev: String
-
-  """Document type"""
   _type: String
-
-  """Date the document was last modified"""
-  _updatedAt: DateTime
+  asset: SanityImageAsset
+  crop: SanityImageCrop
   description: String
-  images: Image
+  hotspot: SanityImageHotspot
   name: String
 }
 
 input ProductImageFilter {
-  """Apply filters on document level"""
-  _: Sanity_DocumentFilter
-  _createdAt: DatetimeFilter
-  _id: IDFilter
   _key: StringFilter
-  _rev: StringFilter
   _type: StringFilter
-  _updatedAt: DatetimeFilter
+  asset: SanityImageAssetFilter
+  crop: SanityImageCropFilter
   description: StringFilter
-  images: ImageFilter
+  hotspot: SanityImageHotspotFilter
   name: StringFilter
 }
 
 input ProductImageSorting {
-  _createdAt: SortOrder
-  _id: SortOrder
   _key: SortOrder
-  _rev: SortOrder
   _type: SortOrder
-  _updatedAt: SortOrder
+  crop: SanityImageCropSorting
   description: SortOrder
-  images: ImageSorting
+  hotspot: SanityImageHotspotSorting
   name: SortOrder
 }
 
@@ -490,10 +472,6 @@ type RootQuery {
     """Product document ID"""
     id: ID!
   ): Product
-  ProductImage(
-    """ProductImage document ID"""
-    id: ID!
-  ): ProductImage
   SanityFileAsset(
     """SanityFileAsset document ID"""
     id: ID!
@@ -555,15 +533,6 @@ type RootQuery {
     sort: [ProductSorting!]
     where: ProductFilter
   ): [Product!]!
-  allProductImage(
-    """Max documents to return"""
-    limit: Int
-
-    """Offset at which to start returning documents from"""
-    offset: Int
-    sort: [ProductImageSorting!]
-    where: ProductImageFilter
-  ): [ProductImage!]!
   allSanityFileAsset(
     """Max documents to return"""
     limit: Int

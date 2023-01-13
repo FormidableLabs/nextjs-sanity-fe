@@ -26,17 +26,15 @@ query getProductsAndCategories {
       slug {
         current
       }
+      name
       images {
-        name
-        images {
-          asset {
-            url
-          }
+        asset {
+          url
         }
       }
     }
   }
-  allProductImage(limit: 1, sort: { _updatedAt: ASC }) {
+  allProductImage: allProduct(limit: 1, sort: { _updatedAt: ASC }) {
     _id
     name
     images {

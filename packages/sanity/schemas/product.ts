@@ -1,4 +1,3 @@
-import { BsFillImageFill } from "react-icons/bs";
 import { MdShoppingCart } from "react-icons/md";
 
 export default {
