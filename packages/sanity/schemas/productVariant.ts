@@ -1,5 +1,6 @@
 import { GrMultiple } from "react-icons/gr";
 import groq from "groq";
+import { defineType, defineField } from "sanity";
 import client from "part:@sanity/base/client";
 
 const isUniqueId = (value, context) => {
@@ -29,13 +30,13 @@ export default {
   type: "object",
   icon: GrMultiple,
   fields: [
-    {
+    defineField({
       name: "name",
       title: "Name",
       type: "string",
       validation: (rule) => rule.required(),
-    },
-    {
+    }),
+    defineField({
       name: "slug",
       title: "Slug",
       type: "slug",
@@ -45,13 +46,13 @@ export default {
         maxLength: 200,
         slugify: (input: string) => input.toLowerCase().replace(/\s+/g, "-").slice(0, 200),
       },
-    },
-    {
+    }),
+    defineField({
       name: "description",
       title: "Description",
       type: "description",
-    },
-    {
+    }),
+    defineField({
       name: "id",
       title: "ID",
       type: "string",
@@ -62,20 +63,20 @@ export default {
           if (!isUnique) return "ID is not unique";
           return true;
         }),
-    },
-    {
+    }),
+    defineField({
       name: "msrp",
       title: "MSRP",
       type: "number",
       validation: (rule) => rule.required().positive(),
-    },
-    {
+    }),
+    defineField({
       name: "price",
       title: "Price",
       type: "number",
       validation: (rule) => rule.required().positive(),
-    },
-    {
+    }),
+    defineField({
       name: "images",
       title: "Images",
       type: "array",
@@ -86,8 +87,8 @@ export default {
           type: "productImage",
         },
       ],
-    },
-    {
+    }),
+    defineField({
       name: "flavour",
       title: "Flavour",
       type: "array",
@@ -97,8 +98,8 @@ export default {
           to: [{ type: "flavour" }],
         },
       ],
-    },
-    {
+    }),
+    defineField({
       name: "style",
       title: "Style (options)",
       type: "array",
@@ -108,7 +109,7 @@ export default {
           to: [{ type: "style" }],
         },
       ],
-    },
+    }),
   ],
   preview: {
     select: {
@@ -117,4 +118,4 @@ export default {
       subtitle: "style.name",
     },
   },
-};
+});

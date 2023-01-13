@@ -1,4 +1,6 @@
-export default {
+import { defineType } from "sanity";
+
+export default defineType({
   name: "description",
   title: "Description",
   type: "array",
@@ -7,4 +9,4 @@ export default {
       type: "block",
     },
   ],
-};
+});

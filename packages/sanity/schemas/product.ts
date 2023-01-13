@@ -1,24 +1,25 @@
 import { MdShoppingCart } from "react-icons/md";
+import { defineField, defineType } from "sanity";
 
-export default {
+export default defineType({
   name: "product",
   title: "Product",
   description: "Product of the store",
   type: "document",
   icon: MdShoppingCart,
   fields: [
-    {
+    defineField({
       name: "name",
       title: "Name",
       type: "string",
       validation: (rule) => rule.required(),
-    },
-    {
+    }),
+    defineField({
       name: "description",
       title: "Description",
       type: "description",
-    },
-    {
+    }),
+    defineField({
       name: "slug",
       title: "Slug",
       type: "slug",
@@ -26,8 +27,8 @@ export default {
       options: {
         source: "name",
       },
-    },
-    {
+    }),
+    defineField({
       name: "categories",
       title: "Categories",
       type: "array",
@@ -37,31 +38,33 @@ export default {
           to: [{ type: "category" }],
         },
       ],
-    },
-    {
-      name: "images",
-      title: "Images",
-      type: "array",
-      of: [
-        {
-          name: "productImage",
-          title: "Product Image",
-          type: "productImage",
-        },
-      ],
-    },
-    {
-      name: "productVariants",
-      title: "Product Variants",
-      type: "array",
-      of: [
-        {
-          name: "productVariant",
-          title: "Product Variant",
-          type: "productVariant",
-        },
-      ],
-    },
+    }),
+    defineField(
+      {
+        name: "images",
+        title: "Images",
+        type: "array",
+        of: [
+          defineField({
+            name: "productImage",
+            title: "Product Image",
+            type: "productImage",
+          }),
+        ],
+      },
+      {
+        name: "productVariants",
+        title: "Product Variants",
+        type: "array",
+        of: [
+          {
+            name: "productVariant",
+            title: "Product Variant",
+            type: "productVariant",
+          },
+        ],
+      }
+    ),
   ],
   preview: {
     select: {
@@ -77,4 +80,4 @@ export default {
       };
     },
   },
-};
+});
