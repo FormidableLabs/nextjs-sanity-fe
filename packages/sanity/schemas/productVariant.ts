@@ -1,7 +1,7 @@
 import { GrMultiple } from "react-icons/gr";
 import groq from "groq";
-import { defineType, defineField } from "sanity";
-import client from "part:@sanity/base/client";
+import { defineField, defineType } from "sanity";
+import { sanityClient } from "../utils/sanityClient";
 
 const isUniqueId = (value, context) => {
   const { document } = context;
@@ -20,7 +20,7 @@ const isUniqueId = (value, context) => {
     id == $id
   ][0]._id)`;
 
-  return client.fetch(query, params);
+  return sanityClient.fetch(query, params);
 };
 
 export default {

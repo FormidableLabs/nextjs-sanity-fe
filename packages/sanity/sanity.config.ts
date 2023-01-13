@@ -5,8 +5,8 @@ import { dashboardTool, projectUsersWidget, projectInfoWidget } from "@sanity/da
 import schemaTypes from "./schemas/schema";
 
 export default defineConfig({
-  projectId: "5bsv02jj",
-  dataset: "production",
+  projectId: import.meta.env.SANITY_STUDIO_PROJECT_ID,
+  dataset: import.meta.env.SANITY_STUDIO_DATASET,
   plugins: [
     deskTool(),
     dashboardTool({
