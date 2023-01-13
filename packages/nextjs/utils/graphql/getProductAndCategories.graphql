@@ -35,6 +35,7 @@ query getProductsAndCategories {
       name
       images {
         asset {
+          _id
           url
         }
       }

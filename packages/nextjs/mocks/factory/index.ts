@@ -109,11 +109,18 @@ export class MockFactory {
     } satisfies SanityImageCrop;
 
     const url = faker.image.imageUrl(width, height, name, false, false);
+    const id = `image-${this.id("ProductImage")}-${width}x${height}-jpg`;
 
     const result: FullData<ProductImage> = {
       __typename: "ProductImage",
       _type: "image",
-      asset: { _type: "image", url },
+      _id: id,
+      asset: {
+        _type: "image",
+        url,
+        // @ts-expect-error _id is a valid field
+        _ref: id,
+      },
       name,
       description: "",
       crop,

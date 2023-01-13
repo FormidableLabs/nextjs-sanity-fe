@@ -50,7 +50,7 @@ const ProductsPage: NextPage<ProductsPageProps> = ({
 }) => {
   const productNames = pluralize(variants.map((prod) => prod.name));
   const { query } = useRouter();
-  console.log({ variants });
+
   return (
     <>
       <PageHead

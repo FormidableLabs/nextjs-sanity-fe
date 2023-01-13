@@ -1,5 +1,5 @@
-import { Storage } from "./storage";
 import { mock } from "mocks/factory";
+import { Storage } from "./storage";
 
 const storage = new Storage<MockData>();
 
