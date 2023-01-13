@@ -19,6 +19,7 @@ query getProductAndRecommendations($slug: String!) {
         current
       }
       images {
+        name
         asset {
           _id
         }

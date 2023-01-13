@@ -1080,7 +1080,7 @@ export type GetProductAndRecommendationsQueryVariables = Exact<{
 }>;
 
 
-export type GetProductAndRecommendationsQuery = { __typename?: 'RootQuery', allProduct: Array<{ __typename?: 'Product', _id?: string | null, name?: string | null, categories?: Array<{ __typename?: 'Category', name?: string | null } | null> | null, slug?: { __typename?: 'Slug', current?: string | null } | null, variants?: Array<{ __typename?: 'Variant', _id?: string | null, id?: string | null, name?: string | null, descriptionRaw?: any | null, msrp?: number | null, price?: number | null, slug?: { __typename?: 'Slug', current?: string | null } | null, images?: Array<{ __typename?: 'ProductImage', asset?: { __typename?: 'SanityImageAsset', _id?: string | null } | null } | null> | null, style?: Array<{ __typename?: 'Style', _id?: string | null, name?: string | null } | null> | null } | null> | null }>, recommendations: Array<{ __typename?: 'Product', _id?: string | null, name?: string | null, slug?: { __typename?: 'Slug', current?: string | null } | null, variants?: Array<{ __typename?: 'Variant', _id?: string | null, name?: string | null, price?: number | null, msrp?: number | null, slug?: { __typename?: 'Slug', current?: string | null } | null, images?: Array<{ __typename?: 'ProductImage', asset?: { __typename?: 'SanityImageAsset', url?: string | null } | null } | null> | null } | null> | null }> };
+export type GetProductAndRecommendationsQuery = { __typename?: 'RootQuery', allProduct: Array<{ __typename?: 'Product', _id?: string | null, name?: string | null, categories?: Array<{ __typename?: 'Category', name?: string | null } | null> | null, slug?: { __typename?: 'Slug', current?: string | null } | null, variants?: Array<{ __typename?: 'Variant', _id?: string | null, id?: string | null, name?: string | null, descriptionRaw?: any | null, msrp?: number | null, price?: number | null, slug?: { __typename?: 'Slug', current?: string | null } | null, images?: Array<{ __typename?: 'ProductImage', name?: string | null, asset?: { __typename?: 'SanityImageAsset', _id?: string | null } | null } | null> | null, style?: Array<{ __typename?: 'Style', _id?: string | null, name?: string | null } | null> | null } | null> | null }>, recommendations: Array<{ __typename?: 'Product', _id?: string | null, name?: string | null, slug?: { __typename?: 'Slug', current?: string | null } | null, variants?: Array<{ __typename?: 'Variant', _id?: string | null, name?: string | null, price?: number | null, msrp?: number | null, slug?: { __typename?: 'Slug', current?: string | null } | null, images?: Array<{ __typename?: 'ProductImage', asset?: { __typename?: 'SanityImageAsset', url?: string | null } | null } | null> | null } | null> | null }> };
 
 export type GetProductsQueryVariables = Exact<{ [key: string]: never; }>;
 
@@ -1207,6 +1207,7 @@ export const GetProductAndRecommendationsDocument = gql`
         current
       }
       images {
+        name
         asset {
           _id
         }
