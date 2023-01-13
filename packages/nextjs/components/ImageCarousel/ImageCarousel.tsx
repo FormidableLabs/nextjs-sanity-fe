@@ -7,7 +7,6 @@ import { ImageCarouselNext } from "./ImageCarouselNext";
 import { ImageCarouselPrev } from "./ImageCarouselPrev";
 
 export const ImageCarousel = ({ productImages }: ImageCarouselProps) => {
-  console.log({ productImages });
   const innerNode = productImages?.map((image) => {
     return (
       <Image
