@@ -1,4 +1,3 @@
-import faker from "faker";
 import { Sdk } from "utils/generated/graphql-mock-types";
 import { getMockData } from "../db/mock-data";
 
