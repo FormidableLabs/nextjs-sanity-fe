@@ -7,8 +7,8 @@ export function GetAllFilteredVariants(filters = "", order = "") {
     'variants': *[_type == "variant"]${filters} {
       _id, name, msrp, price,
       'slug': slug.current,
-      'imageAlt': images[0]->name,
-      'images': images[0]->images,
+      'imageAlt': name,
+      'images': images[0],
       'productSlug': *[_type == "product"][references(^._id)][0].slug.current
     } ${order} [$offsetPage...$limit],
     'itemCount': count(*[_type == "variant"]${filters}),

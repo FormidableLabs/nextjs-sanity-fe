@@ -3,11 +3,8 @@ import { useState } from "react";
 import { GetServerSideProps, NextPage } from "next";
 import { withUrqlClient, WithUrqlState } from "next-urql";
 import { useRouter } from "next/router";
-
 import { AnimatePresence } from "framer-motion";
-import { BlockContent } from "components/BlockContent";
-import { ImageCarousel } from "components/ImageCarousel";
-import { useCart } from "components/CartContext";
+
 import {
   GetProductAndRecommendationsDocument,
   GetProductAndRecommendationsQuery,
@@ -17,8 +14,12 @@ import { initializeUrql, urqlOptions, withUrqlOptions } from "utils/urql";
 import { setCachingHeaders } from "utils/setCachingHeaders";
 import { isSlug } from "utils/isSlug";
 import { SanityType } from "utils/consts";
-import { PageHead } from "components/PageHead";
+import { SSRData } from "utils/typedUrqlState";
 
+import { BlockContent } from "components/BlockContent";
+import { ImageCarousel } from "components/ImageCarousel";
+import { useCart } from "components/CartContext";
+import { PageHead } from "components/PageHead";
 import { Price } from "components/Price";
 import { QuantityInput } from "components/ProductPage/QuantityInput";
 import { StyleOptions } from "components/ProductPage/StyleOptions";
@@ -26,7 +27,6 @@ import { ProductVariantSelector } from "components/ProductPage/ProductVariantSel
 import { H6 } from "components/Typography/H6";
 import { Product } from "components/Product";
 import { FadeInOut } from "components/FadeInOut";
-import { SSRData } from "utils/typedUrqlState";
 
 const ProductPage: NextPage = () => {
   const { query } = useRouter();
@@ -60,7 +60,7 @@ const ProductPage: NextPage = () => {
           <H6 className="col-span-2 md:col-span-1">Related Products</H6>
           {data?.recommendations?.slice(0, 3).map((prod) => {
             const variant = prod.variants?.[0];
-            const image = variant?.images?.[0]?.images;
+            const image = variant?.images?.[0];
             if (!variant || !image) return null;
 
             return (
@@ -71,7 +71,7 @@ const ProductPage: NextPage = () => {
                     _id: variant._id ?? "",
                     slug: variant?.slug?.current || "",
                     productSlug: prod.slug?.current || "",
-                    imageAlt: variant.images?.[0]?.name ?? "",
+                    imageAlt: variant.name ?? "",
                     // eslint-disable-next-line @typescript-eslint/ban-ts-comment
                     // @ts-ignore
                     images: image,

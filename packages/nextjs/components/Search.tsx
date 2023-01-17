@@ -18,7 +18,7 @@ const SEARCH_QUERY = groq`*[_type == 'variant']
   _id,
   name,
   slug,
-  'image':images[0]->images,
+  'image':images[0],
   'imageAlt': images[0]->name,
   'productSlug': *[_type == "product" && references(^._id)][0].slug.current
 }

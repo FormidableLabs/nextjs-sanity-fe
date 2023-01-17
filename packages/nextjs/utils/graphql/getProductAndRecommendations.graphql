@@ -19,10 +19,9 @@ query getProductAndRecommendations($slug: String!) {
         current
       }
       images {
-        images {
-          asset {
-            _id
-          }
+        name
+        asset {
+          _id
         }
       }
       style {
@@ -45,12 +44,10 @@ query getProductAndRecommendations($slug: String!) {
       slug {
         current
       }
+      name
       images {
-        name
-        images {
-          asset {
-            url
-          }
+        asset {
+          url
         }
       }
     }

@@ -1,6 +1,6 @@
-import { createGraphqlHandlers } from "./create-graphql-handlers";
 import { GRAPHQL_URL } from "utils/urql";
 import { Sdk } from "utils/generated/graphql-mock-types";
+import { createGraphqlHandlers } from "./create-graphql-handlers";
 import { ProductsQueries } from "./products";
 import { CategoryQueries } from "./categories";
 

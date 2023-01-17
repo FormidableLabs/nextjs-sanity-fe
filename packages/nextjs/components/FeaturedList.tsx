@@ -33,8 +33,8 @@ export const FeaturedList = ({ items }: Props) => {
             title: item.name ?? "",
             price: item.variants?.[0]?.price ?? 0,
             imageProps: {
-              src: item.variants?.[0]?.images?.[0]?.images ?? "",
-              alt: item.variants?.[0]?.images?.[0]?.name ?? "",
+              src: item.variants?.[0]?.images?.[0] ?? "",
+              alt: item.variants?.[0]?.name ?? "",
               containerClassName: "aspect-square",
             },
           };

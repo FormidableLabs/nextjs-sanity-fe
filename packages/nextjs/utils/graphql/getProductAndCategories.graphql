@@ -21,28 +21,23 @@ query getProductsAndCategories {
     slug {
       current
     }
+    images {
+      asset {
+        _id
+        url
+      }
+    }
     variants {
       price
       slug {
         current
       }
+      name
       images {
-        name
-        images {
-          asset {
-            url
-          }
+        asset {
+          _id
+          url
         }
-      }
-    }
-  }
-  allProductImage(limit: 1, sort: { _updatedAt: ASC }) {
-    _id
-    name
-    images {
-      asset {
-        _id
-        url
       }
     }
   }

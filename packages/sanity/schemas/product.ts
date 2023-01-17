@@ -1,4 +1,3 @@
-import { BsFillImageFill } from "react-icons/bs";
 import { MdShoppingCart } from "react-icons/md";
 
 export default {
@@ -47,28 +46,7 @@ export default {
         {
           name: "productImage",
           title: "Product Image",
-          description: "Images of Products",
-          type: "image",
-          icon: BsFillImageFill,
-          fields: [
-            {
-              name: "name",
-              title: "Name",
-              type: "string",
-              validation: (rule) => rule.required(),
-            },
-            {
-              name: "description",
-              title: "Description",
-              type: "text",
-            },
-          ],
-          preview: {
-            select: {
-              title: "name",
-              media: "asset",
-            },
-          },
+          type: "productImage",
         },
       ],
     },

@@ -48,8 +48,8 @@ const Home: NextPage = () => {
               width={600}
               height={600}
               className="rounded-2xl"
-              src={data?.allProductImage[0].images ?? ""}
-              alt={data?.allProductImage[0].name ?? ""}
+              src={data?.allProduct[0].images?.[0] ?? ""}
+              alt={data?.allProduct[0].name ?? ""}
             />
           </span>
         </div>

@@ -9,10 +9,8 @@ query getProducts {
       current
     }
     images {
-      images {
-        asset {
-          url
-        }
+      asset {
+        url
       }
       name
     }

@@ -1170,11 +1170,6 @@
           },
           {
             "kind": "OBJECT",
-            "name": "ProductImage",
-            "ofType": null
-          },
-          {
-            "kind": "OBJECT",
             "name": "SanityFileAsset",
             "ofType": null
           },
@@ -2822,30 +2817,6 @@
         "description": null,
         "fields": [
           {
-            "name": "_createdAt",
-            "description": "Date the document was created",
-            "args": [],
-            "type": {
-              "kind": "SCALAR",
-              "name": "DateTime",
-              "ofType": null
-            },
-            "isDeprecated": false,
-            "deprecationReason": null
-          },
-          {
-            "name": "_id",
-            "description": "Document ID",
-            "args": [],
-            "type": {
-              "kind": "SCALAR",
-              "name": "ID",
-              "ofType": null
-            },
-            "isDeprecated": false,
-            "deprecationReason": null
-          },
-          {
             "name": "_key",
             "description": null,
             "args": [],
@@ -2858,20 +2829,8 @@
             "deprecationReason": null
           },
           {
-            "name": "_rev",
-            "description": "Current document revision",
-            "args": [],
-            "type": {
-              "kind": "SCALAR",
-              "name": "String",
-              "ofType": null
-            },
-            "isDeprecated": false,
-            "deprecationReason": null
-          },
-          {
             "name": "_type",
-            "description": "Document type",
+            "description": null,
             "args": [],
             "type": {
               "kind": "SCALAR",
@@ -2882,12 +2841,24 @@
             "deprecationReason": null
           },
           {
-            "name": "_updatedAt",
-            "description": "Date the document was last modified",
+            "name": "asset",
+            "description": null,
             "args": [],
             "type": {
-              "kind": "SCALAR",
-              "name": "DateTime",
+              "kind": "OBJECT",
+              "name": "SanityImageAsset",
+              "ofType": null
+            },
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "crop",
+            "description": null,
+            "args": [],
+            "type": {
+              "kind": "OBJECT",
+              "name": "SanityImageCrop",
               "ofType": null
             },
             "isDeprecated": false,
@@ -2906,12 +2877,12 @@
             "deprecationReason": null
           },
           {
-            "name": "images",
+            "name": "hotspot",
             "description": null,
             "args": [],
             "type": {
               "kind": "OBJECT",
-              "name": "Image",
+              "name": "SanityImageHotspot",
               "ofType": null
             },
             "isDeprecated": false,
@@ -2931,13 +2902,7 @@
           }
         ],
         "inputFields": null,
-        "interfaces": [
-          {
-            "kind": "INTERFACE",
-            "name": "Document",
-            "ofType": null
-          }
-        ],
+        "interfaces": [],
         "enumValues": null,
         "possibleTypes": null
       },
@@ -2948,55 +2913,7 @@
         "fields": null,
         "inputFields": [
           {
-            "name": "_",
-            "description": "Apply filters on document level",
-            "type": {
-              "kind": "INPUT_OBJECT",
-              "name": "Sanity_DocumentFilter",
-              "ofType": null
-            },
-            "defaultValue": null,
-            "isDeprecated": false,
-            "deprecationReason": null
-          },
-          {
-            "name": "_createdAt",
-            "description": null,
-            "type": {
-              "kind": "INPUT_OBJECT",
-              "name": "DatetimeFilter",
-              "ofType": null
-            },
-            "defaultValue": null,
-            "isDeprecated": false,
-            "deprecationReason": null
-          },
-          {
-            "name": "_id",
-            "description": null,
-            "type": {
-              "kind": "INPUT_OBJECT",
-              "name": "IDFilter",
-              "ofType": null
-            },
-            "defaultValue": null,
-            "isDeprecated": false,
-            "deprecationReason": null
-          },
-          {
             "name": "_key",
-            "description": null,
-            "type": {
-              "kind": "INPUT_OBJECT",
-              "name": "StringFilter",
-              "ofType": null
-            },
-            "defaultValue": null,
-            "isDeprecated": false,
-            "deprecationReason": null
-          },
-          {
-            "name": "_rev",
             "description": null,
             "type": {
               "kind": "INPUT_OBJECT",
@@ -3020,11 +2937,23 @@
             "deprecationReason": null
           },
           {
-            "name": "_updatedAt",
+            "name": "asset",
             "description": null,
             "type": {
               "kind": "INPUT_OBJECT",
-              "name": "DatetimeFilter",
+              "name": "SanityImageAssetFilter",
+              "ofType": null
+            },
+            "defaultValue": null,
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "crop",
+            "description": null,
+            "type": {
+              "kind": "INPUT_OBJECT",
+              "name": "SanityImageCropFilter",
               "ofType": null
             },
             "defaultValue": null,
@@ -3044,11 +2973,11 @@
             "deprecationReason": null
           },
           {
-            "name": "images",
+            "name": "hotspot",
             "description": null,
             "type": {
               "kind": "INPUT_OBJECT",
-              "name": "ImageFilter",
+              "name": "SanityImageHotspotFilter",
               "ofType": null
             },
             "defaultValue": null,
@@ -3079,43 +3008,7 @@
         "fields": null,
         "inputFields": [
           {
-            "name": "_createdAt",
-            "description": null,
-            "type": {
-              "kind": "ENUM",
-              "name": "SortOrder",
-              "ofType": null
-            },
-            "defaultValue": null,
-            "isDeprecated": false,
-            "deprecationReason": null
-          },
-          {
-            "name": "_id",
-            "description": null,
-            "type": {
-              "kind": "ENUM",
-              "name": "SortOrder",
-              "ofType": null
-            },
-            "defaultValue": null,
-            "isDeprecated": false,
-            "deprecationReason": null
-          },
-          {
             "name": "_key",
-            "description": null,
-            "type": {
-              "kind": "ENUM",
-              "name": "SortOrder",
-              "ofType": null
-            },
-            "defaultValue": null,
-            "isDeprecated": false,
-            "deprecationReason": null
-          },
-          {
-            "name": "_rev",
             "description": null,
             "type": {
               "kind": "ENUM",
@@ -3139,11 +3032,11 @@
             "deprecationReason": null
           },
           {
-            "name": "_updatedAt",
+            "name": "crop",
             "description": null,
             "type": {
-              "kind": "ENUM",
-              "name": "SortOrder",
+              "kind": "INPUT_OBJECT",
+              "name": "SanityImageCropSorting",
               "ofType": null
             },
             "defaultValue": null,
@@ -3163,11 +3056,11 @@
             "deprecationReason": null
           },
           {
-            "name": "images",
+            "name": "hotspot",
             "description": null,
             "type": {
               "kind": "INPUT_OBJECT",
-              "name": "ImageSorting",
+              "name": "SanityImageHotspotSorting",
               "ofType": null
             },
             "defaultValue": null,
@@ -3443,35 +3336,6 @@
             "type": {
               "kind": "OBJECT",
               "name": "Product",
-              "ofType": null
-            },
-            "isDeprecated": false,
-            "deprecationReason": null
-          },
-          {
-            "name": "ProductImage",
-            "description": null,
-            "args": [
-              {
-                "name": "id",
-                "description": "ProductImage document ID",
-                "type": {
-                  "kind": "NON_NULL",
-                  "name": null,
-                  "ofType": {
-                    "kind": "SCALAR",
-                    "name": "ID",
-                    "ofType": null
-                  }
-                },
-                "defaultValue": null,
-                "isDeprecated": false,
-                "deprecationReason": null
-              }
-            ],
-            "type": {
-              "kind": "OBJECT",
-              "name": "ProductImage",
               "ofType": null
             },
             "isDeprecated": false,
@@ -3990,87 +3854,6 @@
                   "ofType": {
                     "kind": "OBJECT",
                     "name": "Product",
-                    "ofType": null
-                  }
-                }
-              }
-            },
-            "isDeprecated": false,
-            "deprecationReason": null
-          },
-          {
-            "name": "allProductImage",
-            "description": null,
-            "args": [
-              {
-                "name": "limit",
-                "description": "Max documents to return",
-                "type": {
-                  "kind": "SCALAR",
-                  "name": "Int",
-                  "ofType": null
-                },
-                "defaultValue": null,
-                "isDeprecated": false,
-                "deprecationReason": null
-              },
-              {
-                "name": "offset",
-                "description": "Offset at which to start returning documents from",
-                "type": {
-                  "kind": "SCALAR",
-                  "name": "Int",
-                  "ofType": null
-                },
-                "defaultValue": null,
-                "isDeprecated": false,
-                "deprecationReason": null
-              },
-              {
-                "name": "sort",
-                "description": null,
-                "type": {
-                  "kind": "LIST",
-                  "name": null,
-                  "ofType": {
-                    "kind": "NON_NULL",
-                    "name": null,
-                    "ofType": {
-                      "kind": "INPUT_OBJECT",
-                      "name": "ProductImageSorting",
-                      "ofType": null
-                    }
-                  }
-                },
-                "defaultValue": null,
-                "isDeprecated": false,
-                "deprecationReason": null
-              },
-              {
-                "name": "where",
-                "description": null,
-                "type": {
-                  "kind": "INPUT_OBJECT",
-                  "name": "ProductImageFilter",
-                  "ofType": null
-                },
-                "defaultValue": null,
-                "isDeprecated": false,
-                "deprecationReason": null
-              }
-            ],
-            "type": {
-              "kind": "NON_NULL",
-              "name": null,
-              "ofType": {
-                "kind": "LIST",
-                "name": null,
-                "ofType": {
-                  "kind": "NON_NULL",
-                  "name": null,
-                  "ofType": {
-                    "kind": "OBJECT",
-                    "name": "ProductImage",
                     "ofType": null
                   }
                 }
