@@ -51,13 +51,14 @@ export default {
       ],
     },
     {
-      name: "variants",
-      title: "Variants",
+      name: "productVariants",
+      title: "Product Variants",
       type: "array",
       of: [
         {
-          type: "reference",
-          to: [{ type: "variant" }],
+          name: "productVariant",
+          title: "Product Variant",
+          type: "productVariant",
         },
       ],
     },
