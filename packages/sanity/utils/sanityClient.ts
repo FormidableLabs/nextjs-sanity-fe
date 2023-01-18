@@ -8,5 +8,5 @@ const sanityOptions = {
 export const sanityClient = client({
   ...sanityOptions,
   projectId: "5bsv02jj",
-  useCdn: true,
+  useCdn: false,
 });
