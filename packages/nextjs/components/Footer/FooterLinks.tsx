@@ -4,7 +4,7 @@ export const FooterLinks = () => {
   return (
     <div className="flex flex-col justify-between h-full w-full">
       <div className="flex md:pb-0 pb-[53px]">
-        <div className="flex md:pr-[100px] pr-[140px]">
+        <div className="flex md:pr-[100px] pr-[100px]">
           <ul>
             <li className="pb-4">
               <h6 className="text-h6 text-primary font-medium">Shop</h6>
