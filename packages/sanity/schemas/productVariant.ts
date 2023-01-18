@@ -2,6 +2,7 @@ import { GrMultiple } from "react-icons/gr";
 import groq from "groq";
 import { defineField, defineType } from "sanity";
 import { sanityClient } from "../utils/sanityClient";
+import { BsFillImageFill } from "react-icons/bs";
 
 const isUniqueId = (value, context) => {
   const { document } = context;
@@ -84,7 +85,28 @@ export default {
         {
           name: "productImage",
           title: "Product Image",
-          type: "productImage",
+          description: "Images of Products",
+          type: "image",
+          icon: BsFillImageFill,
+          fields: [
+            defineField({
+              name: "name",
+              title: "Name",
+              type: "string",
+              validation: (rule) => rule.required(),
+            }),
+            defineField({
+              name: "description",
+              title: "Description",
+              type: "text",
+            }),
+          ],
+          preview: {
+            select: {
+              title: "name",
+              media: "asset",
+            },
+          },
         },
       ],
     }),
@@ -114,7 +136,7 @@ export default {
   preview: {
     select: {
       title: "name",
-      media: "images.0.asset",
+      media: "images.0.images",
       subtitle: "style.name",
     },
   },

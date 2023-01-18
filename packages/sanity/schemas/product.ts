@@ -1,3 +1,4 @@
+import { BsFillImageFill } from "react-icons/bs";
 import { MdShoppingCart } from "react-icons/md";
 import { defineField, defineType } from "sanity";
 
@@ -39,32 +40,30 @@ export default defineType({
         },
       ],
     }),
-    defineField(
-      {
-        name: "images",
-        title: "Images",
-        type: "array",
-        of: [
-          defineField({
-            name: "productImage",
-            title: "Product Image",
-            type: "productImage",
-          }),
-        ],
-      },
-      {
-        name: "productVariants",
-        title: "Product Variants",
-        type: "array",
-        of: [
-          {
-            name: "productVariant",
-            title: "Product Variant",
-            type: "productVariant",
-          },
-        ],
-      }
-    ),
+    defineField({
+      name: "images",
+      title: "Images",
+      type: "array",
+      of: [
+        defineField({
+          name: "productImage",
+          title: "Product Image",
+          type: "productImage",
+        }),
+      ],
+    }),
+    {
+      name: "productVariants",
+      title: "Product Variants",
+      type: "array",
+      of: [
+        {
+          name: "productVariant",
+          title: "Product Variant",
+          type: "productVariant",
+        },
+      ],
+    },
   ],
   preview: {
     select: {
