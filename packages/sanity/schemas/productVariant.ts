@@ -136,7 +136,7 @@ export default {
   preview: {
     select: {
       title: "name",
-      media: "images.0.images",
+      media: "images.0.asset",
       subtitle: "style.name",
     },
   },
