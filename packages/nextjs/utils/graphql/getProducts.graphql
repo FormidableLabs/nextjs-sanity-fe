@@ -1,24 +1,24 @@
-query getProducts {
-  allProduct {
-    _id
-    name
-    categories {
-      name
-    }
-    slug {
-      current
-    }
-    images {
-      asset {
-        url
-      }
-      name
-    }
-    variants {
-      name
-      id
-      msrp
-      price
-    }
-  }
-}
+# query getProducts {
+#   allProduct {
+#     _id
+#     name
+#     categories {
+#       name
+#     }
+#     slug {
+#       current
+#     }
+#     images {
+#       asset {
+#         url
+#       }
+#       name
+#     }
+#     variants {
+#       name
+#       id
+#       msrp
+#       price
+#     }
+#   }
+# }

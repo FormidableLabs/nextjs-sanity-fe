@@ -1,18 +1,18 @@
-query getCategories {
-  allCategory {
-    _id
-    name
-    description
-    slug {
-      current
-    }
-    images {
-      name
-      images {
-        asset {
-          url
-        }
-      }
-    }
-  }
-}
+# query getCategories {
+#   allCategory {
+#     _id
+#     name
+#     description
+#     slug {
+#       current
+#     }
+#     images {
+#       name
+#       images {
+#         asset {
+#           url
+#         }
+#       }
+#     }
+#   }
+# }

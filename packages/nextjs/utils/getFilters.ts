@@ -1,6 +1,6 @@
+import groq from "groq";
 import { CategoryFilterItem, FlavourFilterItem, StyleFilterItem } from "./groqTypes/ProductList";
 import { sanityClient } from "./sanityClient";
-import groq from "groq";
 
 /**
  * Fetches categories for filters.

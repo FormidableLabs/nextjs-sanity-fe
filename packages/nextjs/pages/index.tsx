@@ -1,20 +1,14 @@
 import * as React from "react";
 import { GetServerSideProps, NextPage } from "next";
-import { withUrqlClient } from "next-urql";
 import { FiArrowRight } from "react-icons/fi";
 import Link from "next/link";
 import NextImage from "next/legacy/image";
 
-import {
-  GetProductsAndCategoriesDocument,
-  GetProductsAndCategoriesQuery,
-  useGetProductsAndCategoriesQuery,
-} from "utils/generated/graphql";
-import { SSRData } from "utils/typedUrqlState";
-import { initializeUrql, urqlOptions, withUrqlOptions } from "utils/urql";
 import { setCachingHeaders } from "utils/setCachingHeaders";
 import { localImageLoader } from "utils/localImageLoader";
 import { SanityType } from "utils/consts";
+import { getAllCategories } from "utils/getAllCategoriesQuery";
+import { getRecommendations } from "utils/getRecommendationsQuery";
 
 import featuredImg from "assets/featured-story.jpg";
 import { Button } from "components/Button";
@@ -23,9 +17,7 @@ import { FeaturedQuote } from "components/FeaturedQuote";
 import { Image } from "components/Image";
 import { PageHead } from "components/PageHead";
 
-const Home: NextPage = () => {
-  const [{ data }] = useGetProductsAndCategoriesQuery();
-
+const Home: NextPage = ({ data }) => {
   return (
     <>
       <PageHead
@@ -48,8 +40,8 @@ const Home: NextPage = () => {
               width={600}
               height={600}
               className="rounded-2xl"
-              src={data?.allProduct[0].images?.[0] ?? ""}
-              alt={data?.allProduct[0].name ?? ""}
+              src={data?.products[0].images?.[0] ?? ""}
+              alt={data?.products[0].name ?? ""}
             />
           </span>
         </div>
@@ -57,7 +49,7 @@ const Home: NextPage = () => {
 
       <TitleBanner>Our bestsellers</TitleBanner>
       <section className="container py-9 flex flex-col gap-9">
-        <FeaturedList items={data?.allProduct} />
+        <FeaturedList items={data?.products} />
         <Link href="/products" legacyBehavior>
           <Button as="a" variant="primary" className="w-full inline-block text-center">
             Show all breads
@@ -103,20 +95,19 @@ const TitleBanner = ({ children }: React.PropsWithChildren) => (
 );
 
 export const getServerSideProps = (async ({ res }) => {
-  const { client, ssrCache } = initializeUrql();
+  setCachingHeaders(res, [SanityType.Category, SanityType.CategoryImage]);
 
-  // This query is used to populate the cache for the query
-  // used on this page.
-  await client?.query(GetProductsAndCategoriesDocument, {}).toPromise();
-
-  setCachingHeaders(res, [SanityType.Category, SanityType.CategoryImage, SanityType.Product, SanityType.Variant]);
+  const categories = await getAllCategories();
+  const products = await getRecommendations();
 
   return {
     props: {
-      // urqlState is a keyword here so withUrqlClient can pick it up.
-      urqlState: ssrCache.extractData() as SSRData<GetProductsAndCategoriesQuery>,
+      data: {
+        products,
+        allCategory: categories,
+      },
     },
   };
 }) satisfies GetServerSideProps;
 
-export default withUrqlClient(() => ({ ...urqlOptions }), withUrqlOptions)(Home);
+export default Home;

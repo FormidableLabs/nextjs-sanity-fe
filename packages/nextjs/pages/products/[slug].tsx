@@ -1,20 +1,13 @@
 import * as React from "react";
 import { useState } from "react";
 import { GetServerSideProps, NextPage } from "next";
-import { withUrqlClient, WithUrqlState } from "next-urql";
 import { useRouter } from "next/router";
 import { AnimatePresence } from "framer-motion";
 
-import {
-  GetProductAndRecommendationsDocument,
-  GetProductAndRecommendationsQuery,
-  useGetProductAndRecommendationsQuery,
-} from "utils/generated/graphql";
-import { initializeUrql, urqlOptions, withUrqlOptions } from "utils/urql";
+import { GetProductAndRecommendationsQuery, useGetProductAndRecommendationsQuery } from "utils/generated/graphql";
 import { setCachingHeaders } from "utils/setCachingHeaders";
 import { isSlug } from "utils/isSlug";
 import { SanityType } from "utils/consts";
-import { SSRData } from "utils/typedUrqlState";
 
 import { BlockContent } from "components/BlockContent";
 import { ImageCarousel } from "components/ImageCarousel";
@@ -27,8 +20,10 @@ import { ProductVariantSelector } from "components/ProductPage/ProductVariantSel
 import { H6 } from "components/Typography/H6";
 import { Product } from "components/Product";
 import { FadeInOut } from "components/FadeInOut";
+import { getRecommendations } from "utils/getRecommendationsQuery";
+import { getAllProducts } from "utils/getAllProductsQuery";
 
-const ProductPage: NextPage = () => {
+const ProductPage: NextPage = ({ data }) => {
   const { query } = useRouter();
   const [{ data }] = useGetProductAndRecommendationsQuery({
     variables: {
@@ -157,7 +152,6 @@ type PDPProduct = GetProductAndRecommendationsQuery["allProduct"][number];
 type PDPVariant = NonNullable<GetProductAndRecommendationsQuery["allProduct"][number]["variants"]>[number];
 
 export const getServerSideProps = (async ({ res, query }) => {
-  const { client, ssrCache } = initializeUrql();
   const { slug } = query;
 
   const cacheKeys = [] as string[];
@@ -165,23 +159,20 @@ export const getServerSideProps = (async ({ res, query }) => {
     cacheKeys.push(`${SanityType.Product}_${slug}`);
   }
 
-  // This query is used to populate the cache for the query
-  // used on this page.
-  const pageData = await client?.query(GetProductAndRecommendationsDocument, { slug }).toPromise();
+  const products = await getAllProducts();
+  const recommendations = await getRecommendations();
 
   // Extract variant slugs to add to cache keys, in case any of those change.
-  const variantSlugs: string[] = (
-    pageData?.data?.allProduct?.[0]?.variants?.map((v: any) => v?.slug?.current) || []
-  ).filter(Boolean);
+  const variantSlugs: string[] = (products[0]?.variants?.map((v: any) => v?.slug?.current) || []).filter(Boolean);
   cacheKeys.push(...variantSlugs.map((s) => `${SanityType.Variant}_${s}`));
   setCachingHeaders(res, cacheKeys);
 
   return {
     props: {
-      // urqlState is a keyword here so withUrqlClient can pick it up.
-      urqlState: ssrCache.extractData() as SSRData<GetProductAndRecommendationsQuery>,
+      allProduct: products,
+      recommendations,
     },
   };
-}) satisfies GetServerSideProps<WithUrqlState>;
+}) satisfies GetServerSideProps;
 
-export default withUrqlClient(() => ({ ...urqlOptions }), withUrqlOptions)(ProductPage);
+export default ProductPage;
