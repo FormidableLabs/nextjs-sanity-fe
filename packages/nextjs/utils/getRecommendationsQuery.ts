@@ -8,12 +8,7 @@ export const getRecommendations = () =>
   slug {
     current
   },
-  images {
-    asset {
-      _id,
-      url
-    }
-  },
+  images,
   variants {
     _id,
     msrp,

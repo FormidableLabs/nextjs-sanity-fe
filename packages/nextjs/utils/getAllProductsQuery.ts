@@ -11,13 +11,7 @@ export const getAllProducts = () =>
   slug {
     current
   },
-  images {
-    name,
-    asset {
-      _id,
-      url
-    }
-  },
+  images,
   variants {
     price,
     name,
