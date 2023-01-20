@@ -4,10 +4,8 @@ import { sanityClient } from "./sanityClient";
 export function GetAllFilteredVariants(filters = "", order = "") {
   return groq`
   {
-    'productVariants': *[_type == "product"]${filters} {
-      _id, name,
-      "msrp": productVariants[0].msrp,
-      "price": productVariants[0].price,
+    'productVariants': *[_type == "product"].productVariants[]${filters} {
+      id, name, msrp, price,
       'productSlug': slug.current,
       'imageAlt': name,
       "images": images[0],

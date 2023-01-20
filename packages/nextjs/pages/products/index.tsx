@@ -126,7 +126,7 @@ export const getServerSideProps = (async ({ query, res, resolvedUrl }) => {
   const pagination = getPaginationFromQuery(query);
 
   const result = await getFilteredPaginatedQuery<PLPVariantList>(GetAllFilteredVariants(filters, order), pagination);
-  console.log({ result });
+
   const { productVariants, itemCount } = result;
   const { currentPage, pageSize } = pagination;
   const pageCount = Math.ceil(itemCount / pageSize);
