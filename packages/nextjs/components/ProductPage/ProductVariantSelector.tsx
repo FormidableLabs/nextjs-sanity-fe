@@ -4,23 +4,23 @@ import { Select } from "components/Select";
 import { H6 } from "components/Typography/H6";
 import { GetProductAndRecommendationsQuery } from "utils/generated/graphql";
 
-export type ProductVariants = GetProductAndRecommendationsQuery["allProduct"][0]["variants"];
+export type ProductVariants = GetProductAndRecommendationsQuery["allProduct"][0]["productVariants"];
 export type ProductVariant = NonNullable<ProductVariants>[0];
 
 interface Props {
-  variants: ProductVariants;
+  productVariants: ProductVariants;
   selectedVariant?: ProductVariant;
   onVariantChange: (slug?: string) => void;
 }
 
-export const ProductVariantSelector = ({ variants, selectedVariant, onVariantChange }: Props) => {
+export const ProductVariantSelector = ({ productVariants, selectedVariant, onVariantChange }: Props) => {
   const options = useMemo(
     () =>
-      variants?.map((variant) => ({
+      productVariants?.map((variant) => ({
         title: variant?.name ?? "",
         value: variant?.slug?.current ?? "",
       })),
-    [variants]
+    [productVariants]
   );
 
   if (!options?.length) {

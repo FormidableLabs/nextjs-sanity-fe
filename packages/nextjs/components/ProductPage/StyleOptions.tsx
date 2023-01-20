@@ -4,7 +4,7 @@ import { H6 } from "components/Typography/H6";
 import { GetProductAndRecommendationsQuery } from "utils/generated/graphql";
 
 interface Props {
-  options: NonNullable<NonNullable<GetProductAndRecommendationsQuery["allProduct"][0]["variants"]>[0]>["style"];
+  options: NonNullable<NonNullable<GetProductAndRecommendationsQuery["allProduct"][0]["productVariants"]>[0]>["style"];
   selectedStyle?: string;
   onChange: (slicing: string) => void;
 }

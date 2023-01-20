@@ -59,7 +59,7 @@ const ProductPage: NextPage = () => {
         <div className="container grid sm:grid-cols-2 md:grid-cols-4 gap-4">
           <H6 className="col-span-2 md:col-span-1">Related Products</H6>
           {data?.recommendations?.slice(0, 3).map((prod) => {
-            const variant = prod.variants?.[0];
+            const variant = prod.productVariants?.[0];
             const image = variant?.images?.[0];
             if (!variant || !image) return null;
 
@@ -68,7 +68,7 @@ const ProductPage: NextPage = () => {
                 <Product
                   // TODO: make the interface for Product more generic so it can take result from GQL also
                   item={{
-                    _id: variant._id ?? "",
+                    _id: variant.id ?? "",
                     slug: variant?.slug?.current || "",
                     productSlug: prod.slug?.current || "",
                     imageAlt: variant.name ?? "",
@@ -110,11 +110,11 @@ const PageBody = ({ variant, product }: { product?: PDPProduct; variant?: PDPVar
   };
 
   const onAddToCart = () => {
-    if (variant?._id) {
+    if (variant?.id) {
       // If the item is already in the cart allow user to click add to cart multiple times
-      const existingCartItem = cartItems.find((item) => item._id === variant._id);
+      const existingCartItem = cartItems.find((item) => item._id === variant.id);
 
-      updateCart(variant?._id, existingCartItem ? existingCartItem.qty + Number(quantity) : Number(quantity));
+      updateCart(variant?.id, existingCartItem ? existingCartItem.qty + Number(quantity) : Number(quantity));
     }
   };
 
@@ -133,7 +133,7 @@ const PageBody = ({ variant, product }: { product?: PDPProduct; variant?: PDPVar
           <BlockContent value={variant?.descriptionRaw} className="text-body-reg text-primary font-medium" />
           <hr className="border-t border-t-primary my-5" />
           <ProductVariantSelector
-            variants={product?.productVariants}
+            productVariants={product?.productVariants}
             selectedVariant={variant}
             onVariantChange={onVariantChange}
           />

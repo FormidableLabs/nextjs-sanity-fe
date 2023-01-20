@@ -27,14 +27,14 @@ export const FeaturedList = ({ items }: Props) => {
             to: {
               pathname: `/products/${item.slug?.current}`,
               query: {
-                variant: item.variants?.[0]?.slug?.current,
+                variant: item.productVariants?.[0]?.slug?.current,
               },
             },
             title: item.name ?? "",
-            price: item.variants?.[0]?.price ?? 0,
+            price: item.productVariants?.[0]?.price ?? 0,
             imageProps: {
-              src: item.variants?.[0]?.images?.[0] ?? "",
-              alt: item.variants?.[0]?.name ?? "",
+              src: item.productVariants?.[0]?.images?.[0] ?? "",
+              alt: item.productVariants?.[0]?.name ?? "",
               containerClassName: "aspect-square",
             },
           };

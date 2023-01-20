@@ -1,7 +1,7 @@
 import { GetProductAndRecommendationsQuery } from "utils/generated/graphql";
 
 export type ProductVariantImage = NonNullable<
-  NonNullable<GetProductAndRecommendationsQuery["allProduct"][0]["variants"]>[0]
+  NonNullable<GetProductAndRecommendationsQuery["allProduct"][0]["productVariants"]>[0]
 >["images"];
 
 export type ImageCarouselProps = {
