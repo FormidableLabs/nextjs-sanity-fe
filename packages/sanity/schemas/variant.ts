@@ -23,10 +23,10 @@ const isUniqueId = (value, context) => {
 };
 
 export default {
-  name: "productVariant",
-  title: "Product Variant",
+  name: "variant",
+  title: "Variant",
   description: "Variant of the product",
-  type: "object",
+  type: "document",
   icon: GrMultiple,
   fields: [
     {
