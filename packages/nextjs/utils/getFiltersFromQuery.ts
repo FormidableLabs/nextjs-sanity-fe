@@ -1,5 +1,5 @@
-import { FilterGroupParams, getFilterGroups } from "utils/filters";
 import { ParsedUrlQuery } from "querystring";
+import { FilterGroupParams, getFilterGroups } from "utils/filters";
 
 export const getFiltersFromQuery = (
   query: ParsedUrlQuery,

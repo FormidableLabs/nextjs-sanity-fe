@@ -1,5 +1,5 @@
 export interface PLPVariant {
-  _id: string;
+  id: string;
   slug: string;
   name: string;
   msrp: number;
