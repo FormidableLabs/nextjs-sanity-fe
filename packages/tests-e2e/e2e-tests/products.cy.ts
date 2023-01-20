@@ -1,6 +1,6 @@
 import { generateMockData } from "mocks/msw/db/mock-data";
 import type { PageDataTypes } from "../cypress/support/commands/getServerSideProps";
-import { mockOnly } from '../utils/real-or-mock';
+import { mockOnly } from "../utils/real-or-mock";
 
 describe("when I visit the products page", () => {
   mockOnly.before(() => {
@@ -35,7 +35,7 @@ describe("when I visit the products page", () => {
     const EXPECTED_ITEMS_MINIMUM = 10;
 
     it("I see 6 products", () => {
-      expect(pageProps.variants.length).to.equal(
+      expect(pageProps.productVariants.length).to.equal(
         EXPECTED_ITEMS_PER_PAGE,
         `there should be ${EXPECTED_ITEMS_PER_PAGE} items on this page`
       );
@@ -44,7 +44,7 @@ describe("when I visit the products page", () => {
         `there should be at least ${EXPECTED_ITEMS_MINIMUM} items`
       );
 
-      pageProps.variants.forEach((variant) => {
+      pageProps.productVariants.forEach((variant) => {
         cy.findByText(variant.name).should("exist");
       });
     });
