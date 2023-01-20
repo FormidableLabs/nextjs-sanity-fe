@@ -82,7 +82,7 @@ const ProductsPage: NextPage<ProductsPageProps> = ({
                     key={productNames}
                   >
                     {productVariants.map((variant) => (
-                      <Product key={variant._id} item={variant} />
+                      <Product key={variant.id} item={variant} />
                     ))}
                     {/* Add padder items when on page > 1 so pagination bar isn't moving around */}
                     {+(query?.page || 1) > 1 &&
