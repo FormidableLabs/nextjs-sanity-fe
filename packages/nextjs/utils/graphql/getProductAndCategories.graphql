@@ -27,7 +27,7 @@ query getProductsAndCategories {
         url
       }
     }
-    variants {
+    productVariants {
       price
       slug {
         current

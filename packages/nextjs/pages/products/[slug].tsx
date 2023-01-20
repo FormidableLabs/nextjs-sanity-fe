@@ -38,8 +38,8 @@ const ProductPage: NextPage = () => {
 
   const product = data?.allProduct[0];
   const selectedVariant =
-    (product?.variants || []).find((v) => v?.slug?.current && v.slug.current === query.variant) ||
-    product?.variants?.[0];
+    (product?.productVariants || []).find((v) => v?.slug?.current && v.slug.current === query.variant) ||
+    product?.productVariants?.[0];
 
   return (
     <React.Fragment>
@@ -133,7 +133,7 @@ const PageBody = ({ variant, product }: { product?: PDPProduct; variant?: PDPVar
           <BlockContent value={variant?.descriptionRaw} className="text-body-reg text-primary font-medium" />
           <hr className="border-t border-t-primary my-5" />
           <ProductVariantSelector
-            variants={product?.variants}
+            variants={product?.productVariants}
             selectedVariant={variant}
             onVariantChange={onVariantChange}
           />
@@ -154,7 +154,7 @@ const PageBody = ({ variant, product }: { product?: PDPProduct; variant?: PDPVar
 };
 
 type PDPProduct = GetProductAndRecommendationsQuery["allProduct"][number];
-type PDPVariant = NonNullable<GetProductAndRecommendationsQuery["allProduct"][number]["variants"]>[number];
+type PDPVariant = NonNullable<GetProductAndRecommendationsQuery["allProduct"][number]["productVariants"]>[number];
 
 export const getServerSideProps = (async ({ res, query }) => {
   const { client, ssrCache } = initializeUrql();
@@ -171,7 +171,7 @@ export const getServerSideProps = (async ({ res, query }) => {
 
   // Extract variant slugs to add to cache keys, in case any of those change.
   const variantSlugs: string[] = (
-    pageData?.data?.allProduct?.[0]?.variants?.map((v: any) => v?.slug?.current) || []
+    pageData?.data?.allProduct?.[0]?.productVariants?.map((v: any) => v?.slug?.current) || []
   ).filter(Boolean);
   cacheKeys.push(...variantSlugs.map((s) => `${SanityType.Variant}_${s}`));
   setCachingHeaders(res, cacheKeys);

@@ -6,7 +6,7 @@ describe("when I visit the Product Details Page", () => {
     // Find a product to test:
     cy.visit("/products");
     cy.getServerSideProps("/products").then((props) => {
-      const product = props.variants[0];
+      const product = props.productVariants[0];
       cy.visit(`/products/${product.productSlug}`);
     });
   });
@@ -26,7 +26,7 @@ describe("when I visit the Product Details Page", () => {
   it("I see the item's price", () => {
     cy.getServerSideProps("/products/[slug]").then((data) => {
       const product = data.allProduct[0];
-      const variant = product.variants![0]!;
+      const variant = product.productVariants![0]!;
       cy.findAllByText(/\$\d+\.\d\d/)
         .should("exist")
         .then((price) => {

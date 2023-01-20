@@ -4,14 +4,15 @@ import { sanityClient } from "./sanityClient";
 export function GetAllFilteredVariants(filters = "", order = "") {
   return groq`
   {
-    'variants': *[_type == "variant"]${filters} {
-      _id, name, msrp, price,
-      'slug': slug.current,
+    'productVariants': *[_type == "product"]${filters} {
+      _id, name,
+      "msrp": productVariants[0].msrp,
+      "price": productVariants[0].price,
+      'productSlug': slug.current,
       'imageAlt': name,
-      'images': images[0],
-      'productSlug': *[_type == "product"][references(^._id)][0].slug.current
+      "images": images[0],
     } ${order} [$offsetPage...$limit],
-    'itemCount': count(*[_type == "variant"]${filters}),
+    'itemCount': count(*[_type == "product"]${filters}),
   }`;
 }
 

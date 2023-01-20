@@ -10,7 +10,7 @@ export interface PLPVariant {
 }
 
 export interface PLPVariantList {
-  variants: PLPVariant[];
+  productVariants: PLPVariant[];
   itemCount: number;
 }
 

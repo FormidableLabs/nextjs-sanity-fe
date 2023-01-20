@@ -5,11 +5,11 @@ import type {
   Image,
   Product,
   ProductImage,
+  ProductVariant,
   SanityImageCrop,
   SanityImageHotspot,
   Slug,
   Style,
-  Variant,
 } from "utils/generated/graphql";
 import faker from "faker";
 
@@ -76,7 +76,9 @@ export class MockFactory {
       categories: [],
       descriptionRaw: this.descriptionRaw({}),
       images: [this.productImage({}, name, "small"), this.productImage({}, name, "large")],
-      variants: faker.random.arrayElements(variants).map((variant) => this.variant({ name: variant + " " + name })),
+      productVariants: faker.random
+        .arrayElements(variants)
+        .map((variant) => this.variant({ name: variant + " " + name })),
       ...data,
     };
     return result;
@@ -174,21 +176,20 @@ export class MockFactory {
     };
     return result;
   }
-  variant(data: Partial<Variant>): Variant {
+  variant(data: Partial<ProductVariant>): ProductVariant {
     const name = data.name || "";
     const msrp = data.msrp || faker.datatype.number({ min: 2, max: 10 });
     const price =
       data.price || faker.random.arrayElement([msrp, msrp, msrp, faker.datatype.number({ min: 2, max: msrp })]);
 
-    const result: FullData<Variant> = {
-      __typename: "Variant",
+    const result: FullData<ProductVariant> = {
+      __typename: "ProductVariant",
       _type: "variant",
-      _id: this.id("Variant"),
+      id: this.id("Variant"),
       name,
       slug: this.slug(name),
       images: [this.productImage({}, name, "small")],
       descriptionRaw: this.descriptionRaw({}),
-      id: faker.datatype.uuid(),
       flavour: [this.flavour({})],
       msrp,
       price,

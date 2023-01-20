@@ -8,8 +8,7 @@ query getProductAndRecommendations($slug: String!) {
     slug {
       current
     }
-    variants {
-      _id
+    productVariants {
       id
       name
       descriptionRaw
@@ -36,8 +35,8 @@ query getProductAndRecommendations($slug: String!) {
     slug {
       current
     }
-    variants {
-      _id
+    productVariants {
+      id
       name
       price
       msrp

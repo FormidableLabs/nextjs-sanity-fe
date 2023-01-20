@@ -394,8 +394,8 @@ type Product implements Document {
   descriptionRaw: JSON
   images: [ProductImage]
   name: String
+  productVariants: [ProductVariant]
   slug: Slug
-  variants: [Variant]
 }
 
 input ProductFilter {
@@ -451,6 +451,40 @@ input ProductSorting {
   slug: SlugSorting
 }
 
+type ProductVariant {
+  _key: String
+  _type: String
+  descriptionRaw: JSON
+  flavour: [Flavour]
+  id: String
+  images: [ProductImage]
+  msrp: Float
+  name: String
+  price: Float
+  slug: Slug
+  style: [Style]
+}
+
+input ProductVariantFilter {
+  _key: StringFilter
+  _type: StringFilter
+  id: StringFilter
+  msrp: FloatFilter
+  name: StringFilter
+  price: FloatFilter
+  slug: SlugFilter
+}
+
+input ProductVariantSorting {
+  _key: SortOrder
+  _type: SortOrder
+  id: SortOrder
+  msrp: SortOrder
+  name: SortOrder
+  price: SortOrder
+  slug: SlugSorting
+}
+
 type RootQuery {
   Category(
     """Category document ID"""
@@ -484,10 +518,6 @@ type RootQuery {
     """Style document ID"""
     id: ID!
   ): Style
-  Variant(
-    """Variant document ID"""
-    id: ID!
-  ): Variant
   allCategory(
     """Max documents to return"""
     limit: Int
@@ -560,15 +590,6 @@ type RootQuery {
     sort: [StyleSorting!]
     where: StyleFilter
   ): [Style!]!
-  allVariant(
-    """Max documents to return"""
-    limit: Int
-
-    """Offset at which to start returning documents from"""
-    offset: Int
-    sort: [VariantSorting!]
-    where: VariantFilter
-  ): [Variant!]!
 }
 
 type SanityAssetSourceData {
@@ -1037,62 +1058,5 @@ input StyleSorting {
   _type: SortOrder
   _updatedAt: SortOrder
   name: SortOrder
-  slug: SlugSorting
-}
-
-type Variant implements Document {
-  """Date the document was created"""
-  _createdAt: DateTime
-
-  """Document ID"""
-  _id: ID
-  _key: String
-
-  """Current document revision"""
-  _rev: String
-
-  """Document type"""
-  _type: String
-
-  """Date the document was last modified"""
-  _updatedAt: DateTime
-  descriptionRaw: JSON
-  flavour: [Flavour]
-  id: String
-  images: [ProductImage]
-  msrp: Float
-  name: String
-  price: Float
-  slug: Slug
-  style: [Style]
-}
-
-input VariantFilter {
-  """Apply filters on document level"""
-  _: Sanity_DocumentFilter
-  _createdAt: DatetimeFilter
-  _id: IDFilter
-  _key: StringFilter
-  _rev: StringFilter
-  _type: StringFilter
-  _updatedAt: DatetimeFilter
-  id: StringFilter
-  msrp: FloatFilter
-  name: StringFilter
-  price: FloatFilter
-  slug: SlugFilter
-}
-
-input VariantSorting {
-  _createdAt: SortOrder
-  _id: SortOrder
-  _key: SortOrder
-  _rev: SortOrder
-  _type: SortOrder
-  _updatedAt: SortOrder
-  id: SortOrder
-  msrp: SortOrder
-  name: SortOrder
-  price: SortOrder
   slug: SlugSorting
 }

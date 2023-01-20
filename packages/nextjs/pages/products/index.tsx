@@ -30,7 +30,7 @@ import { Pagination } from "components/Pagination";
 import { FadeInOut } from "components/FadeInOut";
 
 interface ProductsPageProps {
-  variants: PLPVariant[];
+  productVariants: PLPVariant[];
   itemCount: number;
   pageSize: number;
   pageCount: number;
@@ -41,14 +41,14 @@ interface ProductsPageProps {
 }
 
 const ProductsPage: NextPage<ProductsPageProps> = ({
-  variants,
+  productVariants,
   pageCount,
   currentPage,
   categoryFilters,
   flavourFilters,
   styleFilters,
 }) => {
-  const productNames = pluralize(variants.map((prod) => prod.name));
+  const productNames = pluralize(productVariants.map((prod) => prod.name));
   const { query } = useRouter();
 
   return (
@@ -73,7 +73,7 @@ const ProductsPage: NextPage<ProductsPageProps> = ({
 
             <div className="flex-1 order-1 md:order-2">
               <AnimatePresence mode="wait">
-                {variants.length > 0 && (
+                {productVariants.length > 0 && (
                   <FadeInOut
                     className={classNames(
                       "w-full grid grid-cols-2 sm:grid-cols-3 md:grid-cols-2 lg:grid-cols-3 gap-x-3 gap-y-9 mb-9",
@@ -81,24 +81,26 @@ const ProductsPage: NextPage<ProductsPageProps> = ({
                     )}
                     key={productNames}
                   >
-                    {variants.map((variant) => (
+                    {productVariants.map((variant) => (
                       <Product key={variant._id} item={variant} />
                     ))}
                     {/* Add padder items when on page > 1 so pagination bar isn't moving around */}
                     {+(query?.page || 1) > 1 &&
-                      Array.from({ length: 6 - variants.length })
+                      Array.from({ length: 6 - productVariants.length })
                         .fill(undefined)
                         .map((_, i) => <div key={i} className="invisible" />)}
                   </FadeInOut>
                 )}
 
-                {variants.length === 0 && (
+                {productVariants.length === 0 && (
                   <div className="flex-1 flex flex-col justify-center items-center">
                     <H6 className="text-center">No products found</H6>
                   </div>
                 )}
               </AnimatePresence>
-              {variants.length > 0 && <Pagination key="pagination" pageCount={pageCount} currentPage={currentPage} />}
+              {productVariants.length > 0 && (
+                <Pagination key="pagination" pageCount={pageCount} currentPage={currentPage} />
+              )}
             </div>
           </div>
         </div>
@@ -124,8 +126,8 @@ export const getServerSideProps = (async ({ query, res, resolvedUrl }) => {
   const pagination = getPaginationFromQuery(query);
 
   const result = await getFilteredPaginatedQuery<PLPVariantList>(GetAllFilteredVariants(filters, order), pagination);
-
-  const { variants, itemCount } = result;
+  console.log({ result });
+  const { productVariants, itemCount } = result;
   const { currentPage, pageSize } = pagination;
   const pageCount = Math.ceil(itemCount / pageSize);
 
@@ -150,7 +152,7 @@ export const getServerSideProps = (async ({ query, res, resolvedUrl }) => {
       categoryFilters,
       flavourFilters,
       styleFilters,
-      variants,
+      productVariants,
       itemCount,
       pageCount,
       pageSize,

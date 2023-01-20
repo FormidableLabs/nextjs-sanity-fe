@@ -350,8 +350,8 @@ export type Product = Document & {
   descriptionRaw?: Maybe<Scalars['JSON']>;
   images?: Maybe<Array<Maybe<ProductImage>>>;
   name?: Maybe<Scalars['String']>;
+  productVariants?: Maybe<Array<Maybe<ProductVariant>>>;
   slug?: Maybe<Slug>;
-  variants?: Maybe<Array<Maybe<Variant>>>;
 };
 
 export type ProductFilter = {
@@ -408,6 +408,41 @@ export type ProductSorting = {
   slug?: InputMaybe<SlugSorting>;
 };
 
+export type ProductVariant = {
+  __typename?: 'ProductVariant';
+  _key?: Maybe<Scalars['String']>;
+  _type?: Maybe<Scalars['String']>;
+  descriptionRaw?: Maybe<Scalars['JSON']>;
+  flavour?: Maybe<Array<Maybe<Flavour>>>;
+  id?: Maybe<Scalars['String']>;
+  images?: Maybe<Array<Maybe<ProductImage>>>;
+  msrp?: Maybe<Scalars['Float']>;
+  name?: Maybe<Scalars['String']>;
+  price?: Maybe<Scalars['Float']>;
+  slug?: Maybe<Slug>;
+  style?: Maybe<Array<Maybe<Style>>>;
+};
+
+export type ProductVariantFilter = {
+  _key?: InputMaybe<StringFilter>;
+  _type?: InputMaybe<StringFilter>;
+  id?: InputMaybe<StringFilter>;
+  msrp?: InputMaybe<FloatFilter>;
+  name?: InputMaybe<StringFilter>;
+  price?: InputMaybe<FloatFilter>;
+  slug?: InputMaybe<SlugFilter>;
+};
+
+export type ProductVariantSorting = {
+  _key?: InputMaybe<SortOrder>;
+  _type?: InputMaybe<SortOrder>;
+  id?: InputMaybe<SortOrder>;
+  msrp?: InputMaybe<SortOrder>;
+  name?: InputMaybe<SortOrder>;
+  price?: InputMaybe<SortOrder>;
+  slug?: InputMaybe<SlugSorting>;
+};
+
 export type RootQuery = {
   __typename?: 'RootQuery';
   Category?: Maybe<Category>;
@@ -418,7 +453,6 @@ export type RootQuery = {
   SanityFileAsset?: Maybe<SanityFileAsset>;
   SanityImageAsset?: Maybe<SanityImageAsset>;
   Style?: Maybe<Style>;
-  Variant?: Maybe<Variant>;
   allCategory: Array<Category>;
   allCategoryImage: Array<CategoryImage>;
   allDocument: Array<Document>;
@@ -427,7 +461,6 @@ export type RootQuery = {
   allSanityFileAsset: Array<SanityFileAsset>;
   allSanityImageAsset: Array<SanityImageAsset>;
   allStyle: Array<Style>;
-  allVariant: Array<Variant>;
 };
 
 
@@ -467,11 +500,6 @@ export type RootQuerySanityImageAssetArgs = {
 
 
 export type RootQueryStyleArgs = {
-  id: Scalars['ID'];
-};
-
-
-export type RootQueryVariantArgs = {
   id: Scalars['ID'];
 };
 
@@ -537,14 +565,6 @@ export type RootQueryAllStyleArgs = {
   offset?: InputMaybe<Scalars['Int']>;
   sort?: InputMaybe<Array<StyleSorting>>;
   where?: InputMaybe<StyleFilter>;
-};
-
-
-export type RootQueryAllVariantArgs = {
-  limit?: InputMaybe<Scalars['Int']>;
-  offset?: InputMaybe<Scalars['Int']>;
-  sort?: InputMaybe<Array<VariantSorting>>;
-  where?: InputMaybe<VariantFilter>;
 };
 
 export type SanityAssetSourceData = {
@@ -1005,60 +1025,6 @@ export type StyleSorting = {
   slug?: InputMaybe<SlugSorting>;
 };
 
-export type Variant = Document & {
-  __typename?: 'Variant';
-  /** Date the document was created */
-  _createdAt?: Maybe<Scalars['DateTime']>;
-  /** Document ID */
-  _id?: Maybe<Scalars['ID']>;
-  _key?: Maybe<Scalars['String']>;
-  /** Current document revision */
-  _rev?: Maybe<Scalars['String']>;
-  /** Document type */
-  _type?: Maybe<Scalars['String']>;
-  /** Date the document was last modified */
-  _updatedAt?: Maybe<Scalars['DateTime']>;
-  descriptionRaw?: Maybe<Scalars['JSON']>;
-  flavour?: Maybe<Array<Maybe<Flavour>>>;
-  id?: Maybe<Scalars['String']>;
-  images?: Maybe<Array<Maybe<ProductImage>>>;
-  msrp?: Maybe<Scalars['Float']>;
-  name?: Maybe<Scalars['String']>;
-  price?: Maybe<Scalars['Float']>;
-  slug?: Maybe<Slug>;
-  style?: Maybe<Array<Maybe<Style>>>;
-};
-
-export type VariantFilter = {
-  /** Apply filters on document level */
-  _?: InputMaybe<Sanity_DocumentFilter>;
-  _createdAt?: InputMaybe<DatetimeFilter>;
-  _id?: InputMaybe<IdFilter>;
-  _key?: InputMaybe<StringFilter>;
-  _rev?: InputMaybe<StringFilter>;
-  _type?: InputMaybe<StringFilter>;
-  _updatedAt?: InputMaybe<DatetimeFilter>;
-  id?: InputMaybe<StringFilter>;
-  msrp?: InputMaybe<FloatFilter>;
-  name?: InputMaybe<StringFilter>;
-  price?: InputMaybe<FloatFilter>;
-  slug?: InputMaybe<SlugFilter>;
-};
-
-export type VariantSorting = {
-  _createdAt?: InputMaybe<SortOrder>;
-  _id?: InputMaybe<SortOrder>;
-  _key?: InputMaybe<SortOrder>;
-  _rev?: InputMaybe<SortOrder>;
-  _type?: InputMaybe<SortOrder>;
-  _updatedAt?: InputMaybe<SortOrder>;
-  id?: InputMaybe<SortOrder>;
-  msrp?: InputMaybe<SortOrder>;
-  name?: InputMaybe<SortOrder>;
-  price?: InputMaybe<SortOrder>;
-  slug?: InputMaybe<SlugSorting>;
-};
-
 export type GetCategoriesQueryVariables = Exact<{ [key: string]: never; }>;
 
 
@@ -1072,19 +1038,19 @@ export type GetCategoriesSlugsQuery = { __typename?: 'RootQuery', allCategory: A
 export type GetProductsAndCategoriesQueryVariables = Exact<{ [key: string]: never; }>;
 
 
-export type GetProductsAndCategoriesQuery = { __typename?: 'RootQuery', allCategory: Array<{ __typename?: 'Category', _id?: string | null, name?: string | null, description?: string | null, slug?: { __typename?: 'Slug', current?: string | null } | null, images?: Array<{ __typename?: 'CategoryImage', name?: string | null, images?: { __typename?: 'Image', asset?: { __typename?: 'SanityImageAsset', url?: string | null } | null } | null } | null> | null }>, allProduct: Array<{ __typename?: 'Product', _id?: string | null, name?: string | null, slug?: { __typename?: 'Slug', current?: string | null } | null, images?: Array<{ __typename?: 'ProductImage', asset?: { __typename?: 'SanityImageAsset', _id?: string | null, url?: string | null } | null } | null> | null, variants?: Array<{ __typename?: 'Variant', price?: number | null, name?: string | null, slug?: { __typename?: 'Slug', current?: string | null } | null, images?: Array<{ __typename?: 'ProductImage', asset?: { __typename?: 'SanityImageAsset', _id?: string | null, url?: string | null } | null } | null> | null } | null> | null }> };
+export type GetProductsAndCategoriesQuery = { __typename?: 'RootQuery', allCategory: Array<{ __typename?: 'Category', _id?: string | null, name?: string | null, description?: string | null, slug?: { __typename?: 'Slug', current?: string | null } | null, images?: Array<{ __typename?: 'CategoryImage', name?: string | null, images?: { __typename?: 'Image', asset?: { __typename?: 'SanityImageAsset', url?: string | null } | null } | null } | null> | null }>, allProduct: Array<{ __typename?: 'Product', _id?: string | null, name?: string | null, slug?: { __typename?: 'Slug', current?: string | null } | null, images?: Array<{ __typename?: 'ProductImage', asset?: { __typename?: 'SanityImageAsset', _id?: string | null, url?: string | null } | null } | null> | null, productVariants?: Array<{ __typename?: 'ProductVariant', price?: number | null, name?: string | null, slug?: { __typename?: 'Slug', current?: string | null } | null, images?: Array<{ __typename?: 'ProductImage', asset?: { __typename?: 'SanityImageAsset', _id?: string | null, url?: string | null } | null } | null> | null } | null> | null }> };
 
 export type GetProductAndRecommendationsQueryVariables = Exact<{
   slug: Scalars['String'];
 }>;
 
 
-export type GetProductAndRecommendationsQuery = { __typename?: 'RootQuery', allProduct: Array<{ __typename?: 'Product', _id?: string | null, name?: string | null, categories?: Array<{ __typename?: 'Category', name?: string | null } | null> | null, slug?: { __typename?: 'Slug', current?: string | null } | null, variants?: Array<{ __typename?: 'Variant', _id?: string | null, id?: string | null, name?: string | null, descriptionRaw?: any | null, msrp?: number | null, price?: number | null, slug?: { __typename?: 'Slug', current?: string | null } | null, images?: Array<{ __typename?: 'ProductImage', name?: string | null, asset?: { __typename?: 'SanityImageAsset', _id?: string | null } | null } | null> | null, style?: Array<{ __typename?: 'Style', _id?: string | null, name?: string | null } | null> | null } | null> | null }>, recommendations: Array<{ __typename?: 'Product', _id?: string | null, name?: string | null, slug?: { __typename?: 'Slug', current?: string | null } | null, variants?: Array<{ __typename?: 'Variant', _id?: string | null, name?: string | null, price?: number | null, msrp?: number | null, slug?: { __typename?: 'Slug', current?: string | null } | null, images?: Array<{ __typename?: 'ProductImage', asset?: { __typename?: 'SanityImageAsset', url?: string | null } | null } | null> | null } | null> | null }> };
+export type GetProductAndRecommendationsQuery = { __typename?: 'RootQuery', allProduct: Array<{ __typename?: 'Product', _id?: string | null, name?: string | null, categories?: Array<{ __typename?: 'Category', name?: string | null } | null> | null, slug?: { __typename?: 'Slug', current?: string | null } | null, productVariants?: Array<{ __typename?: 'ProductVariant', id?: string | null, name?: string | null, descriptionRaw?: any | null, msrp?: number | null, price?: number | null, slug?: { __typename?: 'Slug', current?: string | null } | null, images?: Array<{ __typename?: 'ProductImage', name?: string | null, asset?: { __typename?: 'SanityImageAsset', _id?: string | null } | null } | null> | null, style?: Array<{ __typename?: 'Style', _id?: string | null, name?: string | null } | null> | null } | null> | null }>, recommendations: Array<{ __typename?: 'Product', _id?: string | null, name?: string | null, slug?: { __typename?: 'Slug', current?: string | null } | null, productVariants?: Array<{ __typename?: 'ProductVariant', id?: string | null, name?: string | null, price?: number | null, msrp?: number | null, slug?: { __typename?: 'Slug', current?: string | null } | null, images?: Array<{ __typename?: 'ProductImage', asset?: { __typename?: 'SanityImageAsset', url?: string | null } | null } | null> | null } | null> | null }> };
 
 export type GetProductsQueryVariables = Exact<{ [key: string]: never; }>;
 
 
-export type GetProductsQuery = { __typename?: 'RootQuery', allProduct: Array<{ __typename?: 'Product', _id?: string | null, name?: string | null, categories?: Array<{ __typename?: 'Category', name?: string | null } | null> | null, slug?: { __typename?: 'Slug', current?: string | null } | null, images?: Array<{ __typename?: 'ProductImage', name?: string | null, asset?: { __typename?: 'SanityImageAsset', url?: string | null } | null } | null> | null, variants?: Array<{ __typename?: 'Variant', name?: string | null, id?: string | null, msrp?: number | null, price?: number | null } | null> | null }> };
+export type GetProductsQuery = { __typename?: 'RootQuery', allProduct: Array<{ __typename?: 'Product', _id?: string | null, name?: string | null, categories?: Array<{ __typename?: 'Category', name?: string | null } | null> | null, slug?: { __typename?: 'Slug', current?: string | null } | null, images?: Array<{ __typename?: 'ProductImage', name?: string | null, asset?: { __typename?: 'SanityImageAsset', url?: string | null } | null } | null> | null, productVariants?: Array<{ __typename?: 'ProductVariant', name?: string | null, id?: string | null, msrp?: number | null, price?: number | null } | null> | null }> };
 
 export type GetProductsSlugsQueryVariables = Exact<{ [key: string]: never; }>;
 
@@ -1153,7 +1119,7 @@ export const GetProductsAndCategoriesDocument = gql`
         url
       }
     }
-    variants {
+    productVariants {
       price
       slug {
         current
@@ -1180,8 +1146,7 @@ export const GetProductAndRecommendationsDocument = gql`
     slug {
       current
     }
-    variants {
-      _id
+    productVariants {
       id
       name
       descriptionRaw
@@ -1208,8 +1173,8 @@ export const GetProductAndRecommendationsDocument = gql`
     slug {
       current
     }
-    variants {
-      _id
+    productVariants {
+      id
       name
       price
       msrp
@@ -1243,7 +1208,7 @@ export const GetProductsDocument = gql`
       }
       name
     }
-    variants {
+    productVariants {
       name
       id
       msrp

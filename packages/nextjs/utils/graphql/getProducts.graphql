@@ -14,7 +14,7 @@ query getProducts {
       }
       name
     }
-    variants {
+    productVariants {
       name
       id
       msrp
