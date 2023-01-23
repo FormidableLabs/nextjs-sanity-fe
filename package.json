@@ -23,6 +23,8 @@
     "prepare": "husky install",
     "lint": "pnpm run --parallel lint",
     "typecheck": "pnpm run --parallel typecheck",
+    "test:unit": "pnpm run --filter ./packages/nextjs test:unit",
+    "test:unit:watch": "pnpm run --filter ./packages/nextjs test:unit:watch",
     "test:e2e-real": "pnpm run --filter ./packages/tests-e2e test:e2e-real",
     "test:e2e-real:open": "pnpm run --filter ./packages/tests-e2e test:e2e-real:open",
     "test:e2e-real:start": "start-server-and-test next:dev http://localhost:3000 test:e2e-real",
