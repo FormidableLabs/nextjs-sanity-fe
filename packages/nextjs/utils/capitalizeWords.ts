@@ -10,7 +10,6 @@ export const capitalizeWords = (sentence: string, excludeList: string[] = []) =>
   const words = sentence.replace(/-/g, " ").split(" ");
 
   const elements = words.reduce((acc: string[], current: string) => {
-    // avoid short words like of, is, etc.
     if (excludeList.includes(current)) {
       acc.push(current);
     } else {
