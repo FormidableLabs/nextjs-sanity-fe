@@ -1,10 +1,10 @@
 import * as React from "react";
 import classNames from "classnames";
 import { Card, CardProps } from "components/Card";
-import { GetProductsAndCategoriesQuery } from "utils/generated/graphql";
+import { GetProductsAndCategoriesQuery } from "utils/groqTypes/ProductList";
 
 type Props = {
-  items?: GetProductsAndCategoriesQuery["allProduct"] | GetProductsAndCategoriesQuery["allCategory"];
+  items?: GetProductsAndCategoriesQuery["products"] | GetProductsAndCategoriesQuery["categories"];
 };
 
 export const FeaturedList = ({ items }: Props) => {
@@ -22,7 +22,7 @@ export const FeaturedList = ({ items }: Props) => {
       {items.map((item, i) => {
         let props: CardProps;
 
-        if (item.__typename === "Product") {
+        if (item._type === "product") {
           props = {
             to: {
               pathname: `/products/${item.slug?.current}`,
@@ -38,7 +38,7 @@ export const FeaturedList = ({ items }: Props) => {
               containerClassName: "aspect-square",
             },
           };
-        } else if (item.__typename === "Category") {
+        } else if (item._type === "category") {
           props = {
             to: {
               pathname: `/products`,

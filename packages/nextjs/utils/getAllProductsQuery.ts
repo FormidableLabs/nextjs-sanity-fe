@@ -5,14 +5,14 @@ export const getAllProducts = () =>
   sanityClient.fetch(groq`*[_type == "product"]{
   _id,
   name,
-  categories {
+  categories[]->{
     name
   },
   slug {
     current
   },
   images,
-  variants {
+  variants[]->{
     price,
     name,
     id,
@@ -20,11 +20,5 @@ export const getAllProducts = () =>
     slug {
       current
     },
-    images {
-      asset {
-        _id,
-        url
-      }
-    }
   }
 }`);

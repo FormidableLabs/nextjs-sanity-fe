@@ -16,8 +16,16 @@ import { FeaturedList } from "components/FeaturedList";
 import { FeaturedQuote } from "components/FeaturedQuote";
 import { Image } from "components/Image";
 import { PageHead } from "components/PageHead";
+import { GetProductsAndCategoriesQuery } from "utils/groqTypes/ProductList";
 
-const Home: NextPage = ({ data }) => {
+interface PageProps {
+  data?: {
+    products: GetProductsAndCategoriesQuery["products"];
+    categories: GetProductsAndCategoriesQuery["categories"];
+  };
+}
+
+const Home: NextPage<PageProps> = ({ data }) => {
   return (
     <>
       <PageHead
@@ -61,7 +69,7 @@ const Home: NextPage = ({ data }) => {
 
       <TitleBanner>Top categories</TitleBanner>
       <section className="container py-9">
-        <FeaturedList items={data?.allCategory} />
+        <FeaturedList items={data?.categories} />
       </section>
 
       <section className="py-9 bg-primary w-full">
@@ -99,16 +107,15 @@ export const getServerSideProps = (async ({ res }) => {
 
   const categories = await getAllCategories();
   const products = await getRecommendations();
-  console.log({ products });
 
   return {
     props: {
       data: {
         products,
-        allCategory: categories,
+        categories,
       },
     },
   };
-}) satisfies GetServerSideProps;
+}) satisfies GetServerSideProps<PageProps>;
 
 export default Home;
