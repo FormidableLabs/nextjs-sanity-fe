@@ -2,7 +2,11 @@
   "compilerOptions": {
     "jsx": "react",
     "esModuleInterop": true,
-    "skipLibCheck": true
+    "skipLibCheck": true,
+    "module": "esnext",
+    "moduleResolution": "node",
+    
   },
-  "include": ["./node_modules/@sanity/base/types/**/*.ts", "./**/*.ts", "./**/*.tsx"]
+  "include": ["**/*.ts", "**/*.tsx"],
+  "exclude": ["node_modules"]
 }
