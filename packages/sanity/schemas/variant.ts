@@ -23,11 +23,11 @@ const isUniqueId = (value, context) => {
   return sanityClient.fetch(query, params);
 };
 
-export default defineType({
-  name: "productVariant",
-  title: "Product Variant",
+export default defineField({
+  name: "variant",
+  title: "Variant",
   description: "Variant of the product",
-  type: "object",
+  type: "document",
   icon: GrMultiple,
   fields: [
     defineField({
