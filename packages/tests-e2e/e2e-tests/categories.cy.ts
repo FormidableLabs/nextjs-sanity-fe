@@ -13,7 +13,8 @@ describe(`when I visit the "Categories" page`, () => {
 
   it(`I see the "Categories" header`, () => {
     cy.get("main").within(() => {
-      cy.findByText("Categories").should("exist");
+      cy.get("h1.text-h1").should("exist");
+      cy.get("h1.text-h1").contains("Categories");
     });
   });
 
