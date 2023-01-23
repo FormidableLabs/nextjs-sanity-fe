@@ -20,7 +20,7 @@ export default defineType({
       validation: (rule) => rule.required(),
       options: {
         source: "name",
-        maxLength: 200,
+        maxLength: 120,
         slugify: (input: string) => input.toLowerCase().replace(/\s+/g, "-").slice(0, 200),
       },
     }),
