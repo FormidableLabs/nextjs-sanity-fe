@@ -1,13 +1,15 @@
+import type { GetProductsAndCategoriesQuery, Product as ProductType, Variant } from "utils/groqTypes/ProductList";
 import * as React from "react";
 import { useState } from "react";
 import { GetServerSideProps, NextPage } from "next";
 import { useRouter } from "next/router";
 import { AnimatePresence } from "framer-motion";
 
-import { GetProductAndRecommendationsQuery, useGetProductAndRecommendationsQuery } from "utils/generated/graphql";
 import { setCachingHeaders } from "utils/setCachingHeaders";
 import { isSlug } from "utils/isSlug";
 import { SanityType } from "utils/consts";
+import { getRecommendations } from "utils/getRecommendationsQuery";
+import { getProductBySlug } from "utils/getProductBySlug";
 
 import { BlockContent } from "components/BlockContent";
 import { ImageCarousel } from "components/ImageCarousel";
@@ -20,18 +22,18 @@ import { ProductVariantSelector } from "components/ProductPage/ProductVariantSel
 import { H6 } from "components/Typography/H6";
 import { Product } from "components/Product";
 import { FadeInOut } from "components/FadeInOut";
-import { getRecommendations } from "utils/getRecommendationsQuery";
-import { getAllProducts } from "utils/getAllProductsQuery";
 
-const ProductPage: NextPage = ({ data }) => {
+interface PageProps {
+  data?: {
+    products: GetProductsAndCategoriesQuery["products"];
+    recommendations: GetProductsAndCategoriesQuery["products"];
+  };
+}
+
+const ProductPage: NextPage<PageProps> = ({ data }) => {
   const { query } = useRouter();
-  const [{ data }] = useGetProductAndRecommendationsQuery({
-    variables: {
-      slug: query.slug as string,
-    },
-  });
 
-  const product = data?.allProduct[0];
+  const product = data?.products[0];
   const selectedVariant =
     (product?.variants || []).find((v) => v?.slug?.current && v.slug.current === query.variant) ||
     product?.variants?.[0];
@@ -84,7 +86,7 @@ const ProductPage: NextPage = ({ data }) => {
   );
 };
 
-const PageBody = ({ variant, product }: { product?: PDPProduct; variant?: PDPVariant }) => {
+const PageBody = ({ variant, product }: { product?: ProductType; variant?: Variant }) => {
   const { replace } = useRouter();
   const { updateCart, cartItems } = useCart();
 
@@ -148,8 +150,8 @@ const PageBody = ({ variant, product }: { product?: PDPProduct; variant?: PDPVar
   );
 };
 
-type PDPProduct = GetProductAndRecommendationsQuery["allProduct"][number];
-type PDPVariant = NonNullable<GetProductAndRecommendationsQuery["allProduct"][number]["variants"]>[number];
+// type PDPProduct = GetProductAndRecommendationsQuery["allProduct"][number];
+// type PDPVariant = NonNullable<GetProductAndRecommendationsQuery["allProduct"][number]["variants"]>[number];
 
 export const getServerSideProps = (async ({ res, query }) => {
   const { slug } = query;
@@ -159,7 +161,7 @@ export const getServerSideProps = (async ({ res, query }) => {
     cacheKeys.push(`${SanityType.Product}_${slug}`);
   }
 
-  const products = await getAllProducts();
+  const products = await getProductBySlug(isSlug(slug) ? slug : "");
   const recommendations = await getRecommendations();
 
   // Extract variant slugs to add to cache keys, in case any of those change.
@@ -169,8 +171,10 @@ export const getServerSideProps = (async ({ res, query }) => {
 
   return {
     props: {
-      allProduct: products,
-      recommendations,
+      data: {
+        products,
+        recommendations,
+      },
     },
   };
 }) satisfies GetServerSideProps;

@@ -1,5 +1,4 @@
-import { SanityImageCrop, SanityImageHotspot } from "@sanity/image-url/lib/types/types";
-import { SanityImageAsset, CategoryImage, Variant } from "utils/generated/graphql";
+import { SanityAsset, SanityImageCrop, SanityImageHotspot } from "@sanity/image-url/lib/types/types";
 
 export interface PLPVariant {
   _id: string;
@@ -42,19 +41,46 @@ export interface CategoryFilterItem {
   slug: string;
 }
 
-export type ProductImage = {
-  _key?: string;
+export type Flavour = {
+  _id?: string;
   _type?: string;
-  asset?: SanityImageAsset;
+  name?: string;
+  slug?: Slug;
+};
+
+export type Style = {
+  _id?: string;
+  _type?: string;
+  name?: string;
+  slug?: Slug;
+};
+
+export type Image = {
+  _type?: string;
+  asset?: SanityAsset;
+  crop?: SanityImageCrop;
+  hotspot?: SanityImageHotspot;
+};
+
+export type ProductImage = {
+  _type?: string;
+  asset?: SanityAsset;
   crop?: SanityImageCrop;
   description?: string;
   hotspot?: SanityImageHotspot;
   name?: string;
 };
 
+export type CategoryImage = Document & {
+  _id?: string;
+  _type?: string;
+  description?: string;
+  images?: Image;
+  name?: string;
+};
+
 export type Product = {
   _id?: string;
-  _key?: string;
   _type?: string;
   categories?: Category[];
   descriptionRaw?: JSON;
@@ -73,7 +99,27 @@ export type Category = {
   images?: CategoryImage[];
 };
 
+export type Variant = {
+  _id?: string;
+  _type?: string;
+  descriptionRaw?: JSON;
+  flavour?: Flavour[];
+  images?: ProductImage[];
+  msrp?: number;
+  name?: string;
+  price?: number;
+  slug?: Slug;
+  style?: Style[];
+};
+
 export type GetProductsAndCategoriesQuery = {
   categories: Category[];
   products: Product[];
 };
+
+export interface PageProps {
+  data?: {
+    products: GetProductsAndCategoriesQuery["products"];
+    categories: GetProductsAndCategoriesQuery["categories"];
+  };
+}
