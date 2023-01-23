@@ -99,6 +99,7 @@ export const getServerSideProps = (async ({ res }) => {
 
   const categories = await getAllCategories();
   const products = await getRecommendations();
+  console.log({ products });
 
   return {
     props: {

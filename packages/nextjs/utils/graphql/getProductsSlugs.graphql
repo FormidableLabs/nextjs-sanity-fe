@@ -1,7 +1,0 @@
-query getProductsSlugs {
-  allProduct {
-    slug {
-      current
-    }
-  }
-}

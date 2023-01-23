@@ -9,19 +9,5 @@ export const getRecommendations = () =>
     current
   },
   images,
-  variants {
-    _id,
-    msrp,
-    price,
-    name,
-    slug {
-      current
-    },
-    images {
-      asset {
-        _id,
-        url
-      }
-    }
-  }
+  variants[] {...,documentReference->}
 }`);
