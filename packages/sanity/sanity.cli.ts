@@ -5,10 +5,4 @@ export default defineCliConfig({
     projectId: "5bsv02jj",
     dataset: "production",
   },
-  graphql: [
-    {
-      playground: true,
-      workspace: "production",
-    },
-  ],
 });
