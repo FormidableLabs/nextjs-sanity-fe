@@ -158,9 +158,6 @@ const PageBody = ({ variant, product }: { product?: ProductType; variant?: Varia
   );
 };
 
-// type PDPProduct = GetProductAndRecommendationsQuery["allProduct"][number];
-// type PDPVariant = NonNullable<GetProductAndRecommendationsQuery["allProduct"][number]["variants"]>[number];
-
 export const getServerSideProps = (async ({ res, query }) => {
   const { slug } = query;
 
