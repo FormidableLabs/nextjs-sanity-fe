@@ -83,7 +83,7 @@ export type Product = {
   _id?: string;
   _type?: string;
   categories?: Category[];
-  descriptionRaw?: JSON;
+  description?: JSON;
   images?: ProductImage[];
   name?: string;
   slug?: Slug;
@@ -102,7 +102,7 @@ export type Category = {
 export type Variant = {
   _id?: string;
   _type?: string;
-  descriptionRaw?: JSON;
+  description?: JSON;
   flavour?: Flavour[];
   images?: ProductImage[];
   msrp?: number;

@@ -15,13 +15,13 @@ export const getProductBySlug = (slug = "") =>
       _id,
       id,
       name,
-      descriptionRaw,
+      description,
       msrp,
       price,
       slug {
         current
       },
-      images,
+    images,
       style {
         _id,
         name

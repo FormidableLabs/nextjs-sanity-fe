@@ -93,14 +93,17 @@ const PageBody = ({ variant, product }: { product?: ProductType; variant?: Varia
   const { replace } = useRouter();
   const { updateCart, cartItems } = useCart();
 
-  const setSelectedVariant = React.useCallback((slug: string) => {
-    replace({
-      pathname: window.location.pathname,
-      query: {
-        variant: slug,
-      },
-    }).catch(() => null);
-  }, []);
+  const setSelectedVariant = React.useCallback(
+    (slug: string) => {
+      replace({
+        pathname: window.location.pathname,
+        query: {
+          variant: slug,
+        },
+      }).catch(() => null);
+    },
+    [replace]
+  );
 
   const [selectedStyle, setSelectedStyle] = useState<string>(() => variant?.style?.[0]?.name || "");
   const [quantity, setQuantity] = useState("1");
@@ -120,17 +123,17 @@ const PageBody = ({ variant, product }: { product?: ProductType; variant?: Varia
 
   return (
     <div className="container">
-      <div className="grid md:grid-cols-2 md:grid-rows-none md:items-baseline gap-6">
+      <div className="grid md:grid-cols-2 gap-6">
         <div className="md:row-span-2 order-2 md:order-1">
           {variant?.images && <ImageCarousel productImages={variant?.images} />}
         </div>
-        <div className="text-primary order-1 md:order-2">
+        <div className="text-primary order-1 md:order-2 self-end">
           <h4 className="text-h4 font-medium mb-2">{product?.name}</h4>
           <Price msrp={variant?.msrp} price={variant?.price} />
         </div>
 
         <div className="text-primary order-3">
-          <BlockContent value={variant?.descriptionRaw} className="text-body-reg text-primary font-medium" />
+          <BlockContent value={variant?.description} className="text-body-reg text-primary font-medium" />
           <hr className="border-t border-t-primary my-5" />
           <ProductVariantSelector
             variants={product?.variants}
