@@ -1,8 +1,8 @@
+import type { GetCategoriesQuery, GetProductsAndCategoriesQuery } from "utils/groqTypes/ProductList";
 import { Card } from "components/Card";
-import { GetCategoriesQuery, GetProductsAndCategoriesQuery } from "utils/generated/graphql";
 
 type CategoryListProps = {
-  items?: GetCategoriesQuery["allCategory"] | GetProductsAndCategoriesQuery["allCategory"];
+  items?: GetCategoriesQuery["categories"] | GetProductsAndCategoriesQuery["categories"];
 };
 
 export const CategoryList = ({ items }: CategoryListProps) => {

@@ -1,4 +1,5 @@
 import { SanityAsset, SanityImageCrop, SanityImageHotspot } from "@sanity/image-url/lib/types/types";
+import { PortableTextBlock } from "@portabletext/types";
 
 export interface PLPVariant {
   _id: string;
@@ -83,7 +84,7 @@ export type Product = {
   _id?: string;
   _type?: string;
   categories?: Category[];
-  description?: JSON;
+  description?: PortableTextBlock;
   images?: ProductImage[];
   name?: string;
   slug?: Slug;
@@ -102,7 +103,7 @@ export type Category = {
 export type Variant = {
   _id?: string;
   _type?: string;
-  description?: JSON;
+  description?: PortableTextBlock;
   flavour?: Flavour[];
   images?: ProductImage[];
   msrp?: number;
@@ -115,6 +116,10 @@ export type Variant = {
 export type GetProductsAndCategoriesQuery = {
   categories: Category[];
   products: Product[];
+};
+
+export type GetCategoriesQuery = {
+  categories: Category[];
 };
 
 export interface PageProps {

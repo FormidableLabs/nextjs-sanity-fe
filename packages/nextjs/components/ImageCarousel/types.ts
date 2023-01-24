@@ -1,11 +1,7 @@
-import { GetProductAndRecommendationsQuery } from "utils/generated/graphql";
-
-export type ProductVariantImage = NonNullable<
-  NonNullable<GetProductAndRecommendationsQuery["allProduct"][0]["variants"]>[0]
->["images"];
+import { ProductImage } from "utils/groqTypes/ProductList";
 
 export type ImageCarouselProps = {
-  productImages: ProductVariantImage;
+  productImages: ProductImage[];
 };
 
 export type RenderControlProps = {

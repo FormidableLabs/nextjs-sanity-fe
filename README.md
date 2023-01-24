@@ -1,4 +1,5 @@
 [![E-Commerce – powered by Next.js + Sanity CMS + Fastly — Formidable, We build the modern web](https://raw.githubusercontent.com/FormidableLabs/nextjs-sanity-fe/main/nextjs-sanity-fe-Hero.png)](https://formidable.com/open-source/)
+
 # E-Commerce – powered by Next.js + Sanity CMS + Fastly
 
 This repo contains a demo of a (partial) e-commerce site powered by [Next.js](https://nextjs.org/), [Sanity CMS](https://www.sanity.io/), and [Fastly](https://www.fastly.com/). The goal of the project is to provide a realistic demonstration of running a highly performant and available e-commerce site with data sourced from Sanity's headless CMS.
@@ -15,8 +16,7 @@ Therefore, the project can be broken down into the following three constituent p
 
 Sanity is used for storing information about our e-commerce products. The data from Sanity is fetched in two ways:
 
-1. GraphQL – used for fetching data when no filtering is required, since Sanity's GraphQL API does not support filtering on custom fields other than name, description or slug.
-2. [Groq](https://www.sanity.io/docs/groq) – Sanity's own query language, used for fetching data when filtering is required, since it supports filtering on fields in the model.
+1. [Groq](https://www.sanity.io/docs/groq) – Sanity's own query language, used for fetching data.
 
 ### Sanity Studio
 
@@ -32,7 +32,7 @@ If you want to poke around the Studio site, you will need to go through the step
 
 To show the CMS data to end-users we created a Next.js web app that server-renders some common e-commerce pages, including a landing page, a Product Listing Page (PLP) with sorting and filtering, and a Product Details Page (PDP).
 
-The CMS data is fetched on the server via GraphQL using [urql](https://formidable.com/open-source/urql/) and via GROQ using the standard `fetch` API. With a sprinkle of [TailwindCSS](https://tailwindcss.com/) styling we have something that looks like the following.
+The CMS data is fetched on the server via GROQ using the standard `fetch` API. With a sprinkle of [TailwindCSS](https://tailwindcss.com/) styling we have something that looks like the following.
 
 <p align="center">
   <img src="./docs/img/website-sample.png" alt="Sample of the deployed website" />
@@ -76,7 +76,6 @@ We need to invalidate our Fastly cache whenever data in our Sanity CMS instance 
 When CMS data changes, a Sanity webhook is triggered and makes a request to an API endpoint in our Next.js app. The endpoint does some validation on the request (to make sure it's coming from a trusted Sanity webhook), and then makes a request to Fastly's API to invalidate/purge our cache accordingly. The Sanity webhook payload contains information (in our case, an item's [`slug`](https://www.sanity.io/docs/slug-type)) about what data changes, and our API endpoint uses that `slug` to tell Fastly which cache data to invalidate (based on the `surrogate-key` set in the original response header).
 
 <!-- TODO: Diagram for this flow, too... -->
-
 
 #### Purging on code deploy
 

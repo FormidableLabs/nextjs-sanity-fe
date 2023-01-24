@@ -109,12 +109,10 @@ There is an `./packages/nextjs/.env.sample` committed to the repo which contains
 
 :bulb: To get a list of scripts available, you can run `pnpm run` and it will output a list of available commands.
 
-- `local` - Runs Sanity Studio, Next.js app and GraphQL codegen watch in parallel
-- `dev:nextjs` - Runs NextJs app and GraphQL codegen
+- `local` - Runs Sanity Studio, Next.js ap
+- `dev:nextjs` - Runs NextJs app
 - `build:nextjs` - Builds NextJS app
 - `start:nextjs` - Starts the built out NextJs app
-- `codegen:nextjs` - Runs GraphQL codegen in Nextjs App
 - `dev:sanity` - Runs Sanity Studio locally
 - `build:sanity` - Builds Sanity Studio
 - `deploy-sanity-studio` - Deploys Sanity Studio to Sanity
-- `deploy-sanity-graphql` - Deploys GraphQL schema to Sanity
