@@ -954,18 +954,21 @@ type Slug {
   _key: String
   _type: String
   current: String
+  source: String
 }
 
 input SlugFilter {
   _key: StringFilter
   _type: StringFilter
   current: StringFilter
+  source: StringFilter
 }
 
 input SlugSorting {
   _key: SortOrder
   _type: SortOrder
   current: SortOrder
+  source: SortOrder
 }
 
 enum SortOrder {

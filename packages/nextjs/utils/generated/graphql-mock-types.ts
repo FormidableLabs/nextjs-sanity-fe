@@ -924,18 +924,21 @@ export type Slug = {
   _key?: Maybe<Scalars['String']>;
   _type?: Maybe<Scalars['String']>;
   current?: Maybe<Scalars['String']>;
+  source?: Maybe<Scalars['String']>;
 };
 
 export type SlugFilter = {
   _key?: InputMaybe<StringFilter>;
   _type?: InputMaybe<StringFilter>;
   current?: InputMaybe<StringFilter>;
+  source?: InputMaybe<StringFilter>;
 };
 
 export type SlugSorting = {
   _key?: InputMaybe<SortOrder>;
   _type?: InputMaybe<SortOrder>;
   current?: InputMaybe<SortOrder>;
+  source?: InputMaybe<SortOrder>;
 };
 
 export enum SortOrder {

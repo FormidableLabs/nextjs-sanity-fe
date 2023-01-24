@@ -28,6 +28,7 @@ import { Product } from "components/Product";
 import { H6 } from "components/Typography/H6";
 import { Pagination } from "components/Pagination";
 import { FadeInOut } from "components/FadeInOut";
+import { Breadcrumbs } from "components/Breadcrumbs/Breadcrumbs";
 
 interface ProductsPageProps {
   variants: PLPVariant[];
@@ -72,6 +73,10 @@ const ProductsPage: NextPage<ProductsPageProps> = ({
             </div>
 
             <div className="flex-1 order-1 md:order-2">
+              <div className="mb-4">
+                <Breadcrumbs />
+              </div>
+
               <AnimatePresence mode="wait">
                 {variants.length > 0 && (
                   <FadeInOut

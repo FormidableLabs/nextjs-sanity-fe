@@ -8,8 +8,14 @@ import { getAllCategories } from "utils/getAllCategoriesQuery";
 import { CategoryList } from "components/CategoryList";
 import { WeDontSellBreadBanner } from "components/WeDontSellBreadBanner";
 import { PageHead } from "components/PageHead";
+import { Breadcrumbs } from "components/Breadcrumbs";
+import { GetProductsAndCategoriesQuery } from "utils/groqTypes/ProductList";
 
-const CategoriesPage: NextPage = ({ categories }) => {
+interface PageProps {
+  categories: GetProductsAndCategoriesQuery["categories"];
+}
+
+const CategoriesPage: NextPage<PageProps> = ({ categories }) => {
   const categoryNames = pluralize((categories || []).map((cat) => cat.name).filter(isString));
 
   return (
@@ -19,7 +25,10 @@ const CategoriesPage: NextPage = ({ categories }) => {
         <WeDontSellBreadBanner />
         <div className="container py-9 text-primary flex flex-col gap-9">
           <h1 className="text-h1">Categories</h1>
-          <CategoryList items={categories?.allCategory} />
+          <div className="my-2">
+            <Breadcrumbs />
+          </div>
+          <CategoryList items={categories} />
         </div>
       </div>
     </>
@@ -35,6 +44,6 @@ export const getServerSideProps = (async ({ res }) => {
       categories,
     },
   };
-}) satisfies GetServerSideProps;
+}) satisfies GetServerSideProps<PageProps>;
 
 export default CategoriesPage;
