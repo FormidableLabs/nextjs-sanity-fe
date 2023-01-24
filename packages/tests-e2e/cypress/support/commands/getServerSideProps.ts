@@ -14,32 +14,32 @@ type PageProps = {
   "/products/[slug]": AsyncReturnType<typeof product.getServerSideProps>["props"];
 };
 const getServerSidePropsForPage = {
-  "/home": (props) => parseUrqlState(props.urqlState),
-  "/categories": (props) => parseUrqlState(props.urqlState),
+  "/home": (props) => props,
+  "/categories": (props) => props,
   "/products": (props) => props,
-  "/products/[slug]": (props) => parseUrqlState(props.urqlState),
-} satisfies {[P in keyof PageProps]: (props: PageProps[P]) => unknown};
+  "/products/[slug]": (props) => props,
+} satisfies { [P in keyof PageProps]: (props: PageProps[P]) => unknown };
 
 export type PageDataTypes = {
-  [P in keyof typeof getServerSidePropsForPage]: ReturnType<typeof getServerSidePropsForPage[P]>;
+  [P in keyof typeof getServerSidePropsForPage]: ReturnType<(typeof getServerSidePropsForPage)[P]>;
 };
 
-/**
- * This method is a bit of a hack.
- * It takes the `urqlState` SSRData and extracts the raw data.
- */
-export function parseUrqlState<TQuery>(urqlState: SSRData<TQuery>): TQuery {
-  const keys = Object.keys(urqlState);
-  if (keys.length === 0) throw new Error(`[parseUrqlState] urqlState did not have any entries`);
-  if (keys.length >= 2) throw new Error(`[parseUrqlState] urqlState had multiple entries (not yet supported) ${keys}`);
+// /**
+//  * This method is a bit of a hack.
+//  * It takes the `urqlState` SSRData and extracts the raw data.
+//  */
+// export function parseUrqlState<TQuery>(urqlState: SSRData<TQuery>): TQuery {
+//   const keys = Object.keys(urqlState);
+//   if (keys.length === 0) throw new Error(`[parseUrqlState] urqlState did not have any entries`);
+//   if (keys.length >= 2) throw new Error(`[parseUrqlState] urqlState had multiple entries (not yet supported) ${keys}`);
 
-  const { data, error } = urqlState[keys[0]];
-  if (!data) {
-    throw new Error(`[parseUrqlState] urqlState did not have any data. ${error}`);
-  }
+//   const { data, error } = urqlState[keys[0]];
+//   if (!data) {
+//     throw new Error(`[parseUrqlState] urqlState did not have any data. ${error}`);
+//   }
 
-  return JSON.parse(data);
-}
+//   return JSON.parse(data);
+// }
 
 declare global {
   // eslint-disable-next-line @typescript-eslint/no-namespace

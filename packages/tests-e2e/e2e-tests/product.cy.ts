@@ -18,14 +18,14 @@ describe("when I visit the Product Details Page", () => {
   });
 
   it(`I see the product's title`, () => {
-    cy.getServerSideProps("/products/[slug]").then((data) => {
-      const product = data.allProduct[0];
+    cy.getServerSideProps("/products/[slug]").then((props) => {
+      const product = props.data.products[0];
       cy.findAllByText(product.name!).should("exist");
     });
   });
   it("I see the item's price", () => {
-    cy.getServerSideProps("/products/[slug]").then((data) => {
-      const product = data.allProduct[0];
+    cy.getServerSideProps("/products/[slug]").then((props) => {
+      const product = props.data.products[0];
       const variant = product.variants![0]!;
       cy.findAllByText(/\$\d+\.\d\d/)
         .should("exist")

@@ -13,8 +13,8 @@ describe("when I visit the home page", () => {
       .nextClosest("section")
       .within(() => {
         cy.findByText("Show all breads").should("exist");
-        cy.getServerSideProps("/home").then((data) => {
-          const bestSellers = data.allProduct;
+        cy.getServerSideProps("/home").then((props) => {
+          const bestSellers = props.data.products;
           expect(bestSellers).to.have.length(3);
           for (const product of bestSellers) {
             cy.findByText(product.name!).should("exist");
@@ -22,14 +22,14 @@ describe("when I visit the home page", () => {
         });
       });
   });
-  it('I see the "Top Categories" section with 2 categories', () => {
+  it('I see the "Top Categories" section with 3 categories', () => {
     cy.findByText("Top categories")
       .should("exist")
       .nextClosest("section")
       .within(() => {
-        cy.getServerSideProps("/home").then((data) => {
-          const categories = data.allCategory;
-          expect(categories).to.have.length(2);
+        cy.getServerSideProps("/home").then((props) => {
+          const categories = props.data.categories;
+          expect(categories).to.have.length(3);
           for (const category of categories) {
             cy.findByText(category.name!).should("exist");
           }
