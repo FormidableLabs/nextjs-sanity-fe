@@ -12,7 +12,8 @@ describe("when I visit the products page", () => {
 
   it("I see the Products title", () => {
     cy.get("main").within(() => {
-      cy.findByText("Products").should("exist");
+      cy.get("h1.text-h1").should("exist");
+      cy.get("h1.text-h1").contains("Products");
     });
   });
   it("I see a sidebar with filters and sorts", () => {

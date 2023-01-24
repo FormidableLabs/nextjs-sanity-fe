@@ -11,6 +11,7 @@ import { isString, pluralize } from "utils/pluralize";
 import { CategoryList } from "components/CategoryList";
 import { WeDontSellBreadBanner } from "components/WeDontSellBreadBanner";
 import { PageHead } from "components/PageHead";
+import { Breadcrumbs } from "components/Breadcrumbs";
 
 const CategoriesPage: NextPage = () => {
   const [{ data }] = useGetCategoriesQuery();
@@ -23,6 +24,9 @@ const CategoriesPage: NextPage = () => {
         <WeDontSellBreadBanner />
         <div className="container py-9 text-primary flex flex-col gap-9">
           <h1 className="text-h1">Categories</h1>
+          <div className="my-2">
+            <Breadcrumbs />
+          </div>
           <CategoryList items={data?.allCategory} />
         </div>
       </div>

@@ -27,6 +27,7 @@ import { ProductVariantSelector } from "components/ProductPage/ProductVariantSel
 import { H6 } from "components/Typography/H6";
 import { Product } from "components/Product";
 import { FadeInOut } from "components/FadeInOut";
+import { Breadcrumbs } from "components/Breadcrumbs";
 
 const ProductPage: NextPage = () => {
   const { query } = useRouter();
@@ -44,7 +45,9 @@ const ProductPage: NextPage = () => {
   return (
     <React.Fragment>
       <PageHead title={product?.name || "Product details"} description={`Product details page for ${product?.name}.`} />
-
+      <div className="container my-4">
+        <Breadcrumbs />
+      </div>
       <div className="flex flex-col gap-6 py-6">
         <AnimatePresence initial={false} mode="wait">
           <React.Fragment key={`${query.slug}:${query.variant}`}>

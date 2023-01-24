@@ -7,11 +7,15 @@ import bagelAndBread from "assets/bagel-and-bread.jpg";
 import { localImageLoader } from "utils/localImageLoader";
 import { BreadIcon } from "components/Bread.icon";
 import { PageHead } from "components/PageHead";
+import { Breadcrumbs } from "components/Breadcrumbs";
 
 const AboutPage: NextPage = () => {
   return (
     <>
       <PageHead title="About" description="About the Formidable Boulangerie project." />
+      <div className="container my-4">
+        <Breadcrumbs />
+      </div>
       <div className="container py-9 grid grid-cols-1 md:grid-cols-2 gap-9 text-primary">
         <div className="order-1 flex flex-col gap-9 justify-between">
           <h1 className="text-h1">Welcome to the NextJS Sanity Ecommerce Demo Site!</h1>
