@@ -109,7 +109,7 @@ There is an `./packages/nextjs/.env.sample` committed to the repo which contains
 
 :bulb: To get a list of scripts available, you can run `pnpm run` and it will output a list of available commands.
 
-- `local` - Runs Sanity Studio, Next.js ap
+- `local` - Runs Sanity Studio, Next.js app
 - `dev:nextjs` - Runs NextJs app
 - `build:nextjs` - Builds NextJS app
 - `start:nextjs` - Starts the built out NextJs app
