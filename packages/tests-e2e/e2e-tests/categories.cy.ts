@@ -1,4 +1,5 @@
 import { mock } from "mocks/factory";
+import { Category } from "utils/groqTypes/ProductList";
 import { mockOnly } from "../utils/real-or-mock";
 
 describe(`when I visit the "Categories" page`, () => {
@@ -23,7 +24,7 @@ describe(`when I visit the "Categories" page`, () => {
       cy.get("main").within(() => {
         const categories = data.categories;
         expect(categories).to.have.length.at.least(3);
-        categories.forEach((cat) => {
+        categories.forEach((cat: Category) => {
           expect(cat.name).to.not.be.empty;
           cy.findAllByText(cat.name!).should("exist");
         });

@@ -2,7 +2,6 @@ import type * as home from " ../../../../nextjs/pages/index";
 import type * as categories from " ../../../../nextjs/pages/categories";
 import type * as products from " ../../../../nextjs/pages/products/index";
 import type * as product from " ../../../../nextjs/pages/products/[slug]";
-import { SSRData } from "../../../../nextjs/utils/typedUrqlState";
 
 type AsyncReturnType<TFunc extends (...args: any) => any> = UnwrapPromise<ReturnType<TFunc>>;
 type UnwrapPromise<TPromiseMaybe> = TPromiseMaybe extends Promise<infer TValue> ? TValue : TPromiseMaybe;
@@ -23,23 +22,6 @@ const getServerSidePropsForPage = {
 export type PageDataTypes = {
   [P in keyof typeof getServerSidePropsForPage]: ReturnType<(typeof getServerSidePropsForPage)[P]>;
 };
-
-// /**
-//  * This method is a bit of a hack.
-//  * It takes the `urqlState` SSRData and extracts the raw data.
-//  */
-// export function parseUrqlState<TQuery>(urqlState: SSRData<TQuery>): TQuery {
-//   const keys = Object.keys(urqlState);
-//   if (keys.length === 0) throw new Error(`[parseUrqlState] urqlState did not have any entries`);
-//   if (keys.length >= 2) throw new Error(`[parseUrqlState] urqlState had multiple entries (not yet supported) ${keys}`);
-
-//   const { data, error } = urqlState[keys[0]];
-//   if (!data) {
-//     throw new Error(`[parseUrqlState] urqlState did not have any data. ${error}`);
-//   }
-
-//   return JSON.parse(data);
-// }
 
 declare global {
   // eslint-disable-next-line @typescript-eslint/no-namespace

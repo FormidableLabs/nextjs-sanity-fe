@@ -11,6 +11,7 @@ import type {
 } from "utils/groqTypes/ProductList";
 import type { SanityImageCrop, SanityImageHotspot } from "@sanity/image-url/lib/types/types";
 import faker from "faker";
+import { PortableTextBlock } from "@portabletext/types";
 
 // seeding our random data helps our tests to be consistent
 faker.seed(0);
@@ -66,7 +67,7 @@ export class MockFactory {
     const name = data.name || this.productName();
     const slug = data.slug || this.slug(name);
 
-    const result: FullData<Product> = {
+    const result: Product = {
       _type: "product",
       _id: this.id("Product"),
       name,
@@ -108,7 +109,7 @@ export class MockFactory {
     const url = faker.image.imageUrl(width, height, name, false, false);
     const id = `image-${this.id("ProductImage")}-${width}x${height}-jpg`;
 
-    const result: FullData<ProductImage> = {
+    const result: ProductImage = {
       _type: "image",
       // @ts-expect-error _id is a valid field
       _id: id,
@@ -149,7 +150,7 @@ export class MockFactory {
     const url = faker.image.imageUrl(width, height, name, false, false);
     // Sanity expects this format:
     const id = `image-${this.id("Image")}-${width}x${height}-jpg`;
-    const result: FullData<Image> = {
+    const result: Image = {
       // @ts-expect-error _id is a valid field, I think
       _id: id,
       url,
@@ -172,7 +173,7 @@ export class MockFactory {
     const price =
       data.price || faker.random.arrayElement([msrp, msrp, msrp, faker.datatype.number({ min: 2, max: msrp })]);
 
-    const result: FullData<Variant> = {
+    const result: Variant = {
       _type: "variant",
       _id: this.id("Variant"),
       name,
@@ -189,7 +190,7 @@ export class MockFactory {
   }
   style(data: Partial<Style>): Style {
     const name = data.name || "";
-    const result: FullData<Style> = {
+    const result: Style = {
       _type: "style",
       _id: this.id("Style"),
       name,
@@ -198,7 +199,7 @@ export class MockFactory {
     };
     return result;
   }
-  description({ text = "nom nom nom " + faker.lorem.paragraphs() }: { text?: string }) {
+  description({ text = "nom nom nom " + faker.lorem.paragraphs() }: { text?: string }): PortableTextBlock[] {
     return [
       {
         _type: "block",
@@ -216,7 +217,7 @@ export class MockFactory {
   }
   flavour(data: Partial<Flavour>): Flavour {
     const name = data.name || faker.random.arrayElement(flavours);
-    const result: FullData<Flavour> = {
+    const result: Flavour = {
       _type: "flavour",
       _id: this.id("Flavour"),
       name,
@@ -241,7 +242,7 @@ export class MockFactory {
     const name = data.name || this.categoryName();
     const slug = data.slug || this.slug(name);
 
-    const result: FullData<Category> = {
+    const result: Category = {
       _type: "category",
       _id: this.id("Category"),
       name,
@@ -253,8 +254,8 @@ export class MockFactory {
     return result;
   }
   categoryImage(data: Partial<CategoryImage>, name: string, size: MockImageSize): CategoryImage {
-    const result: FullData<CategoryImage> = {
-      _type: "categoryimage",
+    const result: CategoryImage = {
+      _type: "categoryImage",
       _id: this.id("CategoryImage"),
       name,
       description: "",
@@ -265,12 +266,6 @@ export class MockFactory {
   }
 }
 
-/** Converts { prop?: number } into { prop: number | undefined } */
-type Complete<T> = {
-  [P in keyof Required<T>]: Pick<T, P> extends Required<Pick<T, P>> ? T[P] : T[P] | undefined;
-};
-type IgnoredFields = keyof Pick<Product, "_rev" | "_key" | "_createdAt" | "_updatedAt">;
-type FullData<T> = Complete<Omit<T, IgnoredFields>>;
 type MockImageSize = "small" | "medium" | "large";
 
 export const mock = new MockFactory();

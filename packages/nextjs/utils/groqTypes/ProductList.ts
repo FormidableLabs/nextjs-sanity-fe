@@ -72,7 +72,7 @@ export type ProductImage = {
   name?: string;
 };
 
-export type CategoryImage = Document & {
+export type CategoryImage = {
   _id?: string;
   _type?: string;
   description?: string;
@@ -84,7 +84,7 @@ export type Product = {
   _id?: string;
   _type?: string;
   categories?: Category[];
-  description?: PortableTextBlock;
+  description?: PortableTextBlock[];
   images?: ProductImage[];
   name?: string;
   slug?: Slug;
@@ -103,7 +103,7 @@ export type Category = {
 export type Variant = {
   _id?: string;
   _type?: string;
-  description?: PortableTextBlock;
+  description?: PortableTextBlock[];
   flavour?: Flavour[];
   images?: ProductImage[];
   msrp?: number;
