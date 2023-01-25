@@ -42,11 +42,15 @@ Sanity CMS is the backend of the project, and without a Sanity project id nothin
 
 If you would like to use Formidable's Sanity project (`5bsv02jj`), setup is quite simple. If you use the Formidable project, you will not have access to sign in to Sanity Studio. If you want to play around in Sanity Studio, you will need to create your own project as outlined in the "Using your own Sanity Project" Section.
 
-Create a `.env` file under `./packages/nextjs` and place the environment variable into it:
+Create a `.env` file under `./packages/nextjs` or rename `.env.sample` to `.env` and place the environment variable into it:
 
 ```
 NEXT_PUBLIC_SANITY_PROJECT_ID=5bsv02jj
 ```
+
+Make sure the environment variable is loaded by running `env` command in your terminal
+
+If it is not loaded you can do so by running `source .env` command in your terminal
 
 Assuming you completed the previous steps, you should now be able to start the Nextjs app using:
 
