@@ -69,7 +69,7 @@ const Home: NextPage<PageProps> = ({ data }) => {
 
       <TitleBanner>Top categories</TitleBanner>
       <section className="container py-9">
-        <FeaturedList items={data?.categories} />
+        <FeaturedList items={data?.categories.slice(0, 3)} />
       </section>
 
       <section className="py-9 bg-primary w-full">

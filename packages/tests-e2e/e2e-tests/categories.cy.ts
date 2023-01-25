@@ -20,14 +20,12 @@ describe(`when I visit the "Categories" page`, () => {
 
   it("I see at least 3 Categories on the page", () => {
     cy.getServerSideProps("/categories").then((data) => {
-      console.log(data);
-
       cy.get("main").within(() => {
         const categories = data.categories;
         expect(categories).to.have.length.at.least(3);
         categories.forEach((cat) => {
           expect(cat.name).to.not.be.empty;
-          cy.findByText(cat.name!).should("exist");
+          cy.findAllByText(cat.name!).should("exist");
         });
       });
     });
@@ -38,7 +36,7 @@ describe(`when I visit the "Categories" page`, () => {
       it(`I should see the mock category "${cat.name}"`, () => {
         cy.get("main").within(() => {
           expect(cat.name).to.not.be.empty;
-          cy.findByText(cat.name!).should("exist");
+          cy.findAllByText(cat.name!).should("exist");
         });
       });
     }

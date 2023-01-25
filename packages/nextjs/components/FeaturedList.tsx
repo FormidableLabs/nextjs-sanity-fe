@@ -62,7 +62,7 @@ export const FeaturedList = ({ items }: Props) => {
 
         return (
           <React.Fragment key={item._id}>
-            <li>
+            <li data-testid="featured-list-item">
               <Card {...props} />
             </li>
             {i % N < N - 1 && <li className="invisible sm:visible w-full border-r-2 border-r-primary"></li>}

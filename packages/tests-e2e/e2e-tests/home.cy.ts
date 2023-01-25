@@ -28,8 +28,8 @@ describe("when I visit the home page", () => {
       .nextClosest("section")
       .within(() => {
         cy.getServerSideProps("/home").then((props) => {
-          const categories = props.data.categories;
-          expect(categories).to.have.length(3);
+          const categories = props.data.categories.slice(0, 3);
+          cy.get('[data-testid="featured-list-item"]').should("have.length", 3);
           for (const category of categories) {
             cy.findByText(category.name!).should("exist");
           }

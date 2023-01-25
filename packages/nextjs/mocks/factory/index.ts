@@ -5,12 +5,11 @@ import type {
   Image,
   Product,
   ProductImage,
-  SanityImageCrop,
-  SanityImageHotspot,
   Slug,
   Style,
   Variant,
-} from "utils/generated/graphql";
+} from "utils/groqTypes/ProductList";
+import type { SanityImageCrop, SanityImageHotspot } from "@sanity/image-url/lib/types/types";
 import faker from "faker";
 
 // seeding our random data helps our tests to be consistent
@@ -54,7 +53,7 @@ export class MockFactory {
 
   slug(input: string): Slug {
     return {
-      __typename: "Slug",
+      _type: "slug",
       current: input.replace(/\W+/g, "-"),
     };
   }
@@ -68,13 +67,12 @@ export class MockFactory {
     const slug = data.slug || this.slug(name);
 
     const result: FullData<Product> = {
-      __typename: "Product",
       _type: "product",
       _id: this.id("Product"),
       name,
       slug,
       categories: [],
-      descriptionRaw: this.descriptionRaw({}),
+      description: this.description({}),
       images: [this.productImage({}, name, "small"), this.productImage({}, name, "large")],
       variants: faker.random.arrayElements(variants).map((variant) => this.variant({ name: variant + " " + name })),
       ...data,
@@ -100,7 +98,6 @@ export class MockFactory {
     }[size];
 
     const crop = {
-      __typename: "SanityImageCrop",
       _type: "sanityimagecrop",
       top: 0,
       bottom: 0,
@@ -112,20 +109,18 @@ export class MockFactory {
     const id = `image-${this.id("ProductImage")}-${width}x${height}-jpg`;
 
     const result: FullData<ProductImage> = {
-      __typename: "ProductImage",
       _type: "image",
+      // @ts-expect-error _id is a valid field
       _id: id,
       asset: {
         _type: "image",
         url,
-        // @ts-expect-error _id is a valid field
         _ref: id,
       },
       name,
       description: "",
       crop,
       hotspot: {
-        __typename: "SanityImageHotspot",
         _type: "sanityimagehotspot",
         x: 0,
         y: 0,
@@ -144,7 +139,6 @@ export class MockFactory {
     }[size];
 
     const crop = {
-      __typename: "SanityImageCrop",
       _type: "sanityimagecrop",
       top: 0,
       bottom: 0,
@@ -156,14 +150,12 @@ export class MockFactory {
     // Sanity expects this format:
     const id = `image-${this.id("Image")}-${width}x${height}-jpg`;
     const result: FullData<Image> = {
-      __typename: "Image",
       // @ts-expect-error _id is a valid field, I think
       _id: id,
       url,
       // TODO: assets have a lot more fields
       crop,
       hotspot: {
-        __typename: "SanityImageHotspot",
         _type: "sanityimagehotspot",
         x: 0,
         y: 0,
@@ -181,14 +173,12 @@ export class MockFactory {
       data.price || faker.random.arrayElement([msrp, msrp, msrp, faker.datatype.number({ min: 2, max: msrp })]);
 
     const result: FullData<Variant> = {
-      __typename: "Variant",
       _type: "variant",
       _id: this.id("Variant"),
       name,
       slug: this.slug(name),
       images: [this.productImage({}, name, "small")],
-      descriptionRaw: this.descriptionRaw({}),
-      id: faker.datatype.uuid(),
+      description: this.description({}),
       flavour: [this.flavour({})],
       msrp,
       price,
@@ -200,7 +190,6 @@ export class MockFactory {
   style(data: Partial<Style>): Style {
     const name = data.name || "";
     const result: FullData<Style> = {
-      __typename: "Style",
       _type: "style",
       _id: this.id("Style"),
       name,
@@ -209,7 +198,7 @@ export class MockFactory {
     };
     return result;
   }
-  descriptionRaw({ text = "nom nom nom " + faker.lorem.paragraphs() }: { text?: string }) {
+  description({ text = "nom nom nom " + faker.lorem.paragraphs() }: { text?: string }) {
     return [
       {
         _type: "block",
@@ -228,7 +217,6 @@ export class MockFactory {
   flavour(data: Partial<Flavour>): Flavour {
     const name = data.name || faker.random.arrayElement(flavours);
     const result: FullData<Flavour> = {
-      __typename: "Flavour",
       _type: "flavour",
       _id: this.id("Flavour"),
       name,
@@ -254,7 +242,6 @@ export class MockFactory {
     const slug = data.slug || this.slug(name);
 
     const result: FullData<Category> = {
-      __typename: "Category",
       _type: "category",
       _id: this.id("Category"),
       name,
@@ -267,7 +254,6 @@ export class MockFactory {
   }
   categoryImage(data: Partial<CategoryImage>, name: string, size: MockImageSize): CategoryImage {
     const result: FullData<CategoryImage> = {
-      __typename: "CategoryImage",
       _type: "categoryimage",
       _id: this.id("CategoryImage"),
       name,
