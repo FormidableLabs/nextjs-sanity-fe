@@ -1,3 +1,6 @@
+import { SanityAsset, SanityImageCrop, SanityImageHotspot } from "@sanity/image-url/lib/types/types";
+import { PortableTextBlock } from "@portabletext/types";
+
 export interface PLPVariant {
   _id: string;
   slug: string;
@@ -37,4 +40,91 @@ export interface StyleFilterItem {
 export interface CategoryFilterItem {
   name: string;
   slug: string;
+}
+
+export type Flavour = {
+  _id?: string;
+  _type?: string;
+  name?: string;
+  slug?: Slug;
+};
+
+export type Style = {
+  _id?: string;
+  _type?: string;
+  name?: string;
+  slug?: Slug;
+};
+
+export type Image = {
+  _type?: string;
+  asset?: SanityAsset;
+  crop?: SanityImageCrop;
+  hotspot?: SanityImageHotspot;
+};
+
+export type ProductImage = {
+  _type?: string;
+  asset?: SanityAsset;
+  crop?: SanityImageCrop;
+  description?: string;
+  hotspot?: SanityImageHotspot;
+  name?: string;
+};
+
+export type CategoryImage = {
+  _id?: string;
+  _type?: string;
+  description?: string;
+  images?: Image;
+  name?: string;
+};
+
+export type Product = {
+  _id?: string;
+  _type?: string;
+  categories?: Category[];
+  description?: PortableTextBlock[];
+  images?: ProductImage[];
+  name?: string;
+  slug?: Slug;
+  variants?: Variant[];
+};
+
+export type Category = {
+  _id?: string;
+  _type?: string;
+  name?: string;
+  description?: string;
+  slug?: Slug;
+  images?: CategoryImage[];
+};
+
+export type Variant = {
+  _id?: string;
+  _type?: string;
+  description?: PortableTextBlock[];
+  flavour?: Flavour[];
+  images?: ProductImage[];
+  msrp?: number;
+  name?: string;
+  price?: number;
+  slug?: Slug;
+  style?: Style[];
+};
+
+export type GetProductsAndCategoriesQuery = {
+  categories: Category[];
+  products: Product[];
+};
+
+export type GetCategoriesQuery = {
+  categories: Category[];
+};
+
+export interface PageProps {
+  data?: {
+    products: GetProductsAndCategoriesQuery["products"];
+    categories: GetProductsAndCategoriesQuery["categories"];
+  };
 }

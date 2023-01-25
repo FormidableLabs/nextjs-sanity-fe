@@ -1,4 +1,3 @@
-import { handlers } from "./graphql";
 import { groqHandlers } from "./groq/handlers";
 
 /**
@@ -27,12 +26,12 @@ async function initializeMSW() {
 
     // Start the Node server
     const { setupServer } = require("msw/node");
-    const server = setupServer(...handlers, ...groqHandlers);
+    const server = setupServer(...groqHandlers);
     await server.listen({ onUnhandledRequest: "bypass" });
   } else {
     // Start the Browser server
     const { setupWorker } = require("msw");
-    const worker = setupWorker(...handlers, ...groqHandlers);
+    const worker = setupWorker(...groqHandlers);
     await worker.start({ onUnhandledRequest: "bypass" });
   }
   console.log("[MSW Mock Server] Ready");

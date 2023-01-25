@@ -1,20 +1,15 @@
+import type { GetProductsAndCategoriesQuery, Product as ProductType, Variant } from "utils/groqTypes/ProductList";
 import * as React from "react";
 import { useState } from "react";
 import { GetServerSideProps, NextPage } from "next";
-import { withUrqlClient, WithUrqlState } from "next-urql";
 import { useRouter } from "next/router";
 import { AnimatePresence } from "framer-motion";
 
-import {
-  GetProductAndRecommendationsDocument,
-  GetProductAndRecommendationsQuery,
-  useGetProductAndRecommendationsQuery,
-} from "utils/generated/graphql";
-import { initializeUrql, urqlOptions, withUrqlOptions } from "utils/urql";
 import { setCachingHeaders } from "utils/setCachingHeaders";
 import { isSlug } from "utils/isSlug";
 import { SanityType } from "utils/consts";
-import { SSRData } from "utils/typedUrqlState";
+import { getRecommendations } from "utils/getRecommendationsQuery";
+import { getProductBySlug } from "utils/getProductBySlug";
 
 import { BlockContent } from "components/BlockContent";
 import { ImageCarousel } from "components/ImageCarousel";
@@ -29,15 +24,17 @@ import { Product } from "components/Product";
 import { FadeInOut } from "components/FadeInOut";
 import { Breadcrumbs } from "components/Breadcrumbs";
 
-const ProductPage: NextPage = () => {
-  const { query } = useRouter();
-  const [{ data }] = useGetProductAndRecommendationsQuery({
-    variables: {
-      slug: query.slug as string,
-    },
-  });
+interface PageProps {
+  data?: {
+    products: GetProductsAndCategoriesQuery["products"];
+    recommendations: GetProductsAndCategoriesQuery["products"];
+  };
+}
 
-  const product = data?.allProduct[0];
+const ProductPage: NextPage<PageProps> = ({ data }) => {
+  const { query } = useRouter();
+
+  const product = data?.products[0];
   const selectedVariant =
     (product?.variants || []).find((v) => v?.slug?.current && v.slug.current === query.variant) ||
     product?.variants?.[0];
@@ -92,18 +89,21 @@ const ProductPage: NextPage = () => {
   );
 };
 
-const PageBody = ({ variant, product }: { product?: PDPProduct; variant?: PDPVariant }) => {
+const PageBody = ({ variant, product }: { product?: ProductType; variant?: Variant }) => {
   const { replace } = useRouter();
   const { updateCart, cartItems } = useCart();
 
-  const setSelectedVariant = React.useCallback((slug: string) => {
-    replace({
-      pathname: window.location.pathname,
-      query: {
-        variant: slug,
-      },
-    }).catch(() => null);
-  }, []);
+  const setSelectedVariant = React.useCallback(
+    (slug: string) => {
+      replace({
+        pathname: window.location.pathname,
+        query: {
+          variant: slug,
+        },
+      }).catch(() => null);
+    },
+    [replace]
+  );
 
   const [selectedStyle, setSelectedStyle] = useState<string>(() => variant?.style?.[0]?.name || "");
   const [quantity, setQuantity] = useState("1");
@@ -123,20 +123,22 @@ const PageBody = ({ variant, product }: { product?: PDPProduct; variant?: PDPVar
 
   return (
     <div className="container">
-      <div className="grid md:grid-cols-2 md:grid-rows-none md:items-baseline gap-6">
+      <div className="grid md:grid-cols-2 gap-6">
         <div className="md:row-span-2 order-2 md:order-1">
           {variant?.images && <ImageCarousel productImages={variant?.images} />}
         </div>
-        <div className="text-primary order-1 md:order-2">
+        <div className="text-primary order-1 md:order-2 self-end">
           <h4 className="text-h4 font-medium mb-2">{product?.name}</h4>
           <Price msrp={variant?.msrp} price={variant?.price} />
         </div>
 
         <div className="text-primary order-3">
-          <BlockContent value={variant?.descriptionRaw} className="text-body-reg text-primary font-medium" />
+          {variant?.description ? (
+            <BlockContent value={variant?.description} className="text-body-reg text-primary font-medium" />
+          ) : null}
           <hr className="border-t border-t-primary my-5" />
           <ProductVariantSelector
-            variants={product?.variants}
+            variants={product?.variants ?? []}
             selectedVariant={variant}
             onVariantChange={onVariantChange}
           />
@@ -156,11 +158,7 @@ const PageBody = ({ variant, product }: { product?: PDPProduct; variant?: PDPVar
   );
 };
 
-type PDPProduct = GetProductAndRecommendationsQuery["allProduct"][number];
-type PDPVariant = NonNullable<GetProductAndRecommendationsQuery["allProduct"][number]["variants"]>[number];
-
 export const getServerSideProps = (async ({ res, query }) => {
-  const { client, ssrCache } = initializeUrql();
   const { slug } = query;
 
   const cacheKeys = [] as string[];
@@ -168,23 +166,22 @@ export const getServerSideProps = (async ({ res, query }) => {
     cacheKeys.push(`${SanityType.Product}_${slug}`);
   }
 
-  // This query is used to populate the cache for the query
-  // used on this page.
-  const pageData = await client?.query(GetProductAndRecommendationsDocument, { slug }).toPromise();
+  const products = await getProductBySlug(isSlug(slug) ? slug : "");
+  const recommendations = await getRecommendations();
 
   // Extract variant slugs to add to cache keys, in case any of those change.
-  const variantSlugs: string[] = (
-    pageData?.data?.allProduct?.[0]?.variants?.map((v: any) => v?.slug?.current) || []
-  ).filter(Boolean);
+  const variantSlugs: string[] = (products[0]?.variants?.map((v: any) => v?.slug?.current) || []).filter(Boolean);
   cacheKeys.push(...variantSlugs.map((s) => `${SanityType.Variant}_${s}`));
   setCachingHeaders(res, cacheKeys);
 
   return {
     props: {
-      // urqlState is a keyword here so withUrqlClient can pick it up.
-      urqlState: ssrCache.extractData() as SSRData<GetProductAndRecommendationsQuery>,
+      data: {
+        products,
+        recommendations,
+      },
     },
   };
-}) satisfies GetServerSideProps<WithUrqlState>;
+}) satisfies GetServerSideProps;
 
-export default withUrqlClient(() => ({ ...urqlOptions }), withUrqlOptions)(ProductPage);
+export default ProductPage;

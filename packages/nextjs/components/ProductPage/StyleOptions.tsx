@@ -1,10 +1,10 @@
 import * as React from "react";
 import { Pill } from "components/Pill";
 import { H6 } from "components/Typography/H6";
-import { GetProductAndRecommendationsQuery } from "utils/generated/graphql";
+import { Style } from "utils/groqTypes/ProductList";
 
 interface Props {
-  options: NonNullable<NonNullable<GetProductAndRecommendationsQuery["allProduct"][0]["variants"]>[0]>["style"];
+  options: Style[];
   selectedStyle?: string;
   onChange: (slicing: string) => void;
 }

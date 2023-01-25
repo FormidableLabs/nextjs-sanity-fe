@@ -2,14 +2,11 @@ import * as React from "react";
 import { useMemo } from "react";
 import { Select } from "components/Select";
 import { H6 } from "components/Typography/H6";
-import { GetProductAndRecommendationsQuery } from "utils/generated/graphql";
-
-export type ProductVariants = GetProductAndRecommendationsQuery["allProduct"][0]["variants"];
-export type ProductVariant = NonNullable<ProductVariants>[0];
+import { Variant } from "utils/groqTypes/ProductList";
 
 interface Props {
-  variants: ProductVariants;
-  selectedVariant?: ProductVariant;
+  variants: Variant[];
+  selectedVariant?: Variant;
   onVariantChange: (slug?: string) => void;
 }
 

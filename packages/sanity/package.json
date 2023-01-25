@@ -7,7 +7,6 @@
   "license": "MIT",
   "scripts": {
     "build": "sanity build",
-    "deploy-graphql": "sanity graphql deploy",
     "deploy-studio": "sanity deploy",
     "dev": "sanity dev",
     "export-dataset": "sanity dataset export production production.tar.gz --overwrite",

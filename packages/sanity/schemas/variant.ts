@@ -1,6 +1,6 @@
 import { GrMultiple } from "react-icons/gr";
 import groq from "groq";
-import { defineField, defineType } from "sanity";
+import { defineField } from "sanity";
 import { sanityClient } from "../utils/sanityClient";
 
 const isUniqueId = (value, context) => {

@@ -1,16 +1,17 @@
 import * as React from "react";
 import classNames from "classnames";
 import { Card, CardProps } from "components/Card";
-import { GetProductsAndCategoriesQuery } from "utils/generated/graphql";
+import { GetProductsAndCategoriesQuery } from "utils/groqTypes/ProductList";
 
 type Props = {
-  items?: GetProductsAndCategoriesQuery["allProduct"] | GetProductsAndCategoriesQuery["allCategory"];
+  items?: GetProductsAndCategoriesQuery["products"] | GetProductsAndCategoriesQuery["categories"];
 };
 
 export const FeaturedList = ({ items }: Props) => {
   if (!items) return null;
 
   const N = Math.min(items.length, 3);
+  let props: CardProps;
 
   return (
     <ul
@@ -20,9 +21,7 @@ export const FeaturedList = ({ items }: Props) => {
       })}
     >
       {items.map((item, i) => {
-        let props: CardProps;
-
-        if (item.__typename === "Product") {
+        if (item._type === "product" && "variants" in item) {
           props = {
             to: {
               pathname: `/products/${item.slug?.current}`,
@@ -38,22 +37,24 @@ export const FeaturedList = ({ items }: Props) => {
               containerClassName: "aspect-square",
             },
           };
-        } else if (item.__typename === "Category") {
-          props = {
-            to: {
-              pathname: `/products`,
-              query: {
-                category: item.slug?.current,
+        } else if (item._type === "category") {
+          if (item.images && "images" in item.images[0]) {
+            props = {
+              to: {
+                pathname: `/products`,
+                query: {
+                  category: item.slug?.current,
+                },
               },
-            },
-            title: item.name ?? "",
-            subTitle: item.description ?? "",
-            imageProps: {
-              src: item.images?.[0]?.images ?? "",
-              alt: item.images?.[0]?.name ?? "",
-              containerClassName: "aspect-[16/10]",
-            },
-          };
+              title: item.name ?? "",
+              subTitle: (item.description as string) ?? "",
+              imageProps: {
+                src: item.images?.[0]?.images ?? "",
+                alt: item.images?.[0]?.name ?? "",
+                containerClassName: "aspect-[16/10]",
+              },
+            };
+          }
         } else {
           // Unexpected type
           return null;
@@ -61,7 +62,7 @@ export const FeaturedList = ({ items }: Props) => {
 
         return (
           <React.Fragment key={item._id}>
-            <li>
+            <li data-testid="featured-list-item">
               <Card {...props} />
             </li>
             {i % N < N - 1 && <li className="invisible sm:visible w-full border-r-2 border-r-primary"></li>}

@@ -1,4 +1,5 @@
 import { mock } from "mocks/factory";
+import { Category } from "utils/groqTypes/ProductList";
 import { mockOnly } from "../utils/real-or-mock";
 
 describe(`when I visit the "Categories" page`, () => {
@@ -21,11 +22,11 @@ describe(`when I visit the "Categories" page`, () => {
   it("I see at least 3 Categories on the page", () => {
     cy.getServerSideProps("/categories").then((data) => {
       cy.get("main").within(() => {
-        const categories = data.allCategory;
+        const categories = data.categories;
         expect(categories).to.have.length.at.least(3);
-        categories.forEach((cat) => {
+        categories.forEach((cat: Category) => {
           expect(cat.name).to.not.be.empty;
-          cy.findByText(cat.name!).should("exist");
+          cy.findAllByText(cat.name!).should("exist");
         });
       });
     });
@@ -36,7 +37,7 @@ describe(`when I visit the "Categories" page`, () => {
       it(`I should see the mock category "${cat.name}"`, () => {
         cy.get("main").within(() => {
           expect(cat.name).to.not.be.empty;
-          cy.findByText(cat.name!).should("exist");
+          cy.findAllByText(cat.name!).should("exist");
         });
       });
     }
