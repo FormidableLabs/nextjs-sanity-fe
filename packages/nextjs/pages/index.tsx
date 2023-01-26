@@ -26,6 +26,7 @@ interface PageProps {
 }
 
 const Home: NextPage<PageProps> = ({ data }) => {
+  console.log("data.categories1", data?.categories);
   return (
     <>
       <PageHead

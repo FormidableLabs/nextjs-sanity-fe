@@ -24,7 +24,7 @@ export const Card = ({
   subTitle,
   title,
   price,
-  imageProps: { containerClassName, ...imageProps },
+  imageProps: { containerClassName = "", ...imageProps },
   className = "",
 }: CardProps) => {
   return (
