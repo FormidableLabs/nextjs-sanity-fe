@@ -1,10 +1,11 @@
 import * as React from "react";
 import classNames from "classnames";
 import { Card, CardProps } from "components/Card";
-import { GetProductsAndCategoriesQuery } from "utils/groqTypes/ProductList";
+import { ProductRecommendation } from "utils/getProductRecommendationsQuery";
+import { Category } from "utils/getCategoriesQuery";
 
 type Props = {
-  items?: GetProductsAndCategoriesQuery["products"] | GetProductsAndCategoriesQuery["categories"];
+  items?: Category[] | ProductRecommendation[];
 };
 
 export const FeaturedList = ({ items }: Props) => {
@@ -22,35 +23,37 @@ export const FeaturedList = ({ items }: Props) => {
     >
       {items.map((item, i) => {
         if (item._type === "product" && "variants" in item) {
+          const data = item as ProductRecommendation;
           props = {
             to: {
-              pathname: `/products/${item.slug?.current}`,
+              pathname: `/products/${data.slug?.current}`,
               query: {
-                variant: item.variants?.[0]?.slug?.current,
+                variant: data.variants?.[0]?.slug?.current,
               },
             },
-            title: item.name ?? "",
-            price: item.variants?.[0]?.price ?? 0,
+            title: data.name ?? "",
+            price: data.variants?.[0]?.price ?? 0,
             imageProps: {
-              src: item.variants?.[0]?.images?.[0] ?? "",
-              alt: item.variants?.[0]?.name ?? "",
+              src: data.variants?.[0]?.images?.[0] ?? "",
+              alt: data.variants?.[0]?.name ?? "",
               containerClassName: "aspect-square",
             },
           };
         } else if (item._type === "category") {
           if (item.images && "images" in item.images[0]) {
+            const data = item as Category;
             props = {
               to: {
                 pathname: `/products`,
                 query: {
-                  category: item.slug?.current,
+                  category: data.slug?.current,
                 },
               },
-              title: item.name ?? "",
-              subTitle: (item.description as string) ?? "",
+              title: data.name ?? "",
+              subTitle: (data.description as string) ?? "",
               imageProps: {
-                src: item.images?.[0]?.images ?? "",
-                alt: item.images?.[0]?.name ?? "",
+                src: data.images?.[0]?.images ?? "",
+                alt: data.images?.[0]?.name ?? "",
                 containerClassName: "aspect-[16/10]",
               },
             };

@@ -1,8 +1,8 @@
-import type { GetCategoriesQuery, GetProductsAndCategoriesQuery } from "utils/groqTypes/ProductList";
 import { Card } from "components/Card";
+import { Categories } from "utils/getCategoriesQuery";
 
 type CategoryListProps = {
-  items?: GetCategoriesQuery["categories"] | GetProductsAndCategoriesQuery["categories"];
+  items?: Categories;
 };
 
 export const CategoryList = ({ items }: CategoryListProps) => {

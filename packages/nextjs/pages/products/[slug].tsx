@@ -8,7 +8,7 @@ import { AnimatePresence } from "framer-motion";
 import { setCachingHeaders } from "utils/setCachingHeaders";
 import { isSlug } from "utils/isSlug";
 import { SanityType } from "utils/consts";
-import { getRecommendations } from "utils/getRecommendationsQuery";
+import { getProductRecommendations } from "utils/getProductRecommendationsQuery";
 import { getProductBySlug } from "utils/getProductBySlug";
 
 import { BlockContent } from "components/BlockContent";
@@ -167,7 +167,7 @@ export const getServerSideProps = (async ({ res, query }) => {
   }
 
   const products = await getProductBySlug(isSlug(slug) ? slug : "");
-  const recommendations = await getRecommendations();
+  const recommendations = await getProductRecommendations();
 
   // Extract variant slugs to add to cache keys, in case any of those change.
   const variantSlugs: string[] = (products[0]?.variants?.map((v: any) => v?.slug?.current) || []).filter(Boolean);

@@ -3,16 +3,15 @@ import { GetServerSideProps, NextPage } from "next";
 import { setCachingHeaders } from "utils/setCachingHeaders";
 import { SanityType } from "utils/consts";
 import { isString, pluralize } from "utils/pluralize";
-import { getAllCategories } from "utils/getAllCategoriesQuery";
+import { getCategories, Categories } from "utils/getCategoriesQuery";
 
 import { CategoryList } from "components/CategoryList";
 import { WeDontSellBreadBanner } from "components/WeDontSellBreadBanner";
 import { PageHead } from "components/PageHead";
 import { Breadcrumbs } from "components/Breadcrumbs";
-import { GetProductsAndCategoriesQuery } from "utils/groqTypes/ProductList";
 
 interface PageProps {
-  categories: GetProductsAndCategoriesQuery["categories"];
+  categories: Categories;
 }
 
 const CategoriesPage: NextPage<PageProps> = ({ categories }) => {
@@ -38,7 +37,7 @@ const CategoriesPage: NextPage<PageProps> = ({ categories }) => {
 export const getServerSideProps = (async ({ res }) => {
   setCachingHeaders(res, [SanityType.Category, SanityType.CategoryImage]);
 
-  const categories = await getAllCategories();
+  const categories = await getCategories();
   return {
     props: {
       categories,

@@ -7,9 +7,8 @@ import NextImage from "next/legacy/image";
 import { setCachingHeaders } from "utils/setCachingHeaders";
 import { localImageLoader } from "utils/localImageLoader";
 import { SanityType } from "utils/consts";
-import { getAllCategories } from "utils/getAllCategoriesQuery";
-import { getRecommendations } from "utils/getRecommendationsQuery";
-import { GetProductsAndCategoriesQuery } from "utils/groqTypes/ProductList";
+import { Categories, getCategories } from "utils/getCategoriesQuery";
+import { ProductRecommendations, getProductRecommendations } from "utils/getProductRecommendationsQuery";
 
 import featuredImg from "assets/featured-story.jpg";
 import { Button } from "components/Button";
@@ -20,13 +19,12 @@ import { PageHead } from "components/PageHead";
 
 interface PageProps {
   data?: {
-    products: GetProductsAndCategoriesQuery["products"];
-    categories: GetProductsAndCategoriesQuery["categories"];
+    productRecommendations: ProductRecommendations;
+    categories: Categories;
   };
 }
 
 const Home: NextPage<PageProps> = ({ data }) => {
-  console.log("data.categories1", data?.categories);
   return (
     <>
       <PageHead
@@ -49,8 +47,8 @@ const Home: NextPage<PageProps> = ({ data }) => {
               width={600}
               height={600}
               className="rounded-2xl"
-              src={data?.products[0].images?.[0] ?? ""}
-              alt={data?.products[0].name ?? ""}
+              src={data?.productRecommendations[0].images?.[0] ?? ""}
+              alt={data?.productRecommendations[0].name ?? ""}
             />
           </span>
         </div>
@@ -58,7 +56,7 @@ const Home: NextPage<PageProps> = ({ data }) => {
 
       <TitleBanner>Our bestsellers</TitleBanner>
       <section className="container py-9 flex flex-col gap-9">
-        <FeaturedList items={data?.products} />
+        <FeaturedList items={data?.productRecommendations} />
         <Link href="/products" legacyBehavior>
           <Button as="a" variant="primary" className="w-full inline-block text-center">
             Show all breads
@@ -106,13 +104,13 @@ const TitleBanner = ({ children }: React.PropsWithChildren) => (
 export const getServerSideProps = (async ({ res }) => {
   setCachingHeaders(res, [SanityType.Category, SanityType.CategoryImage]);
 
-  const categories = await getAllCategories();
-  const products = await getRecommendations();
+  const categories = await getCategories();
+  const productRecommendations = await getProductRecommendations();
 
   return {
     props: {
       data: {
-        products,
+        productRecommendations,
         categories,
       },
     },
