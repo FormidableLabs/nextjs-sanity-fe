@@ -1,5 +1,5 @@
 import { mock } from "mocks/factory";
-import { Category } from "utils/groqTypes/ProductList";
+import { Category } from "utils/getCategoriesQuery";
 import { mockOnly } from "../utils/real-or-mock";
 
 describe(`when I visit the "Categories" page`, () => {

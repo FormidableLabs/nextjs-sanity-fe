@@ -14,7 +14,7 @@ describe("when I visit the home page", () => {
       .within(() => {
         cy.findByText("Show all breads").should("exist");
         cy.getServerSideProps("/home").then((props) => {
-          const bestSellers = props.data.products;
+          const bestSellers = props.data.productRecommendations;
           expect(bestSellers).to.have.length(3);
           for (const product of bestSellers) {
             cy.findByText(product.name!).should("exist");
