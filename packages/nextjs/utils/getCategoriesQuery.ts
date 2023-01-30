@@ -8,17 +8,20 @@ const { query: categoriesQuery, schema: categoriesQuerySchema } = q("*")
     _id: q.string(),
     _type: q.string(),
     name: q.string(),
-    description: q.string(),
-    slug: q.object({
-      current: q.string(),
-    }),
+    description: q.string().nullable(),
+    slug: q
+      .object({
+        current: q.string().nullable(),
+      })
+      .nullable(),
     images: q("images")
       .filter()
       .deref()
       .grab({
         name: q.string(),
-        images: q.sanityImage("images"),
-      }),
+        images: q.sanityImage("images").nullable(),
+      })
+      .nullable(),
     variants: q("variants")
       .filter()
       .deref()
@@ -27,9 +30,11 @@ const { query: categoriesQuery, schema: categoriesQuerySchema } = q("*")
         name: q.string(),
         id: q.string(),
         msrp: q.number(),
-        slug: q.object({
-          current: q.string(),
-        }),
+        slug: q
+          .object({
+            current: q.string().nullable(),
+          })
+          .nullable(),
       })
       .nullable(),
   });

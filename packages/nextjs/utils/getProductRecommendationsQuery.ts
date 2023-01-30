@@ -10,9 +10,11 @@ const { query: getProductRecommendationsQuery, schema: getProductRecommendations
     _id: q.string(),
     _type: q.string(),
     name: q.string(),
-    slug: q.object({
-      current: q.string(),
-    }),
+    slug: q
+      .object({
+        current: q.string().nullable(),
+      })
+      .nullable(),
     images: q
       .sanityImage("images", {
         isList: true,
@@ -30,9 +32,11 @@ const { query: getProductRecommendationsQuery, schema: getProductRecommendations
         name: q.string(),
         price: q.number(),
         msrp: q.number(),
-        slug: q.object({
-          current: q.string(),
-        }),
+        slug: q
+          .object({
+            current: q.string().nullable(),
+          })
+          .nullable(),
         images: q
           .sanityImage("images", {
             isList: true,
@@ -42,7 +46,8 @@ const { query: getProductRecommendationsQuery, schema: getProductRecommendations
             },
           })
           .nullable(),
-      }),
+      })
+      .nullable(),
   });
 
 export type ProductRecommendations = z.infer<typeof getProductRecommendationsQuerySchema>;
