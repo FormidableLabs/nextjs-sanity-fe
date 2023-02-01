@@ -40,6 +40,8 @@ const { query: getProductRecommendationsQuery, schema: getProductRecommendations
         images: q
           .sanityImage("images", {
             isList: true,
+            withCrop: true,
+            withHotspot: true,
             additionalFields: {
               name: q.string().nullable().default(""),
               description: q.string().nullable().default(""),
@@ -54,6 +56,17 @@ export type ProductRecommendations = z.infer<typeof getProductRecommendationsQue
 export type ProductRecommendation = z.infer<typeof getProductRecommendationsQuerySchema.element>;
 
 export const getProductRecommendations = async () => {
-  const response = getProductRecommendationsQuerySchema.parse(await sanityClient.fetch(getProductRecommendationsQuery));
-  return response;
+  try {
+    const response = getProductRecommendationsQuerySchema.parse(
+      await sanityClient.fetch(getProductRecommendationsQuery)
+    );
+    return response;
+  } catch (error) {
+    if (error instanceof z.ZodError) {
+      console.log("Schema Error");
+      console.log(error.issues);
+    }
+  }
+
+  return [];
 };

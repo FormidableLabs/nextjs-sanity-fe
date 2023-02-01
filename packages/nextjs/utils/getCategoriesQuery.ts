@@ -8,7 +8,7 @@ const { query: categoriesQuery, schema: categoriesQuerySchema } = q("*")
     _id: q.string(),
     _type: q.string(),
     name: q.string(),
-    description: q.string().nullable(),
+    description: q.string().nullable().default(""),
     slug: q
       .object({
         current: q.string().nullable(),
@@ -19,22 +19,13 @@ const { query: categoriesQuery, schema: categoriesQuerySchema } = q("*")
       .deref()
       .grab({
         name: q.string(),
-        images: q.sanityImage("images").nullable(),
-      })
-      .nullable(),
-    variants: q("variants")
-      .filter()
-      .deref()
-      .grab({
-        price: q.number(),
-        name: q.string(),
-        id: q.string(),
-        msrp: q.number(),
-        slug: q
-          .object({
-            current: q.string().nullable(),
-          })
-          .nullable(),
+        images: q.sanityImage("images", {
+          withCrop: true,
+          withHotspot: true,
+          additionalFields: {
+            _key: q.string().nullable(),
+          },
+        }),
       })
       .nullable(),
   });
@@ -43,6 +34,15 @@ export type Categories = z.infer<typeof categoriesQuerySchema>;
 export type Category = z.infer<typeof categoriesQuerySchema.element>;
 
 export const getCategories = async () => {
-  const response = categoriesQuerySchema.parse(await sanityClient.fetch(categoriesQuery));
-  return response;
+  try {
+    const response = categoriesQuerySchema.parse(await sanityClient.fetch(categoriesQuery));
+    return response;
+  } catch (err) {
+    if (err instanceof z.ZodError) {
+      console.log("Schema Error");
+      console.log(err.issues);
+    }
+  }
+
+  return [];
 };

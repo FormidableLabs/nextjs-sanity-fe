@@ -16,7 +16,6 @@ interface PageProps {
 
 const CategoriesPage: NextPage<PageProps> = ({ categories }) => {
   const categoryNames = pluralize((categories || []).map((cat) => cat.name).filter(isString));
-
   return (
     <>
       <PageHead title="Categories" description={`Product categories, including ${categoryNames}.`} />
@@ -36,7 +35,6 @@ const CategoriesPage: NextPage<PageProps> = ({ categories }) => {
 
 export const getServerSideProps = (async ({ res }) => {
   setCachingHeaders(res, [SanityType.Category, SanityType.CategoryImage]);
-
   const categories = await getCategories();
   return {
     props: {

@@ -42,15 +42,17 @@ const Home: NextPage<PageProps> = ({ data }) => {
             </Link>
           </div>
 
-          <span className="hidden sm:block">
-            <Image
-              width={600}
-              height={600}
-              className="rounded-2xl"
-              src={data?.productRecommendations[0].images?.[0] ?? ""}
-              alt={data?.productRecommendations[0].name ?? ""}
-            />
-          </span>
+          {data?.productRecommendations && data?.productRecommendations.length > 0 && (
+            <span className="hidden sm:block">
+              <Image
+                width={600}
+                height={600}
+                className="rounded-2xl"
+                src={data?.productRecommendations[0].images?.[0] ?? ""}
+                alt={data?.productRecommendations[0].name ?? ""}
+              />
+            </span>
+          )}
         </div>
       </section>
 

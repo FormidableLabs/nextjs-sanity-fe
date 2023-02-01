@@ -1,4 +1,3 @@
-import type { GetProductsAndCategoriesQuery, Product as ProductType, Variant } from "utils/groqTypes/ProductList";
 import * as React from "react";
 import { useState } from "react";
 import { GetServerSideProps, NextPage } from "next";
@@ -8,8 +7,8 @@ import { AnimatePresence } from "framer-motion";
 import { setCachingHeaders } from "utils/setCachingHeaders";
 import { isSlug } from "utils/isSlug";
 import { SanityType } from "utils/consts";
-import { getProductRecommendations } from "utils/getProductRecommendationsQuery";
-import { getProductBySlug } from "utils/getProductBySlug";
+import { getProductRecommendations, ProductRecommendations } from "utils/getProductRecommendationsQuery";
+import { getProductBySlug, Product as ProductType, Variant } from "utils/getProductBySlug";
 
 import { BlockContent } from "components/BlockContent";
 import { ImageCarousel } from "components/ImageCarousel";
@@ -26,8 +25,8 @@ import { Breadcrumbs } from "components/Breadcrumbs";
 
 interface PageProps {
   data?: {
-    products: GetProductsAndCategoriesQuery["products"];
-    recommendations: GetProductsAndCategoriesQuery["products"];
+    products: ProductType[];
+    recommendations: ProductRecommendations;
   };
 }
 
@@ -133,9 +132,9 @@ const PageBody = ({ variant, product }: { product?: ProductType; variant?: Varia
         </div>
 
         <div className="text-primary order-3">
-          {variant?.description ? (
+          {/* {variant?.description ? (
             <BlockContent value={variant?.description} className="text-body-reg text-primary font-medium" />
-          ) : null}
+          ) : null} */}
           <hr className="border-t border-t-primary my-5" />
           <ProductVariantSelector
             variants={product?.variants ?? []}

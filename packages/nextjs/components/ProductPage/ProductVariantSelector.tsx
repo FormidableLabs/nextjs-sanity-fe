@@ -2,7 +2,7 @@ import * as React from "react";
 import { useMemo } from "react";
 import { Select } from "components/Select";
 import { H6 } from "components/Typography/H6";
-import { Variant } from "utils/groqTypes/ProductList";
+import { Variant } from "utils/getProductBySlug";
 
 interface Props {
   variants: Variant[];
