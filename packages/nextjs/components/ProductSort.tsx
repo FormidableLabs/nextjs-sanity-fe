@@ -13,7 +13,7 @@ type ProductSortProps = {
 
 export const ProductSort: React.FC<ProductSortProps> = ({
   as = "pills",
-  showTitle = true,
+  showTitle = false,
   title = "Sort by",
   selectClassName = "",
 }) => {
