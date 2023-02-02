@@ -29,8 +29,6 @@ import { H6 } from "components/Typography/H6";
 import { Pagination } from "components/Pagination";
 import { FadeInOut } from "components/FadeInOut";
 import { Breadcrumbs } from "components/Breadcrumbs/Breadcrumbs";
-import { Button } from "components/Button";
-import { MdOutlineFilterList } from "react-icons/md";
 import { useDeviceSize } from "utils/useDeviceSize";
 import { ModalFiltersMobile } from "views/ModalFiltersMobile";
 import { SortAndFiltersToolbarMobile } from "views/SortAndFiltersToolbarMobile";
