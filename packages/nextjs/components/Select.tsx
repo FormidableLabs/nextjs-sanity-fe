@@ -12,12 +12,13 @@ export interface Props {
   label?: string;
   placeholder: string;
   selectedItem?: Option | null;
+  className?: string;
   onChange?: (value?: Option | null) => void;
 }
 
 const itemToString = (item: Option | null) => (item ? item.title : "");
 
-export function Select({ label, placeholder, options, selectedItem, onChange }: Props) {
+export function Select({ label, placeholder, options, className, selectedItem, onChange }: Props) {
   const { isOpen, getToggleButtonProps, getLabelProps, getMenuProps, highlightedIndex, getItemProps } = useSelect({
     items: options,
     itemToString,
@@ -29,7 +30,7 @@ export function Select({ label, placeholder, options, selectedItem, onChange }: 
 
   return (
     <div>
-      <div className="w-72 flex flex-col gap-1">
+      <div className={classNames("w-72 flex flex-col gap-1", className)}>
         {label && (
           <label className="text-body-reg text-primary mb-2" {...getLabelProps()}>
             {label}
@@ -48,7 +49,7 @@ export function Select({ label, placeholder, options, selectedItem, onChange }: 
       <ul
         {...getMenuProps()}
         className={classNames(
-          "absolute",
+          "absolute z-10",
           "w-72",
           "mt-4",
           "shadow-md",
