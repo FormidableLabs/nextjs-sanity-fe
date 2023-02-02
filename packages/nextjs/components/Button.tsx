@@ -6,6 +6,8 @@ interface BaseProps {
   variant: "primary" | "secondary" | "tertiary" | "text";
   disabled?: boolean;
   children: React.ReactNode;
+  leftIcon?: React.ReactNode;
+  rightIcon?: React.ReactNode;
 }
 
 type ButtonAsButton = BaseProps &
@@ -21,11 +23,11 @@ type ButtonAsLink = BaseProps &
 type ButtonProps = ButtonAsButton | ButtonAsLink;
 
 function ButtonComponent(
-  { as = "button", variant, disabled, className, ...props }: ButtonProps,
+  { as = "button", variant, disabled, className, leftIcon: LeftIcon, rightIcon: RightIcon, ...props }: ButtonProps,
   ref: ForwardedRef<HTMLButtonElement | HTMLAnchorElement>
 ) {
   const styles = classNames(
-    "rounded-lg py-4 px-8 text-body-reg transition transition-colors duration-150 text-center",
+    "inline-flex items-center rounded-lg py-4 px-8 text-body-reg transition transition-colors duration-150 text-center",
     {
       "bg-primary text-white hover:text-sky": variant === "primary",
       "bg-[transparent] text-primary hover:bg-primary hover:text-sky border border-primary": variant === "secondary",
@@ -43,7 +45,9 @@ function ButtonComponent(
 
     return (
       <a ref={ref as ForwardedRef<HTMLAnchorElement>} className={styles} {...linkProps}>
+        {LeftIcon && <div className="inline pr-2">{LeftIcon}</div>}
         {children}
+        {RightIcon && <div className="inline pl-2">{RightIcon}</div>}
       </a>
     );
   }
@@ -52,7 +56,9 @@ function ButtonComponent(
 
   return (
     <button ref={ref as ForwardedRef<HTMLButtonElement>} disabled={disabled} className={styles} {...buttonProps}>
+      {LeftIcon && <div className="inline pr-2">{LeftIcon}</div>}
       {children}
+      {RightIcon && <div className="inline pl-2">{RightIcon}</div>}
     </button>
   );
 }
