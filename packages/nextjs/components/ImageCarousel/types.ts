@@ -1,7 +1,7 @@
-import { ProductImage } from "utils/groqTypes/ProductList";
+import { ProductImages } from "utils/getProductBySlug";
 
 export type ImageCarouselProps = {
-  productImages: ProductImage[];
+  productImages: ProductImages;
 };
 
 export type RenderControlProps = {

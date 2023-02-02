@@ -1,5 +1,4 @@
-import { q } from "groqd";
-import { z } from "zod";
+import { InferType, q } from "groqd";
 import { sanityClient } from "./sanityClient";
 
 const { query: getProductRecommendationsQuery, schema: getProductRecommendationsQuerySchema } = q("*")
@@ -52,8 +51,8 @@ const { query: getProductRecommendationsQuery, schema: getProductRecommendations
       .nullable(),
   });
 
-export type ProductRecommendations = z.infer<typeof getProductRecommendationsQuerySchema>;
-export type ProductRecommendation = z.infer<typeof getProductRecommendationsQuerySchema.element>;
+export type ProductRecommendations = InferType<typeof getProductRecommendationsQuerySchema>;
+export type ProductRecommendation = InferType<typeof getProductRecommendationsQuerySchema>[number];
 
 export const getProductRecommendations = async () => {
   try {
@@ -62,10 +61,7 @@ export const getProductRecommendations = async () => {
     );
     return response;
   } catch (error) {
-    if (error instanceof z.ZodError) {
-      console.log("Schema Error");
-      console.log(error.issues);
-    }
+    console.log(error);
   }
 
   return [];

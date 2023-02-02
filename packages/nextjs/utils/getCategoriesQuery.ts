@@ -1,5 +1,4 @@
-import { q } from "groqd";
-import { z } from "zod";
+import { InferType, q } from "groqd";
 import { sanityClient } from "./sanityClient";
 
 const { query: categoriesQuery, schema: categoriesQuerySchema } = q("*")
@@ -30,18 +29,15 @@ const { query: categoriesQuery, schema: categoriesQuerySchema } = q("*")
       .nullable(),
   });
 
-export type Categories = z.infer<typeof categoriesQuerySchema>;
-export type Category = z.infer<typeof categoriesQuerySchema.element>;
+export type Categories = InferType<typeof categoriesQuerySchema>;
+export type Category = InferType<typeof categoriesQuerySchema>[number];
 
 export const getCategories = async () => {
   try {
     const response = categoriesQuerySchema.parse(await sanityClient.fetch(categoriesQuery));
     return response;
-  } catch (err) {
-    if (err instanceof z.ZodError) {
-      console.log("Schema Error");
-      console.log(err.issues);
-    }
+  } catch (error) {
+    console.log(error);
   }
 
   return [];

@@ -1,5 +1,4 @@
-import { q } from "groqd";
-import { z } from "zod";
+import { q, InferType } from "groqd";
 import { sanityClient } from "./sanityClient";
 
 const { schema: variantQuerySchema } = q("variants")
@@ -8,7 +7,7 @@ const { schema: variantQuerySchema } = q("variants")
   .grab({
     _id: q.string(),
     name: q.string(),
-    // description: q.contentBlock(),
+    description: q.array(q.contentBlock()),
     msrp: q.number(),
     price: q.number(),
     slug: q
@@ -16,16 +15,18 @@ const { schema: variantQuerySchema } = q("variants")
         current: q.string().nullable(),
       })
       .nullable(),
-    images: q.sanityImage("images", {
-      isList: true,
-      withCrop: true,
-      withHotspot: true,
-      additionalFields: {
-        description: q.string().nullable(),
-        name: q.string().nullable(),
-        _key: q.string().nullable(),
-      },
-    }),
+    images: q
+      .sanityImage("images", {
+        isList: true,
+        withCrop: true,
+        withHotspot: true,
+        additionalFields: {
+          description: q.string().nullable(),
+          name: q.string().nullable(),
+          _key: q.string().nullable(),
+        },
+      })
+      .nullable(),
     style: q("style")
       .filter()
       .deref()
@@ -37,7 +38,8 @@ const { schema: variantQuerySchema } = q("variants")
             current: q.string().nullable(),
           })
           .nullable(),
-      }),
+      })
+      .nullable(),
   });
 
 const { query: productQuery, schema: productQuerySchema } = q("*")
@@ -60,7 +62,7 @@ const { query: productQuery, schema: productQuerySchema } = q("*")
       .grab({
         _id: q.string(),
         name: q.string(),
-        // description: q.contentBlock(),
+        description: q.array(q.contentBlock()),
         msrp: q.number(),
         price: q.number(),
         slug: q
@@ -68,16 +70,18 @@ const { query: productQuery, schema: productQuerySchema } = q("*")
             current: q.string().nullable(),
           })
           .nullable(),
-        images: q.sanityImage("images", {
-          isList: true,
-          withCrop: true,
-          withHotspot: true,
-          additionalFields: {
-            description: q.string().nullable(),
-            name: q.string().nullable(),
-            _key: q.string().nullable(),
-          },
-        }),
+        images: q
+          .sanityImage("images", {
+            isList: true,
+            withCrop: true,
+            withHotspot: true,
+            additionalFields: {
+              description: q.string().nullable(),
+              name: q.string().nullable(),
+              _key: q.string().nullable(),
+            },
+          })
+          .nullable(),
         style: q("style")
           .filter()
           .deref()
@@ -89,12 +93,15 @@ const { query: productQuery, schema: productQuerySchema } = q("*")
                 current: q.string().nullable(),
               })
               .nullable(),
-          }),
+          })
+          .nullable(),
       }),
   });
 
-export type Product = z.infer<typeof productQuerySchema.element>;
-export type Variant = z.infer<typeof variantQuerySchema.element>;
+export type Product = InferType<typeof productQuerySchema>[number];
+export type Variant = InferType<typeof variantQuerySchema>[number];
+export type ProductImages = Variant["images"];
+export type Styles = Variant["style"];
 
 export const getProductBySlug = async (slug = "") => {
   try {
@@ -104,11 +111,8 @@ export const getProductBySlug = async (slug = "") => {
       })
     );
     return response;
-  } catch (err) {
-    if (err instanceof z.ZodError) {
-      console.log("Schema Error");
-      console.log(err.issues);
-    }
+  } catch (error) {
+    console.log(error);
   }
 
   return [];

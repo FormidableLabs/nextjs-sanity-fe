@@ -132,9 +132,9 @@ const PageBody = ({ variant, product }: { product?: ProductType; variant?: Varia
         </div>
 
         <div className="text-primary order-3">
-          {/* {variant?.description ? (
+          {variant?.description ? (
             <BlockContent value={variant?.description} className="text-body-reg text-primary font-medium" />
-          ) : null} */}
+          ) : null}
           <hr className="border-t border-t-primary my-5" />
           <ProductVariantSelector
             variants={product?.variants ?? []}

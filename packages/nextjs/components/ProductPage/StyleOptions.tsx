@@ -1,10 +1,10 @@
 import * as React from "react";
 import { Pill } from "components/Pill";
 import { H6 } from "components/Typography/H6";
-import { Style } from "utils/groqTypes/ProductList";
+import { Styles } from "utils/getProductBySlug";
 
 interface Props {
-  options: Style[];
+  options: Styles;
   selectedStyle?: string;
   onChange: (slicing: string) => void;
 }
