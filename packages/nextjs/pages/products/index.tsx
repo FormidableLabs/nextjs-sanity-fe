@@ -19,6 +19,7 @@ import {
   PLPVariantList,
   StyleFilterItem,
 } from "utils/groqTypes/ProductList";
+import { useDeviceSize } from "utils/useDeviceSize";
 
 import { PageHead } from "components/PageHead";
 import { WeDontSellBreadBanner } from "components/WeDontSellBreadBanner";
@@ -29,7 +30,6 @@ import { H6 } from "components/Typography/H6";
 import { Pagination } from "components/Pagination";
 import { FadeInOut } from "components/FadeInOut";
 import { Breadcrumbs } from "components/Breadcrumbs/Breadcrumbs";
-import { useDeviceSize } from "utils/useDeviceSize";
 import { ModalFiltersMobile } from "views/ModalFiltersMobile";
 import { SortAndFiltersToolbarMobile } from "views/SortAndFiltersToolbarMobile";
 
