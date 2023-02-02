@@ -14,7 +14,7 @@ type ProductSortProps = {
 export const ProductSort: React.FC<ProductSortProps> = ({
   as = "pills",
   showTitle = true,
-  title = "Sort By",
+  title = "Sort by",
   selectClassName = "",
 }) => {
   const { replace, clear, query } = useRouterQueryParams();
@@ -48,7 +48,7 @@ export const ProductSort: React.FC<ProductSortProps> = ({
         {showTitle && <h4 className="text-h4 text-primary mb-1">{title}</h4>}
         <Select
           label=""
-          placeholder="Sort by"
+          placeholder={title}
           selectedItem={selectedItem}
           options={elements}
           className={selectClassName}
