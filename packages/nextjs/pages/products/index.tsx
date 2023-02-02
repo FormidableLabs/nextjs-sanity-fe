@@ -29,6 +29,11 @@ import { H6 } from "components/Typography/H6";
 import { Pagination } from "components/Pagination";
 import { FadeInOut } from "components/FadeInOut";
 import { Breadcrumbs } from "components/Breadcrumbs/Breadcrumbs";
+import { Button } from "components/Button";
+import { MdOutlineFilterList } from "react-icons/md";
+import { useDeviceSize } from "utils/useDeviceSize";
+import { ModalFiltersMobile } from "views/ModalFiltersMobile";
+import { SortAndFiltersToolbarMobile } from "views/SortAndFiltersToolbarMobile";
 
 interface ProductsPageProps {
   variants: PLPVariant[];
@@ -51,6 +56,24 @@ const ProductsPage: NextPage<ProductsPageProps> = ({
 }) => {
   const productNames = pluralize(variants.map((prod) => prod.name));
   const { query } = useRouter();
+  const [isModalOpen, setIsModalOpen] = React.useState(false);
+  const { isSm } = useDeviceSize();
+
+  const handleOpenModal = () => {
+    setIsModalOpen(true);
+  };
+
+  const handleCloseModal = () => {
+    setIsModalOpen(false);
+  };
+
+  React.useEffect(() => {
+    // If modal is open and the window size changes to tablet/desktop viewport,
+    // then closes the modal
+    if (!isSm) {
+      setIsModalOpen(false);
+    }
+  }, [isSm]);
 
   return (
     <>
@@ -62,8 +85,8 @@ const ProductsPage: NextPage<ProductsPageProps> = ({
         <WeDontSellBreadBanner />
         <div className="py-9 container">
           <h1 className="text-h1 text-primary mb-9">Products</h1>
-          <div className="flex gap-9 flex-col md:flex-row">
-            <div className="w-full md:w-72 order-2 md:order-1 flex flex-col gap-9">
+          <section className="flex gap-9 flex-col md:flex-row">
+            <div className="hidden w-full md:w-72 order-2 md:order-1 md:flex flex-col gap-9">
               <ProductSort />
               <ProductFilters
                 flavourFilters={flavourFilters}
@@ -76,6 +99,14 @@ const ProductsPage: NextPage<ProductsPageProps> = ({
               <div className="mb-4">
                 <Breadcrumbs />
               </div>
+
+              {/**
+               *
+               * Product Sort (select) and product filters (mobile only).
+               * See Modal component below
+               *
+               */}
+              <SortAndFiltersToolbarMobile onFiltersClick={handleOpenModal} />
 
               <AnimatePresence mode="wait">
                 {variants.length > 0 && (
@@ -105,9 +136,18 @@ const ProductsPage: NextPage<ProductsPageProps> = ({
               </AnimatePresence>
               {variants.length > 0 && <Pagination key="pagination" pageCount={pageCount} currentPage={currentPage} />}
             </div>
-          </div>
+          </section>
         </div>
       </div>
+
+      {/* Modal UI for filters (mobile only) */}
+      <ModalFiltersMobile
+        flavourFilters={flavourFilters}
+        styleFilters={styleFilters}
+        categoryFilters={categoryFilters}
+        isOpen={isModalOpen}
+        onClose={handleCloseModal}
+      />
     </>
   );
 };
