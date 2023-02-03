@@ -23,7 +23,7 @@ type ButtonAsLink = BaseProps &
 type ButtonProps = ButtonAsButton | ButtonAsLink;
 
 function ButtonComponent(
-  { as = "button", variant, disabled, className, leftIcon: LeftIcon, rightIcon: RightIcon, ...props }: ButtonProps,
+  { as = "button", variant, disabled, className, leftIcon, rightIcon, ...props }: ButtonProps,
   ref: ForwardedRef<HTMLButtonElement | HTMLAnchorElement>
 ) {
   const styles = classNames(
@@ -45,9 +45,9 @@ function ButtonComponent(
 
     return (
       <a ref={ref as ForwardedRef<HTMLAnchorElement>} className={styles} {...linkProps}>
-        {LeftIcon && <div className="inline pr-2">{LeftIcon}</div>}
+        {leftIcon && <div className="inline pr-2">{leftIcon}</div>}
         {children}
-        {RightIcon && <div className="inline pl-2">{RightIcon}</div>}
+        {rightIcon && <div className="inline pl-2">{rightIcon}</div>}
       </a>
     );
   }
@@ -56,9 +56,9 @@ function ButtonComponent(
 
   return (
     <button ref={ref as ForwardedRef<HTMLButtonElement>} disabled={disabled} className={styles} {...buttonProps}>
-      {LeftIcon && <div className="inline pr-2">{LeftIcon}</div>}
+      {leftIcon && <div className="inline pr-2">{leftIcon}</div>}
       {children}
-      {RightIcon && <div className="inline pl-2">{RightIcon}</div>}
+      {rightIcon && <div className="inline pl-2">{rightIcon}</div>}
     </button>
   );
 }
