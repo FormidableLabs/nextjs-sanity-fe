@@ -85,7 +85,7 @@ const ProductsPage: NextPage<ProductsPageProps> = ({
           <h1 className="text-h1 text-primary mb-9">Products</h1>
           <section className="flex gap-9 flex-col md:flex-row">
             <div className="hidden w-full md:w-72 order-2 md:order-1 md:flex flex-col gap-9">
-              <ProductSort />
+              <ProductSort showTitle />
               <ProductFilters
                 flavourFilters={flavourFilters}
                 styleFilters={styleFilters}

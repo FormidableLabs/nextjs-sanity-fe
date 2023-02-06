@@ -10,7 +10,7 @@ interface SortAndFiltersToolbarMobileProps {
 export const SortAndFiltersToolbarMobile: React.FC<SortAndFiltersToolbarMobileProps> = ({ onFiltersClick }) => {
   return (
     <div className="my-6 mb-8 w-full inline-flex items-end justify-between md:hidden">
-      <ProductSort as="select" selectClassName="w-44 mr-2" />
+      <ProductSort showTitle as="select" selectClassName="w-44 mr-2" />
 
       <Button
         title="Open filters"
