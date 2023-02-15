@@ -2,7 +2,6 @@ import { Button } from "components/Button";
 import { Modal } from "components/Modal";
 import { ProductFilters } from "components/ProductFilters/ProductFilters";
 import React from "react";
-import { useGetFiltersCount } from "utils/getFiltersCount";
 import { CategoryFilterItem, FlavourFilterItem, StyleFilterItem } from "utils/groqTypes/ProductList";
 
 interface ModalFiltersMobileProps {
@@ -20,8 +19,6 @@ export const ModalFiltersMobile: React.FC<ModalFiltersMobileProps> = ({
   categoryFilters,
   onClose,
 }) => {
-  const total = useGetFiltersCount();
-
   return (
     <Modal className="w-full h-full min-h-[844px]" isOpen={isOpen} onClose={onClose}>
       <div className="w-full flex flex-col p-5 pt-10">
@@ -36,7 +33,7 @@ export const ModalFiltersMobile: React.FC<ModalFiltersMobileProps> = ({
             className="w-full rounded-2xl font-semibold justify-center"
             onClick={() => onClose(false)}
           >
-            View results {total > 0 ? `(${total})` : ""}
+            View results
           </Button>
         </div>
       </div>
