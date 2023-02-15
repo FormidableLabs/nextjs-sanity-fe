@@ -17,10 +17,10 @@ export const getFiltersCount = (query: ParsedUrlQuery) => {
   }, 0);
 
   return total;
-}
+};
 
 export const useGetFiltersCount = () => {
   const router = useRouter();
-  
+
   return getFiltersCount(router.query);
 };
