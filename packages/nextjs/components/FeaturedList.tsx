@@ -1,5 +1,4 @@
-import type { Categories } from "utils/getAllCategoriesQuery";
-import type { Products } from "utils/getAllProductsQuery";
+import type { Categories, Products } from "utils/groqTypes/ProductList";
 import * as React from "react";
 import classNames from "classnames";
 import { Card, CardProps } from "components/Card";

@@ -46,7 +46,14 @@ export const productSelection = {
             .optional(),
         })
         .nullable(),
-      images: sanityImage("images", { isList: true, withCrop: true, withHotspot: true }),
+      images: sanityImage("images", {
+        isList: true,
+        withCrop: true,
+        withHotspot: true,
+        additionalFields: {
+          name: q.string(),
+        },
+      }),
       slug: q.object({
         current: q.string(),
       }),
