@@ -7,9 +7,8 @@ import NextImage from "next/legacy/image";
 import { setCachingHeaders } from "utils/setCachingHeaders";
 import { localImageLoader } from "utils/localImageLoader";
 import { SanityType } from "utils/consts";
-import { getAllCategories } from "utils/getAllCategoriesQuery";
+import { Categories, getAllCategories } from "utils/getAllCategoriesQuery";
 import { getRecommendations } from "utils/getRecommendationsQuery";
-import { GetProductsAndCategoriesQuery } from "utils/groqTypes/ProductList";
 
 import featuredImg from "assets/featured-story.jpg";
 import { Button } from "components/Button";
@@ -17,11 +16,12 @@ import { FeaturedList } from "components/FeaturedList";
 import { FeaturedQuote } from "components/FeaturedQuote";
 import { Image } from "components/Image";
 import { PageHead } from "components/PageHead";
+import { Products } from "utils/getAllProductsQuery";
 
 interface PageProps {
   data?: {
-    products: GetProductsAndCategoriesQuery["products"];
-    categories: GetProductsAndCategoriesQuery["categories"];
+    products: Products;
+    categories: Categories;
   };
 }
 

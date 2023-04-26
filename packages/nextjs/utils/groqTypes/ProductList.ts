@@ -1,5 +1,6 @@
-import { SanityAsset, SanityImageCrop, SanityImageHotspot } from "@sanity/image-url/lib/types/types";
-import { PortableTextBlock } from "@portabletext/types";
+import { TypeFromSelection } from "groqd";
+import { categorySelection, getAllCategories } from "../getAllCategoriesQuery";
+import { getAllProducts, productSelection } from "../getAllProductsQuery";
 
 export interface PLPVariant {
   _id: string;
@@ -42,76 +43,30 @@ export interface CategoryFilterItem {
   slug: string;
 }
 
-export type Flavour = {
-  _id?: string;
-  _type?: string;
-  name?: string;
-  slug?: Slug;
-};
+type NullableArrayType<T, K extends keyof T> = Exclude<T[K], null>;
 
-export type Style = {
-  _id?: string;
-  _type?: string;
-  name?: string;
-  slug?: Slug;
-};
+export type Flavour = NullableArrayType<Product["variants"][number], "flavour">[number];
+export type Style = NullableArrayType<Product["variants"][number], "style">[number];
 
-export type Image = {
-  _type?: string;
-  asset?: SanityAsset;
-  crop?: SanityImageCrop;
-  hotspot?: SanityImageHotspot;
-};
-
-export type ProductImage = {
-  _type?: string;
-  asset?: SanityAsset;
-  crop?: SanityImageCrop;
-  description?: string;
-  hotspot?: SanityImageHotspot;
-  name?: string;
-};
+export type Image = Category["images"][number]["images"];
+export type ProductContentBlock = Product["description"][number];
+export type ProductImage = Product["images"][number];
 
 export type CategoryImage = {
-  _id?: string;
-  _type?: string;
-  description?: string;
-  images?: Image;
-  name?: string;
+  _id: string;
+  _type: string;
+  description: string;
+  images: Image;
+  name: string;
 };
 
-export type Product = {
-  _id?: string;
-  _type?: string;
-  categories?: Category[];
-  description?: PortableTextBlock[];
-  images?: ProductImage[];
-  name?: string;
-  slug?: Slug;
-  variants?: Variant[];
-};
+export type Category = TypeFromSelection<typeof categorySelection>;
+export type Categories = Awaited<ReturnType<typeof getAllCategories>>;
 
-export type Category = {
-  _id?: string;
-  _type?: string;
-  name?: string;
-  description?: string;
-  slug?: Slug;
-  images?: CategoryImage[];
-};
+export type Product = TypeFromSelection<typeof productSelection>;
+export type Products = Awaited<ReturnType<typeof getAllProducts>>;
 
-export type Variant = {
-  _id?: string;
-  _type?: string;
-  description?: PortableTextBlock[];
-  flavour?: Flavour[];
-  images?: ProductImage[];
-  msrp?: number;
-  name?: string;
-  price?: number;
-  slug?: Slug;
-  style?: Style[];
-};
+export type Variant = Product["variants"][number];
 
 export type GetProductsAndCategoriesQuery = {
   categories: Category[];

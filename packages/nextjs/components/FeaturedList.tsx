@@ -1,10 +1,11 @@
+import type { Categories } from "utils/getAllCategoriesQuery";
+import type { Products } from "utils/getAllProductsQuery";
 import * as React from "react";
 import classNames from "classnames";
 import { Card, CardProps } from "components/Card";
-import { GetProductsAndCategoriesQuery } from "utils/groqTypes/ProductList";
 
 type Props = {
-  items?: GetProductsAndCategoriesQuery["products"] | GetProductsAndCategoriesQuery["categories"];
+  items?: Products | Categories;
 };
 
 export const FeaturedList = ({ items }: Props) => {

@@ -1,24 +1,7 @@
-import groq from "groq";
-import { sanityClient } from "./sanityClient";
+import { q } from "groqd";
+import { runQuery } from "./sanityClient";
+import { productSelection } from "./getAllProductsQuery";
 
+export type Recommendations = Awaited<ReturnType<typeof getRecommendations>>;
 export const getRecommendations = () =>
-  sanityClient.fetch(groq`*[_type == "product"] | order(_updatedAt asc)[0..2]{
-  _id,
-  _type,
-  name,
-  slug {
-    current
-  },
-  images,
-  variants[]->{
-    _id,
-    name,
-    price,
-    msrp,
-    slug {
-      current
-    },
-    name,
-    images
-  }
-}`);
+  runQuery(q("*").filterByType("product").order("_updatedAt asc").slice(0, 2).grab$(productSelection));
