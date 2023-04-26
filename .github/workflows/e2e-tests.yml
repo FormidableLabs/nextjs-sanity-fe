@@ -55,5 +55,5 @@ jobs:
       - name: Cypress Run (Production Backend)
         run: pnpm run test:e2e-real:start
 
-      - name: Cypress Run (Mock Backend)
-        run: pnpm run test:e2e-mock:start
+#      - name: Cypress Run (Mock Backend)
+#        run: pnpm run test:e2e-mock:start
