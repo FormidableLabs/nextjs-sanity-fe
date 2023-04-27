@@ -15,12 +15,6 @@ export const sanityClient = client({
 
 export const imageBuilder = sanityImage(sanityClient);
 
-export const nonCDNClient = client({
-  ...sanityOptions,
-  projectId: process.env.NEXT_PUBLIC_SANITY_PROJECT_ID,
-  useCdn: false,
-});
-
-export const runQuery = makeSafeQueryRunner((query, params: Record<string, unknown> = {}) => {
-  return nonCDNClient.fetch(query, params);
-});
+export const runQuery = makeSafeQueryRunner((query, params: Record<string, unknown> = {}) =>
+  sanityClient.fetch(query, params)
+);

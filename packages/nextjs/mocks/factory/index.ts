@@ -109,6 +109,8 @@ export class MockFactory {
     const id = `image-${this.id("ProductImage")}-${width}x${height}-jpg`;
 
     const result: ProductImage = {
+      // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+      // @ts-ignore
       _type: "image",
       _id: id,
       asset: {
@@ -119,7 +121,6 @@ export class MockFactory {
       description: "",
       crop,
       hotspot: {
-        // @ts-expect-error _type is a valid field
         _type: "sanityimagehotspot",
         x: 0,
         y: 0,
@@ -149,13 +150,14 @@ export class MockFactory {
     // Sanity expects this format:
     const id = `image-${this.id("Image")}-${width}x${height}-jpg`;
     const result: Image = {
-      // @ts-expect-error _id is a valid field, I think
       _id: id,
       _key: "",
       url,
       // TODO: assets have a lot more fields
       crop,
       hotspot: {
+        // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+        // @ts-ignore
         _type: "sanityimagehotspot",
         x: 0,
         y: 0,

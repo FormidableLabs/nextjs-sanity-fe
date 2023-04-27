@@ -1,5 +1,6 @@
-import { q, sanityImage } from "groqd";
+import { q } from "groqd";
 import { runQuery } from "./sanityClient";
+import { sanityImagesSelection } from "./sanityImage";
 
 export const productSelection = {
   _id: q.string(),
@@ -9,7 +10,7 @@ export const productSelection = {
   slug: q.object({
     current: q.string(),
   }),
-  images: sanityImage("images", { isList: true, withCrop: true, withHotspot: true }),
+  images: sanityImagesSelection(),
   categories: q("categories").filter().deref().grab$({ name: q.string() }),
   variants: q("variants")
     .filter()
@@ -20,7 +21,7 @@ export const productSelection = {
       name: q.string(),
       msrp: q.number(),
       description: q.contentBlocks(),
-      flavour: q("flavor")
+      flavour: q("flavour")
         .filter()
         .deref()
         .grab$({
@@ -46,14 +47,7 @@ export const productSelection = {
             .optional(),
         })
         .nullable(),
-      images: sanityImage("images", {
-        isList: true,
-        withCrop: true,
-        withHotspot: true,
-        additionalFields: {
-          name: q.string(),
-        },
-      }),
+      images: sanityImagesSelection(),
       slug: q.object({
         current: q.string(),
       }),
