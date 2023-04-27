@@ -21,6 +21,7 @@
     "@sanity/vision": "^3.2.3",
     "eslint": "^8.23.0",
     "groq": "^2.29.3",
+    "groqd-playground": "^0.0.9",
     "prop-types": "^15.7",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
