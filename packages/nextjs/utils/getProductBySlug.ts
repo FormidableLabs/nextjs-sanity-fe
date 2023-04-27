@@ -22,19 +22,15 @@ export const getProductBySlug = (slug = "") =>
             description: q.contentBlocks(),
             msrp: q.number(),
             price: q.number(),
-            slug: q.object({
-              current: q.string(),
+            slug: q.slug("slug"),
+            images: sanityImage("images", {
+              isList: true,
+            }),
+            style: q("style").filter().deref().grab$({
+              _id: q.string(),
+              name: q.string(),
             }),
           }),
-        images: sanityImage("images", {
-          isList: true,
-        }),
-        style: q
-          .object({
-            _id: q.string(),
-            name: q.string(),
-          })
-          .nullable(),
       }),
     { slug }
   );

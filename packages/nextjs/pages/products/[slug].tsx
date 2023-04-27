@@ -169,7 +169,7 @@ export const getServerSideProps = (async ({ res, query }) => {
   const recommendations = await getRecommendations();
 
   // Extract variant slugs to add to cache keys, in case any of those change.
-  const variantSlugs: string[] = (products[0]?.variants?.map((v: any) => v?.slug?.current) || []).filter(Boolean);
+  const variantSlugs: string[] = (products[0]?.variants?.map((v: any) => v?.slug) || []).filter(Boolean);
   cacheKeys.push(...variantSlugs.map((s) => `${SanityType.Variant}_${s}`));
   setCachingHeaders(res, cacheKeys);
 
