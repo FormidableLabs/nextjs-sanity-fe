@@ -15,7 +15,7 @@ export const ProductVariantSelector = ({ variants, selectedVariant, onVariantCha
     () =>
       variants?.map((variant) => ({
         title: variant?.name ?? "",
-        value: variant?.slug?.current ?? "",
+        value: variant?.slug ?? "",
       })),
     [variants]
   );
@@ -35,7 +35,7 @@ export const ProductVariantSelector = ({ variants, selectedVariant, onVariantCha
           placeholder="Select a flavour"
           selectedItem={{
             title: selectedVariant?.name ?? "",
-            value: selectedVariant?.slug?.current ?? "",
+            value: selectedVariant?.slug ?? "",
           }}
           onChange={(o) => onVariantChange(o?.value)}
         />

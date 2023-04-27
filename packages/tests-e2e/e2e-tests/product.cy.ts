@@ -14,7 +14,7 @@ describe("when I visit the Product Details Page", () => {
   mockOnly.before(() => {
     const mockProduct = mock.product({});
     cy.setMockData({ products: [mockProduct] });
-    cy.visit(`/products/${mockProduct.slug!.current}`);
+    cy.visit(`/products/${mockProduct.slug}`);
   });
 
   it(`I see the product's title`, () => {

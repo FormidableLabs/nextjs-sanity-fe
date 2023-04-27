@@ -16,7 +16,7 @@ export const CategoryList = ({ items }: CategoryListProps) => {
             to={{
               pathname: "/products",
               query: {
-                category: category.slug?.current,
+                category: category.slug,
               },
             }}
             imageProps={{

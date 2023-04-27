@@ -6,7 +6,7 @@ export const categorySelection = {
   _type: q.string(),
   name: q.string(),
   description: q.string(),
-  slug: q.object({ current: q.string() }),
+  slug: q.slug("slug"),
   images: q("images")
     .filter()
     .deref()

@@ -36,8 +36,7 @@ const ProductPage: NextPage<PageProps> = ({ data }) => {
 
   const product = data?.products[0];
   const selectedVariant =
-    (product?.variants || []).find((v) => v?.slug?.current && v.slug.current === query.variant) ||
-    product?.variants?.[0];
+    (product?.variants || []).find((v) => v?.slug && v.slug === query.variant) || product?.variants?.[0];
 
   return (
     <React.Fragment>
@@ -69,8 +68,8 @@ const ProductPage: NextPage<PageProps> = ({ data }) => {
                   // TODO: make the interface for Product more generic so it can take result from GQL also
                   item={{
                     _id: variant._id ?? "",
-                    slug: variant?.slug?.current || "",
-                    productSlug: prod.slug?.current || "",
+                    slug: variant?.slug || "",
+                    productSlug: prod.slug || "",
                     imageAlt: variant.name ?? "",
                     // eslint-disable-next-line @typescript-eslint/ban-ts-comment
                     // @ts-ignore
@@ -170,7 +169,7 @@ export const getServerSideProps = (async ({ res, query }) => {
   const recommendations = await getRecommendations();
 
   // Extract variant slugs to add to cache keys, in case any of those change.
-  const variantSlugs: string[] = (products[0]?.variants?.map((v: any) => v?.slug?.current) || []).filter(Boolean);
+  const variantSlugs: string[] = (products[0]?.variants?.map((v: any) => v?.slug) || []).filter(Boolean);
   cacheKeys.push(...variantSlugs.map((s) => `${SanityType.Variant}_${s}`));
   setCachingHeaders(res, cacheKeys);
 
