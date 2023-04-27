@@ -50,7 +50,7 @@ export type Style = NullableArrayType<Product["variants"][number], "style">[numb
 
 export type Image = Category["images"][number]["images"];
 export type ProductContentBlock = Product["description"][number];
-export type ProductImage = Product["images"][number] & { name: string };
+export type ProductImage = Product["images"][number] & { name?: string };
 
 export type CategoryImage = {
   _id: string;

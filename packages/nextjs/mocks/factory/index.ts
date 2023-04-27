@@ -121,6 +121,8 @@ export class MockFactory {
       description: "",
       crop,
       hotspot: {
+        // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+        // @ts-ignore
         _type: "sanityimagehotspot",
         x: 0,
         y: 0,
@@ -150,6 +152,8 @@ export class MockFactory {
     // Sanity expects this format:
     const id = `image-${this.id("Image")}-${width}x${height}-jpg`;
     const result: Image = {
+      // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+      // @ts-ignore
       _id: id,
       _key: "",
       url,
