@@ -24,9 +24,9 @@ export const FeaturedList = ({ items }: Props) => {
         if (item._type === "product" && "variants" in item) {
           props = {
             to: {
-              pathname: `/products/${item.slug?.current}`,
+              pathname: `/products/${item.slug}`,
               query: {
-                variant: item.variants?.[0]?.slug?.current,
+                variant: item.variants?.[0]?.slug,
               },
             },
             title: item.name ?? "",
@@ -43,7 +43,7 @@ export const FeaturedList = ({ items }: Props) => {
               to: {
                 pathname: `/products`,
                 query: {
-                  category: item.slug?.current,
+                  category: item.slug,
                 },
               },
               title: item.name ?? "",

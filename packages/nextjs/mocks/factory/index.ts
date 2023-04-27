@@ -53,10 +53,7 @@ export class MockFactory {
   }
 
   slug(input: string): Slug {
-    return {
-      _type: "slug",
-      current: input.replace(/\W+/g, "-"),
-    };
+    return input.replace(/\W+/g, "-");
   }
 
   productName() {

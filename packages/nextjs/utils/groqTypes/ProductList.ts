@@ -23,10 +23,7 @@ export interface Asset {
   _type: string;
 }
 
-export interface Slug {
-  _type: string;
-  current: string;
-}
+export type Slug = string;
 
 export interface FlavourFilterItem {
   name: string;
