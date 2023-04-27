@@ -8,10 +8,10 @@ import type {
   Slug,
   Style,
   Variant,
+  ProductContentBlock,
 } from "utils/groqTypes/ProductList";
 import type { SanityImageCrop, SanityImageHotspot } from "@sanity/image-url/lib/types/types";
 import faker from "faker";
-import { PortableTextBlock } from "@portabletext/types";
 
 // seeding our random data helps our tests to be consistent
 faker.seed(0);
@@ -106,22 +106,23 @@ export class MockFactory {
       right: 0,
     } satisfies SanityImageCrop;
 
-    const url = faker.image.imageUrl(width, height, name, false, false);
     const id = `image-${this.id("ProductImage")}-${width}x${height}-jpg`;
 
     const result: ProductImage = {
+      // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+      // @ts-ignore
       _type: "image",
-      // @ts-expect-error _id is a valid field
       _id: id,
       asset: {
-        _type: "image",
-        url,
+        _type: "reference",
         _ref: id,
       },
       name,
       description: "",
       crop,
       hotspot: {
+        // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+        // @ts-ignore
         _type: "sanityimagehotspot",
         x: 0,
         y: 0,
@@ -151,12 +152,16 @@ export class MockFactory {
     // Sanity expects this format:
     const id = `image-${this.id("Image")}-${width}x${height}-jpg`;
     const result: Image = {
-      // @ts-expect-error _id is a valid field, I think
+      // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+      // @ts-ignore
       _id: id,
+      _key: "",
       url,
       // TODO: assets have a lot more fields
       crop,
       hotspot: {
+        // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+        // @ts-ignore
         _type: "sanityimagehotspot",
         x: 0,
         y: 0,
@@ -174,7 +179,6 @@ export class MockFactory {
       data.price || faker.random.arrayElement([msrp, msrp, msrp, faker.datatype.number({ min: 2, max: msrp })]);
 
     const result: Variant = {
-      _type: "variant",
       _id: this.id("Variant"),
       name,
       slug: this.slug(name),
@@ -199,7 +203,7 @@ export class MockFactory {
     };
     return result;
   }
-  description({ text = "nom nom nom " + faker.lorem.paragraphs() }: { text?: string }): PortableTextBlock[] {
+  description({ text = "nom nom nom " + faker.lorem.paragraphs() }: { text?: string }): ProductContentBlock[] {
     return [
       {
         _type: "block",
@@ -207,6 +211,7 @@ export class MockFactory {
         markDefs: [],
         children: [
           {
+            _key: "",
             _type: "span",
             marks: [],
             text,

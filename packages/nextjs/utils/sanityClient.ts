@@ -1,5 +1,6 @@
 import client from "@sanity/client";
 import sanityImage from "@sanity/image-url";
+import { makeSafeQueryRunner } from "groqd";
 
 const sanityOptions = {
   dataset: "production",
@@ -13,3 +14,7 @@ export const sanityClient = client({
 });
 
 export const imageBuilder = sanityImage(sanityClient);
+
+export const runQuery = makeSafeQueryRunner((query, params: Record<string, unknown> = {}) =>
+  sanityClient.fetch(query, params)
+);

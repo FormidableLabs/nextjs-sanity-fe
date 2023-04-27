@@ -12,7 +12,7 @@ export const ImageCarousel = ({ productImages }: ImageCarouselProps) => {
       <Image
         className="rounded-2xl aspect-square w-full"
         layout="fill"
-        key={image?.asset?._id}
+        key={image?.name}
         src={image ?? ""}
         alt={image?.name ?? ""}
       />

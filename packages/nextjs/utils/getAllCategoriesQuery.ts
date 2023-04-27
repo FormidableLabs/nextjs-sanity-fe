@@ -1,26 +1,20 @@
-import groq from "groq";
-import { sanityClient } from "./sanityClient";
+import { q, sanityImage } from "groqd";
+import { runQuery } from "./sanityClient";
 
-export const getAllCategories = () =>
-  sanityClient.fetch(groq`*[_type == "category"]{
-  _id,
-  _type,
-  name,
-  description,
-  slug {
-    current
-  },
-  images[]->{
-    name,
-    images
-  },
-  variants[]->{
-    price,
-    name,
-    id,
-    msrp,
-    slug {
-      current
-    },
-  }
-}`);
+export const categorySelection = {
+  _id: q.string(),
+  _type: q.string(),
+  name: q.string(),
+  description: q.string(),
+  slug: q.object({ current: q.string() }),
+  images: q("images")
+    .filter()
+    .deref()
+    .grab({
+      name: q.string().optional(),
+      description: q.string().nullable().optional(),
+      images: sanityImage("images"),
+    }),
+};
+
+export const getAllCategories = () => runQuery(q("*").filterByType("category").grab$(categorySelection));

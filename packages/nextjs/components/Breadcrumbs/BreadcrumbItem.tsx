@@ -11,5 +11,9 @@ export const BreadcrumbItem = ({ children, href, isLast = false }: BreadcrumbIte
     return <div className="flex flex-row items-center">{children}</div>;
   }
 
-  return <Link href={href} className="flex flex-row items-center">{children}</Link>;
+  return (
+    <Link href={href} className="flex flex-row items-center">
+      {children}
+    </Link>
+  );
 };
