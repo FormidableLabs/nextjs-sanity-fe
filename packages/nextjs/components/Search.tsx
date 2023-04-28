@@ -1,28 +1,33 @@
 import * as React from "react";
 import { useCombobox } from "downshift";
-import groq from "groq";
 import { useCallback, useEffect, useRef, useState } from "react";
 import debounce from "lodash.debounce";
 import Link from "next/link";
-
-import { sanityClient } from "utils/sanityClient";
-import { ProductSearch } from "utils/groqTypes/ProductSearch";
+import { q, sanityImage, TypeFromSelection } from "groqd";
+import { runQuery } from "utils/sanityClient";
 import { Image } from "./Image";
 import { Input } from "./Input";
 
-const SEARCH_QUERY = groq`*[_type == 'variant']
-| score(
-  name match $query || boost(name match $query + "*", 0.5)
-)
-[_score > 0][0...5] {
-  _id,
-  name,
-  slug,
-  'image':images[0],
-  'imageAlt': images[0]->name,
-  'productSlug': *[_type == "product" && references(^._id)][0].slug.current
-}
-`;
+const searchSelection = {
+  _id: q.string(),
+  name: q.string(),
+  slug: q.slug("slug"),
+  image: sanityImage("images", { isList: true }).slice(0),
+  productSlug: q("*").filter('_type == "product" && references(^._id)').slice(0).grabOne$("slug.current", q.string()),
+};
+
+type ProductSearch = TypeFromSelection<typeof searchSelection>;
+
+const searchQuery = (query: string) =>
+  runQuery(
+    q("*")
+      .filterByType("variant")
+      .filter(`name match $query + "*"`)
+      .order("_score desc")
+      .slice(0, 5)
+      .grab$(searchSelection),
+    { query }
+  );
 
 export const Search: React.FC = () => {
   const [variants, setVariants] = useState<ProductSearch[]>([]);
@@ -35,10 +40,7 @@ export const Search: React.FC = () => {
       if (searchTerm) {
         setError(false);
         try {
-          const response = await sanityClient.fetch(SEARCH_QUERY, {
-            query: searchTerm.trim(),
-          });
-
+          const response = await searchQuery(searchTerm.trim());
           setVariants(response);
         } catch (error) {
           setVariants([]);
@@ -49,7 +51,7 @@ export const Search: React.FC = () => {
       } else {
         setVariants([]);
       }
-    }, 1000)
+    }, 500)
   );
 
   useEffect(() => {
@@ -97,11 +99,11 @@ export const Search: React.FC = () => {
           variants.map((variant) => (
             <li key={variant._id} className="border-b last:border-b-0 py-2 last:pb-0 first:pt-0">
               <Link
-                href={{ pathname: `/products/${variant.productSlug}`, query: { variant: variant.slug.current } }}
+                href={{ pathname: `/products/${variant.productSlug}`, query: { variant: variant.slug } }}
                 className="flex items-center"
                 onClick={clearSearch}
               >
-                <Image className="rounded" src={variant.image} width={50} height={50} alt={variant.imageAlt} />
+                <Image className="rounded" src={variant.image} width={50} height={50} alt={variant.slug} />
                 <span className="text-body-reg font-medium text-primary ml-4">{variant.name}</span>
               </Link>
             </li>
