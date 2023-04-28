@@ -1,6 +1,6 @@
 import * as React from "react";
 import { useCombobox } from "downshift";
-import { useCallback, useEffect, useRef, useState } from "react";
+import { useCallback, useEffect, useMemo, useState } from "react";
 import debounce from "lodash.debounce";
 import Link from "next/link";
 import { q, sanityImage, TypeFromSelection } from "groqd";
@@ -35,28 +35,29 @@ export const Search: React.FC = () => {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(false);
 
-  const performSearch = useRef(
-    debounce(async (searchTerm?: string) => {
-      if (searchTerm) {
-        setError(false);
-        try {
-          const response = await searchQuery(searchTerm.trim());
-          setVariants(response);
-        } catch (error) {
+  const performSearch = useMemo(
+    () =>
+      debounce(async (searchTerm?: string) => {
+        if (searchTerm) {
+          setError(false);
+          try {
+            setVariants(await searchQuery(searchTerm.trim()));
+          } catch (error) {
+            setVariants([]);
+            setError(true);
+          } finally {
+            setLoading(false);
+          }
+        } else {
           setVariants([]);
-          setError(true);
-        } finally {
-          setLoading(false);
         }
-      } else {
-        setVariants([]);
-      }
-    }, 500)
+      }, 500),
+    []
   );
 
   useEffect(() => {
     setLoading(true);
-    performSearch.current(inputValue);
+    performSearch(inputValue);
   }, [inputValue, performSearch]);
 
   const { isOpen, getInputProps, getComboboxProps, getMenuProps, closeMenu } = useCombobox({
