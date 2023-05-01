@@ -1,12 +1,27 @@
 import * as React from "react";
 import { useCombobox } from "downshift";
-import { useCallback, useEffect, useMemo, useState } from "react";
+import { useCallback, useEffect, useMemo, useReducer } from "react";
 import debounce from "lodash.debounce";
 import Link from "next/link";
 import { q, sanityImage, TypeFromSelection } from "groqd";
 import { runQuery } from "utils/sanityClient";
 import { Image } from "./Image";
 import { Input } from "./Input";
+
+type State = {
+  results: ProductSearch[];
+  inputValue: string;
+  loading: boolean;
+  error: boolean;
+};
+
+type Action =
+  | { type: "updating"; inputValue: string }
+  | { type: "success"; results: ProductSearch[] }
+  | { type: "clear" }
+  | { type: "failure" };
+
+type ProductSearch = TypeFromSelection<typeof searchSelection>;
 
 const searchSelection = {
   _id: q.string(),
@@ -15,8 +30,6 @@ const searchSelection = {
   image: sanityImage("images", { isList: true }).slice(0),
   productSlug: q("*").filter('_type == "product" && references(^._id)').slice(0).grabOne$("slug.current", q.string()),
 };
-
-type ProductSearch = TypeFromSelection<typeof searchSelection>;
 
 const searchQuery = (query: string) =>
   runQuery(
@@ -29,52 +42,63 @@ const searchQuery = (query: string) =>
     { query }
   );
 
+const searchReducer = (state: State, action: Action): State => {
+  switch (action.type) {
+    case "updating":
+      return { ...state, inputValue: action.inputValue, loading: true, error: false };
+    case "success":
+      return { ...state, results: action.results, error: false, loading: false };
+    case "failure":
+      return { ...state, results: [], error: true, loading: false };
+    case "clear":
+      return { results: [], error: false, loading: false, inputValue: "" };
+  }
+};
+
+const defaultState: State = { results: [], error: false, loading: false, inputValue: "" };
+
 export const Search: React.FC = () => {
-  const [variants, setVariants] = useState<ProductSearch[]>([]);
-  const [inputValue, setInputValue] = useState("");
-  const [loading, setLoading] = useState(false);
-  const [error, setError] = useState(false);
+  const [{ results, inputValue, loading, error }, dispatch] = useReducer(searchReducer, defaultState);
 
   const performSearch = useMemo(
     () =>
       debounce(async (searchTerm?: string) => {
         if (searchTerm) {
-          setError(false);
           try {
-            setVariants(await searchQuery(searchTerm.trim()));
+            dispatch({ type: "success", results: await searchQuery(searchTerm.trim()) });
           } catch (error) {
-            setVariants([]);
-            setError(true);
-          } finally {
-            setLoading(false);
+            dispatch({ type: "failure" });
           }
         } else {
-          setVariants([]);
+          dispatch({ type: "clear" });
         }
       }, 500),
     []
   );
 
-  useEffect(() => {
-    setLoading(true);
-    performSearch(inputValue);
-  }, [inputValue, performSearch]);
-
   const { isOpen, getInputProps, getComboboxProps, getMenuProps, closeMenu } = useCombobox({
     onInputValueChange({ inputValue: input }) {
-      setInputValue(input ?? "");
+      dispatch({ type: "updating", inputValue: input || "" });
+      performSearch(input);
+
       if (input === "") {
         closeMenu();
       }
     },
-    items: variants,
+    items: results,
     itemToString: (item) => (item ? item.name : ""),
     inputValue,
     menuId: "search-menu",
   });
 
+  useEffect(() => {
+    return () => {
+      return performSearch.cancel();
+    };
+  }, [performSearch]);
+
   const clearSearch = useCallback(() => {
-    setInputValue("");
+    dispatch({ type: "clear" });
     closeMenu();
   }, [closeMenu]);
 
@@ -96,8 +120,8 @@ export const Search: React.FC = () => {
         })}
         className={`absolute w-72 bg-secondary mt-2 border border-primary rounded z-10 p-5 ${!isOpen ? "hidden" : ""}`}
       >
-        {isOpen && variants.length ? (
-          variants.map((variant) => (
+        {isOpen && results.length ? (
+          results.map((variant) => (
             <li key={variant._id} className="border-b last:border-b-0 py-2 last:pb-0 first:pt-0">
               <Link
                 href={{ pathname: `/products/${variant.productSlug}`, query: { variant: variant.slug } }}
