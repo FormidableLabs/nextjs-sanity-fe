@@ -7,7 +7,7 @@ export type SortOption = {
   value: string;
   label: string;
   type: SortType;
-  ordering: string;
+  ordering: `${string} ${"asc" | "desc"}`;
 };
 
 export const SORT_QUERY_PARAM = "sort";

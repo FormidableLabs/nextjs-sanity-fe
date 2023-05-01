@@ -3,7 +3,11 @@ import { PLPVariant } from "utils/groqTypes/ProductList";
 import { Image } from "./Image";
 import { Price } from "./Price";
 
-export const Product = ({ item }: { item: PLPVariant }) => {
+type Props = {
+  item: PLPVariant;
+};
+
+export const Product = ({ item }: Props) => {
   const href = {
     pathname: `/products/${item.productSlug}`,
     query: {
@@ -14,7 +18,7 @@ export const Product = ({ item }: { item: PLPVariant }) => {
   return (
     <div className="flex flex-col gap-3 group">
       <Link href={href} className="group-hover:shadow-lg rounded-lg overflow-hidden transition-shadow duration-150">
-        <Image width={600} height={600} src={item.images} alt={item.imageAlt} layout="responsive" />
+        <Image width={600} height={600} src={item.images} alt={item.name} layout="responsive" />
       </Link>
       <Link href={href} className="text-primary">
         <h3 className="text-h6 mb-1">{item.name}</h3>
