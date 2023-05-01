@@ -94,9 +94,6 @@ importers:
       next:
         specifier: 13.1.1
         version: 13.1.1(@babel/core@7.18.13)(react-dom@18.2.0)(react@18.2.0)
-      next-urql:
-        specifier: ^4.0.0
-        version: 4.0.0(react@18.2.0)(urql@3.0.1)
       node-fetch:
         specifier: ^3.2.10
         version: 3.2.10
@@ -115,9 +112,6 @@ importers:
       react-is:
         specifier: ^18.2.0
         version: 18.2.0
-      urql:
-        specifier: ^3.0.1
-        version: 3.0.1(graphql@16.6.0)(react@18.2.0)
     devDependencies:
       '@portabletext/types':
         specifier: ^2.0.0
@@ -2284,14 +2278,6 @@ packages:
       react-dom: 18.2.0(react@18.2.0)
     dev: false
 
-  /@graphql-typed-document-node/core@3.1.1(graphql@16.6.0):
-    resolution: {integrity: sha512-NQ17ii0rK1b34VZonlmT2QMJFI70m0TRwbknO/ihlbatXyaktDhN/98vBiUU6kNBPljqGqyIrl2T4nY2RpFANg==}
-    peerDependencies:
-      graphql: ^0.8.0 || ^0.9.0 || ^0.10.0 || ^0.11.0 || ^0.12.0 || ^0.13.0 || ^14.0.0 || ^15.0.0 || ^16.0.0
-    dependencies:
-      graphql: 16.6.0
-    dev: false
-
   /@hapi/hoek@9.3.0:
     resolution: {integrity: sha512-/c6rf4UJlmHlC9b5BaNvzAcFv7HZ2QHaV0D4/HNlBdvFnvQq8RI4kYdhyPCl7Xj+oWvTWQ8ujhqS53LIgAe6KQ==}
     dev: true
@@ -4146,16 +4132,6 @@ packages:
     dependencies:
       react: 18.2.0
       react-dom: 18.2.0(react@18.2.0)
-    dev: false
-
-  /@urql/core@3.0.2(graphql@16.6.0):
-    resolution: {integrity: sha512-TRpQOdt1Mtpt/EgPlFCx9Aqc3TbHtzH3yj8pJ9yjSUKT4slRyy+ofMQ8yx50oZzZjAOswF02zBRwnxsZANb35A==}
-    peerDependencies:
-      graphql: ^0.11.0 || ^0.12.0 || ^0.13.0 || ^14.0.0 || ^15.0.0 || ^16.0.0
-    dependencies:
-      '@graphql-typed-document-node/core': 3.1.1(graphql@16.6.0)
-      graphql: 16.6.0
-      wonka: 6.0.0
     dev: false
 
   /@vercel/error-utils@1.0.9:
@@ -6883,6 +6859,7 @@ packages:
   /graphql@16.6.0:
     resolution: {integrity: sha512-KPIBPDlW7NxrbT/eh4qPXz5FiFdL5UbaA0XUNz2Rp3Z3hqBSkbj0GVjwFDztsWVauZUWsbKHgMg++sk8UX0bkw==}
     engines: {node: ^12.22.0 || ^14.16.0 || ^16.0.0 || >=17.0.0}
+    dev: true
 
   /groq-js@0.2.0:
     resolution: {integrity: sha512-qJeuEgziddryH1ClsJvMoZM9aXNQbBViNZZrJwhHKr2wU8HGGM7uNWNVFglWXMX60MMaa2SClX3UohP76Ut68g==}
@@ -8573,17 +8550,6 @@ packages:
   /natural-compare@1.4.0:
     resolution: {integrity: sha512-OWND8ei3VtNC9h7V60qff3SVobHr996CTwgxubgyQYEpg290h9J0buyECNNJexkFm5sOajh5G116RYA1c8ZMSw==}
 
-  /next-urql@4.0.0(react@18.2.0)(urql@3.0.1):
-    resolution: {integrity: sha512-c/dLhNg9bP+ku7GJDAYlsNnKEazrjcDnRx8/mBsGnjMj4c0yM+p2PBGbirWXkYL7Z2ogOHnSqHTt8swB9sJvQg==}
-    peerDependencies:
-      react: '>=16.8.0'
-      urql: ^3.0.0
-    dependencies:
-      react: 18.2.0
-      react-ssr-prepass: 1.5.0(react@18.2.0)
-      urql: 3.0.1(graphql@16.6.0)(react@18.2.0)
-    dev: false
-
   /next@13.1.1(@babel/core@7.18.13)(react-dom@18.2.0)(react@18.2.0):
     resolution: {integrity: sha512-R5eBAaIa3X7LJeYvv1bMdGnAVF4fVToEjim7MkflceFPuANY3YyvFxXee/A+acrSYwYPvOvf7f6v/BM/48ea5w==}
     engines: {node: '>=14.6.0'}
@@ -9445,14 +9411,6 @@ packages:
       react: 18.2.0
       rxjs: 7.8.0
       use-sync-external-store: 1.2.0(react@18.2.0)
-    dev: false
-
-  /react-ssr-prepass@1.5.0(react@18.2.0):
-    resolution: {integrity: sha512-yFNHrlVEReVYKsLI5lF05tZoHveA5pGzjFbFJY/3pOqqjGOmMmqx83N4hIjN2n6E1AOa+eQEUxs3CgRnPmT0RQ==}
-    peerDependencies:
-      react: ^16.8.0 || ^17.0.0 || ^18.0.0
-    dependencies:
-      react: 18.2.0
     dev: false
 
   /react-style-proptype@3.2.2:
@@ -10766,18 +10724,6 @@ packages:
       requires-port: 1.0.0
     dev: false
 
-  /urql@3.0.1(graphql@16.6.0)(react@18.2.0):
-    resolution: {integrity: sha512-mAV3qKMp84i8U/bq5DIXjfyeRVyOfF6+iNT2DlLUNsd3w5UKfJHmvYfEPUuV5MJxekT911yoIc4za+/Qq2TPHA==}
-    peerDependencies:
-      graphql: ^0.11.0 || ^0.12.0 || ^0.13.0 || ^14.0.0 || ^15.0.0 || ^16.0.0
-      react: '>= 16.8.0'
-    dependencies:
-      '@urql/core': 3.0.2(graphql@16.6.0)
-      graphql: 16.6.0
-      react: 18.2.0
-      wonka: 6.0.0
-    dev: false
-
   /use-callback-ref@1.3.0(react@18.2.0):
     resolution: {integrity: sha512-3FT9PRuRdbB9HfXhEq35u4oZkvpJ5kuYbpqhCfmiZyReuRgpnhDlbr2ZEnnuS0RrJAPn6l23xjFg9kpDM+Ms7w==}
     engines: {node: '>=10'}
@@ -11036,10 +10982,6 @@ packages:
     hasBin: true
     dependencies:
       isexe: 2.0.0
-
-  /wonka@6.0.0:
-    resolution: {integrity: sha512-TEiIOqkhQXbcmL1RrjxPCzTX15V5FSyJvZRSiTxvgTgrJMaOVKmzGTdRVh349CfaNo9dsIhWDyg1/GNq4NWrEg==}
-    dev: false
 
   /word-wrap@1.2.3:
     resolution: {integrity: sha512-Hz/mrNwitNRh/HUAtM/VT/5VH+ygD6DV7mYKZAtHOrbs8U7lvPS6xf7EJKMF0uW1KJCl0H701g3ZGus+muE5vQ==}

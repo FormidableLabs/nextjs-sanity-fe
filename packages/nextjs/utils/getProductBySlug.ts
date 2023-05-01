@@ -26,10 +26,14 @@ export const getProductBySlug = (slug = "") =>
             images: sanityImage("images", {
               isList: true,
             }),
-            style: q("style").filter().deref().grab$({
-              _id: q.string(),
-              name: q.string(),
-            }),
+            style: q("style")
+              .filter()
+              .deref()
+              .grab$({
+                _id: q.string(),
+                name: q.string(),
+              })
+              .nullable(),
           }),
       }),
     { slug }
