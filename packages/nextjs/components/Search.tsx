@@ -42,6 +42,8 @@ const searchQuery = (query: string) =>
     { query }
   );
 
+const defaultState: State = { results: [], error: false, loading: false, inputValue: "" };
+
 const searchReducer = (state: State, action: Action): State => {
   switch (action.type) {
     case "updating":
@@ -51,11 +53,9 @@ const searchReducer = (state: State, action: Action): State => {
     case "failure":
       return { ...state, results: [], error: true, loading: false };
     case "clear":
-      return { results: [], error: false, loading: false, inputValue: "" };
+      return defaultState;
   }
 };
-
-const defaultState: State = { results: [], error: false, loading: false, inputValue: "" };
 
 export const Search: React.FC = () => {
   const [{ results, inputValue, loading, error }, dispatch] = useReducer(searchReducer, defaultState);
