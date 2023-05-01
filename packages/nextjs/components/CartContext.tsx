@@ -1,6 +1,7 @@
 import * as React from "react";
-import groq from "groq";
-import { sanityClient } from "utils/sanityClient";
+import { q } from "groqd";
+import { useReducer } from "react";
+import { runQuery } from "utils/sanityClient";
 
 export type CartItem = {
   _id: string;
@@ -22,14 +23,34 @@ const initialValue = {
 type CartContextValue = typeof initialValue;
 
 export const CartContext = React.createContext<CartContextValue>(initialValue);
-
 export const useCart = () => React.useContext(CartContext);
 
-export const CartProvider = ({ children }: React.PropsWithChildren) => {
-  const [cartItems, setCartItems] = React.useState<CartItem[]>([]);
-  const [cartItemsErrorIds, setCartItemsErrorIds] = React.useState<string[] | undefined>();
-  const [isFetchingCartItems, setIsFetchingCartItems] = React.useState(true);
+type State = {
+  cartItems: CartItem[];
+  cartItemsErrorIds: string[];
+  fetching: boolean;
+};
 
+type Action =
+  | { type: "loading" }
+  | { type: "success"; cartItems: CartItem[]; cartItemsErrorIds: string[] }
+  | { type: "clear" };
+
+const defaultState: State = { cartItems: [], cartItemsErrorIds: [], fetching: false };
+
+const cartReducer = (state: State, action: Action): State => {
+  switch (action.type) {
+    case "loading":
+      return { ...state, cartItemsErrorIds: [], fetching: true };
+    case "success":
+      return { ...state, cartItems: action.cartItems, cartItemsErrorIds: action.cartItemsErrorIds, fetching: false };
+    case "clear":
+      return defaultState;
+  }
+};
+
+export const CartProvider = ({ children }: React.PropsWithChildren) => {
+  const [{ cartItems, cartItemsErrorIds, fetching }, dispatch] = useReducer(cartReducer, defaultState);
   const retrieveCartItems = React.useCallback(async (cart: Record<string, number>) => {
     const cartEntries = Object.entries(cart);
 
@@ -37,14 +58,18 @@ export const CartProvider = ({ children }: React.PropsWithChildren) => {
       // Fetch all products with a variant with the same ID
       const variantIdFilters = cartEntries.map(([id, _]) => `(_id == "${id}")`);
       const groqFilters = variantIdFilters.length ? `&& (${variantIdFilters.join(" || ")})` : "";
-      const getResults = () =>
-        sanityClient.fetch<CartItemVariant[]>(
-          groq`*[_type == "variant" ${groqFilters}] {
-            _id, name, price, msrp
-          }`
-        );
-      const res = await throttle(getResults, 1000);
 
+      const getResults = () =>
+        runQuery(
+          q("*").filter(`_type == "variant" ${groqFilters}`).grab$({
+            _id: q.string(),
+            name: q.string(),
+            price: q.number(),
+            msrp: q.number(),
+          })
+        );
+
+      const res = await throttle(getResults, 1000);
       const errorRetrievingIds: string[] = [];
 
       const formattedItems = cartEntries.reduce<CartItem[]>((acc, [variantId, quantity]) => {
@@ -57,15 +82,10 @@ export const CartProvider = ({ children }: React.PropsWithChildren) => {
         return acc;
       }, []);
 
-      setCartItems(formattedItems);
-      setCartItemsErrorIds(errorRetrievingIds.length ? errorRetrievingIds : undefined);
+      dispatch({ type: "success", cartItems: formattedItems, cartItemsErrorIds: errorRetrievingIds });
     } else {
-      // Skip fetching when cart is empty
-      setCartItems([]);
-      setCartItemsErrorIds(undefined);
+      dispatch({ type: "clear" });
     }
-
-    setIsFetchingCartItems(false);
   }, []);
 
   const updateCartFromApi = React.useCallback(async () => {
@@ -116,7 +136,7 @@ export const CartProvider = ({ children }: React.PropsWithChildren) => {
         },
       }).then((res) => res.json());
 
-      setCartItems([]);
+      dispatch({ type: "clear" });
     } catch (error) {
       console.error(error);
     }
@@ -133,7 +153,7 @@ export const CartProvider = ({ children }: React.PropsWithChildren) => {
   return (
     <CartContext.Provider
       value={{
-        isFetchingCartItems,
+        isFetchingCartItems: fetching,
         cartItems,
         cartItemsErrorIds,
         updateCart,
