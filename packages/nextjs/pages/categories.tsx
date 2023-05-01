@@ -9,15 +9,14 @@ import { CategoryList } from "components/CategoryList";
 import { WeDontSellBreadBanner } from "components/WeDontSellBreadBanner";
 import { PageHead } from "components/PageHead";
 import { Breadcrumbs } from "components/Breadcrumbs";
-import { GetProductsAndCategoriesQuery } from "utils/groqTypes/ProductList";
+import { Category } from "utils/groqTypes/ProductList";
 
 interface PageProps {
-  categories: GetProductsAndCategoriesQuery["categories"];
+  categories: Category[];
+  categoryNames: string;
 }
 
-const CategoriesPage: NextPage<PageProps> = ({ categories }) => {
-  const categoryNames = pluralize((categories || []).map((cat) => cat.name).filter(isString));
-
+const CategoriesPage: NextPage<PageProps> = ({ categories, categoryNames }) => {
   return (
     <>
       <PageHead title="Categories" description={`Product categories, including ${categoryNames}.`} />
@@ -39,9 +38,12 @@ export const getServerSideProps = (async ({ res }) => {
   setCachingHeaders(res, [SanityType.Category, SanityType.CategoryImage]);
 
   const categories = await getAllCategories();
+  const categoryNames = pluralize((categories || []).map((cat) => cat.name).filter(isString));
+
   return {
     props: {
       categories,
+      categoryNames,
     },
   };
 }) satisfies GetServerSideProps<PageProps>;
