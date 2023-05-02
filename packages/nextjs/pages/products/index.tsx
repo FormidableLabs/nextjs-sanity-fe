@@ -4,7 +4,7 @@ import { AnimatePresence } from "framer-motion";
 import { useRouter } from "next/router";
 import classNames from "classnames";
 
-import { GetAllFilteredVariants, getFilteredPaginatedQuery } from "utils/getFilteredPaginatedQuery";
+import { getAllFilteredVariants } from "utils/getFilteredPaginatedQuery";
 import { getCategoryFilters, getFlavourFilters, getStyleFilters } from "utils/getFilters";
 import { getPaginationFromQuery } from "utils/getPaginationFromQuery";
 import { getFiltersFromQuery } from "utils/getFiltersFromQuery";
@@ -12,13 +12,7 @@ import { getOrderingFromQuery } from "utils/getOrderingFromQuery";
 import { setCachingHeaders } from "utils/setCachingHeaders";
 import { SanityType } from "utils/consts";
 import { pluralize } from "utils/pluralize";
-import {
-  CategoryFilterItem,
-  FlavourFilterItem,
-  PLPVariant,
-  PLPVariantList,
-  StyleFilterItem,
-} from "utils/groqTypes/ProductList";
+import { CategoryFilterItem, FlavourFilterItem, PLPVariant, StyleFilterItem } from "utils/groqTypes/ProductList";
 import { useDeviceSize } from "utils/useDeviceSize";
 
 import { PageHead } from "components/PageHead";
@@ -165,8 +159,7 @@ export const getServerSideProps = (async ({ query, res, resolvedUrl }) => {
   const filters = getFiltersFromQuery(query, { flavourFilters, styleFilters, categoryFilters });
   // Pagination data.
   const pagination = getPaginationFromQuery(query);
-
-  const result = await getFilteredPaginatedQuery<PLPVariantList>(GetAllFilteredVariants(filters, order), pagination);
+  const result = await getAllFilteredVariants(filters, order, pagination);
 
   const { variants, itemCount } = result;
   const { currentPage, pageSize } = pagination;

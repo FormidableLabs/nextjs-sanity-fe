@@ -65,18 +65,10 @@ const ProductPage: NextPage<PageProps> = ({ data }) => {
             return (
               <div key={prod._id} className="w-full">
                 <Product
-                  // TODO: make the interface for Product more generic so it can take result from GQL also
                   item={{
-                    _id: variant._id ?? "",
-                    slug: variant?.slug || "",
+                    ...variant,
                     productSlug: prod.slug || "",
-                    imageAlt: variant.name ?? "",
-                    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-                    // @ts-ignore
                     images: image,
-                    msrp: variant.msrp ?? 0,
-                    name: variant.name ?? "",
-                    price: variant.price ?? 0,
                   }}
                 />
               </div>

@@ -14,7 +14,7 @@ export const getFiltersFromQuery = (
         return acc;
       }
 
-      const queryValueIsString = typeof queryValue === "string" || queryValue instanceof String;
+      const queryValueIsString = typeof queryValue === "string" && !Array.isArray(queryValue);
       if (queryValueIsString) {
         const filterOption = options.find(({ value }) => value === queryValue);
         // Check query value validity
@@ -50,5 +50,5 @@ export const getFiltersFromQuery = (
    * Creates AND statement of filter groups
    * e.g. given (MD || XL) and (on sale), constructed filter would check for ((MD || XL) && (on sale))
    *  */
-  return constructedGroups.length ? `[${constructedGroups.join("][")}]` : "";
+  return constructedGroups.length ? `${constructedGroups.join("][")}` : "";
 };

@@ -1,17 +1,9 @@
 import { TypeFromSelection } from "groqd";
 import { categorySelection, getAllCategories } from "../getAllCategoriesQuery";
 import { getAllProducts, productSelection } from "../getAllProductsQuery";
+import { FilteredPaginatedQuery } from "../getFilteredPaginatedQuery";
 
-export interface PLPVariant {
-  _id: string;
-  slug: string;
-  name: string;
-  msrp: number;
-  price: number;
-  images: Asset[];
-  imageAlt: string;
-  productSlug: string;
-}
+export type PLPVariant = FilteredPaginatedQuery["variants"][number];
 
 export interface PLPVariantList {
   variants: PLPVariant[];
