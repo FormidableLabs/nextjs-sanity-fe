@@ -38,3 +38,4 @@ yarn-error.log*
 # Compiled sanity studio
 dist
 .idea
+.vscode

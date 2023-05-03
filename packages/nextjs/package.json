@@ -8,7 +8,6 @@
     "dev": "concurrently \"yarn next:dev\"",
     "next:dev": "next dev",
     "next:dev:mock": "NEXT_PUBLIC_API_MOCKING=enabled next dev",
-    "deploy-studio": "sanity deploy",
     "build": "next build",
     "start": "next start",
     "test:unit": "jest",

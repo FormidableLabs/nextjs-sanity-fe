@@ -13,7 +13,6 @@
     "next:dev:mock": "pnpm run --filter ./packages/nextjs next:dev:mock",
     "build:nextjs": "pnpm run --filter ./packages/nextjs build",
     "start:nextjs": "pnpm run --filter ./packages/nextjs start",
-    "deploy-sanity-studio": "pnpm run -C packages/sanity --filter ./packages/nextjs deploy-studio",
     "prepare": "husky install",
     "lint": "pnpm run --parallel lint",
     "typecheck": "pnpm run --parallel typecheck",
