@@ -1,3 +1,5 @@
+@import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;700&display=swap');
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
@@ -19,4 +21,10 @@ body {
 	src: url('../assets/fonts/jeanluc/jeanlucweb-thin.woff');
 	font-weight: auto;
 	font-style: normal;
+}
+
+code {
+	@apply rounded-md bg-black/5 px-1.5 py-0.5;
+	font-family: 'JetBrains Mono', monospace;
+	font-size: 0.9rem;
 }

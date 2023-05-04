@@ -8,10 +8,11 @@ import { Layout } from "components/Layout";
 import "styles/global.css";
 import { FadeInOut } from "components/FadeInOut";
 
-if (process.env.NEXT_PUBLIC_API_MOCKING === "enabled") {
-  // eslint-disable-next-line @typescript-eslint/no-var-requires
-  require("mocks/msw/msw-enable");
-}
+(async () => {
+  if (process.env.NEXT_PUBLIC_API_MOCKING === "enabled") {
+    await import("mocks/msw/msw-enable");
+  }
+})();
 
 function MyApp({ Component, pageProps, router }: AppProps) {
   return (
