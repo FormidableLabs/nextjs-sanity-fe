@@ -25,7 +25,7 @@ const AboutPage: NextPage = () => {
           <h1 className="text-h1">Learn more about the Formidable Ecommerce demo site</h1>
           <p>
             We don’t really sell bread. The goal of the project is to provide a realistic demonstration of running a
-            highly performant and available e-commerce site with data sourced from Sanity's headless CMS. The app is
+            highly performant and available e-commerce site with data sourced from Sanity’s headless CMS. The app is
             powered by&nbsp;
             <a
               className="hover:underline font-bold"
@@ -111,7 +111,7 @@ const AboutPage: NextPage = () => {
                 </div>
                 <div>
                   <h1 className="font-medium">Sanity Studio</h1>
-                  Sanity Studio is a web interface for Sanity's headless CMS. It is used for creating and editing the
+                  Sanity Studio is a web interface for Sanity’s headless CMS. It is used for creating and editing the
                   data on the site. The models for Sanity are created in code and tracked in source control. Sanity
                   Studio is integrated into the NextJS application and deployed alongside{" "}
                   <Link href="studio" className="hover:underline font-bold">
@@ -138,7 +138,7 @@ const AboutPage: NextPage = () => {
                     Vercel
                   </a>
                   &nbsp;via their git pipeline. In a real-world e-commerce app, we expect to experience some heavy loads
-                  on pages whose data doesn't change much between visits, and therefore we can deploy caching strategies
+                  on pages whose data doesn’t change much between visits, and therefore we can deploy caching strategies
                   to reduce the load on our source server.
                 </div>
               </li>
@@ -154,7 +154,7 @@ const AboutPage: NextPage = () => {
                 <div>
                   <h1 className="font-medium">Fastly CDN and Caching</h1>
                   <p className="mb-4">
-                    In order to enhance the speed of the app, we are utilizing Fastly's CDN with a high cache-lifetime
+                    In order to enhance the speed of the app, we are utilizing Fastly’s CDN with a high cache-lifetime
                     for server-rendered pages. We are using Fastly to both cache and host the subdomain used for this
                     showcase app. The data flow involved in caching is illustrated below:
                   </p>
@@ -214,9 +214,9 @@ const AboutPage: NextPage = () => {
                     </div>
                   </div>
                   <div className="mt-3">
-                    On the Next.js side we'll need to include a few primary response headers to then control caching (in
-                    our case, we're setting these headers from <code>getServerSideProps</code> on server-rendered pages
-                    that we'd like to cache).
+                    On the Next.js side we’ll need to include a few primary response headers to then control caching (in
+                    our case, we’re setting these headers from <code>getServerSideProps</code> on server-rendered pages
+                    that we’d like to cache).
                     <ul>
                       <li className="my-3 last-of-type:mb-0 flex items-baseline gap-2">
                         <div className="top-1 relative">
@@ -258,9 +258,9 @@ const AboutPage: NextPage = () => {
                   </div>
                   <p className="mt-4">
                     With these response headers implemented, Fastly will start caching our responses and give us a path
-                    to invalidate our cache when necessary. In our case, we use data items' <code>slug</code>s as part
-                    of our <code>surrogate-key</code>&nbsp; header to indicate what items' data are used to render a
-                    page so that we can invalidate accordingly when any of those items' data changes.
+                    to invalidate our cache when necessary. In our case, we use data items’ <code>slug</code>s as part
+                    of our <code>surrogate-key</code>&nbsp; header to indicate what items’ data are used to render a
+                    page so that we can invalidate accordingly when any of those items’ data changes.
                   </p>
                 </div>
               </li>
@@ -271,9 +271,9 @@ const AboutPage: NextPage = () => {
                 <div>
                   <h1 className="font-medium">Cache Invalidation and Purging</h1>
                   When CMS data changes, a Sanity webhook is triggered and makes a request to an API endpoint in our
-                  Next.js app. The endpoint does some validation on the request (to make sure it's coming from a trusted
-                  Sanity webhook), and then makes a request to Fastly's API to invalidate/purge our cache accordingly.
-                  The Sanity webhook payload contains information (in our case, an item's &nbsp;
+                  Next.js app. The endpoint does some validation on the request (to make sure it’s coming from a trusted
+                  Sanity webhook), and then makes a request to Fastly’s API to invalidate/purge our cache accordingly.
+                  The Sanity webhook payload contains information (in our case, an item’s &nbsp;
                   <a
                     className="hover:underline font-bold"
                     href="https://www.sanity.io/docs/slug-type"

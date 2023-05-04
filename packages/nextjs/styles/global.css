@@ -1,5 +1,3 @@
-@import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;700&display=swap');
-
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
@@ -19,6 +17,20 @@ body {
 @font-face {
   font-family: "JeanLuc";
   src: url('../assets/fonts/jeanluc/jeanlucweb-thin.woff');
+  font-weight: auto;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: "JetBrains Mono";
+  src: url('../assets/fonts/jetbrainsmono/JetBrainsMono-Bold.woff2');
+  font-weight: bold;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: "JetBrains Mono";
+  src: url('../assets/fonts/jetbrainsmono/JetBrainsMono-Regular.woff2');
   font-weight: auto;
   font-style: normal;
 }
