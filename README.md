@@ -14,13 +14,11 @@ Therefore, the project can be broken down into the following three constituent p
 
 ## The Headless CMS (powered by Sanity)
 
-Sanity is used for storing information about our e-commerce products. The data from Sanity is fetched in two ways:
-
-1. [Groq](https://www.sanity.io/docs/groq) – Sanity's own query language, used for fetching data.
+Sanity is used for storing information about our e-commerce products. The data from Sanity is fetched using Groq [Groq](https://www.sanity.io/docs/groq) – a query language, used for fetching data. Formidable built [Groqd](https://formidable.com/open-source/groqd/) – a schema-unaware, runtime and type-safe query builder for GROQ.
 
 ### Sanity Studio
 
-Sanity Studio is a web interface for Sanity's headless CMS. It is used for creating and editing the data on the site. The models for Sanity are created in code and tracked in source control. The models can be found at [`packages/sanity/schemas`](./packages/sanity/schemas). The production Sanity Studio instance is deployed to Sanity's cloud [here](https://nextjs-ecom.sanity.studio/).
+Sanity Studio is a web interface for Sanity's headless CMS. It is used for creating and editing the data on the site. The models for Sanity are created in code and tracked in source control. The models can be found at [`packages/nextjs/sanity-studio/schemas`](./packages/sanity/schemas). Sanity Studio is integrated into the NextJS application and deployed alongside as a route at `/studio`.
 
 <p align="center">
   <img src="./docs/img/sanity-studio-sample.png" alt="Sample of sanity studio" />

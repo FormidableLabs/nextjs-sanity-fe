@@ -9,6 +9,6 @@ export const NAV_ITEMS = [
   },
   {
     href: "/about",
-    label: "About Us",
+    label: "About",
   },
 ];
