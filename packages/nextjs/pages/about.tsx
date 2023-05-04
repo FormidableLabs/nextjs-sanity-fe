@@ -20,9 +20,9 @@ const AboutPage: NextPage = () => {
       <div className="container my-4">
         <Breadcrumbs />
       </div>
-      <div className="container py-9 grid grid-cols-1 gap-9 text-primary">
+      <div className="container py-9 grid grid-cols-1 lg:grid-cols-2 gap-9 text-primary">
         <div className="order-1 flex flex-col gap-9 justify-between">
-          <h1 className="text-h1">Learn more about the Formidable Ecommerce demo site</h1>
+          <h1 className="text-h4 md:text-h2">Learn more about the Formidable Ecommerce demo site</h1>
           <p>
             We don’t really sell bread. The goal of the project is to provide a realistic demonstration of running a
             highly performant and available e-commerce site with data sourced from Sanity’s headless CMS. The app is
@@ -68,7 +68,7 @@ const AboutPage: NextPage = () => {
             className="rounded-2xl"
           />
         </div>
-        <div className="order-3 md:col-span-2 flex flex-col gap-9 justify-between">
+        <div className="order-3 lg:col-span-2 flex flex-col gap-9 justify-between">
           <div>
             <h4 className="text-h4 mb-4">Headless CMS-driven architecture.</h4>
             <p className="mb-4">
