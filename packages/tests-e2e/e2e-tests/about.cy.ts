@@ -3,6 +3,6 @@ describe("when I visit the about page", () => {
     cy.visit("/about");
   });
   it('I see the "Welcome" tag line', () => {
-    cy.findByText("Welcome to the NextJS Sanity Ecommerce Demo Site!").should("exist");
+    cy.findByText("Learn more about the Formidable Ecommerce demo site").should("exist");
   });
 });
