@@ -12,6 +12,7 @@ import { FadeInOut } from "components/FadeInOut";
   if (process.env.NEXT_PUBLIC_API_MOCKING === "enabled") {
     await import("mocks/msw/msw-enable");
   }
+  console.log("foobar");
 })();
 
 function MyApp({ Component, pageProps, router }: AppProps) {
