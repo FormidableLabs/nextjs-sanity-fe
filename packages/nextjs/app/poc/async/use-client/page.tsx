@@ -1,5 +1,7 @@
 "use client";
 import { Suspense, useEffect, useState } from "react";
+import { BigHugeDependency } from "../common/big-huge-dependency";
+import { fetchSlowData } from "../common/fetchSlowData";
 
 export default function Page() {
   return (
@@ -10,6 +12,7 @@ export default function Page() {
       <Suspense fallback={<DataSkeleton />}>
         <DataComponent />
       </Suspense>
+      <BigHugeDependency data={["Big Huge Dependency"]} />
     </section>
   );
 }
@@ -19,13 +22,8 @@ function DataSkeleton() {
 }
 
 function DataComponent() {
-  const data = useAsync(getData);
+  const data = useAsync(fetchSlowData);
   return <main>{data}</main>;
-}
-
-async function getData() {
-  await new Promise((r) => setTimeout(r, 3000));
-  return "This data was loaded async.  Refresh the page to try again.";
 }
 
 function useAsync<T>(fn: () => Promise<T>): T {
