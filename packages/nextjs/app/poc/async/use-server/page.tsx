@@ -2,6 +2,7 @@
 import { Suspense } from "react";
 import { BigHugeDependency } from "../common/big-huge-dependency";
 import { fetchSlowData } from "../common/fetchSlowData";
+import { ClientComponent } from "../common/client-component";
 
 export default async function Page() {
   return (
@@ -14,6 +15,7 @@ export default async function Page() {
         <DataComponent />
       </Suspense>
       <BigHugeDependency data={["Big Huge Dependency"]} />
+      <ClientComponent />
     </section>
   );
 }

@@ -1,6 +1,6 @@
 "use server";
-import { Suspense, useState } from "react";
-import { ClientComponent } from "./client-component";
+import { Suspense } from "react";
+import { ClientComponent } from "../common/client-component";
 import { BigHugeDependency } from "../common/big-huge-dependency";
 import { fetchSlowData } from "../common/fetchSlowData";
 
