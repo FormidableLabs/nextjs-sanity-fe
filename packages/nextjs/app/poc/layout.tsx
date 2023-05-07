@@ -5,10 +5,17 @@ export default function RootLayout({ children }: React.PropsWithChildren) {
     <html>
       <head>
         <meta name="viewport" content="width=device-width" />
-        <title>This is a test layout</title>
+        <title>Test layout</title>
+        <style>
+          {`
+          html {
+            color: white;
+            background: #333;
+          }
+        `}
+        </style>
       </head>
       <body>
-        <nav>This comes from the test layout</nav>
         <main>{children}</main>
       </body>
     </html>
