@@ -1,6 +1,7 @@
 import * as React from "react";
+import { Links } from "./async/common/links";
 
-export default function RootLayout({ children }: React.PropsWithChildren) {
+export default async function RootLayout({ children }: React.PropsWithChildren) {
   return (
     <html>
       <head>
@@ -16,6 +17,9 @@ export default function RootLayout({ children }: React.PropsWithChildren) {
         </style>
       </head>
       <body>
+        <nav>
+          <Links />
+        </nav>
         <main>{children}</main>
       </body>
     </html>

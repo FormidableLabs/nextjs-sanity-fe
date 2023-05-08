@@ -1,5 +1,5 @@
 "use server";
-import { Suspense, use, useMemo } from "react";
+import { Suspense } from "react";
 import { BigHugeDependency } from "../../common/big-huge-dependency";
 import { DataComponent } from "../DataComponent";
 import { ClientComponent } from "../../common/client-component";
