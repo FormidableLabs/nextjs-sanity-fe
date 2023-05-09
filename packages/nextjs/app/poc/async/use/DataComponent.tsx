@@ -1,12 +1,14 @@
-import { use, cache } from "react";
+import { use } from "react";
 // @ts-expect-error -- No types
 import memoize from "lodash.memoize";
 import { fetchSlowData } from "../common/fetchSlowData";
 
-const fetchSlowDataCache: typeof fetchSlowData =
-  typeof window === "undefined" ? memoize(fetchSlowData) : cache(fetchSlowData);
+// const cache = React.cache; // Does not work server-side 😡
+const cache = memoize;
+
+const fetchSlowDataCache: typeof fetchSlowData = cache(fetchSlowData);
 
 export function DataComponent() {
-  const data = use(fetchSlowDataCache({}));
+  const data = use(fetchSlowDataCache());
   return <p>{data}</p>;
 }
