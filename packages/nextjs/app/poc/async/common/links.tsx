@@ -11,11 +11,11 @@ export function Links() {
       `}</style>
       <ul>
         {[
+          //
           "/poc/async/use/server",
           "/poc/async/use/client",
           "/poc/async/use-server",
           "/poc/async/use-client",
-          "/poc/async/use-hybrid",
         ].map((url) => {
           return (
             <li key={url}>
