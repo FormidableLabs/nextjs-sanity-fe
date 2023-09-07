@@ -1,7 +1,9 @@
-import "../styles/global.css";
+import type { Preview } from "@storybook/react";
 
-/** @type { import('@storybook/react').Preview } */
-const preview = {
+import "../styles/global.css";
+import { TestHarnessDecorator } from "./decorators/TestHarness";
+
+const preview: Preview = {
   parameters: {
     actions: { argTypesRegex: "^on[A-Z].*" },
     controls: {
@@ -11,6 +13,10 @@ const preview = {
       },
     },
   },
+  decorators: [
+    // List all global decorators:
+    TestHarnessDecorator,
+  ],
 };
 
 export default preview;
