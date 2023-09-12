@@ -9,9 +9,9 @@ declare module "../types" {
 }
 
 export const TestHarnessDecorator: Decorator = (Story, ctx) => {
-  const parameters = ctx.parameters as TypedParameters;
+  const { motionConfig } = ctx.parameters as TypedParameters;
   return (
-    <MotionConfig {...parameters.motionConfig}>
+    <MotionConfig {...motionConfig}>
       <Story />
     </MotionConfig>
   );

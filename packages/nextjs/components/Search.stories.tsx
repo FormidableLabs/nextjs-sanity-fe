@@ -41,6 +41,70 @@ export const WithSearchTerm: Story = {
   },
 };
 
+export const WithSearchTerm_Test_FilteredResults: Story = {
+  name: "With Search Term / Test / Filtered Results",
+  async play(ctx) {
+    // eslint-disable-next-line storybook/context-in-play-function
+    await WithSearchTerm.play!(ctx);
+
+    const { canvasElement, step } = ctx;
+    const ui = wrap(canvasElement);
+
+    await step("type 'plain'", async () => {
+      await userEvent.type(ui.searchbox, " plain");
+    });
+
+    await step("there should be one result", async () => {
+      await waitFor(() => {
+        expect(ui.results).toHaveLength(1);
+        expect(ui.results[0]).toHaveTextContent("Plain Baguette");
+      });
+    });
+  },
+};
+export const WithSearchTerm_Test_NoResults: Story = {
+  name: "With Search Term / Test / No Results",
+  async play(ctx) {
+    // eslint-disable-next-line storybook/context-in-play-function
+    await WithSearchTerm.play!(ctx);
+
+    const { canvasElement, step } = ctx;
+    const ui = wrap(canvasElement);
+
+    await step("update text to 'cake'", async () => {
+      await userEvent.clear(ui.searchbox);
+      await userEvent.type(ui.searchbox, "cake");
+    });
+
+    await step("there should be no results", async () => {
+      await waitFor(() => {
+        expect(ui.results).toHaveLength(1);
+        expect(ui.results[0]).toHaveTextContent("No Products Found");
+      });
+    });
+  },
+};
+export const WithSearchTerm_Test_Cleared: Story = {
+  name: "With Search Term / Test / Cleared",
+  async play(ctx) {
+    // eslint-disable-next-line storybook/context-in-play-function
+    await WithSearchTerm.play!(ctx);
+
+    const { canvasElement, step } = ctx;
+    const ui = wrap(canvasElement);
+
+    await step("clear all text", async () => {
+      await userEvent.clear(ui.searchbox);
+    });
+
+    await step("there should be no preview box", async () => {
+      await waitFor(() => {
+        expect(ui.resultsBox).not.toBeInTheDocument();
+      });
+    });
+  },
+};
+
 /** Encapsulate all UI elements for easier testing */
 function wrap(canvasElement: HTMLElement) {
   const container = within(canvasElement);
@@ -49,7 +113,7 @@ function wrap(canvasElement: HTMLElement) {
       return container.getByRole("searchbox");
     },
     get resultsBox() {
-      return container.getByRole("listbox");
+      return container.queryByRole("listbox");
     },
     get results() {
       return container.queryAllByRole("listitem");
