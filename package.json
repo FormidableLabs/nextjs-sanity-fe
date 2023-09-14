@@ -1,5 +1,5 @@
 {
-  "name": "next-sanity-fastly-ecomm-demo",
+  "name": "nextjs-sanity-fe",
   "version": "0.0.1",
   "description": "A demo ecommerce site using Next.js, Sanity CMS, and Fastly.",
   "keywords": [],
@@ -7,7 +7,6 @@
   "main": "index.js",
   "license": "MIT",
   "scripts": {
-    "local": "pnpm run --filter ./packages/nextjs --filter ./packages/sanity --parallel dev",
     "dev:nextjs": "pnpm run --filter ./packages/nextjs dev",
     "next:dev": "pnpm run --filter ./packages/nextjs next:dev",
     "next:dev:mock": "pnpm run --filter ./packages/nextjs next:dev:mock",
