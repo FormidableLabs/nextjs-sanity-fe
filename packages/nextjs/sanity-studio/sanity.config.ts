@@ -1,11 +1,20 @@
-import { defineConfig } from "sanity";
+import { defineConfig } from "@sanity-typed/types";
 import { deskTool } from "sanity/desk";
 import { visionTool } from "@sanity/vision";
 import { dashboardTool, projectUsersWidget, projectInfoWidget } from "@sanity/dashboard";
 import { groqdPlaygroundTool } from "groqd-playground";
 
-import schemaTypes from "./schemas/schema";
 import { customStructure } from "./deskStructure";
+
+import category from "./schemas/category";
+import categoryImage from "./schemas/categoryImage";
+import description from "./schemas/description";
+import flavour from "./schemas/flavour";
+import product from "./schemas/product";
+import productImage from "./schemas/productImage";
+import siteSettings from "./schemas/siteSettings";
+import style from "./schemas/style";
+import variant from "./schemas/variant";
 
 export default defineConfig({
   projectId: "5bsv02jj",
@@ -20,6 +29,17 @@ export default defineConfig({
     }),
   ],
   schema: {
-    types: schemaTypes,
+    types: [
+      /* Your types here! */
+      category,
+      categoryImage,
+      description,
+      flavour,
+      product,
+      productImage,
+      siteSettings,
+      style,
+      variant,
+    ],
   },
 });

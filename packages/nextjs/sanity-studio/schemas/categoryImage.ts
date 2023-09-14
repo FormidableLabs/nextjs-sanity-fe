@@ -1,5 +1,5 @@
 import { BsFillImageFill } from "react-icons/bs";
-import { defineType, defineField } from "sanity";
+import { defineType, defineField } from "@sanity-typed/types";
 
 export default defineType({
   name: "categoryImage",
