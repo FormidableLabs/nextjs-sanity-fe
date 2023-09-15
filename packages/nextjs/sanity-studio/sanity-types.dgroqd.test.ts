@@ -1,7 +1,7 @@
 import { sanityImage, q } from "groqd";
 import { _referenced } from "@sanity-typed/types";
 
-import { SanityValues } from "./sanity-types";
+import { SanityValuesForTests } from "./sanity-types";
 import { getTypedQ } from "./sanity-types.dgroqd";
 
 describe("groqd", () => {
@@ -44,27 +44,39 @@ describe("groqd", () => {
 
 /* eslint-disable  */
 describe("d-groq-d", () => {
-  const q = getTypedQ<SanityValues>();
+  const q = getTypedQ<SanityValuesForTests>();
 
   it("invalid type", () => {
     // @ts-expect-error ---
     q("*").filterByType("FOO");
   });
 
-  it("grabbing fields", () => {
+  it("grabbing fields (no errors)", () => {
+    // Errors:
     q("*")
       .filterByType("product")
       .filter()
       .grab$$((q) => ({
-        // TODO @ts-expect-error
-        // INVALID: q.string(),
-        // slug: q.string(),
         name: q.string(),
+        NAME: ["name", q.string()] as const,
+        slug: q.slug("slug"),
 
-        NAME: ["name", q.string()],
         // description: q.string(),
         // images: q.string(),
         // categories: q.string(),
+      }));
+  });
+  it("grabbing fields (with errors)", () => {
+    // Errors:
+    q("*")
+      .filterByType("product")
+      .filter()
+      .grab$$((q) => ({
+        name: q.string(),
+        //// @ts-expect-error --- ⛔️ The current scope does not have a field named 'INVALID'
+        INVALID: q.string(),
+        //// @ts-expect-error --- ⛔️ If you use a tuple, be sure to include 'as const'
+        MISSING_AS_CONST: ["name", q.string()],
       }));
   });
   it("grabbing fields from 'category", () => {
@@ -72,17 +84,14 @@ describe("d-groq-d", () => {
       .filterByType("category")
       .filter()
       .grab$$((q) => ({
-        // TODO @ts-expect-error
-        // INVALID: q.string(),
-        // slug: q.string(),
         name: q.string(),
         description: q.string(),
-        // images: q.string(),
+        slug: q.slug("slug"),
       }));
   });
 
   it("grabbing fields from 'product -> categories'", () => {
-    const dataLake: SanityValues = null as any;
+    const dataLake: SanityValuesForTests = null as any;
 
     const cat = dataLake.product.categories![0];
     console.log(
@@ -104,7 +113,7 @@ describe("d-groq-d", () => {
         categories: q("categories").grab$$((q) => ({
           _ref: q.string(),
         })),
-        categories2: q("categories")
+        categories_others: q("categories")
           .deref()
           .grab$$((q) => ({
             // @ts-expect-error
@@ -128,7 +137,7 @@ describe("d-groq-d", () => {
   //       variants: q("variants")
   //         .filter()
   //         .deref()
-  //         .grab$$$({
+  //         .grab$$({
   //           _id: q.string(),
   //           name: q.string(),
   //           description: q.contentBlocks(),
