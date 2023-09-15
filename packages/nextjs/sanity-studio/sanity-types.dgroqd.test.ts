@@ -55,20 +55,17 @@ describe("d-groq-d", () => {
     q("*")
       .filterByType("product")
       .filter()
-      .grab$$(
-        (q) =>
-          ({
-            // TODO @ts-expect-error
-            // INVALID: q.string(),
-            // slug: q.string(),
-            name: q.string(),
+      .grab$$((q) => ({
+        // TODO @ts-expect-error
+        // INVALID: q.string(),
+        // slug: q.string(),
+        name: q.string(),
 
-            NAME: ["name", q.string()],
-            // description: q.string(),
-            // images: q.string(),
-            // categories: q.string(),
-          } as const)
-      );
+        NAME: ["name", q.string()],
+        // description: q.string(),
+        // images: q.string(),
+        // categories: q.string(),
+      }));
   });
   it("grabbing fields from 'category", () => {
     q("*")
