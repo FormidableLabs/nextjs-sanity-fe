@@ -1,18 +1,25 @@
+import { FC, PropsWithChildren } from "react";
 import { Decorator } from "@storybook/react";
 import { MotionConfig, MotionConfigProps } from "framer-motion";
 import { TypedParameters } from "../types";
 
 declare module "../types" {
-  export interface TypedParameters {
-    motionConfig: MotionConfigProps;
-  }
+  export interface TypedParameters extends TestHarnessProps {}
 }
+
+export type TestHarnessProps = {
+  motionConfig?: MotionConfigProps;
+};
+
+export const TestHarness: FC<PropsWithChildren<TestHarnessProps>> = ({ motionConfig, children }) => {
+  return <MotionConfig {...motionConfig}>{children}</MotionConfig>;
+};
 
 export const TestHarnessDecorator: Decorator = (Story, ctx) => {
   const { motionConfig } = ctx.parameters as TypedParameters;
   return (
-    <MotionConfig {...motionConfig}>
+    <TestHarness motionConfig={motionConfig}>
       <Story />
-    </MotionConfig>
+    </TestHarness>
   );
 };
