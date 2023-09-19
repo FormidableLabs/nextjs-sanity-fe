@@ -8,9 +8,12 @@ on:
     branches:
       - main
 
+env:
+  NEXT_PUBLIC_SANITY_PROJECT_ID: 5bsv02jj
+
 jobs:
   build:
-    name: Check codebase (lint and typecheck)
+    name: "Code Checks (Lint, Types, Tests)"
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
