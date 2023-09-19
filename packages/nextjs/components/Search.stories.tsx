@@ -39,7 +39,7 @@ export const WithSearchTerm: Story = {
     await step("expect to see some search results", async () => {
       await waitFor(
         () => {
-          expect(ui.resultsText.length).toBeGreaterThanOrEqual(2);
+          expect(ui.resultsText).toHaveLength(2);
         },
         { timeout: 3000 }
       );

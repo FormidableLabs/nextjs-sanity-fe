@@ -12,14 +12,14 @@ type State = {
   results: ProductSearch[];
   inputValue: string;
   loading: boolean;
-  error: boolean;
+  error: Error | null;
 };
 
 type Action =
   | { type: "updating"; inputValue: string }
   | { type: "success"; results: ProductSearch[] }
   | { type: "clear" }
-  | { type: "failure" };
+  | { type: "failure"; error: Error };
 
 type ProductSearch = TypeFromSelection<typeof searchSelection>;
 
@@ -42,16 +42,16 @@ const searchQuery = (query: string) =>
     { query }
   );
 
-const defaultState: State = { results: [], error: false, loading: false, inputValue: "" };
+const defaultState: State = { results: [], error: null, loading: false, inputValue: "" };
 
 const searchReducer = (state: State, action: Action): State => {
   switch (action.type) {
     case "updating":
-      return { ...state, inputValue: action.inputValue, loading: true, error: false };
+      return { ...state, inputValue: action.inputValue, loading: true, error: null };
     case "success":
-      return { ...state, results: action.results, error: false, loading: false };
+      return { ...state, results: action.results, error: null, loading: false };
     case "failure":
-      return { ...state, results: [], error: true, loading: false };
+      return { ...state, results: [], error: action.error, loading: false };
     case "clear":
       return defaultState;
   }
@@ -65,9 +65,10 @@ export const Search: React.FC = () => {
       debounce(async (searchTerm?: string) => {
         if (searchTerm) {
           try {
-            dispatch({ type: "success", results: await searchQuery(searchTerm.trim()) });
+            const results = await searchQuery(searchTerm.trim());
+            dispatch({ type: "success", results });
           } catch (error) {
-            dispatch({ type: "failure" });
+            dispatch({ type: "failure", error: error as Error });
           }
         } else {
           dispatch({ type: "clear" });
