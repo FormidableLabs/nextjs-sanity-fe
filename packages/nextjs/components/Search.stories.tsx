@@ -13,7 +13,14 @@ export default meta;
 
 type Story = StoryObj<typeof Search>;
 
-export const Default: Story = {};
+export const Default: Story = {
+  async play({ canvasElement, step }) {
+    const ui = wrap(canvasElement);
+    await step("expect to see a search box", async () => {
+      expect(ui.searchbox).toBeVisible();
+    });
+  },
+};
 
 export const WithSearchTerm: Story = {
   async play({ canvasElement, step }) {
