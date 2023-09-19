@@ -33,14 +33,13 @@ export const WithSearchTerm: Story = {
 
     await step("expect to see a loading indicator", async () => {
       expect(ui.resultsBox).toBeVisible();
-      expect(ui.resultsBox).toHaveTextContent("Loading...");
-      expect(ui.results).toHaveLength(1);
+      expect(ui.resultsText).toEqual(["Loading..."]);
     });
 
     await step("expect to see some search results", async () => {
       await waitFor(
         () => {
-          expect(ui.results.length).toBeGreaterThanOrEqual(2);
+          expect(ui.resultsText.length).toBeGreaterThanOrEqual(2);
         },
         { timeout: 3000 }
       );
@@ -63,8 +62,7 @@ export const WithSearchTerm_Test_FilteredResults: Story = {
 
     await step("there should be one result", async () => {
       await waitFor(() => {
-        expect(ui.results).toHaveLength(1);
-        expect(ui.results[0]).toHaveTextContent("Plain Baguette");
+        expect(ui.resultsText).toEqual(["Plain Baguette"]);
       });
     });
   },
@@ -85,8 +83,7 @@ export const WithSearchTerm_Test_NoResults: Story = {
 
     await step("there should be no results", async () => {
       await waitFor(() => {
-        expect(ui.results).toHaveLength(1);
-        expect(ui.results[0]).toHaveTextContent("No Products Found");
+        expect(ui.resultsText).toEqual(["No Products Found"]);
       });
     });
   },
@@ -122,8 +119,8 @@ function wrap(canvasElement: HTMLElement) {
     get resultsBox() {
       return container.queryByRole("listbox");
     },
-    get results() {
-      return container.queryAllByRole("listitem");
+    get resultsText() {
+      return container.queryAllByRole("listitem").map((el) => el.textContent);
     },
   };
 }
