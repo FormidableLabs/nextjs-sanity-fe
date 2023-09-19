@@ -22,11 +22,11 @@ jobs:
         with:
           version: 7
 
-      - name: Get pnpm store directory
+      - name: "Get pnpm store directory"
         id: pnpm-cache
         run: echo "::set-output name=pnpm_cache_dir::$(pnpm store path)"
 
-      - name: Setup pnpm cache
+      - name: "Setup pnpm cache"
         uses: actions/cache@v3
         with:
           path: ${{ steps.pnpm-cache.outputs.pnpm_cache_dir }}
@@ -34,11 +34,24 @@ jobs:
           restore-keys: |
             ${{ runner.os }}-pnpm-store-
 
-      - name: Install dependencies
+      - name: "Install dependencies"
         run: pnpm install
 
-      - name: Lint
+      - name: "Lint"
         run: pnpm run lint
 
-      - name: TypeCheck
+      - name: "TypeCheck"
         run: pnpm run typecheck
+
+      - name: "Storybook: Install Extra Dependencies"
+        working-directory: packages/nextjs
+        run: pnpm exec playwright install
+
+      - name: "Storybook: Build"
+        working-directory: packages/nextjs
+        run: pnpm run storybook:build
+
+      - name: "Storybook: Run Tests"
+        working-directory: packages/nextjs
+        run: pnpm run test:storybook:start
+

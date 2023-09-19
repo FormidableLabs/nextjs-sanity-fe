@@ -15,7 +15,10 @@
     "lint": "next lint --quiet",
     "typecheck": "tsc --noEmit",
     "storybook": "storybook dev -p 6006",
-    "storybook:build": "storybook build"
+    "storybook:build": "storybook build",
+    "storybook:start": "test -d storybook-static || pnpm run storybook:build && http-server --port 6006 --silent true storybook-static",
+    "test:storybook": "test-storybook --verbose --maxWorkers 2",
+    "test:storybook:start": "start-server-and-test 'storybook:start' 6006 'test:storybook'"
   },
   "dependencies": {
     "@headlessui/react": "^1.7.8",
@@ -62,6 +65,7 @@
     "@storybook/jest": "^0.2.2",
     "@storybook/nextjs": "^7.4.0",
     "@storybook/react": "^7.4.0",
+    "@storybook/test-runner": "^0.13.0",
     "@storybook/testing-library": "^0.2.0",
     "@testing-library/jest-dom": "^5.16.5",
     "@testing-library/react": "^13.4.0",
@@ -83,10 +87,12 @@
     "faker": "^5.5.3",
     "flatted": "^3.2.7",
     "groq-js": "^1.1.0",
+    "http-server": "^14.1.1",
     "jest": "^29.3.1",
     "jest-environment-jsdom": "^29.3.1",
     "msw": "^0.47.4",
     "postcss": "^8.4.16",
+    "start-server-and-test": "^1.15.2",
     "storybook": "^7.4.0",
     "tailwindcss": "^3.1.8"
   },
