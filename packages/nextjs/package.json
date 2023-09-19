@@ -18,7 +18,7 @@
     "storybook:build": "storybook build",
     "storybook:start": "test -d storybook-static || pnpm run storybook:build && http-server --port 6006 --silent true storybook-static",
     "test:storybook": "test-storybook --verbose --maxWorkers 1",
-    "test:storybook:start": "start-server-and-test 'storybook:start' 6006 'test:storybook'"
+    "test:storybook:start": "start-server-and-test 'pnpm run storybook:start' 6006 'pnpm run test:storybook'"
   },
   "dependencies": {
     "@headlessui/react": "^1.7.8",
@@ -93,7 +93,7 @@
     "msw": "^0.47.4",
     "playwright": "^1.38.0",
     "postcss": "^8.4.16",
-    "start-server-and-test": "^1.15.2",
+    "start-server-and-test": "^1.15.5",
     "storybook": "^7.4.0",
     "tailwindcss": "^3.1.8"
   },
