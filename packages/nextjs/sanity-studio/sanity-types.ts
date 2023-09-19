@@ -6,7 +6,7 @@ import { _referenced } from "@sanity-typed/types";
 // export type SanityValues = InferSchemaValues<typeof config>;
 
 // The `InferSchemaValues` is like SUPER slow, so here's a snapshot:
-export type SanityValuesForTests = {
+export type SanitySchemaTypes = {
   product: {
     slug: { _type: "slug"; current: string };
     name: string;

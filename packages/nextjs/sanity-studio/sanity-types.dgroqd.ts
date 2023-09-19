@@ -32,7 +32,7 @@ export function getTypedQ<TSchema>() {
         : { "[deref error]": "⛔️ invalid [_referenced]:"; [_referenced]: TRefType }
       : { "[deref error]": "⛔️ missing [_referenced]:"; TScope: TScope };
 
-    grab$$<S extends VerifySelection<S, TScope>>(selection: (q: TypedQ<TScope>) => S): groqd.TypeFromSelection<S>;
+    grab<S extends VerifySelection<S, TScope>>(selection: (q: TypedQ<TScope>) => S): groqd.TypeFromSelection<S>;
   }
   type VerifySelection<T, TScope> = SelectionByKey<TScope> & {
     [K in keyof T]: K extends keyof TScope
