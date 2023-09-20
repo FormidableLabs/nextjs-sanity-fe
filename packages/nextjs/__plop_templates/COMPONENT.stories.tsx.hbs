@@ -1,0 +1,46 @@
+import type { Meta, StoryObj } from ".storybook/types";
+
+import { screen, userEvent, waitFor, within } from "@storybook/testing-library";
+import { expect, jest } from "@storybook/jest";
+
+import { {{COMPONENT.BASENAME}} } from "./{{COMPONENT.BASENAME}}";
+
+const meta: Meta<typeof {{COMPONENT.BASENAME}}> = {
+  component: {{COMPONENT.BASENAME}},
+  args: {},
+};
+
+export default meta;
+
+type Story = StoryObj<typeof {{COMPONENT.BASENAME}}>;
+
+export const Default: Story = {
+  async play({ canvasElement, step }) {
+    const ui = wrap(canvasElement);
+    await step("TODO: add unit tests", async () => {
+      expect(ui.TODO).toBeVisible();
+    });
+  },
+};
+
+export const Variant: Story = {
+  args: {
+    // TODO: Customize the variant args here
+  },
+  async play({ canvasElement, step }) {
+    const ui = wrap(canvasElement);
+    await step("TODO: add unit tests", async () => {
+      expect(ui.TODO).toBeVisible();
+    });
+  },
+};
+
+/** Encapsulate all UI elements here for easier testing */
+function wrap(canvasElement: HTMLElement) {
+  const container = within(canvasElement);
+  return {
+    get TODO() {
+      return container.getByRole("TODO");
+    },
+  };
+}
