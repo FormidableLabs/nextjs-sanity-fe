@@ -52,7 +52,7 @@ Make sure the environment variable is loaded by running `env` command in your te
 
 If it is not loaded you can do so by running `source .env` command in your terminal
 
-Assuming you completed the previous steps, you should now be able to start the Nextjs app using:
+Assuming you completed the previous steps, you should now be able to start the Next.js app using:
 
 ```
 pnpm dev:nextjs
@@ -113,6 +113,6 @@ There is an `./packages/nextjs/.env.sample` committed to the repo which contains
 
 :bulb: To get a list of scripts available, you can run `pnpm run` and it will output a list of available commands.
 
-- `dev:nextjs` - Runs the NextJs app
-- `build:nextjs` - Builds NextJS app
-- `start:nextjs` - Starts the built-out NextJs app
+- `dev:nextjs` - Runs the Next.js app
+- `build:nextjs` - Builds the Next.js app
+- `start:nextjs` - Starts the built-out Next.js app
