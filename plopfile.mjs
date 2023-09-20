@@ -18,7 +18,7 @@ export default function(plop) {
         type: "autocomplete",
         loop: false,
         async source(answers, searchTerms) {
-          return glob.sync(`components/**/${searchTerms || ""}*`, {
+          return glob.sync(`components/**/*${searchTerms || ""}*`, {
             cwd: PACKAGES_NEXTJS,
             nodir: true,
             nocase: true
