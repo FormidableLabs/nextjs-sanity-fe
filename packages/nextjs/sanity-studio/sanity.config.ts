@@ -1,4 +1,4 @@
-import { defineConfig } from "@sanity-typed/types";
+import { defineConfig, InferRawValue } from "@sanity-typed/types";
 import { deskTool } from "sanity/desk";
 import { visionTool } from "@sanity/vision";
 import { dashboardTool, projectUsersWidget, projectInfoWidget } from "@sanity/dashboard";
@@ -43,3 +43,23 @@ export default defineConfig({
     ],
   },
 });
+
+/**
+ * Normally, we could infer all types from the config itself:
+ *      export type SanitySchemaTypes = InferSchemaValues<typeof config>;
+ * However, the performance is terrible! 20s+ to compile, and IDE's choke.
+ * This is a workaround which results in the same exact type definition,
+ * but is far more performant (2s+).
+ * Be sure to keep this list updated with all schema types above.
+ */
+export type SanitySchemaRaw = {
+  category: InferRawValue<typeof category>;
+  categoryImage: InferRawValue<typeof categoryImage>;
+  description: InferRawValue<typeof description>;
+  flavour: InferRawValue<typeof flavour>;
+  product: InferRawValue<typeof product>;
+  productImage: InferRawValue<typeof productImage>;
+  siteSettings: InferRawValue<typeof siteSettings>;
+  style: InferRawValue<typeof style>;
+  variant: InferRawValue<typeof variant>;
+};
