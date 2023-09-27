@@ -82,6 +82,15 @@ jobs:
         working-directory: packages/nextjs
         run: pnpm run storybook:build
 
+      - name: "Storybook: Chromatic"
+        uses: chromaui/action@v1
+        # Chromatic GitHub Action options
+        with:
+          workingDir: packages/nextjs
+          storybookBuildDir: storybook-static
+          exitOnceUploaded: true
+          projectToken: ${{ secrets.CHROMATIC_PROJECT_TOKEN }}
+
       - name: "Storybook: Run Tests"
         working-directory: packages/nextjs
         run: pnpm run test:storybook:start
