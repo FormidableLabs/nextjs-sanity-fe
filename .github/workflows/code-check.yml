@@ -74,6 +74,10 @@ jobs:
       - name: "Install dependencies"
         run: pnpm install
 
+      - name: "Configure .env"
+        working-directory: packages/nextjs
+        run: cp .env.sample .env
+
       - name: "Storybook: Install Extra Dependencies"
         working-directory: packages/nextjs
         run: pnpm exec playwright install
