@@ -16,18 +16,8 @@ type Story = StoryObj<typeof Search>;
 export const Default: Story = {
   async play({ canvasElement, step }) {
     const ui = wrap(canvasElement);
-
     await step("expect to see a search box", async () => {
       expect(ui.searchbox).toBeVisible();
-    });
-  },
-};
-
-export const Temporary_Debugging: Story = {
-  async play({ canvasElement, step }) {
-    const ui = wrap(canvasElement);
-    await step(`CURRENT HOST: ${window.location.href}`, async () => {
-      await userEvent.type(ui.searchbox, window.location.href);
     });
   },
 };
