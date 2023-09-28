@@ -7,7 +7,7 @@ const PACKAGES_NEXTJS = "./packages/nextjs";
 /**
  * @param {import("plop").NodePlopAPI} plop
  */
-export default function(plop) {
+export default function (plop) {
   plop.setPrompt("autocomplete", autocompletePrompt);
   plop.setGenerator("stories", {
     description: "Generates a Storybook stories file for a component",
@@ -18,39 +18,39 @@ export default function(plop) {
         type: "autocomplete",
         loop: false,
         async source(answers, searchTerms) {
-          return glob.sync(`components/**/*${searchTerms || ""}*`, {
-            cwd: PACKAGES_NEXTJS,
-            nodir: true,
-            nocase: true
-          }).map(file => {
-            const COMPONENT = {
-              FILE: file,
-              DIRNAME: path.dirname(file),
-              BASENAME: path.basename(file, path.extname(file)),
-            };
-            return {
-              name: file,
-              value: COMPONENT,
-            };
-          });
+          return glob
+            .sync(`components/**/*${searchTerms || ""}*`, {
+              cwd: PACKAGES_NEXTJS,
+              nodir: true,
+              nocase: true,
+            })
+            .map((file) => {
+              const COMPONENT = {
+                FILE: file,
+                DIRNAME: path.dirname(file),
+                BASENAME: path.basename(file, path.extname(file)),
+              };
+              return {
+                name: file,
+                value: COMPONENT,
+              };
+            });
         },
         validate(input, _answers) {
           const COMPONENT = input.value;
-          if (['.stories', '.test'].some(end => COMPONENT.BASENAME.endsWith(end))) {
+          if ([".stories", ".test"].some((end) => COMPONENT.BASENAME.endsWith(end))) {
             return `This does not appear to be a Component file: "${input.name}"`;
           }
           return true;
-        }
-      }
+        },
+      },
     ],
     actions: [
       {
         type: "add",
         templateFile: `${PACKAGES_NEXTJS}/__plop_templates/COMPONENT.stories.tsx.hbs`,
         path: `${PACKAGES_NEXTJS}/{{COMPONENT.DIRNAME}}/{{COMPONENT.BASENAME}}.stories.tsx`,
-      }
-    ]
+      },
+    ],
   });
 }
-
-
