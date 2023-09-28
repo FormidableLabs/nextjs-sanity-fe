@@ -123,7 +123,7 @@ export const Search: React.FC = () => {
       >
         {isOpen && results.length ? (
           results.map((variant) => (
-            <li key={variant._id} className="border-b last:border-b-0 py-2 last:pb-0 first:pt-0">
+            <li key={variant._id} className="border-b last:border-b-0 border-primary py-2 last:pb-0 first:pt-0">
               <Link
                 href={{ pathname: `/products/${variant.productSlug}`, query: { variant: variant.slug } }}
                 className="flex items-center"
