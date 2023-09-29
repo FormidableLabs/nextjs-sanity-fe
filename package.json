@@ -1,5 +1,5 @@
 {
-  "name": "next-sanity-fastly-ecomm-demo",
+  "name": "nextjs-sanity-fe",
   "version": "0.0.1",
   "description": "A demo ecommerce site using Next.js, Sanity CMS, and Fastly.",
   "keywords": [],
@@ -7,7 +7,7 @@
   "main": "index.js",
   "license": "MIT",
   "scripts": {
-    "local": "pnpm run --filter ./packages/nextjs --filter ./packages/sanity --parallel dev",
+    "plop": "plop",
     "dev:nextjs": "pnpm run --filter ./packages/nextjs dev",
     "next:dev": "pnpm run --filter ./packages/nextjs next:dev",
     "next:dev:mock": "pnpm run --filter ./packages/nextjs next:dev:mock",
@@ -31,8 +31,11 @@
     "eslint": "^8.31.0",
     "eslint-config-prettier": "^8.6.0",
     "eslint-plugin-prettier": "^4.2.1",
+    "glob": "^10.3.4",
     "husky": "^8.0.3",
+    "inquirer-autocomplete-prompt": "^3.0.0",
     "lint-staged": "^13.1.0",
+    "plop": "^4.0.0",
     "prettier": "^2.8.2",
     "start-server-and-test": "^1.15.2",
     "typescript": "4.9.4"

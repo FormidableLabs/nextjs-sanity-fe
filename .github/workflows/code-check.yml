@@ -5,12 +5,13 @@ on:
     branches:
       - main
   pull_request:
-    branches:
-      - main
+
+env:
+  NEXT_PUBLIC_SANITY_PROJECT_ID: 5bsv02jj
 
 jobs:
-  build:
-    name: Check codebase (lint and typecheck)
+  checks:
+    name: "Check codebase (lint and typecheck)"
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
@@ -22,11 +23,11 @@ jobs:
         with:
           version: 7
 
-      - name: Get pnpm store directory
+      - name: "Get pnpm store directory"
         id: pnpm-cache
         run: echo "::set-output name=pnpm_cache_dir::$(pnpm store path)"
 
-      - name: Setup pnpm cache
+      - name: "Setup pnpm cache"
         uses: actions/cache@v3
         with:
           path: ${{ steps.pnpm-cache.outputs.pnpm_cache_dir }}
@@ -34,11 +35,67 @@ jobs:
           restore-keys: |
             ${{ runner.os }}-pnpm-store-
 
-      - name: Install dependencies
+      - name: "Install dependencies"
         run: pnpm install
 
-      - name: Lint
+      - name: "Lint"
         run: pnpm run lint
 
-      - name: TypeCheck
+      - name: "TypeCheck"
         run: pnpm run typecheck
+
+  tests:
+    name: "Unit Tests"
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+        with:
+          fetch-depth: 0
+      - uses: actions/setup-node@v2
+        with:
+          node-version: 18.x
+
+      - uses: pnpm/action-setup@v2.2.2
+        with:
+          version: 7
+
+      - name: "Get pnpm store directory"
+        id: pnpm-cache
+        run: echo "::set-output name=pnpm_cache_dir::$(pnpm store path)"
+
+      - name: "Setup pnpm cache"
+        uses: actions/cache@v3
+        with:
+          path: ${{ steps.pnpm-cache.outputs.pnpm_cache_dir }}
+          key: ${{ runner.os }}-pnpm-store-${{ hashFiles('./pnpm-lock.yaml') }}
+          restore-keys: |
+            ${{ runner.os }}-pnpm-store-
+
+      - name: "Install dependencies"
+        run: pnpm install
+
+      - name: "Configure .env"
+        working-directory: packages/nextjs
+        run: cp .env.sample .env
+
+      - name: "Storybook: Install Extra Dependencies"
+        working-directory: packages/nextjs
+        run: pnpm exec playwright install
+
+      - name: "Storybook: Build"
+        working-directory: packages/nextjs
+        run: pnpm run storybook:build
+
+      - name: "Storybook: Chromatic"
+        uses: chromaui/action@v1
+        # Chromatic GitHub Action options
+        with:
+          workingDir: packages/nextjs
+          storybookBuildDir: storybook-static
+          exitOnceUploaded: true
+          projectToken: ${{ secrets.CHROMATIC_PROJECT_TOKEN }}
+
+      - name: "Storybook: Run Tests"
+        working-directory: packages/nextjs
+        run: pnpm run test:storybook:start
+
