@@ -1,0 +1,42 @@
+import { Parser } from "./common-types";
+
+import "./commands";
+
+export function createGroqBuilder<TSchema>() {
+  return new GroqBuilder<TSchema, TSchema[keyof TSchema]>("", null);
+}
+
+export class GroqBuilder<TSchema, TScope> {
+  constructor(
+    /**
+     *
+     */
+    protected readonly query: string,
+    /**
+     *
+     */
+    protected readonly parser: Parser<any, TScope> | null
+  ) {}
+
+  /**
+   * Extends the GroqBuilder class by implementing methods.
+   * This allows for this class to be split across multiple files in the `./commands/` folder.
+   * @internal
+   */
+  static implement(methods: Partial<GroqBuilder<any, any>>) {
+    Object.assign(GroqBuilder.prototype, methods);
+  }
+
+  /**
+   * This method is for chaining:
+   */
+  protected extend<TScopeNew>(query: string, parser: Parser<any, any> | null) {
+    return new GroqBuilder<TSchema, TScopeNew>(this.query + query, parser);
+  }
+
+  public async execute(fetchData: (query: string) => Promise<unknown>): Promise<TScope> {
+    const rawData = await fetchData(this.query);
+    const parsed = this.parser?.parse(rawData) || (rawData as TScope);
+    return parsed;
+  }
+}
