@@ -1,9 +1,8 @@
-import { sanityImage, q } from "groqd";
+import { sanityImage, q, z } from "groqd";
 import { _referenced } from "@sanity-typed/types";
 
 import { SanitySchemaTypes } from "./sanity-types";
 import { getTypedQ } from "./sanity-types.dgroq";
-
 describe("groqd", () => {
   it("getProductBySlug", () => {
     q("*")
@@ -124,6 +123,45 @@ describe("d-groq", () => {
           })),
       }));
     type Query2 = Expand<typeof query2>;
+  });
+
+  it("experiment", () => {
+    q("*")
+      .filterByType("product")
+      .grab((q) => ({
+        name: true,
+        DESCRIPTION: q("description"),
+        DESC: "description" as const,
+        description: true,
+        categories: q("categories")
+          .deref()
+          .grab((q) => ({
+            name: true,
+            // SLUG: q("slug").grab("current"),
+            SLUG2: "slug" as const,
+          })),
+      }));
+  });
+  it("external zod", () => {
+    q("*")
+      .filterByType("product")
+      .grab((q) => ({
+        name: z.string(),
+        description: z.string(),
+        slug: q("slug").grab("current", z.string()),
+        categories: q("categories")
+          .deref()
+          .grab((q) => ({
+            name: z.string(),
+            description: z.string(),
+          })),
+        variants: q("variants")
+          .deref()
+          .grab((q) => ({
+            name: z.string(),
+            name2: q("name", z.coerce.string().email().optional()),
+          })),
+      }));
   });
 
   // it("getProductBySlug", () => {

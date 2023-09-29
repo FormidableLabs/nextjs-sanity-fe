@@ -5,6 +5,11 @@ export function getTypedQ<TSchema>() {
   return q as unknown as TypedQ<TSchema>;
 
   type Query<TValue> = (value: TValue) => boolean;
+
+  type Parser<TValue> = {
+    parse(input: unknown): TValue;
+  };
+
   interface TypedQ<TScope> {
     // string(): Query<string>;
     // number(): Query<number>;
@@ -39,7 +44,7 @@ export function getTypedQ<TSchema>() {
         S,
         {
           // Keys of TScope can be `true` to pass-through:
-          [P in keyof TScope]?: StringQuery<keyof TScope> | Query<any> | true;
+          [P in keyof TScope]?: StringQuery<keyof TScope> | Query<any> | Parser<TScope[P]> | true;
         },
         {
           [P in string]: StringQuery<keyof TScope> | Query<any>;

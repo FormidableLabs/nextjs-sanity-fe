@@ -59,6 +59,7 @@ describe("d-groq-d", () => {
         name: q.string(),
         NAME: ["name", q.string()] as const,
         slug: q.slug("slug"),
+        description: "description",
       }));
   });
   it("grabbing fields (with errors)", () => {
@@ -68,9 +69,9 @@ describe("d-groq-d", () => {
       .filter()
       .grab((q) => ({
         name: q.string(),
-        //// @ts-expect-error --- ⛔️ The current scope does not have a field named 'INVALID' ⛔️
+        // @ts-expect-error --- ⛔️ The current scope does not have a field named 'INVALID' ⛔️
         INVALID: q.string(),
-        //// @ts-expect-error --- ⛔️ If you use a tuple, be sure to include 'as const' ⛔️
+        // @ts-expect-error --- ⛔️ If you use a tuple, be sure to include 'as const' ⛔️
         MISSING_AS_CONST: ["name", q.string()] as const,
       }));
   });
