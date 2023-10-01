@@ -15,6 +15,7 @@ import productImage from "./schemas/productImage";
 import siteSettings from "./schemas/siteSettings";
 import style from "./schemas/style";
 import variant from "./schemas/variant";
+import { Simplify } from "./builder/type-utils";
 
 export default defineConfig({
   projectId: "5bsv02jj",
@@ -52,7 +53,7 @@ export default defineConfig({
  * but is far more performant (2s+).
  * Be sure to keep this list updated with all schema types above.
  */
-export type SanitySchemaRaw = {
+export type SanitySchemaRaw = OverrideTypes<{
   category: InferRawValue<typeof category>;
   categoryImage: InferRawValue<typeof categoryImage>;
   description: InferRawValue<typeof description>;
@@ -62,4 +63,8 @@ export type SanitySchemaRaw = {
   siteSettings: InferRawValue<typeof siteSettings>;
   style: InferRawValue<typeof style>;
   variant: InferRawValue<typeof variant>;
+}>;
+
+type OverrideTypes<TDocuments> = {
+  [P in keyof TDocuments]: Simplify<{ _type: P } & Omit<TDocuments[P], "_type">>;
 };
