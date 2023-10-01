@@ -1,5 +1,6 @@
 import { SanitySchemaRaw } from "./sanity.config";
+// import { SimplifyDeep } from "./builder/type-utils";
 
 /** Typescript type of all types! */
-export type SanitySchemaTypes = SimplifyDeep<SanitySchemaRaw>;
-type SimplifyDeep<T> = T extends object ? (T extends infer O ? { [K in keyof O]: SimplifyDeep<O[K]> } : never) : T;
+// export type SanitySchemaTypes = SimplifyDeep<SanitySchemaRaw>;
+export type SanitySchemaTypes = SanitySchemaRaw;

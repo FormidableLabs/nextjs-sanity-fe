@@ -1,22 +1,17 @@
 import { Parser } from "./common-types";
 
 import "./commands";
+import { SimplifyDeep } from "./type-utils";
 
 export function createGroqBuilder<TSchema>() {
-  return new GroqBuilder<TSchema, TSchema[keyof TSchema]>("", null);
+  type DocumentTypes = SimplifyDeep<TSchema[keyof TSchema]>;
+  return new GroqBuilder<TSchema, Array<DocumentTypes>>("", null, null);
 }
 
 export class GroqBuilder<TSchema, TScope> {
-  constructor(
-    /**
-     *
-     */
-    protected readonly query: string,
-    /**
-     *
-     */
-    protected readonly parser: Parser<any, TScope> | null
-  ) {}
+  get TScope(): TScope {
+    return null as any;
+  }
 
   /**
    * Extends the GroqBuilder class by implementing methods.
@@ -27,11 +22,27 @@ export class GroqBuilder<TSchema, TScope> {
     Object.assign(GroqBuilder.prototype, methods);
   }
 
+  protected readonly root: GroqBuilder<TSchema, TScope>;
+  constructor(
+    /**
+     *
+     */
+    protected readonly query: string,
+    /**
+     *
+     */
+    protected readonly parser: Parser<any, TScope> | null,
+
+    root: GroqBuilder<any, any> | null
+  ) {
+    this.root = root || this;
+  }
+
   /**
    * This method is for chaining:
    */
   protected extend<TScopeNew>(query: string, parser: Parser<any, any> | null) {
-    return new GroqBuilder<TSchema, TScopeNew>(this.query + query, parser);
+    return new GroqBuilder<TSchema, TScopeNew>(this.query + query, parser, this.root);
   }
 
   public async execute(fetchData: (query: string) => Promise<unknown>): Promise<TScope> {
