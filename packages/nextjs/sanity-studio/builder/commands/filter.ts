@@ -1,15 +1,14 @@
 import { GroqBuilder } from "../groq-builder";
+import { ArrayItem } from "../type-utils";
 
 declare module "../groq-builder" {
-  export interface GroqBuilder<TSchema, TScope> {
-    filter<TScopeNew extends TScope = TScope>(filterString?: string): GroqBuilder<TSchema, TScopeNew>;
-    filterByType<TType extends Extract<MaybeArrayItem<TScope>, { _type: any }>["_type"]>(
+  export interface GroqBuilder<TScope, TRootConfig> {
+    filter<TScopeNew extends TScope = TScope>(filterString?: string): GroqBuilder<TScopeNew, TRootConfig>;
+    filterByType<TType extends Extract<ArrayItem<TScope>, { _type: any }>["_type"]>(
       type: TType
-    ): GroqBuilder<TSchema, Extract<TScope, { type: TType }>>;
+    ): GroqBuilder<Array<Extract<ArrayItem<TScope>, { _type: TType }>>, TRootConfig>;
   }
 }
-
-type MaybeArrayItem<T> = T extends Array<infer TItem> ? TItem : T;
 
 GroqBuilder.implement({
   filter(this: GroqBuilder<any, any>, filterString = "") {

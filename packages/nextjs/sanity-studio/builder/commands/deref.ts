@@ -1,16 +1,16 @@
-import { GroqBuilder } from "../groq-builder";
+import { GroqBuilder, RootConfig } from "../groq-builder";
 import { ExtractRefType } from "../common-types";
 
 declare module "../groq-builder" {
-  export interface GroqBuilder<TSchema, TScope> {
+  export interface GroqBuilder<TScope, TRootConfig extends RootConfig> {
     deref(): TScope extends Array<infer TScopeItem>
-      ? Array<ExtractRefType<TSchema, TScopeItem>>
-      : ExtractRefType<TSchema, TScope>;
+      ? Array<ExtractRefType<TScopeItem, TRootConfig>>
+      : ExtractRefType<TScope, TRootConfig>;
   }
 }
 
 GroqBuilder.implement({
-  deref(this: GroqBuilder<any, any>): any {
+  deref(this: GroqBuilder<any, RootConfig>): any {
     return this.extend("->", null);
   },
 });

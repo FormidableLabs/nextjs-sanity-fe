@@ -4,6 +4,7 @@ export type IsEqual<A, B> = (<G>() => G extends A ? 1 : 2) extends <G>() => G ex
 
 //
 declare const RECEIVED: unique symbol;
+declare const EXPECTED: unique symbol;
 
 type Negate<Value extends boolean> = Value extends true ? false : true;
 
@@ -76,6 +77,7 @@ type TypeMatchers<Received, Inverted extends boolean = false> = {
     Expected extends IsEqual<Received, Expected> extends Negate<Inverted>
       ? any
       : {
+          [EXPECTED]: Expected;
           [RECEIVED]: Received;
         }
   >(

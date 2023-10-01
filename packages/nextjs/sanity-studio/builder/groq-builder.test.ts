@@ -1,6 +1,6 @@
 import { createGroqBuilder } from "./groq-builder";
-import { SanitySchemaTypes } from "../sanity-types";
-const q = createGroqBuilder<SanitySchemaTypes>();
+import { SchemaConfig } from "../sanity-types";
+const q = createGroqBuilder<SchemaConfig>();
 
 describe("filterByType", () => {
   it("", () => {

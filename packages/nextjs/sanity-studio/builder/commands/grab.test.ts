@@ -1,9 +1,9 @@
 import { createGroqBuilder } from "../groq-builder";
-import { SanitySchemaTypes } from "../../sanity-types";
+import { SchemaConfig } from "../../sanity-types";
 import { expectType } from "../test-utils/expectType";
 import { ExtractScope } from "../common-types";
 
-const q = createGroqBuilder<SanitySchemaTypes>();
+const q = createGroqBuilder<SchemaConfig>();
 
 describe("grab", () => {
   it("grab one property", () => {

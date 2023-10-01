@@ -1,10 +1,12 @@
-import { GroqBuilder } from "../groq-builder";
+import { GroqBuilder, RootConfig } from "../groq-builder";
 import { StringKeys } from "../common-types";
 
 declare module "../groq-builder" {
-  export interface GroqBuilder<TSchema, TScope> {
-    field(all: "*"): GroqBuilder<TSchema, TScope>;
-    field<TFieldName extends StringKeys<keyof TScope>>(fieldName: TFieldName): GroqBuilder<TSchema, TScope[TFieldName]>;
+  export interface GroqBuilder<TScope, TRootConfig extends RootConfig> {
+    field(all: "*"): GroqBuilder<TScope, TRootConfig>;
+    field<TFieldName extends StringKeys<keyof TScope>>(
+      fieldName: TFieldName
+    ): GroqBuilder<TScope[TFieldName], TRootConfig>;
   }
 }
 

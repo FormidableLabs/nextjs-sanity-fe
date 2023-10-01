@@ -1,6 +1,4 @@
-import { GroqBuilder } from "./groq-builder";
-
-export declare const _referenced: unique symbol;
+import { GroqBuilder, RootConfig } from "./groq-builder";
 
 /**
  * A generic "parser" which can take any input and output a parsed type.
@@ -8,17 +6,19 @@ export declare const _referenced: unique symbol;
  */
 export type Parser<TInput, TOutput> = { parse(input: TInput): TOutput };
 
-export type RefType<TType> = {
-  [_referenced]: TType;
+export type RefType<referencedSymbol extends symbol, TType> = {
+  [P in referencedSymbol]: TType;
 };
 
-export type ExtractRefType<TSchema, TScope> = TScope extends RefType<infer TType>
-  ? Get<TSchema, TType>
-  : ExpectError<{
-      Error: "Expected the object to be a reference type";
-      Expected: RefType<keyof TSchema>;
-      Actual: TScope;
-    }>;
+export type ExtractRefType<TScope, TRootConfig extends RootConfig> =
+  //
+  TScope extends RefType<TRootConfig["referenced"], infer TType>
+    ? Get<TRootConfig["TSchema"], TType>
+    : ExpectError<{
+        Error: "Expected the object to be a reference type";
+        Expected: RefType<TRootConfig["referenced"], keyof TRootConfig["TSchema"]>;
+        Actual: TScope;
+      }>;
 
 export type Get<TObj, TKey> = TKey extends keyof TObj
   ? TObj[TKey]
@@ -33,8 +33,8 @@ export type ExpectError<TError extends { Error: string; Expected: any; Actual: a
 export type StringKeys<T> = Exclude<T, symbol | number>;
 
 export type ExtractScope<TGroqBuilder extends GroqBuilder<any, any>> = TGroqBuilder extends GroqBuilder<
-  any,
-  infer TScope
+  infer TScope,
+  infer TRootConfig
 >
   ? TScope
   : never;

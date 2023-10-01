@@ -3,14 +3,14 @@ import { GroqBuilder } from "../groq-builder";
 import { ExpectedTypeError, Parser } from "../common-types";
 
 declare module "../groq-builder" {
-  export interface GroqBuilder<TSchema, TScope> {
+  export interface GroqBuilder<TScope, TRootConfig extends RootConfig> {
     grab<
       TGrab extends {
         [P in keyof TScope & string]?: GrabFieldConfig;
       }
     >(
       grab: TGrab
-    ): GroqBuilder<TSchema, SimplifyDeep<ExtractGrabResult<TScope, TGrab>>>;
+    ): GroqBuilder<SimplifyDeep<ExtractGrabResult<TScope, TGrab>>, TRootConfig>;
   }
 
   export type GrabFieldConfig = true | Parser<any, any> | GroqBuilder<any, any>;
@@ -18,7 +18,7 @@ declare module "../groq-builder" {
   export type ExtractGrabResult<TScope, TGrab> = {
     [P in keyof TGrab /*
      Extract type from GroqBuilder:
-     */]: TGrab[P] extends GroqBuilder<infer TSchema, infer TValue>
+     */]: TGrab[P] extends GroqBuilder<infer TValue, infer TRootConfig>
       ? TValue
       : /* Extract type from 'true': */
       TGrab[P] extends boolean
