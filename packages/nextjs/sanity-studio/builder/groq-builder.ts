@@ -1,21 +1,12 @@
-import { Parser } from "./common-types";
+import { ExtractRootScope, Parser, RootConfig } from "./common-types";
 
 import "./commands";
-import { SimplifyDeep } from "./type-utils";
-
-export type RootConfig = { TSchema: any; referenced: symbol };
 
 export function createGroqBuilder<TRootConfig extends RootConfig>() {
-  type TSchema = TRootConfig["TSchema"];
-  type RootDocumentTypes = Array<SimplifyDeep<TSchema[keyof TSchema]>>;
-  return new GroqBuilder<RootDocumentTypes, TRootConfig>("", null, null);
+  return new GroqBuilder<ExtractRootScope<TRootConfig["TSchema"]>, TRootConfig>("", null, null);
 }
 
 export class GroqBuilder<TScope, TRootConfig extends RootConfig> {
-  get TScope(): TScope {
-    return null as any;
-  }
-
   /**
    * Extends the GroqBuilder class by implementing methods.
    * This allows for this class to be split across multiple files in the `./commands/` folder.

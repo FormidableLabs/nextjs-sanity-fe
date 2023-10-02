@@ -1,4 +1,7 @@
-import { GroqBuilder, RootConfig } from "./groq-builder";
+import { GroqBuilder } from "./groq-builder";
+import { SimplifyDeep } from "./type-utils";
+
+export type RootConfig = { TSchema: any; referenced: symbol };
 
 /**
  * A generic "parser" which can take any input and output a parsed type.
@@ -38,3 +41,8 @@ export type ExtractScope<TGroqBuilder extends GroqBuilder<any, any>> = TGroqBuil
   : never;
 
 export type TypeMismatchError<TError extends { error: string; expected: any; actual: any }> = TError;
+
+export type ExtractRootScope<TSchema> = {
+  "*": ExtractDocumentTypes<TSchema>;
+};
+export type ExtractDocumentTypes<TSchema> = Array<SimplifyDeep<TSchema[keyof TSchema]>>;

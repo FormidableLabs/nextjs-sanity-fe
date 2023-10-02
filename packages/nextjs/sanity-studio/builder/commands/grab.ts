@@ -1,12 +1,12 @@
 import { SimplifyDeep } from "../type-utils";
 import { GroqBuilder } from "../groq-builder";
-import { TypeMismatchError, Parser } from "../common-types";
+import { TypeMismatchError, Parser, RootConfig } from "../common-types";
 
 declare module "../groq-builder" {
   export interface GroqBuilder<TScope, TRootConfig extends RootConfig> {
     grab<
       TGrab extends {
-        [P in keyof TScope & string]?: GrabFieldConfig;
+        [P in keyof TScope | string]?: GrabFieldConfig;
       }
     >(
       grab: TGrab
