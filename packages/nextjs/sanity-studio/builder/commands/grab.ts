@@ -1,6 +1,6 @@
 import { SimplifyDeep } from "../type-utils";
 import { GroqBuilder } from "../groq-builder";
-import { ExpectedTypeError, Parser } from "../common-types";
+import { TypeMismatchError, Parser } from "../common-types";
 
 declare module "../groq-builder" {
   export interface GroqBuilder<TScope, TRootConfig extends RootConfig> {
@@ -24,7 +24,7 @@ declare module "../groq-builder" {
       TGrab[P] extends boolean
       ? P extends keyof TScope
         ? TScope[P]
-        : ExpectedTypeError<{
+        : TypeMismatchError<{
             error: `⛔️ 'true' can only be used for known properties ⛔️`;
             expected: keyof TScope;
             actual: P;
@@ -34,12 +34,12 @@ declare module "../groq-builder" {
       ? P extends keyof TScope
         ? TInput extends TScope[P]
           ? TOutput
-          : ExpectedTypeError<{
+          : TypeMismatchError<{
               error: `⛔️ Parser expects a different input type ⛔️`;
               expected: TScope[P];
               actual: TInput;
             }>
-        : ExpectedTypeError<{
+        : TypeMismatchError<{
             error: `⛔️ a parser can only be used for known properties ⛔️`;
             expected: keyof TScope;
             actual: P;

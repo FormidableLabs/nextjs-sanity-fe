@@ -1,4 +1,4 @@
-import { ExpectedTypeError } from "./common-types";
+import { TypeMismatchError } from "./common-types";
 
 export type Simplify<T> = {
   [KeyType in keyof T]: T[KeyType];
@@ -17,4 +17,4 @@ export type Override<T, TOverrides> = Omit<T, keyof TOverrides> & TOverrides;
 export type MaybeArrayItem<T> = T extends Array<infer TItem> ? TItem : T;
 export type ArrayItem<T> = T extends Array<infer TItem>
   ? TItem
-  : ExpectedTypeError<{ error: "Expected an array"; expected: Array<any>; actual: T }>;
+  : TypeMismatchError<{ error: "Expected an array"; expected: Array<any>; actual: T }>;

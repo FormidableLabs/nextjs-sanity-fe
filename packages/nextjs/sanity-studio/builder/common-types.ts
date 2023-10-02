@@ -6,29 +6,27 @@ import { GroqBuilder, RootConfig } from "./groq-builder";
  */
 export type Parser<TInput, TOutput> = { parse(input: TInput): TOutput };
 
-export type RefType<referencedSymbol extends symbol, TType> = {
-  [P in referencedSymbol]: TType;
+export type RefType<referencedSymbol extends symbol, TTypeName> = {
+  [P in referencedSymbol]: TTypeName;
 };
 
 export type ExtractRefType<TScope, TRootConfig extends RootConfig> =
   //
-  TScope extends RefType<TRootConfig["referenced"], infer TType>
-    ? Get<TRootConfig["TSchema"], TType>
-    : ExpectError<{
-        Error: "Expected the object to be a reference type";
-        Expected: RefType<TRootConfig["referenced"], keyof TRootConfig["TSchema"]>;
-        Actual: TScope;
+  TScope extends RefType<TRootConfig["referenced"], infer TTypeName>
+    ? Get<TRootConfig["TSchema"], TTypeName>
+    : TypeMismatchError<{
+        error: "Expected the object to be a reference type";
+        expected: RefType<TRootConfig["referenced"], keyof TRootConfig["TSchema"]>;
+        actual: TScope;
       }>;
 
 export type Get<TObj, TKey> = TKey extends keyof TObj
   ? TObj[TKey]
-  : ExpectError<{
-      Error: "Invalid property";
-      Expected: keyof TObj;
-      Actual: TKey;
+  : TypeMismatchError<{
+      error: "Invalid property";
+      expected: keyof TObj;
+      actual: TKey;
     }>;
-
-export type ExpectError<TError extends { Error: string; Expected: any; Actual: any }> = TError;
 
 export type StringKeys<T> = Exclude<T, symbol | number>;
 
@@ -39,4 +37,4 @@ export type ExtractScope<TGroqBuilder extends GroqBuilder<any, any>> = TGroqBuil
   ? TScope
   : never;
 
-export type ExpectedTypeError<TError extends { error: string; expected: any; actual: any }> = TError;
+export type TypeMismatchError<TError extends { error: string; expected: any; actual: any }> = TError;
