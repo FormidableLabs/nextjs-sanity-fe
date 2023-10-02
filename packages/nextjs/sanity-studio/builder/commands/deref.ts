@@ -3,9 +3,12 @@ import { ExtractRefType } from "../common-types";
 
 declare module "../groq-builder" {
   export interface GroqBuilder<TScope, TRootConfig extends RootConfig> {
-    deref(): TScope extends Array<infer TScopeItem>
-      ? Array<ExtractRefType<TScopeItem, TRootConfig>>
-      : ExtractRefType<TScope, TRootConfig>;
+    deref(): GroqBuilder<
+      TScope extends Array<infer TScopeItem>
+        ? Array<ExtractRefType<TScopeItem, TRootConfig>>
+        : ExtractRefType<TScope, TRootConfig>,
+      TRootConfig
+    >;
   }
 }
 
