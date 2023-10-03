@@ -24,6 +24,7 @@ export default function (plop) {
               nodir: true,
               nocase: true,
             })
+            .sort((a, b) => a.localeCompare(b))
             .map((file) => {
               const COMPONENT = {
                 FILE: file,
