@@ -1,24 +1,43 @@
-import { SimplifyDeep } from "../type-utils";
+import { MaybeArrayItem, SimplifyDeep } from "../type-utils";
 import { GroqBuilder } from "../groq-builder";
-import { TypeMismatchError, Parser, RootConfig } from "../common-types";
+import { TypeMismatchError, Parser, RootConfig, StringKeys, Get } from "../common-types";
 
 declare module "../groq-builder" {
   export interface GroqBuilder<TScope, TRootConfig extends RootConfig> {
+    // grab(grab: "*"): GroqBuilder<ExtractRootScope<TRootConfig["TSchema"]>["*"], TRootConfig>;
+    grabOne<TGrabString extends StringKeys<keyof MaybeArrayItem<TScope>>>(
+      field: TGrabString
+    ): GroqBuilder<
+      TScope extends Array<infer TScopeItem> ? Array<Get<TScopeItem, TGrabString>> : Get<TScope, TGrabString>,
+      TRootConfig
+    >;
+
     grab<
-      TGrab extends {
-        [P in keyof TScope | string]?: GrabFieldConfig;
+      TGrab extends (TScope extends Array<infer TScopeItem>
+        ? {
+            [P in keyof TScopeItem]?: GrabFieldConfig;
+          }
+        : {
+            [P in keyof TScope]?: GrabFieldConfig;
+          }) & {
+        [P in string]: GrabFieldConfig;
       }
     >(
       grab: TGrab
-    ): GroqBuilder<SimplifyDeep<ExtractGrabResult<TScope, TGrab>>, TRootConfig>;
+    ): GroqBuilder<
+      SimplifyDeep<
+        TScope extends Array<infer TScopeItem>
+          ? Array<ExtractGrabResult<TScopeItem, TGrab>>
+          : ExtractGrabResult<TScope, TGrab>
+      >,
+      TRootConfig
+    >;
   }
 
   export type GrabFieldConfig = true | Parser<any, any> | GroqBuilder<any, any>;
 
   export type ExtractGrabResult<TScope, TGrab> = {
-    [P in keyof TGrab /*
-     Extract type from GroqBuilder:
-     */]: TGrab[P] extends GroqBuilder<infer TValue, infer TRootConfig>
+    [P in keyof TGrab]: TGrab[P] extends GroqBuilder<infer TValue, infer TRootConfig> // Extract type from GroqBuilder:
       ? TValue
       : /* Extract type from 'true': */
       TGrab[P] extends boolean
@@ -49,6 +68,9 @@ declare module "../groq-builder" {
 }
 
 GroqBuilder.implement({
+  grabOne(this: GroqBuilder<any, any>, field) {
+    return this.extend(`.${field}`, null);
+  },
   grab(this: GroqBuilder<any, any>, grab) {
     type TGrab = typeof grab;
     type TKeys = string;
