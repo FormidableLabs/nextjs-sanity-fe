@@ -8,7 +8,9 @@ declare module "../groq-builder" {
     grabOne<TGrabString extends StringKeys<keyof MaybeArrayItem<TScope>>>(
       field: TGrabString
     ): GroqBuilder<
-      TScope extends Array<infer TScopeItem> ? Array<Get<TScopeItem, TGrabString>> : Get<TScope, TGrabString>,
+      NonNullable<
+        TScope extends Array<infer TScopeItem> ? Array<Get<TScopeItem, TGrabString>> : Get<TScope, TGrabString>
+      >,
       TRootConfig
     >;
 
@@ -23,7 +25,7 @@ declare module "../groq-builder" {
         [P in string]: GrabFieldConfig;
       }
     >(
-      grab: TGrab
+      grab: TGrab | ((q: GroqBuilder<MaybeArrayItem<TScope>, TRootConfig>) => TGrab)
     ): GroqBuilder<
       SimplifyDeep<
         TScope extends Array<infer TScopeItem>
