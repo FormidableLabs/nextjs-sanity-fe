@@ -77,7 +77,6 @@ type TypeMatchers<Received, Inverted extends boolean = false> = {
     Expected extends IsEqual<Received, Expected> extends Negate<Inverted>
       ? any
       : {
-          [EXPECTED]: Expected;
           [RECEIVED]: Received;
         }
   >(

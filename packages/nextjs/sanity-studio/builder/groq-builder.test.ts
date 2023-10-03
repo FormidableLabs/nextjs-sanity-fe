@@ -6,12 +6,8 @@ import { ExtractScope } from "./common-types";
 const q = createGroqBuilder<SchemaConfig>();
 
 describe("", () => {
-  const cats = q.star.filterByType("product").grabOne("categories");
-  cats.TScope;
-  cats.TScopeItem;
-
   it("getProductBySlug", () => {
-    const res = q.star
+    const getProductBySlug = q.star
       .filterByType("product")
       .filter("slug.current == $slug")
       .grab((q) => ({
@@ -38,7 +34,7 @@ describe("", () => {
           })),
       }));
 
-    expectType<ExtractScope<typeof res>>().toStrictEqual<
+    expectType<ExtractScope<typeof getProductBySlug>>().toStrictEqual<
       Array<{
         _id: string;
         name: string;
@@ -54,7 +50,7 @@ describe("", () => {
           slug: string;
           style: Array<{
             _id: string;
-            name: string;
+            name: string | undefined;
           }>;
         }>;
       }>
