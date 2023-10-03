@@ -1,7 +1,7 @@
 import { sanityImage, q } from "groqd";
 import { _referenced } from "@sanity-typed/types";
 
-import { SanitySchemaTypes } from "./sanity-types";
+import { SanitySchema } from "./sanity-types";
 import { getTypedQ } from "./sanity-types.dgroqd";
 
 describe("groqd", () => {
@@ -44,7 +44,7 @@ describe("groqd", () => {
 
 /* eslint-disable  */
 describe("d-groq-d", () => {
-  const q = getTypedQ<SanitySchemaTypes>();
+  const q = getTypedQ<SanitySchema>();
 
   it("invalid type", () => {
     //// @ts-expect-error ---
@@ -87,7 +87,7 @@ describe("d-groq-d", () => {
   });
 
   it("grabbing fields from 'product -> categories'", () => {
-    const dataLake: SanitySchemaTypes = null as any;
+    const dataLake: SanitySchema = null as any;
 
     const cat = dataLake.product.categories![0];
     console.log(
