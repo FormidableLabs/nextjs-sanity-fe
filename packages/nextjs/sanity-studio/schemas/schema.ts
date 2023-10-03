@@ -22,3 +22,17 @@ export default [
   style,
   variant,
 ];
+
+// Export just the types of all docs:
+export type AllDocuments = typeof allDocs;
+const allDocs = {
+  category,
+  categoryImage,
+  description,
+  flavour,
+  product,
+  productImage,
+  siteSettings,
+  style,
+  variant,
+};
