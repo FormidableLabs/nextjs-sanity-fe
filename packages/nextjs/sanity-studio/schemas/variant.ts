@@ -80,11 +80,11 @@ export default defineType({
       title: "Images",
       type: "array",
       of: [
-        {
+        defineArrayMember({
           name: "productImage",
           title: "Product Image",
           type: "productImage",
-        },
+        }),
       ],
     }),
     defineField({

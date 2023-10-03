@@ -51,17 +51,17 @@ export default defineType({
         }),
       ],
     }),
-    {
+    defineField({
       name: "variants",
       title: "Variants",
       type: "array",
       of: [
-        {
+        defineArrayMember({
           type: "reference",
-          to: [{ type: "variant" }],
-        },
+          to: [{ type: "variant" } as const],
+        }),
       ],
-    },
+    }),
   ],
   preview: {
     select: {
