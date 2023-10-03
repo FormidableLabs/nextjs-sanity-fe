@@ -1,10 +1,13 @@
-import { ExtractRootScope, Parser, RootConfig } from "./common-types";
+import { Parser } from "./common-types";
 
 import "./commands";
 import { MaybeArrayItem, SimplifyDeep } from "./type-utils";
+import { RootConfig } from "./schema-types";
+
+type RootScope = never;
 
 export function createGroqBuilder<TRootConfig extends RootConfig>() {
-  return new GroqBuilder<ExtractRootScope<TRootConfig["TSchema"]>, TRootConfig>("", null);
+  return new GroqBuilder<RootScope, TRootConfig>("", null);
 }
 
 export class GroqBuilder<TScope, TRootConfig extends RootConfig> {
