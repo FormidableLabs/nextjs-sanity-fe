@@ -1,11 +1,11 @@
 import { createGroqBuilder } from "../groq-builder";
-import { SanitySchemaTypes, SchemaConfig } from "../../sanity-types";
+import { SanitySchema, SchemaConfig } from "../../sanity-types";
 import { expectType } from "../test-utils/expectType";
 import { ExtractScope } from "../common-types";
 
 const q = createGroqBuilder<SchemaConfig>();
-const v = q.field("*").filterByType("variant");
-type Variant = SanitySchemaTypes["variant"];
+const v = q.star.filterByType("variant");
+type Variant = SanitySchema["variant"];
 
 describe("order", () => {
   it("", () => {

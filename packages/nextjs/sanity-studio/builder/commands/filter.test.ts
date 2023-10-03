@@ -1,5 +1,5 @@
 import { createGroqBuilder } from "../groq-builder";
-import { SanitySchemaTypes, SchemaConfig } from "../../sanity-types";
+import { SanitySchema, SchemaConfig } from "../../sanity-types";
 import { expectType } from "../test-utils/expectType";
 import { ExtractScope } from "../common-types";
 
@@ -24,8 +24,8 @@ describe("filter", () => {
 
 describe("filterByType", () => {
   it("", () => {
-    const res = q.field("*").filterByType("flavour");
-    expectType<ExtractScope<typeof res>>().toStrictEqual<Array<SanitySchemaTypes["flavour"]>>();
+    const res = q.star.filterByType("flavour");
+    expectType<ExtractScope<typeof res>>().toStrictEqual<Array<SanitySchema["flavour"]>>();
     expect(q).toMatchObject({
       query: `*[_type == 'flavour']`,
     });
