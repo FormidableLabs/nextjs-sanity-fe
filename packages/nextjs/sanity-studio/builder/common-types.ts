@@ -1,5 +1,5 @@
 import { GroqBuilder } from "./groq-builder";
-import { SimplifyDeep } from "./type-utils";
+import { ValuesOf } from "./type-utils";
 
 export type RootConfig = { TSchema: any; referenced: symbol };
 
@@ -40,9 +40,13 @@ export type ExtractScope<TGroqBuilder extends GroqBuilder<any, any>> = TGroqBuil
   ? TScope
   : never;
 
-export type TypeMismatchError<TError extends { error: string; expected: any; actual: any }> = TError;
-
-export type ExtractRootScope<TSchema> = {
-  "*": ExtractDocumentTypes<TSchema>;
+export type TypeMismatchError<TError extends { error: string; expected: any; actual: any }> = {
+  error: TError["error"];
+  expected: TError["expected"];
+  actual: TError["actual"];
 };
-export type ExtractDocumentTypes<TSchema> = Array<SimplifyDeep<TSchema[keyof TSchema]>>;
+
+export type ExtractRootScope<TRootConfig extends RootConfig> = {
+  "*": ExtractDocumentTypes<TRootConfig>;
+};
+export type ExtractDocumentTypes<TRootConfig extends RootConfig> = Array<ValuesOf<TRootConfig["TSchema"]>>;

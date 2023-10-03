@@ -18,3 +18,5 @@ export type MaybeArrayItem<T> = T extends Array<infer TItem> ? TItem : T;
 export type ArrayItem<T> = T extends Array<infer TItem>
   ? TItem
   : TypeMismatchError<{ error: "Expected an array"; expected: Array<any>; actual: T }>;
+
+export type ValuesOf<T> = T[keyof T];

@@ -3,7 +3,7 @@ import { ExtractRootScope, Parser, RootConfig } from "./common-types";
 import "./commands";
 
 export function createGroqBuilder<TRootConfig extends RootConfig>() {
-  return new GroqBuilder<ExtractRootScope<TRootConfig["TSchema"]>, TRootConfig>("", null, null);
+  return new GroqBuilder<ExtractRootScope<TRootConfig["TSchema"]>, TRootConfig>("", null);
 }
 
 export class GroqBuilder<TScope, TRootConfig extends RootConfig> {
@@ -16,7 +16,10 @@ export class GroqBuilder<TScope, TRootConfig extends RootConfig> {
     Object.assign(GroqBuilder.prototype, methods);
   }
 
-  protected readonly root: GroqBuilder<TScope, TRootConfig>;
+  static implementProperties(properties: { [P in keyof GroqBuilder<any, any>]?: PropertyDescriptor }) {
+    Object.defineProperties(GroqBuilder.prototype, properties as PropertyDescriptorMap);
+  }
+
   constructor(
     /**
      *
@@ -25,18 +28,14 @@ export class GroqBuilder<TScope, TRootConfig extends RootConfig> {
     /**
      *
      */
-    protected readonly parser: Parser<any, TScope> | null,
-
-    root: GroqBuilder<any, any> | null
-  ) {
-    this.root = root || this;
-  }
+    protected readonly parser: Parser<any, TScope> | null
+  ) {}
 
   /**
    * This method is for chaining:
    */
   protected extend<TScopeNew>(query: string, parser: Parser<any, any> | null) {
-    return new GroqBuilder<TScopeNew, TRootConfig>(this.query + query, parser, this.root);
+    return new GroqBuilder<TScopeNew, TRootConfig>(this.query + query, parser);
   }
 
   public async execute(fetchData: (query: string) => Promise<unknown>): Promise<TScope> {
