@@ -1,6 +1,7 @@
-import { MaybeArrayItem, SimplifyDeep } from "../type-utils";
+import { Get, MaybeArrayItem, SimplifyDeep, TypeMismatchError } from "../type-utils";
 import { GroqBuilder } from "../groq-builder";
-import { TypeMismatchError, Parser, RootConfig, StringKeys, Get } from "../common-types";
+import { Parser, StringKeys } from "../common-types";
+import { RootConfig } from "../schema-types";
 
 declare module "../groq-builder" {
   export interface GroqBuilder<TScope, TRootConfig extends RootConfig> {

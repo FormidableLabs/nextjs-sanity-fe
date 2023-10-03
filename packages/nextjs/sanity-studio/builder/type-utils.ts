@@ -1,4 +1,13 @@
-import { TypeMismatchError } from "./common-types";
+export type Primitive = number | string | boolean | null | undefined | symbol;
+
+export type ValueOf<T> = T[keyof T];
+export type Get<TObj, TKey> = TKey extends keyof TObj
+  ? TObj[TKey]
+  : TypeMismatchError<{
+      error: "Invalid property";
+      expected: keyof TObj;
+      actual: TKey;
+    }>;
 
 export type Simplify<T> = {
   [KeyType in keyof T]: T[KeyType];
@@ -19,4 +28,8 @@ export type ArrayItem<T> = T extends Array<infer TItem>
   ? TItem
   : TypeMismatchError<{ error: "Expected an array"; expected: Array<any>; actual: T }>;
 
-export type ValuesOf<T> = T[keyof T];
+export type TypeMismatchError<TError extends { error: string; expected: any; actual: any }> = {
+  error: TError["error"];
+  expected: TError["expected"];
+  actual: TError["actual"];
+};

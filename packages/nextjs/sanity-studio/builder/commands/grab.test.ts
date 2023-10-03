@@ -1,7 +1,9 @@
 import { createGroqBuilder } from "../groq-builder";
 import { SchemaConfig } from "../../sanity-types";
 import { expectType } from "../test-utils/expectType";
-import { ExtractDocumentTypes, ExtractScope, TypeMismatchError } from "../common-types";
+import { ExtractScope } from "../common-types";
+import { ExtractDocumentTypes } from "../schema-types";
+import { TypeMismatchError } from "../type-utils";
 
 const q = createGroqBuilder<SchemaConfig>();
 

@@ -1,5 +1,5 @@
 import { GroqBuilder } from "../groq-builder";
-import { ExtractDocumentTypes, RootConfig } from "../common-types";
+import { ExtractDocumentTypes, RootConfig } from "../schema-types";
 
 declare module "../groq-builder" {
   export interface GroqBuilder<TScope, TRootConfig extends RootConfig> {
