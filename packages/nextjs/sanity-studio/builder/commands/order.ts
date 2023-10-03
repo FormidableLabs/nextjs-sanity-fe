@@ -7,6 +7,9 @@ declare module "../groq-builder" {
     order<TKeys extends StringKeys<keyof ArrayItem<TScope>>>(
       ...fields: Array<`${TKeys}${"" | " asc" | " desc"}`>
     ): GroqBuilder<TScope, TRootConfig>;
+
+    /** @deprecated Sorting is done via the 'order' method */
+    sort: never;
   }
 }
 
