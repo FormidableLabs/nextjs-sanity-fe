@@ -1,5 +1,6 @@
 import { simplifyTypes } from "../src/simplify-types";
 
 declare const process: { argv: string[] };
-const [_, __, source, output] = process.argv;
-simplifyTypes({ source, output });
+const [_, __, sourceFile, outputFile] = process.argv;
+const outputText = simplifyTypes({ sourceFile });
+console.log(outputText);

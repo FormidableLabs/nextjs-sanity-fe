@@ -233,6 +233,12 @@ importers:
 
   packages/ts-simplify:
     devDependencies:
+      '@types/debug':
+        specifier: ^4.1.9
+        version: 4.1.9
+      debug:
+        specifier: ^4.3.4
+        version: 4.3.4(supports-color@8.1.1)
       ts-morph:
         specifier: ^20.0.0
         version: 20.0.0
@@ -1457,7 +1463,7 @@ packages:
     engines: {node: '>=14'}
     dependencies:
       '@open-draft/until': 1.0.3
-      '@types/debug': 4.1.7
+      '@types/debug': 4.1.9
       '@xmldom/xmldom': 0.7.5
       debug: 4.3.4(supports-color@8.1.1)
       headers-polyfill: 3.1.0
@@ -2238,8 +2244,8 @@ packages:
     resolution: {integrity: sha512-vt+kDhq/M2ayberEtJcIN/hxXy1Pk+59g2FV/ZQceeaTyCtCucjL2Q7FXlFjtWn4n15KCr1NE2lNNFhp0lEThw==}
     dev: true
 
-  /@types/debug@4.1.7:
-    resolution: {integrity: sha512-9AonUzyTjXXhEOa0DnqpzZi6VHlqKMswga9EXjpXnnqxwLtdvPPtlO8evrI5D9S6asFRCQ6v+wpiUKbw+vKqyg==}
+  /@types/debug@4.1.9:
+    resolution: {integrity: sha512-8Hz50m2eoS56ldRlepxSBa6PWEVCtzUo/92HgLc2qTMnotJNIm7xP+UZhyWoYsyOdd5dxZ+NZLb24rsKyFs2ow==}
     dependencies:
       '@types/ms': 0.7.31
     dev: true

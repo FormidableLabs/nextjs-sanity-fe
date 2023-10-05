@@ -9,8 +9,12 @@
   "keywords": [],
   "author": "",
   "license": "MIT",
+  "dependencies": {
+    "debug": "^4.3.4",
+    "ts-morph": "^20.0.0"
+  },
   "devDependencies": {
-    "ts-morph": "^20.0.0",
+    "@types/debug": "^4.1.9",
     "ts-node": "^10.9.1",
     "typescript": "^5.2.2"
   }
