@@ -2,8 +2,9 @@ import { Project, SourceFile, TypeFormatFlags } from "ts-morph";
 import { logger } from "./utils/logger";
 
 export type CompileConfig = {
-  include: string[];
-  sourceCode: string | ((details: { project: Project; files: SourceFile[] }) => string);
+  include?: string[];
+  sourceCode?: string | ((details: { project: Project; files: SourceFile[] }) => string);
+  sourceFile?: string;
 };
 
 export function compileTypes(config: CompileConfig) {
@@ -13,19 +14,25 @@ export function compileTypes(config: CompileConfig) {
   });
 
   const files: SourceFile[] = [];
-  for (const includeFile of config.include) {
+  for (const includeFile of config.include || []) {
     logger.info(`Including file ${includeFile}`);
     const includedFile = project.addSourceFileAtPath(includeFile);
     files.push(includedFile);
   }
 
-  let sourceCode: string;
-  if (typeof config.sourceCode === "string") {
-    sourceCode = config.sourceCode;
+  let sourceFile: SourceFile;
+  if (config.sourceFile) {
+    sourceFile = project.addSourceFileAtPath(config.sourceFile);
+  } else if (config.sourceCode) {
+    if (typeof config.sourceCode === "string") {
+      sourceFile = project.createSourceFile("./source.ts", config.sourceCode);
+    } else {
+      const sourceCode = config.sourceCode({ project, files });
+      sourceFile = project.createSourceFile("./source.ts", sourceCode);
+    }
   } else {
-    sourceCode = config.sourceCode({ project, files });
+    throw new Error(`You must supply either 'sourceCode' or 'sourceFile'`);
   }
-  const sourceFile = project.createSourceFile("./source.ts", sourceCode);
   const sourceTypes = sourceFile.getTypeAliases().filter((type) => type.isExported());
 
   const outputFile = project.createSourceFile("./output.ts");

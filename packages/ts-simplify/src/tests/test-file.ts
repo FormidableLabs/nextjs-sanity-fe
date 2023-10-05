@@ -2,14 +2,13 @@ import { SimplifyDeep } from "./simplify";
 
 export type Foo = {
   a: "A";
-  b: "B";
+  b?: "B";
   nested: Nested;
 };
 
 type Nested = {
   c: "C";
+  d?: "D";
 };
 
-export type FooPartial = Partial<Omit<Foo, "b">>;
-
-export type FooSimple = SimplifyDeep<FooPartial>;
+export type FooSimple = SimplifyDeep<Foo>;
