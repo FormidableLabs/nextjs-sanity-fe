@@ -1,10 +1,15 @@
 import { Project, SourceFile, TypeFormatFlags } from "ts-morph";
 import { logger } from "./utils/logger";
+import { unindent } from "./utils/unindent";
 
 export type CompileConfig = {
   include?: string[];
   sourceCode?: string | ((details: { project: Project; files: SourceFile[] }) => string);
   sourceFile?: string;
+  outputOptions?: {
+    header?: string;
+    generateUniqueSymbols?: boolean;
+  };
 };
 
 export function compileTypes(config: CompileConfig) {
@@ -52,5 +57,27 @@ export function compileTypes(config: CompileConfig) {
     });
   }
 
-  return outputFile.getText();
+  const compiledTypes = outputFile.getText();
+
+  // Extract unique symbols, since they cannot be simplified:
+  let uniqueSymbols: string[] = [];
+  if (config.outputOptions?.generateUniqueSymbols ?? true) {
+    const uniqueSymbolNames = new Set<string>();
+    // Find all "[symbol]:" references
+    compiledTypes.replace(/\[(\w+)]:/g, ($0, symbolName) => {
+      uniqueSymbolNames.add(symbolName);
+      return "";
+    });
+    uniqueSymbols = [...uniqueSymbolNames].map((symName) =>
+      unindent(`
+      declare export const ${symName}: unique symbol; 
+    `).trim()
+    );
+  }
+
+  return unindent(`
+    ${config.outputOptions?.header ?? ""}
+    ${uniqueSymbols.join("\n")}
+    ${compiledTypes}
+  `);
 }
