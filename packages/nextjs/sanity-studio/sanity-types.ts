@@ -1,6 +1,7 @@
-import { _referenced, aliasedType, InferRawValue, DefinitionBase } from "@sanity-typed/types";
+import { _referenced, aliasedType } from "@sanity-typed/types";
 import { DocumentTypes } from "./schemas/schema";
-import { Simplify } from "./builder/type-utils";
+import { InferSchemaValuesFromDocuments } from "./builder/schema-types";
+// import { InferSchemaValues } from "@sanity-typed/types";
 
 // import sanityConfig from "./sanity.config";
 // export type SanitySchema = InferSchemaValues<typeof sanityConfig>;
@@ -12,10 +13,6 @@ import { Simplify } from "./builder/type-utils";
  * but is far more performant (2s+).
  */
 export type SanitySchema = InferSchemaValuesFromDocuments<DocumentTypes>;
-
-type InferSchemaValuesFromDocuments<TDocumentTypes extends Record<string, DefinitionBase<any, any, any>>> = {
-  [P in keyof TDocumentTypes]: Simplify<{ _type: P } & Omit<InferRawValue<TDocumentTypes[P]>, "_type">>;
-};
 
 export type SchemaConfig = {
   TSchema: SanitySchema;

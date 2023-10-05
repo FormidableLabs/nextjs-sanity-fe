@@ -1,5 +1,6 @@
 import { AliasValue } from "@sanity-typed/types";
-import { Get, Primitive, TypeMismatchError, ValueOf } from "./type-utils";
+import { InferRawValue, DefinitionBase } from "@sanity-typed/types";
+import { Get, Primitive, Simplify, TypeMismatchError, ValueOf } from "./type-utils";
 
 export type RootConfig = { TSchema: any; referenced: symbol };
 export type RefType<referencedSymbol extends symbol, TTypeName> = {
@@ -15,6 +16,7 @@ export type ExtractRefType<TScope, TRootConfig extends RootConfig> =
         actual: TScope;
       }>;
 export type ExtractDocumentTypes<TRootConfig extends RootConfig> = Array<ValueOf<TRootConfig["TSchema"]>>;
+
 export type ExpandAliasValuesDeep<T, TRootConfig extends RootConfig> = T extends AliasValue<infer TDocType>
   ? Get<TRootConfig["TSchema"], TDocType>
   : T extends Primitive
@@ -24,3 +26,7 @@ export type ExpandAliasValuesDeep<T, TRootConfig extends RootConfig> = T extends
   : {
       [P in keyof T]: ExpandAliasValuesDeep<T[P], TRootConfig>;
     };
+
+export type InferSchemaValuesFromDocuments<TDocumentTypes extends Record<string, DefinitionBase<any, any, any>>> = {
+  [P in keyof TDocumentTypes]: Simplify<{ _type: P } & Omit<InferRawValue<TDocumentTypes[P]>, "_type">>;
+};
