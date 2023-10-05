@@ -13,7 +13,9 @@ export function simplifyTypes(config: { sourceFile: string }) {
       return unindent(`
             import * as SOURCES from './${config.sourceFile}';
       
-            type SimplifyDeep<T> = T extends object
+            type SimplifyDeep<T> = T extends (...args: infer A) => infer R
+              ? (...args: SimplifyDeep<A>) => SimplifyDeep<R>
+              : T extends object
               ? T extends infer O
                 ? { [K in keyof O]: SimplifyDeep<O[K]> }
                 : never

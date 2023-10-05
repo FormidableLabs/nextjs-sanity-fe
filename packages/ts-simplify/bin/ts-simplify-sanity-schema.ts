@@ -1,4 +1,3 @@
-import { simplifyTypes } from "../src/simplify-types";
 import { unindent } from "../src/utils/unindent";
 import { compileTypes } from "../src/compile-types";
 
@@ -15,12 +14,14 @@ function compileSanityTypes(config: { sanityConfigFile: string; exportedAs?: str
         import { InferSchemaValues } from '@sanity-typed/types';
         import { ${exportedAs} as sanityConfig } from './${config.sanityConfigFile}';
   
-        type SimplifyDeep<T> = T extends object
+        type SimplifyDeep<T> = T extends (...args: infer A) => infer R
+          ? (...args: SimplifyDeep<A>) => SimplifyDeep<R>
+          : T extends object
           ? T extends infer O
             ? { [K in keyof O]: SimplifyDeep<O[K]> }
             : never
           : T;
-          
+                  
         export type SanitySchema = SimplifyDeep<InferSchemaValues<typeof sanityConfig>>;            
     `),
   });
