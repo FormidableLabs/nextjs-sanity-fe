@@ -12,3 +12,4 @@ type Nested = {
 };
 
 export type FooSimple = SimplifyDeep<Foo>;
+let fooSimple: FooSimple;
