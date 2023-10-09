@@ -70,8 +70,8 @@ export function compileTypes(config: CompileConfig) {
     });
     uniqueSymbols = [...uniqueSymbolNames].map((symName) =>
       unindent(`
-      declare export const ${symName}: unique symbol; 
-    `).trim()
+        export declare const ${symName}: unique symbol; 
+      `).trim()
     );
   }
 
