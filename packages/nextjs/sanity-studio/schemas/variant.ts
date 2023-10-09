@@ -2,7 +2,7 @@ import { GrMultiple } from "react-icons/gr";
 import groq from "groq";
 import { ValidationContext } from "sanity";
 import { defineArrayMember, defineField, defineType } from "@sanity-typed/types";
-import { sanityClient } from "utils/sanityClient";
+import { sanityClient } from "../../utils/sanityClient";
 
 const isUniqueId = (value: string, context: ValidationContext) => {
   const { document } = context;

@@ -1,0 +1,1040 @@
+{
+  "type": "SchemaRoot",
+  "documents": [
+    {
+      "codegen": {
+        "required": false
+      },
+      "description": "Category of the product",
+      "hidden": false,
+      "readOnly": false,
+      "hasValidation": false,
+      "name": "category",
+      "title": "Category",
+      "type": "Document",
+      "fields": [
+        {
+          "name": "name",
+          "title": "Name",
+          "description": "",
+          "hidden": false,
+          "readOnly": false,
+          "codegen": {
+            "required": false
+          },
+          "hasValidation": true,
+          "definition": {
+            "codegen": {
+              "required": false
+            },
+            "description": null,
+            "hidden": false,
+            "name": "name",
+            "readOnly": false,
+            "title": "Name",
+            "hasValidation": true,
+            "type": "String",
+            "list": null
+          }
+        },
+        {
+          "name": "description",
+          "title": "Description",
+          "description": "",
+          "hidden": false,
+          "readOnly": false,
+          "codegen": {
+            "required": false
+          },
+          "hasValidation": false,
+          "definition": {
+            "codegen": {
+              "required": false
+            },
+            "description": null,
+            "hidden": false,
+            "name": "description",
+            "readOnly": false,
+            "title": "Description",
+            "hasValidation": false,
+            "type": "String",
+            "list": null
+          }
+        },
+        {
+          "name": "slug",
+          "title": "Slug",
+          "description": "",
+          "hidden": false,
+          "readOnly": false,
+          "codegen": {
+            "required": false
+          },
+          "hasValidation": true,
+          "definition": {
+            "codegen": {
+              "required": false
+            },
+            "description": null,
+            "hidden": false,
+            "name": "slug",
+            "readOnly": false,
+            "title": "Slug",
+            "hasValidation": true,
+            "type": "Slug"
+          }
+        },
+        {
+          "name": "images",
+          "title": "Images",
+          "description": "",
+          "hidden": false,
+          "readOnly": false,
+          "codegen": {
+            "required": false
+          },
+          "hasValidation": false,
+          "definition": {
+            "codegen": {
+              "required": false
+            },
+            "description": null,
+            "hidden": false,
+            "name": "images",
+            "readOnly": false,
+            "title": "Images",
+            "hasValidation": false,
+            "type": "Array",
+            "of": [
+              {
+                "codegen": {
+                  "required": false
+                },
+                "description": null,
+                "hidden": false,
+                "name": null,
+                "readOnly": false,
+                "title": null,
+                "hasValidation": false,
+                "type": "Reference",
+                "to": [
+                  {
+                    "codegen": {
+                      "required": false
+                    },
+                    "description": null,
+                    "hidden": false,
+                    "name": null,
+                    "readOnly": false,
+                    "title": null,
+                    "hasValidation": false,
+                    "to": "categoryImage",
+                    "type": "RegistryReference"
+                  }
+                ],
+                "weak": false
+              }
+            ],
+            "list": null
+          }
+        }
+      ]
+    },
+    {
+      "codegen": {
+        "required": false
+      },
+      "description": "Images of Categories",
+      "hidden": false,
+      "readOnly": false,
+      "hasValidation": false,
+      "name": "categoryImage",
+      "title": "Category Image",
+      "type": "Document",
+      "fields": [
+        {
+          "name": "name",
+          "title": "Name",
+          "description": "",
+          "hidden": false,
+          "readOnly": false,
+          "codegen": {
+            "required": false
+          },
+          "hasValidation": true,
+          "definition": {
+            "codegen": {
+              "required": false
+            },
+            "description": null,
+            "hidden": false,
+            "name": "name",
+            "readOnly": false,
+            "title": "Name",
+            "hasValidation": true,
+            "type": "String",
+            "list": null
+          }
+        },
+        {
+          "name": "description",
+          "title": "Description",
+          "description": "",
+          "hidden": false,
+          "readOnly": false,
+          "codegen": {
+            "required": false
+          },
+          "hasValidation": false,
+          "definition": {
+            "codegen": {
+              "required": false
+            },
+            "description": null,
+            "hidden": false,
+            "name": "description",
+            "readOnly": false,
+            "title": "Description",
+            "hasValidation": false,
+            "type": "Text"
+          }
+        },
+        {
+          "name": "images",
+          "title": "Images",
+          "description": "",
+          "hidden": false,
+          "readOnly": false,
+          "codegen": {
+            "required": false
+          },
+          "hasValidation": true,
+          "definition": {
+            "codegen": {
+              "required": false
+            },
+            "description": null,
+            "hidden": false,
+            "name": "images",
+            "readOnly": false,
+            "title": "Images",
+            "hasValidation": true,
+            "type": "Image",
+            "fields": null
+          }
+        }
+      ]
+    },
+    {
+      "codegen": {
+        "required": false
+      },
+      "description": "Flavour of product",
+      "hidden": false,
+      "readOnly": false,
+      "hasValidation": false,
+      "name": "flavour",
+      "title": "Flavour",
+      "type": "Document",
+      "fields": [
+        {
+          "name": "name",
+          "title": "Name",
+          "description": "",
+          "hidden": false,
+          "readOnly": false,
+          "codegen": {
+            "required": false
+          },
+          "hasValidation": false,
+          "definition": {
+            "codegen": {
+              "required": false
+            },
+            "description": null,
+            "hidden": false,
+            "name": "name",
+            "readOnly": false,
+            "title": "Name",
+            "hasValidation": false,
+            "type": "String",
+            "list": null
+          }
+        },
+        {
+          "name": "slug",
+          "title": "Slug",
+          "description": "",
+          "hidden": false,
+          "readOnly": false,
+          "codegen": {
+            "required": false
+          },
+          "hasValidation": true,
+          "definition": {
+            "codegen": {
+              "required": false
+            },
+            "description": null,
+            "hidden": false,
+            "name": "slug",
+            "readOnly": false,
+            "title": "Slug",
+            "hasValidation": true,
+            "type": "Slug"
+          }
+        }
+      ]
+    },
+    {
+      "codegen": {
+        "required": false
+      },
+      "description": "Product of the store",
+      "hidden": false,
+      "readOnly": false,
+      "hasValidation": false,
+      "name": "product",
+      "title": "Product",
+      "type": "Document",
+      "fields": [
+        {
+          "name": "name",
+          "title": "Name",
+          "description": "",
+          "hidden": false,
+          "readOnly": false,
+          "codegen": {
+            "required": false
+          },
+          "hasValidation": true,
+          "definition": {
+            "codegen": {
+              "required": false
+            },
+            "description": null,
+            "hidden": false,
+            "name": "name",
+            "readOnly": false,
+            "title": "Name",
+            "hasValidation": true,
+            "type": "String",
+            "list": null
+          }
+        },
+        {
+          "name": "description",
+          "title": "Description",
+          "description": "",
+          "hidden": false,
+          "readOnly": false,
+          "codegen": {
+            "required": false
+          },
+          "hasValidation": false,
+          "definition": {
+            "codegen": {
+              "required": false
+            },
+            "description": null,
+            "hidden": false,
+            "name": "description",
+            "readOnly": false,
+            "title": "Description",
+            "hasValidation": false,
+            "type": "RegistryReference",
+            "to": "description"
+          }
+        },
+        {
+          "name": "slug",
+          "title": "Slug",
+          "description": "",
+          "hidden": false,
+          "readOnly": false,
+          "codegen": {
+            "required": false
+          },
+          "hasValidation": true,
+          "definition": {
+            "codegen": {
+              "required": false
+            },
+            "description": null,
+            "hidden": false,
+            "name": "slug",
+            "readOnly": false,
+            "title": "Slug",
+            "hasValidation": true,
+            "type": "Slug"
+          }
+        },
+        {
+          "name": "categories",
+          "title": "Categories",
+          "description": "",
+          "hidden": false,
+          "readOnly": false,
+          "codegen": {
+            "required": false
+          },
+          "hasValidation": false,
+          "definition": {
+            "codegen": {
+              "required": false
+            },
+            "description": null,
+            "hidden": false,
+            "name": "categories",
+            "readOnly": false,
+            "title": "Categories",
+            "hasValidation": false,
+            "type": "Array",
+            "of": [
+              {
+                "codegen": {
+                  "required": false
+                },
+                "description": null,
+                "hidden": false,
+                "name": null,
+                "readOnly": false,
+                "title": null,
+                "hasValidation": false,
+                "type": "Reference",
+                "to": [
+                  {
+                    "codegen": {
+                      "required": false
+                    },
+                    "description": null,
+                    "hidden": false,
+                    "name": null,
+                    "readOnly": false,
+                    "title": null,
+                    "hasValidation": false,
+                    "to": "category",
+                    "type": "RegistryReference"
+                  }
+                ],
+                "weak": false
+              }
+            ],
+            "list": null
+          }
+        },
+        {
+          "name": "images",
+          "title": "Images",
+          "description": "",
+          "hidden": false,
+          "readOnly": false,
+          "codegen": {
+            "required": false
+          },
+          "hasValidation": false,
+          "definition": {
+            "codegen": {
+              "required": false
+            },
+            "description": null,
+            "hidden": false,
+            "name": "images",
+            "readOnly": false,
+            "title": "Images",
+            "hasValidation": false,
+            "type": "Array",
+            "of": [
+              {
+                "codegen": {
+                  "required": false
+                },
+                "description": null,
+                "hidden": false,
+                "name": "productImage",
+                "readOnly": false,
+                "title": "Product Image",
+                "hasValidation": false,
+                "type": "RegistryReference",
+                "to": "productImage"
+              }
+            ],
+            "list": null
+          }
+        },
+        {
+          "name": "variants",
+          "title": "Variants",
+          "description": "",
+          "hidden": false,
+          "readOnly": false,
+          "codegen": {
+            "required": false
+          },
+          "hasValidation": false,
+          "definition": {
+            "codegen": {
+              "required": false
+            },
+            "description": null,
+            "hidden": false,
+            "name": "variants",
+            "readOnly": false,
+            "title": "Variants",
+            "hasValidation": false,
+            "type": "Array",
+            "of": [
+              {
+                "codegen": {
+                  "required": false
+                },
+                "description": null,
+                "hidden": false,
+                "name": null,
+                "readOnly": false,
+                "title": null,
+                "hasValidation": false,
+                "type": "Reference",
+                "to": [
+                  {
+                    "codegen": {
+                      "required": false
+                    },
+                    "description": null,
+                    "hidden": false,
+                    "name": null,
+                    "readOnly": false,
+                    "title": null,
+                    "hasValidation": false,
+                    "to": "variant",
+                    "type": "RegistryReference"
+                  }
+                ],
+                "weak": false
+              }
+            ],
+            "list": null
+          }
+        }
+      ]
+    },
+    {
+      "codegen": {
+        "required": false
+      },
+      "description": null,
+      "hidden": false,
+      "readOnly": false,
+      "hasValidation": false,
+      "name": "siteSettings",
+      "title": "Site Settings",
+      "type": "Document",
+      "fields": [
+        {
+          "name": "title",
+          "title": "Site Title",
+          "description": "",
+          "hidden": false,
+          "readOnly": false,
+          "codegen": {
+            "required": false
+          },
+          "hasValidation": false,
+          "definition": {
+            "codegen": {
+              "required": false
+            },
+            "description": null,
+            "hidden": false,
+            "name": "title",
+            "readOnly": false,
+            "title": "Site Title",
+            "hasValidation": false,
+            "type": "String",
+            "list": null
+          }
+        },
+        {
+          "name": "description",
+          "title": "Site Description",
+          "description": "",
+          "hidden": false,
+          "readOnly": false,
+          "codegen": {
+            "required": false
+          },
+          "hasValidation": false,
+          "definition": {
+            "codegen": {
+              "required": false
+            },
+            "description": null,
+            "hidden": false,
+            "name": "description",
+            "readOnly": false,
+            "title": "Site Description",
+            "hasValidation": false,
+            "type": "Text"
+          }
+        }
+      ]
+    },
+    {
+      "codegen": {
+        "required": false
+      },
+      "description": "Style of product",
+      "hidden": false,
+      "readOnly": false,
+      "hasValidation": false,
+      "name": "style",
+      "title": "Style",
+      "type": "Document",
+      "fields": [
+        {
+          "name": "name",
+          "title": "Name",
+          "description": "",
+          "hidden": false,
+          "readOnly": false,
+          "codegen": {
+            "required": false
+          },
+          "hasValidation": false,
+          "definition": {
+            "codegen": {
+              "required": false
+            },
+            "description": null,
+            "hidden": false,
+            "name": "name",
+            "readOnly": false,
+            "title": "Name",
+            "hasValidation": false,
+            "type": "String",
+            "list": null
+          }
+        },
+        {
+          "name": "slug",
+          "title": "Slug",
+          "description": "",
+          "hidden": false,
+          "readOnly": false,
+          "codegen": {
+            "required": false
+          },
+          "hasValidation": true,
+          "definition": {
+            "codegen": {
+              "required": false
+            },
+            "description": null,
+            "hidden": false,
+            "name": "slug",
+            "readOnly": false,
+            "title": "Slug",
+            "hasValidation": true,
+            "type": "Slug"
+          }
+        }
+      ]
+    },
+    {
+      "codegen": {
+        "required": false
+      },
+      "description": "Variant of the product",
+      "hidden": false,
+      "readOnly": false,
+      "hasValidation": false,
+      "name": "variant",
+      "title": "Variant",
+      "type": "Document",
+      "fields": [
+        {
+          "name": "name",
+          "title": "Name",
+          "description": "",
+          "hidden": false,
+          "readOnly": false,
+          "codegen": {
+            "required": false
+          },
+          "hasValidation": true,
+          "definition": {
+            "codegen": {
+              "required": false
+            },
+            "description": null,
+            "hidden": false,
+            "name": "name",
+            "readOnly": false,
+            "title": "Name",
+            "hasValidation": true,
+            "type": "String",
+            "list": null
+          }
+        },
+        {
+          "name": "slug",
+          "title": "Slug",
+          "description": "",
+          "hidden": false,
+          "readOnly": false,
+          "codegen": {
+            "required": false
+          },
+          "hasValidation": true,
+          "definition": {
+            "codegen": {
+              "required": false
+            },
+            "description": null,
+            "hidden": false,
+            "name": "slug",
+            "readOnly": false,
+            "title": "Slug",
+            "hasValidation": true,
+            "type": "Slug"
+          }
+        },
+        {
+          "name": "description",
+          "title": "Description",
+          "description": "",
+          "hidden": false,
+          "readOnly": false,
+          "codegen": {
+            "required": false
+          },
+          "hasValidation": false,
+          "definition": {
+            "codegen": {
+              "required": false
+            },
+            "description": null,
+            "hidden": false,
+            "name": "description",
+            "readOnly": false,
+            "title": "Description",
+            "hasValidation": false,
+            "type": "RegistryReference",
+            "to": "description"
+          }
+        },
+        {
+          "name": "id",
+          "title": "ID",
+          "description": "",
+          "hidden": false,
+          "readOnly": false,
+          "codegen": {
+            "required": false
+          },
+          "hasValidation": true,
+          "definition": {
+            "codegen": {
+              "required": false
+            },
+            "description": null,
+            "hidden": false,
+            "name": "id",
+            "readOnly": false,
+            "title": "ID",
+            "hasValidation": true,
+            "type": "String",
+            "list": null
+          }
+        },
+        {
+          "name": "msrp",
+          "title": "MSRP",
+          "description": "",
+          "hidden": false,
+          "readOnly": false,
+          "codegen": {
+            "required": false
+          },
+          "hasValidation": true,
+          "definition": {
+            "codegen": {
+              "required": false
+            },
+            "description": null,
+            "hidden": false,
+            "name": "msrp",
+            "readOnly": false,
+            "title": "MSRP",
+            "hasValidation": true,
+            "type": "Number",
+            "list": null
+          }
+        },
+        {
+          "name": "price",
+          "title": "Price",
+          "description": "",
+          "hidden": false,
+          "readOnly": false,
+          "codegen": {
+            "required": false
+          },
+          "hasValidation": true,
+          "definition": {
+            "codegen": {
+              "required": false
+            },
+            "description": null,
+            "hidden": false,
+            "name": "price",
+            "readOnly": false,
+            "title": "Price",
+            "hasValidation": true,
+            "type": "Number",
+            "list": null
+          }
+        },
+        {
+          "name": "images",
+          "title": "Images",
+          "description": "",
+          "hidden": false,
+          "readOnly": false,
+          "codegen": {
+            "required": false
+          },
+          "hasValidation": false,
+          "definition": {
+            "codegen": {
+              "required": false
+            },
+            "description": null,
+            "hidden": false,
+            "name": "images",
+            "readOnly": false,
+            "title": "Images",
+            "hasValidation": false,
+            "type": "Array",
+            "of": [
+              {
+                "codegen": {
+                  "required": false
+                },
+                "description": null,
+                "hidden": false,
+                "name": "productImage",
+                "readOnly": false,
+                "title": "Product Image",
+                "hasValidation": false,
+                "type": "RegistryReference",
+                "to": "productImage"
+              }
+            ],
+            "list": null
+          }
+        },
+        {
+          "name": "flavour",
+          "title": "Flavour",
+          "description": "",
+          "hidden": false,
+          "readOnly": false,
+          "codegen": {
+            "required": false
+          },
+          "hasValidation": false,
+          "definition": {
+            "codegen": {
+              "required": false
+            },
+            "description": null,
+            "hidden": false,
+            "name": "flavour",
+            "readOnly": false,
+            "title": "Flavour",
+            "hasValidation": false,
+            "type": "Array",
+            "of": [
+              {
+                "codegen": {
+                  "required": false
+                },
+                "description": null,
+                "hidden": false,
+                "name": null,
+                "readOnly": false,
+                "title": null,
+                "hasValidation": false,
+                "type": "Reference",
+                "to": [
+                  {
+                    "codegen": {
+                      "required": false
+                    },
+                    "description": null,
+                    "hidden": false,
+                    "name": null,
+                    "readOnly": false,
+                    "title": null,
+                    "hasValidation": false,
+                    "to": "flavour",
+                    "type": "RegistryReference"
+                  }
+                ],
+                "weak": false
+              }
+            ],
+            "list": null
+          }
+        },
+        {
+          "name": "style",
+          "title": "Style (options)",
+          "description": "",
+          "hidden": false,
+          "readOnly": false,
+          "codegen": {
+            "required": false
+          },
+          "hasValidation": false,
+          "definition": {
+            "codegen": {
+              "required": false
+            },
+            "description": null,
+            "hidden": false,
+            "name": "style",
+            "readOnly": false,
+            "title": "Style (options)",
+            "hasValidation": false,
+            "type": "Array",
+            "of": [
+              {
+                "codegen": {
+                  "required": false
+                },
+                "description": null,
+                "hidden": false,
+                "name": null,
+                "readOnly": false,
+                "title": null,
+                "hasValidation": false,
+                "type": "Reference",
+                "to": [
+                  {
+                    "codegen": {
+                      "required": false
+                    },
+                    "description": null,
+                    "hidden": false,
+                    "name": null,
+                    "readOnly": false,
+                    "title": null,
+                    "hasValidation": false,
+                    "to": "style",
+                    "type": "RegistryReference"
+                  }
+                ],
+                "weak": false
+              }
+            ],
+            "list": null
+          }
+        }
+      ]
+    }
+  ],
+  "registeredTypes": [
+    {
+      "codegen": {
+        "required": false
+      },
+      "description": null,
+      "hidden": false,
+      "name": "description",
+      "readOnly": false,
+      "title": "Description",
+      "hasValidation": false,
+      "type": "Array",
+      "of": [
+        {
+          "codegen": {
+            "required": false
+          },
+          "description": null,
+          "hidden": false,
+          "name": null,
+          "readOnly": false,
+          "title": null,
+          "hasValidation": false,
+          "type": "Block",
+          "of": null,
+          "markDefs": []
+        }
+      ],
+      "list": null
+    },
+    {
+      "codegen": {
+        "required": false
+      },
+      "description": "Images of Products",
+      "hidden": false,
+      "name": "productImage",
+      "readOnly": false,
+      "title": "Product Image",
+      "hasValidation": false,
+      "type": "Image",
+      "fields": [
+        {
+          "name": "name",
+          "title": "Name",
+          "description": "",
+          "hidden": false,
+          "readOnly": false,
+          "codegen": {
+            "required": false
+          },
+          "hasValidation": true,
+          "definition": {
+            "codegen": {
+              "required": false
+            },
+            "description": null,
+            "hidden": false,
+            "name": "name",
+            "readOnly": false,
+            "title": "Name",
+            "hasValidation": true,
+            "type": "String",
+            "list": null
+          }
+        },
+        {
+          "name": "description",
+          "title": "Description",
+          "description": "",
+          "hidden": false,
+          "readOnly": false,
+          "codegen": {
+            "required": false
+          },
+          "hasValidation": false,
+          "definition": {
+            "codegen": {
+              "required": false
+            },
+            "description": null,
+            "hidden": false,
+            "name": "description",
+            "readOnly": false,
+            "title": "Description",
+            "hasValidation": false,
+            "type": "Text"
+          }
+        }
+      ]
+    }
+  ]
+}
