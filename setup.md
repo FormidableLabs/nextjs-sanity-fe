@@ -82,10 +82,10 @@ Use the default dataset configuration? **Yes**
 
 Sanity cli will detect the project files in the repository and deploy automatically. Once Sanity has completed initialization, we need to use the newly created project id and place that in our `.env` file. To do this, go to the `sanity.json` file and grab the `projectId` (Sanity cli should have modified the value automatically). Put the new projectId into your `.env` file.
 
-You should now be able to run `pnpm local` which will run:
+You should now be able to run `pnpm next:dev` which will run:
 
 - Next.js on `http://localhost:3000`
-- Sanity Studio on `http://localhost:3333/desk`
+- Sanity Studio on `http://localhost:3000/studio`
 
 If you load up Sanity Studio, you will notice the schema is there, but there's no data. No worries, we have a script which can add the same data we run on the Formidable Bread site!
 
@@ -113,10 +113,7 @@ There is an `./packages/nextjs/.env.sample` committed to the repo which contains
 
 :bulb: To get a list of scripts available, you can run `pnpm run` and it will output a list of available commands.
 
-- `local` - Runs Sanity Studio, Next.js app
-- `dev:nextjs` - Runs NextJs app
+- `next:dev` - Runs NextJs app & Sanity Studio locally
 - `build:nextjs` - Builds NextJS app
 - `start:nextjs` - Starts the built out NextJs app
-- `dev:sanity` - Runs Sanity Studio locally
-- `build:sanity` - Builds Sanity Studio
 - `deploy-sanity-studio` - Deploys Sanity Studio to Sanity

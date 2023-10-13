@@ -5,7 +5,6 @@
   "author": "Formidable",
   "license": "MIT",
   "scripts": {
-    "dev": "concurrently \"yarn next:dev\"",
     "next:dev": "next dev",
     "next:dev:mock": "NEXT_PUBLIC_API_MOCKING=enabled next dev",
     "build": "next build",
@@ -13,7 +12,8 @@
     "test:unit": "jest",
     "test:unit:watch": "jest --watch",
     "lint": "next lint --quiet",
-    "typecheck": "tsc --noEmit"
+    "typecheck": "tsc --noEmit",
+    "seed-sanity": "sanity dataset import sanity-studio/production.tar.gz production"
   },
   "dependencies": {
     "@headlessui/react": "^1.7.8",

@@ -7,8 +7,6 @@
   "main": "index.js",
   "license": "MIT",
   "scripts": {
-    "local": "pnpm run --filter ./packages/nextjs --filter ./packages/sanity --parallel dev",
-    "dev:nextjs": "pnpm run --filter ./packages/nextjs dev",
     "next:dev": "pnpm run --filter ./packages/nextjs next:dev",
     "next:dev:mock": "pnpm run --filter ./packages/nextjs next:dev:mock",
     "build:nextjs": "pnpm run --filter ./packages/nextjs build",

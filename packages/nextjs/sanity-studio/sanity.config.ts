@@ -8,7 +8,7 @@ import schemaTypes from "./schemas/schema";
 import { customStructure } from "./deskStructure";
 
 export default defineConfig({
-  projectId: "5bsv02jj",
+  projectId: process.env.NEXT_PUBLIC_SANITY_PROJECT_ID,
   dataset: "production",
   basePath: "/studio",
   plugins: [
