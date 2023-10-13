@@ -160,7 +160,6 @@ export const getServerSideProps = (async ({ query, res, resolvedUrl }) => {
   // Pagination data.
   const pagination = getPaginationFromQuery(query);
   const result = await getAllFilteredVariants(filters, order, pagination);
-  console.log({ result });
   const { variants, itemCount } = result;
   const { currentPage, pageSize } = pagination;
   const pageCount = Math.ceil(itemCount / pageSize);
