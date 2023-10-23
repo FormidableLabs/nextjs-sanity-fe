@@ -52,8 +52,11 @@ jobs:
           restore-keys: |
             ${{ runner.os }}-cypress-store-
 
+      - name: Build UI ${{ matrix.node-version }}
+        working-directory: packages/ui
+        run: pnpm build
+
       - name: Cypress Run (Production Backend)
         run: pnpm run test:e2e-real:start
-
 #      - name: Cypress Run (Mock Backend)
 #        run: pnpm run test:e2e-mock:start
