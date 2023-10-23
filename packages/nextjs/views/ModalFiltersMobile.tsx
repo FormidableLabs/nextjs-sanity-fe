@@ -1,7 +1,7 @@
-import { Button } from "components/Button";
+import { Button } from "ui";
+import React from "react";
 import { Modal } from "components/Modal";
 import { ProductFilters } from "components/ProductFilters/ProductFilters";
-import React from "react";
 import { CategoryFilterItem, FlavourFilterItem, StyleFilterItem } from "utils/groqTypes/ProductList";
 
 interface ModalFiltersMobileProps {
