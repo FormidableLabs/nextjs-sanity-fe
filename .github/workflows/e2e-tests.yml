@@ -23,7 +23,7 @@ jobs:
 
       - uses: pnpm/action-setup@v2.2.2
         with:
-          version: 7
+          version: 8
 
       - name: Get pnpm store directory
         id: pnpm-cache
@@ -54,6 +54,5 @@ jobs:
 
       - name: Cypress Run (Production Backend)
         run: pnpm run test:e2e-real:start
-
 #      - name: Cypress Run (Mock Backend)
 #        run: pnpm run test:e2e-mock:start
