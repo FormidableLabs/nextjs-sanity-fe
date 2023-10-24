@@ -8,7 +8,7 @@
   "module": "dist/index.mjs",
   "types": "dist/index.d.ts",
   "scripts": {
-    "build": "tsup",
+    "build": "rm -rf dist && tsup",
     "storybook": "storybook dev -p 6006",
     "storybook:build": "storybook build",
     "storybook:start": "test -d storybook-static || pnpm run storybook:build && http-server --port 6006 --silent true storybook-static",
