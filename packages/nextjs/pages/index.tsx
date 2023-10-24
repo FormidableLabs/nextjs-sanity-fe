@@ -5,7 +5,7 @@ import { FiArrowRight } from "react-icons/fi";
 import Link from "next/link";
 import NextImage from "next/legacy/image";
 
-import { Button } from "ui";
+import { Button } from "shared-ui";
 import { setCachingHeaders } from "utils/setCachingHeaders";
 import { localImageLoader } from "utils/localImageLoader";
 import { SanityType } from "utils/consts";

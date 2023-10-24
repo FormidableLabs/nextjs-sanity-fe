@@ -53,7 +53,7 @@
     "react-is": "^18.2.0",
     "sanity": "^3.9.1",
     "styled-components": "^5.2.0",
-    "ui": "workspace:*"
+    "shared-ui": "workspace:*"
   },
   "devDependencies": {
     "@portabletext/types": "^2.0.0",

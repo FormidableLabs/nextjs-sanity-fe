@@ -1,5 +1,5 @@
 import { FiPlus } from "react-icons/fi";
-import { Button } from "ui";
+import { Button } from "shared-ui";
 import { Input } from "components/Input";
 import { H6 } from "components/Typography/H6";
 

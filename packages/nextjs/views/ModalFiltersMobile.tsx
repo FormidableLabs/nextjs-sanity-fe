@@ -1,4 +1,4 @@
-import { Button } from "ui";
+import { Button } from "shared-ui";
 import React from "react";
 import { Modal } from "components/Modal";
 import { ProductFilters } from "components/ProductFilters/ProductFilters";

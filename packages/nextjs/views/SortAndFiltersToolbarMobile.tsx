@@ -1,4 +1,4 @@
-import { Button } from "ui";
+import { Button } from "shared-ui";
 import React from "react";
 import { MdOutlineFilterList } from "react-icons/md";
 import { ProductSort } from "components/ProductSort";
