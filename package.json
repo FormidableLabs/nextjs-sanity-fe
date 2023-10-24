@@ -12,6 +12,7 @@
     "next:dev": "pnpm run --filter ./packages/nextjs next:dev",
     "next:dev:mock": "pnpm run --filter ./packages/nextjs next:dev:mock",
     "build:nextjs": "pnpm run --filter ./packages/nextjs build",
+    "build:shared-ui": "pnpm run --filter shared-ui build",
     "start:nextjs": "pnpm run --filter ./packages/nextjs start",
     "prepare": "husky install",
     "lint": "pnpm run --parallel lint",

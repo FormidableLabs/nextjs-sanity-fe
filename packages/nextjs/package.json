@@ -8,7 +8,7 @@
     "dev": "concurrently \"yarn next:dev\"",
     "next:dev": "next dev",
     "next:dev:mock": "NEXT_PUBLIC_API_MOCKING=enabled next dev",
-    "build": "next build",
+    "build": "pnpm -C ../../ build:shared-ui && next build",
     "start": "next start",
     "test:unit": "jest",
     "test:unit:watch": "jest --watch",
