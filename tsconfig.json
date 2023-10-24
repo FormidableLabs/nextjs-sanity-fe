@@ -13,14 +13,5 @@
     "esModuleInterop": true,
     "module": "CommonJS",
     "moduleResolution": "node"
-  },
-  "include": [
-    "**/*.ts",
-    "**/*.tsx",
-  ],
-  "exclude": [
-    "node_modules",
-    "dist",
-    ".storybook"
-  ]
+  }
 }
