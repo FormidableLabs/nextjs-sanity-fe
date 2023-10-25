@@ -4,9 +4,9 @@ import { useCallback, useEffect, useMemo, useReducer } from "react";
 import debounce from "lodash.debounce";
 import Link from "next/link";
 import { q, sanityImage, TypeFromSelection } from "groqd";
+import { Input } from "shared-ui";
 import { runQuery } from "utils/sanityClient";
 import { Image } from "./Image";
-import { Input } from "./Input";
 
 type State = {
   results: ProductSearch[];
