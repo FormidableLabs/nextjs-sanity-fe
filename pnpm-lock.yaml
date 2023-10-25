@@ -194,7 +194,7 @@ importers:
         version: 3.9.1(@types/node@20.8.7)(@types/react@18.2.0)(react-dom@18.2.0)(react@18.2.0)(styled-components@5.3.10)
       shared-ui:
         specifier: workspace:*
-        version: link:../ui
+        version: link:../shared-ui
       styled-components:
         specifier: ^5.2.0
         version: 5.3.10(react-dom@18.2.0)(react-is@18.2.0)(react@18.2.0)
@@ -281,19 +281,7 @@ importers:
         specifier: ^1.15.5
         version: 1.15.5
 
-  packages/tests-e2e:
-    devDependencies:
-      '@testing-library/cypress':
-        specifier: ^8.0.3
-        version: 8.0.3(cypress@10.9.0)
-      cypress:
-        specifier: ^10.9.0
-        version: 10.9.0
-      msw:
-        specifier: ^0.47.4
-        version: 0.47.4(typescript@4.9.4)
-
-  packages/ui:
+  packages/shared-ui:
     dependencies:
       '@tailwindcss/typography':
         specifier: ^0.5.4
@@ -314,6 +302,18 @@ importers:
       tsup:
         specifier: ^7.2.0
         version: 7.2.0(typescript@4.9.4)
+
+  packages/tests-e2e:
+    devDependencies:
+      '@testing-library/cypress':
+        specifier: ^8.0.3
+        version: 8.0.3(cypress@10.9.0)
+      cypress:
+        specifier: ^10.9.0
+        version: 10.9.0
+      msw:
+        specifier: ^0.47.4
+        version: 0.47.4(typescript@4.9.4)
 
 packages:
 
