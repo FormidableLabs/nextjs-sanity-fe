@@ -1,9 +1,9 @@
 import { MdArrowForward } from "react-icons/md";
 import { Button } from "shared-ui";
 import { Input } from "shared-ui";
+import { Pill } from "shared-ui";
 import { Checkbox } from "components/Checkbox";
 import { LinkText } from "components/LinkText";
-import { Pill } from "components/Pill";
 import { Select } from "components/Select";
 
 export default function ComponentsPage() {

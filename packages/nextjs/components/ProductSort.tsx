@@ -1,7 +1,7 @@
 import * as React from "react";
+import { Pill } from "shared-ui";
 import { PAGE_QUERY_PARAM, SORT_OPTIONS, SORT_OPTIONS_ARRAY, SORT_QUERY_PARAM, SortType } from "utils/sorting";
 import { useRouterQueryParams } from "utils/useRouterQueryParams";
-import { Pill } from "./Pill";
 import { Select } from "./Select";
 
 type ProductSortProps = {
