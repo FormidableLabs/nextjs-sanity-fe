@@ -5,6 +5,7 @@ import { GetServerSideProps, NextPage } from "next";
 import { useRouter } from "next/router";
 import { AnimatePresence } from "framer-motion";
 
+import { H6 } from "shared-ui";
 import { setCachingHeaders } from "utils/setCachingHeaders";
 import { isSlug } from "utils/isSlug";
 import { SanityType } from "utils/consts";
@@ -19,7 +20,6 @@ import { Price } from "components/Price";
 import { QuantityInput } from "components/ProductPage/QuantityInput";
 import { StyleOptions } from "components/ProductPage/StyleOptions";
 import { ProductVariantSelector } from "components/ProductPage/ProductVariantSelector";
-import { H6 } from "components/Typography/H6";
 import { Product } from "components/Product";
 import { FadeInOut } from "components/FadeInOut";
 import { Breadcrumbs } from "components/Breadcrumbs";

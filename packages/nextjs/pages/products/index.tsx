@@ -4,6 +4,7 @@ import { AnimatePresence } from "framer-motion";
 import { useRouter } from "next/router";
 import classNames from "classnames";
 
+import { H6 } from "shared-ui";
 import { getAllFilteredVariants } from "utils/getFilteredPaginatedQuery";
 import { getCategoryFilters, getFlavourFilters, getStyleFilters } from "utils/getFilters";
 import { getPaginationFromQuery } from "utils/getPaginationFromQuery";
@@ -20,7 +21,6 @@ import { WeDontSellBreadBanner } from "components/WeDontSellBreadBanner";
 import { ProductSort } from "components/ProductSort";
 import { ProductFilters } from "components/ProductFilters/ProductFilters";
 import { Product } from "components/Product";
-import { H6 } from "components/Typography/H6";
 import { Pagination } from "components/Pagination";
 import { FadeInOut } from "components/FadeInOut";
 import { Breadcrumbs } from "components/Breadcrumbs/Breadcrumbs";

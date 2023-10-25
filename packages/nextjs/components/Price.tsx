@@ -1,5 +1,5 @@
 import * as React from "react";
-import { Eyebrow } from "components/Typography/Eyebrow";
+import { Eyebrow } from "shared-ui";
 import { currencyFormatter } from "utils/currencyFormatter";
 
 interface Props {
