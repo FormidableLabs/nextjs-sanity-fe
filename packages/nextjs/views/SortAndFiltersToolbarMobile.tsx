@@ -1,7 +1,7 @@
-import { Button } from "components/Button";
-import { ProductSort } from "components/ProductSort";
+import { Button } from "shared-ui";
 import React from "react";
 import { MdOutlineFilterList } from "react-icons/md";
+import { ProductSort } from "components/ProductSort";
 import { useGetFiltersCount } from "utils/getFiltersCount";
 
 interface SortAndFiltersToolbarMobileProps {

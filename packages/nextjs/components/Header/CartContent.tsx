@@ -1,7 +1,7 @@
 import * as React from "react";
 import { IoIosClose } from "react-icons/io";
 import Link from "next/link";
-import { Button } from "components/Button";
+import { Button } from "shared-ui";
 import { useCart } from "components/CartContext";
 import { CartItem } from "components/CartItem";
 import { currencyFormatter } from "utils/currencyFormatter";

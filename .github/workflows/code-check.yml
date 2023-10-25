@@ -78,6 +78,10 @@ jobs:
         working-directory: packages/nextjs
         run: cp .env.sample .env
 
+      - name: Build UI ${{ matrix.node-version }}
+        working-directory: packages/ui
+        run: pnpm build
+
       - name: "Storybook: Install Extra Dependencies"
         working-directory: packages/nextjs
         run: pnpm exec playwright install

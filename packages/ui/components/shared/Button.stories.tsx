@@ -1,4 +1,4 @@
-import type { Meta, StoryObj } from ".storybook/types";
+import type { Meta, StoryObj } from "../../.storybook/types";
 import { Button } from "./Button";
 
 const meta: Meta<typeof Button> = {

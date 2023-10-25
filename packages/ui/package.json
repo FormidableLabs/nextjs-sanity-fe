@@ -1,0 +1,32 @@
+{
+  "name": "shared-ui",
+  "version": "0.0.1",
+  "private": true,
+  "author": "Formidable",
+  "license": "MIT",
+  "main": "dist/index.js",
+  "module": "dist/index.mjs",
+  "types": "dist/index.d.ts",
+  "scripts": {
+    "build": "rm -rf dist && tsup",
+    "storybook": "storybook dev -p 6006",
+    "storybook:build": "storybook build",
+    "storybook:start": "test -d storybook-static || pnpm run storybook:build && http-server --port 6006 --silent true storybook-static",
+    "test:storybook": "test-storybook --verbose --maxWorkers 1",
+    "test:storybook:start": "start-server-and-test 'pnpm run storybook:start' 6006 'pnpm run test:storybook'"
+  },
+  "dependencies": {
+    "@tailwindcss/typography": "^0.5.4",
+    "classnames": "^2.3.2",
+    "framer-motion": "^7.4.0"
+  },
+  "peerDependencies": {
+    "react": ">=18.0.0",
+    "react-dom": ">=18.0.0"
+  },
+  "devDependencies": {
+    "tsup": "^7.2.0",
+    "react": "18.2.0",
+    "react-dom": "18.2.0"
+  }
+}
