@@ -5,6 +5,7 @@ import { useRouter } from "next/router";
 import classNames from "classnames";
 
 import { H6 } from "shared-ui";
+import { WeDontSellBreadBanner } from "shared-ui";
 import { getAllFilteredVariants } from "utils/getFilteredPaginatedQuery";
 import { getCategoryFilters, getFlavourFilters, getStyleFilters } from "utils/getFilters";
 import { getPaginationFromQuery } from "utils/getPaginationFromQuery";
@@ -17,7 +18,6 @@ import { CategoryFilterItem, FlavourFilterItem, PLPVariant, StyleFilterItem } fr
 import { useDeviceSize } from "utils/useDeviceSize";
 
 import { PageHead } from "components/PageHead";
-import { WeDontSellBreadBanner } from "components/WeDontSellBreadBanner";
 import { ProductSort } from "components/ProductSort";
 import { ProductFilters } from "components/ProductFilters/ProductFilters";
 import { Product } from "components/Product";

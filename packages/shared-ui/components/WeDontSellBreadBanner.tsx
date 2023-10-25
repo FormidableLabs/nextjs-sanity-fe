@@ -1,5 +1,3 @@
-import * as React from "react";
-
 export const WeDontSellBreadBanner = () => {
   return (
     <div className="p-2 bg-primary">
