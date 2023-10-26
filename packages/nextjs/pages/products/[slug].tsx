@@ -6,13 +6,13 @@ import { useRouter } from "next/router";
 import { AnimatePresence } from "framer-motion";
 
 import { H6, FadeInOut } from "shared-ui";
+import { BlockContent } from "shared-ui";
 import { setCachingHeaders } from "utils/setCachingHeaders";
 import { isSlug } from "utils/isSlug";
 import { SanityType } from "utils/consts";
 import { getRecommendations } from "utils/getRecommendationsQuery";
 import { getProductBySlug } from "utils/getProductBySlug";
 
-import { BlockContent } from "components/BlockContent";
 import { ImageCarousel } from "components/ImageCarousel";
 import { useCart } from "components/CartContext";
 import { PageHead } from "components/PageHead";

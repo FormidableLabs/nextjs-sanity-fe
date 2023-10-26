@@ -7,5 +7,8 @@ export * from "./components/Bread.icon";
 export * from "./components/FeaturedQuote";
 export * from "./components/FadeInOut";
 export * from "./components/Select";
+export * from "./components/LinkText";
 export * from "./components/Modal";
 export * from "./components/WeDontSellBreadBanner";
+
+export * from "./components/sanity";
