@@ -5,7 +5,7 @@ import { FiArrowRight } from "react-icons/fi";
 import Link from "next/link";
 import NextImage from "next/legacy/image";
 
-import { Button } from "shared-ui";
+import { Button, FeaturedQuote } from "shared-ui";
 import { setCachingHeaders } from "utils/setCachingHeaders";
 import { localImageLoader } from "utils/localImageLoader";
 import { SanityType } from "utils/consts";
@@ -14,7 +14,6 @@ import { getRecommendations } from "utils/getRecommendationsQuery";
 
 import featuredImg from "assets/featured-story.jpg";
 import { FeaturedList } from "components/FeaturedList";
-import { FeaturedQuote } from "components/FeaturedQuote";
 import { Image } from "components/Image";
 import { PageHead } from "components/PageHead";
 

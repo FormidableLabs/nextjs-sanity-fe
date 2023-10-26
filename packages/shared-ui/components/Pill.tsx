@@ -13,7 +13,7 @@ export const Pill: React.FC<Props> = ({ disabled, className, selected, children,
     <button
       disabled={disabled}
       className={classNames(
-        "border text-body-sm rounded-full py-2 px-4 hover:bg-primary hover:text-sky transition transition-colors duration-150",
+        "border text-body-sm rounded-full py-2 px-4 hover:bg-primary hover:text-sky transition-colors duration-150",
         {
           "text-primary": !selected,
           "bg-primary text-sky": selected,

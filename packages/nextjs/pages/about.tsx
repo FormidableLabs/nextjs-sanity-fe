@@ -3,8 +3,8 @@ import { NextPage } from "next";
 import NextImage from "next/legacy/image";
 
 import Link from "next/link";
+import { BreadIcon } from "shared-ui";
 import { localImageLoader } from "utils/localImageLoader";
-import { BreadIcon } from "components/Bread.icon";
 import { PageHead } from "components/PageHead";
 import { Breadcrumbs } from "components/Breadcrumbs";
 
