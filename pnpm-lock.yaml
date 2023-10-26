@@ -295,6 +295,9 @@ importers:
       framer-motion:
         specifier: ^7.4.0
         version: 7.4.0(react-dom@18.2.0)(react@18.2.0)
+      react-icons:
+        specifier: ^4.4.0
+        version: 4.4.0(react@18.2.0)
     devDependencies:
       react:
         specifier: 18.2.0

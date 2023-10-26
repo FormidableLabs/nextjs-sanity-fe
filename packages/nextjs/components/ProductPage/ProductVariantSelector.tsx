@@ -1,7 +1,6 @@
 import * as React from "react";
 import { useMemo } from "react";
-import { H6 } from "shared-ui";
-import { Select } from "components/Select";
+import { H6, Select } from "shared-ui";
 import { Variant } from "utils/groqTypes/ProductList";
 
 interface Props {

@@ -6,4 +6,5 @@ export * from "./components/Checkbox";
 export * from "./components/Bread.icon";
 export * from "./components/FeaturedQuote";
 export * from "./components/FadeInOut";
+export * from "./components/Select";
 export * from "./components/WeDontSellBreadBanner";
