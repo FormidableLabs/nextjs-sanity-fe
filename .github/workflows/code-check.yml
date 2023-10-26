@@ -79,7 +79,7 @@ jobs:
         run: cp .env.sample .env
 
       - name: Build UI ${{ matrix.node-version }}
-        working-directory: packages/ui
+        working-directory: packages/shared-ui
         run: pnpm build
 
       - name: "Storybook: Install Extra Dependencies"
