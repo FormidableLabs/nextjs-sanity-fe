@@ -16,6 +16,7 @@
     "test:storybook:start": "start-server-and-test 'pnpm run storybook:start' 6006 'pnpm run test:storybook'"
   },
   "dependencies": {
+    "@headlessui/react": "^1.7.8",
     "@tailwindcss/typography": "^0.5.4",
     "classnames": "^2.3.2",
     "framer-motion": "^7.4.0",
