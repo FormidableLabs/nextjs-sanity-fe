@@ -10,5 +10,6 @@ export * from "./components/Select";
 export * from "./components/LinkText";
 export * from "./components/Modal";
 export * from "./components/WeDontSellBreadBanner";
+export * from "./components/Price";
 
 export * from "./components/sanity";

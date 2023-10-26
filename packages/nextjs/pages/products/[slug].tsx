@@ -5,8 +5,7 @@ import { GetServerSideProps, NextPage } from "next";
 import { useRouter } from "next/router";
 import { AnimatePresence } from "framer-motion";
 
-import { H6, FadeInOut } from "shared-ui";
-import { BlockContent } from "shared-ui";
+import { H6, FadeInOut, BlockContent, Price } from "shared-ui";
 import { setCachingHeaders } from "utils/setCachingHeaders";
 import { isSlug } from "utils/isSlug";
 import { SanityType } from "utils/consts";
@@ -16,7 +15,6 @@ import { getProductBySlug } from "utils/getProductBySlug";
 import { ImageCarousel } from "components/ImageCarousel";
 import { useCart } from "components/CartContext";
 import { PageHead } from "components/PageHead";
-import { Price } from "components/Price";
 import { QuantityInput } from "components/ProductPage/QuantityInput";
 import { StyleOptions } from "components/ProductPage/StyleOptions";
 import { ProductVariantSelector } from "components/ProductPage/ProductVariantSelector";
