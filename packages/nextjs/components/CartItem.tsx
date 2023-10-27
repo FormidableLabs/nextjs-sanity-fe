@@ -1,8 +1,8 @@
 import * as React from "react";
 import { IoMdClose } from "react-icons/io";
+import { Input } from "shared-ui";
 import { currencyFormatter } from "utils/currencyFormatter";
 import { CartItem as CartItemType, useCart } from "./CartContext";
-import { Input } from "./Input";
 
 type CartItemProps = {
   item: CartItemType;

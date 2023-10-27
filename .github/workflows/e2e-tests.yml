@@ -53,7 +53,7 @@ jobs:
             ${{ runner.os }}-cypress-store-
 
       - name: Build UI ${{ matrix.node-version }}
-        working-directory: packages/ui
+        working-directory: packages/shared-ui
         run: pnpm build
 
       - name: Cypress Run (Production Backend)

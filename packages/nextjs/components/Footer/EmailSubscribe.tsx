@@ -1,7 +1,5 @@
 import { FaChevronRight } from "react-icons/fa";
-import { Input } from "components/Input";
-import { H3 } from "components/Typography/H3";
-import { LinkText } from "components/LinkText";
+import { H3, Input, LinkText } from "shared-ui";
 
 export const EmailSubscribe = () => {
   return (

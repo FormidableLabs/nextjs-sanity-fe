@@ -6,7 +6,7 @@ module.exports = {
     "./pages/**/*.{js,jsx,ts,tsx}",
     "./components/**/*.{js,jsx,ts,tsx}",
     "./views/**/*.{js,jsx,ts,tsx}",
-    "../ui/components/**/*.{js,jsx,ts,tsx}",
+    "../shared-ui/components/**/*.{js,jsx,ts,tsx}",
   ],
   theme: {
     extend: {

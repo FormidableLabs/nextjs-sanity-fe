@@ -1,6 +1,5 @@
-import { Button } from "shared-ui";
+import { Button, Modal } from "shared-ui";
 import React from "react";
-import { Modal } from "components/Modal";
 import { ProductFilters } from "components/ProductFilters/ProductFilters";
 import { CategoryFilterItem, FlavourFilterItem, StyleFilterItem } from "utils/groqTypes/ProductList";
 

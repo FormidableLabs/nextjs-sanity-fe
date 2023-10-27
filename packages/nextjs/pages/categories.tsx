@@ -1,12 +1,12 @@
 import { GetServerSideProps, NextPage } from "next";
 
+import { WeDontSellBreadBanner } from "shared-ui";
 import { setCachingHeaders } from "utils/setCachingHeaders";
 import { SanityType } from "utils/consts";
 import { isString, pluralize } from "utils/pluralize";
 import { getAllCategories } from "utils/getAllCategoriesQuery";
 
 import { CategoryList } from "components/CategoryList";
-import { WeDontSellBreadBanner } from "components/WeDontSellBreadBanner";
 import { PageHead } from "components/PageHead";
 import { Breadcrumbs } from "components/Breadcrumbs";
 import { Category } from "utils/groqTypes/ProductList";

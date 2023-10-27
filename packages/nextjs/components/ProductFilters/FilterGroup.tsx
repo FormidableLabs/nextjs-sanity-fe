@@ -1,8 +1,8 @@
 import type { FilterGroup as FilterGroupType } from "utils/filters";
 import * as React from "react";
 import { ChangeEvent } from "react";
+import { Checkbox } from "shared-ui";
 import { useRouterQueryParams } from "utils/useRouterQueryParams";
-import { Checkbox } from "components/Checkbox";
 
 type FilterGroupProps = {
   group: FilterGroupType;
