@@ -1,8 +1,7 @@
 import * as React from "react";
 import { IoIosClose } from "react-icons/io";
 import Link from "next/link";
-import { Button } from "shared-ui";
-import { useCart } from "components/CartContext";
+import { Button, useCart } from "shared-ui";
 import { CartItem } from "components/CartItem";
 import { currencyFormatter } from "utils/currencyFormatter";
 
@@ -11,7 +10,7 @@ type CartContentProps = {
 };
 
 export const CartContent = ({ onClose }: CartContentProps) => {
-  const { isFetchingCartItems, totalCartPrice, cartItems } = useCart();
+  const { isFetchingCartItems, totalPrice: totalCartPrice, cartItems } = useCart();
 
   return (
     <div className="flex-1 w-full flex flex-col text-primary p-4 gap-4">

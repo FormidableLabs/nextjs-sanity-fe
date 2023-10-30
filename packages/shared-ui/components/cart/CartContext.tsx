@@ -1,6 +1,11 @@
 import React, { useEffect, useReducer } from "react";
 
-type CartItem = { qty: number };
+export type CartItem = {
+  _id: string;
+  quantity: number;
+  name: string;
+  price: number;
+};
 
 type CartContext<P extends CartItem> = {
   cartItems: P[];
@@ -57,8 +62,22 @@ const cartReducer = (state: CartState, action: Action): CartState => {
   switch (action.type) {
     case "loading":
       return { ...state, state: "loading" };
-    case "update":
-      return { ...state };
+    case "update": {
+      const updateIndex = state.cartItems.findIndex(({ _id }) => _id === action.payload.id);
+      const newCartItems = [
+        ...state.cartItems.slice(0, updateIndex),
+        ...(action.payload.quantity === 0
+          ? []
+          : [
+              {
+                ...state.cartItems[updateIndex],
+                ...action.payload,
+              },
+            ]),
+        ...state.cartItems.slice(updateIndex + 1),
+      ];
+      return { ...state, cartItems: newCartItems };
+    }
     case "reset":
       return { ...state, cartItems: [] };
     case "success":
@@ -76,8 +95,8 @@ type ManagedCart = {
 type LocalCart = Omit<ManagedCart, "onCartFetch" | "onCartUpdate" | "onCartClear" | "errorLines">;
 type ProviderProps = LocalCart | ManagedCart;
 
-export type CartUpdate = {
-  id: number;
+export type CartUpdate = Partial<CartItem> & {
+  id: string;
   quantity: number;
 };
 
@@ -130,7 +149,7 @@ export const CartProvider = ({ children, ...props }: React.PropsWithChildren<Pro
     }
   }, [isManaged, fetchCart, isLoading]);
 
-  const totalQuantity = React.useMemo(() => cartItems.reduce((acc, { qty }) => acc + qty, 0), [cartItems]);
+  const totalQuantity = React.useMemo(() => cartItems.reduce((acc, { quantity }) => acc + quantity, 0), [cartItems]);
   const totalPrice = 0;
   const errorLines = isManaged ? props.errorLines : [];
 

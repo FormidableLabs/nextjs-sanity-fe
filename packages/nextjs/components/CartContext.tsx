@@ -1,13 +1,7 @@
 import * as React from "react";
 import { q } from "groqd";
-import { CartUpdate, CartProvider as SharedCartProvider } from "shared-ui";
+import { CartItem, CartUpdate, CartProvider as SharedCartProvider } from "shared-ui";
 import { runQuery } from "utils/sanityClient";
-
-export type CartItem = {
-  _id: string;
-  qty: number;
-  variantInfo: CartItemVariant;
-};
 
 export const CartProvider = ({ children }: React.PropsWithChildren) => {
   const retrieveCartItems = React.useCallback(async (cart: Record<string, number>) => {
@@ -34,7 +28,15 @@ export const CartProvider = ({ children }: React.PropsWithChildren) => {
       const results = cartEntries.reduce<CartItem[]>((acc, [variantId, quantity]) => {
         const productInfo = res.find((variant) => variant._id === variantId);
         if (productInfo) {
-          return [...acc, { _id: variantId, qty: quantity, variantInfo: productInfo }];
+          return [
+            ...acc,
+            {
+              _id: variantId,
+              quantity,
+              name: productInfo.name,
+              price: productInfo.price,
+            },
+          ];
         }
 
         errorRetrievingIds.push(variantId);
@@ -106,10 +108,3 @@ const wait = (ms: number) => new Promise((res) => setTimeout(res, ms));
 
 const throttle = <T,>(action: () => Promise<T>, ms: number): Promise<T> =>
   Promise.all([action(), wait(ms)]).then((res) => res[0]);
-
-type CartItemVariant = {
-  _id: string;
-  name: string;
-  msrp: number;
-  price: number;
-};

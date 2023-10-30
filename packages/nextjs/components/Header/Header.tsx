@@ -1,7 +1,7 @@
 import * as React from "react";
 import Link from "next/link";
 import classNames from "classnames";
-import { useCart } from "components/CartContext";
+import { useCart } from "shared-ui";
 import { Search } from "components/Search";
 import { Cart } from "./Cart";
 import { MobileHeaderItems } from "./MobileHeaderItems";
@@ -14,7 +14,7 @@ export const Header = () => {
   const [isNavOpen, setIsNavOpen] = React.useState(false);
 
   const [isCartOpen, setIsCartOpen] = React.useState(false);
-  const { cartTotal, isFetchingCartItems } = useCart();
+  const { totalQuantity: cartTotal, isLoading: isFetchingCartItems } = useCart();
 
   const onMobileNavClick = () => setIsNavOpen((prev) => !prev);
   const onMobileNavClose = () => setIsNavOpen(false);

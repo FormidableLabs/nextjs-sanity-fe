@@ -5,7 +5,7 @@ import { GetServerSideProps, NextPage } from "next";
 import { useRouter } from "next/router";
 import { AnimatePresence } from "framer-motion";
 
-import { H6, FadeInOut, BlockContent, Price, QuantityInput } from "shared-ui";
+import { H6, FadeInOut, BlockContent, Price, QuantityInput, useCart } from "shared-ui";
 import { setCachingHeaders } from "utils/setCachingHeaders";
 import { isSlug } from "utils/isSlug";
 import { SanityType } from "utils/consts";
@@ -13,7 +13,6 @@ import { getRecommendations } from "utils/getRecommendationsQuery";
 import { getProductBySlug } from "utils/getProductBySlug";
 
 import { ImageCarousel } from "components/ImageCarousel";
-import { useCart } from "components/CartContext";
 import { PageHead } from "components/PageHead";
 import { StyleOptions } from "components/ProductPage/StyleOptions";
 import { ProductVariantSelector } from "components/ProductPage/ProductVariantSelector";
@@ -104,7 +103,12 @@ const PageBody = ({ variant, product }: { product?: ProductType; variant?: Varia
       // If the item is already in the cart allow user to click add to cart multiple times
       const existingCartItem = cartItems.find((item) => item._id === variant._id);
 
-      updateCart(variant?._id, existingCartItem ? existingCartItem.qty + Number(quantity) : Number(quantity));
+      updateCart({
+        id: variant._id,
+        name: variant.name,
+        price: variant.price,
+        quantity: existingCartItem ? existingCartItem.quantity + Number(quantity) : Number(quantity),
+      });
     }
   };
 
