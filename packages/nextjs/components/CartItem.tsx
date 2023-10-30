@@ -14,7 +14,7 @@ export const CartItem = ({ item }: CartItemProps) => {
 
   const updateQty = React.useCallback(
     (value: number) => {
-      updateCart({ id: item._id, quantity: value });
+      updateCart({ _id: item._id, quantity: value });
     },
     [updateCart]
   );

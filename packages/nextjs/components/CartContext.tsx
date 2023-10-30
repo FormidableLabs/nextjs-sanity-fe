@@ -58,7 +58,7 @@ export const CartProvider = ({ children }: React.PropsWithChildren) => {
   }, [retrieveCartItems]);
 
   const updateCart = React.useCallback(
-    async ({ id: variantId, quantity }: CartUpdate) => {
+    async ({ _id: variantId, quantity }: CartUpdate) => {
       if (!variantId) {
         return;
       }

@@ -63,7 +63,7 @@ const cartReducer = (state: CartState, action: Action): CartState => {
     case "loading":
       return { ...state, state: "loading" };
     case "update": {
-      const updateIndex = state.cartItems.findIndex(({ _id }) => _id === action.payload.id);
+      const updateIndex = state.cartItems.findIndex(({ _id }) => _id === action.payload._id);
       const newCartItems = [
         ...state.cartItems.slice(0, updateIndex),
         ...(action.payload.quantity === 0
@@ -96,7 +96,7 @@ type LocalCart = Omit<ManagedCart, "onCartFetch" | "onCartUpdate" | "onCartClear
 type ProviderProps = LocalCart | ManagedCart;
 
 export type CartUpdate = Partial<CartItem> & {
-  id: string;
+  _id: string;
   quantity: number;
 };
 

@@ -104,7 +104,7 @@ const PageBody = ({ variant, product }: { product?: ProductType; variant?: Varia
       const existingCartItem = cartItems.find((item) => item._id === variant._id);
 
       updateCart({
-        id: variant._id,
+        _id: variant._id,
         name: variant.name,
         price: variant.price,
         quantity: existingCartItem ? existingCartItem.quantity + Number(quantity) : Number(quantity),
