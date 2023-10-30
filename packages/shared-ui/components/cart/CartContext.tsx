@@ -6,6 +6,10 @@ type CartContext<P extends CartItem> = {
   cartItems: P[];
   updateCart: (changeSet: CartUpdate) => void;
   clearCart: () => void;
+  isLoading: boolean;
+  totalQuantity: number;
+  totalPrice: number;
+  errorLines: string[];
 };
 
 // eslint-disable-next-line @typescript-eslint/no-empty-function
@@ -15,6 +19,10 @@ const initialValues = {
   cartItems: [],
   updateCart: noop,
   clearCart: noop,
+  isLoading: false,
+  totalQuantity: 0,
+  totalPrice: 0,
+  errorLines: [],
 };
 
 const CartContext = React.createContext<CartContext<CartItem>>(initialValues);
@@ -62,6 +70,7 @@ type ManagedCart = {
   onCartFetch: () => CartItem[];
   onCartUpdate: (changeSet: CartUpdate) => void;
   onCartClear: () => void;
+  errorLines: string[];
 };
 
 type LocalCart = Omit<ManagedCart, "onCartFetch" | "onCartUpdate">;
@@ -74,7 +83,10 @@ type CartUpdate = {
 
 export const CartProvider = ({ children, ...props }: React.PropsWithChildren<ProviderProps>) => {
   const isManaged = "onCartFetch" in props && typeof props.onCartFetch !== "undefined";
-  const [{ cartItems, state }, dispatch] = useReducer(cartReducer, initialState);
+  const [{ cartItems, state }, dispatch] = useReducer(cartReducer, {
+    ...initialState,
+    state: isManaged ? "loading" : "success",
+  });
 
   const updateCart = React.useCallback(
     (changeSet: CartUpdate) => {
@@ -118,5 +130,15 @@ export const CartProvider = ({ children, ...props }: React.PropsWithChildren<Pro
     }
   }, [isManaged, fetchCart, isLoading]);
 
-  return <CartContext.Provider value={{ cartItems, updateCart, clearCart }}>{children}</CartContext.Provider>;
+  const totalQuantity = React.useMemo(() => cartItems.reduce((acc, { qty }) => acc + qty, 0), [cartItems]);
+  const totalPrice = 0;
+  const errorLines = isManaged ? props.errorLines : [];
+
+  return (
+    <CartContext.Provider
+      value={{ errorLines, totalQuantity, totalPrice, cartItems, updateCart, clearCart, isLoading }}
+    >
+      {children}
+    </CartContext.Provider>
+  );
 };
