@@ -149,8 +149,16 @@ export const CartProvider = ({ children, ...props }: React.PropsWithChildren<Pro
     }
   }, [isManaged, fetchCart, isLoading]);
 
-  const totalQuantity = React.useMemo(() => cartItems.reduce((acc, { quantity }) => acc + quantity, 0), [cartItems]);
-  const totalPrice = 0;
+  const { totalQuantity, totalPrice } = React.useMemo(
+    () =>
+      cartItems.reduce(
+        (acc, { quantity, price }) => {
+          return { totalPrice: acc.totalPrice + quantity * price, totalQuantity: acc.totalQuantity + quantity };
+        },
+        { totalQuantity: 0, totalPrice: 0 }
+      ),
+    [cartItems]
+  );
   const errorLines = isManaged ? props.errorLines : [];
 
   return (
