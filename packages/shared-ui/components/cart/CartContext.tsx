@@ -41,7 +41,7 @@ type Action =
   | { type: "loading" }
   | { type: "update"; payload: CartUpdate }
   | { type: "reset" }
-  | { type: "success"; payload: CartItem[] };
+  | { type: "success"; payload: { results: CartItem[]; errors?: string[] } };
 
 type CartState = {
   cartItems: CartItem[];
@@ -62,23 +62,23 @@ const cartReducer = (state: CartState, action: Action): CartState => {
     case "reset":
       return { ...state, cartItems: [] };
     case "success":
-      return { ...state, state: "success", cartItems: action.payload };
+      return { ...state, state: "success", cartItems: action.payload.results };
   }
 };
 
 type ManagedCart = {
-  onCartFetch: () => CartItem[];
+  onCartFetch: () => Promise<{ results: CartItem[]; errors?: string[] }>;
   onCartUpdate: (changeSet: CartUpdate) => void;
   onCartClear: () => void;
   errorLines: string[];
 };
 
-type LocalCart = Omit<ManagedCart, "onCartFetch" | "onCartUpdate">;
+type LocalCart = Omit<ManagedCart, "onCartFetch" | "onCartUpdate" | "onCartClear" | "errorLines">;
 type ProviderProps = LocalCart | ManagedCart;
 
-type CartUpdate = {
+export type CartUpdate = {
   id: number;
-  qty: number;
+  quantity: number;
 };
 
 export const CartProvider = ({ children, ...props }: React.PropsWithChildren<ProviderProps>) => {
@@ -92,9 +92,9 @@ export const CartProvider = ({ children, ...props }: React.PropsWithChildren<Pro
     (changeSet: CartUpdate) => {
       if (isManaged) {
         props.onCartUpdate(changeSet);
-      } else {
-        dispatch({ type: "update", payload: changeSet });
       }
+
+      dispatch({ type: "update", payload: changeSet });
     },
     [isManaged]
   );
@@ -102,9 +102,9 @@ export const CartProvider = ({ children, ...props }: React.PropsWithChildren<Pro
   const clearCart = React.useCallback(() => {
     if (isManaged) {
       props.onCartClear();
-    } else {
-      dispatch({ type: "reset" });
     }
+
+    dispatch({ type: "reset" });
   }, []);
 
   const fetchCart = isManaged && props.onCartFetch;
@@ -119,14 +119,14 @@ export const CartProvider = ({ children, ...props }: React.PropsWithChildren<Pro
         return;
       }
 
-      const results = await fetchCart();
-      dispatch({ type: "success", payload: results });
+      const { results, errors } = await fetchCart();
+      dispatch({ type: "success", payload: { results, errors } });
     };
 
     if (isManaged) {
       fetch();
     } else {
-      dispatch({ type: "success", payload: [] });
+      dispatch({ type: "success", payload: { results: [] } });
     }
   }, [isManaged, fetchCart, isLoading]);
 
