@@ -1,7 +1,7 @@
 import * as React from "react";
 import Link from "next/link";
 import classNames from "classnames";
-import { Cart } from "shared-ui";
+import { Cart, CartContent, Button, useCart } from "shared-ui";
 import { Search } from "components/Search";
 import { MobileHeaderItems } from "./MobileHeaderItems";
 import { NAV_ITEMS } from "./NavItems";
@@ -11,6 +11,7 @@ import { Logo } from "./Logo";
 
 export const Header = () => {
   const [isNavOpen, setIsNavOpen] = React.useState(false);
+  const { toggleCartOpen } = useCart();
 
   const onMobileNavClick = () => setIsNavOpen((prev) => !prev);
   const onMobileNavClose = () => setIsNavOpen(false);
@@ -36,7 +37,17 @@ export const Header = () => {
           </div>
           <div className="flex items-center">
             <Search />
-            <Cart onMobileNavClose={onMobileNavClose} />
+            <Cart onMobileNavClose={onMobileNavClose}>
+              <CartContent
+                ProductListLink={
+                  <Link href="/products" passHref legacyBehavior>
+                    <Button as="a" variant="secondary" onClick={() => toggleCartOpen(false)}>
+                      View Products
+                    </Button>
+                  </Link>
+                }
+              />
+            </Cart>
             <MobileNavMenu navOpen={isNavOpen} onMobileNavClick={onMobileNavClick} />
           </div>
         </div>
