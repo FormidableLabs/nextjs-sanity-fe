@@ -1,8 +1,7 @@
 import * as React from "react";
 import { IoIosClose } from "react-icons/io";
 import Link from "next/link";
-import { Button, useCart } from "shared-ui";
-import { CartItem } from "components/CartItem";
+import { Button, useCart, CartLineItem } from "shared-ui";
 import { currencyFormatter } from "utils/currencyFormatter";
 
 type CartContentProps = {
@@ -28,7 +27,7 @@ export const CartContent = ({ onClose }: CartContentProps) => {
               {cartItems.map((item, i) => (
                 <React.Fragment key={item._id}>
                   <li>
-                    <CartItem item={item} />
+                    <CartLineItem item={item} />
                   </li>
                   {i < cartItems.length - 1 && <li className="border-t-2" />}
                 </React.Fragment>

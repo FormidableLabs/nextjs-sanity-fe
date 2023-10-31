@@ -1,14 +1,14 @@
 import * as React from "react";
 import { IoMdClose } from "react-icons/io";
-import { CartItem as CartItemType, Input } from "shared-ui";
-import { useCart } from "shared-ui";
-import { currencyFormatter } from "utils/currencyFormatter";
+import { useCart, CartItem as CartItemType } from "./CartContext";
+import { Input } from "../Input";
+import { currencyFormatter } from "../../uitls/currencyFormatter";
 
 type CartItemProps = {
   item: CartItemType;
 };
 
-export const CartItem = ({ item }: CartItemProps) => {
+export const CartLineItem = ({ item }: CartItemProps) => {
   const { updateCart } = useCart();
   const [desiredQty, setDesiredQty] = React.useState(item.quantity);
 
