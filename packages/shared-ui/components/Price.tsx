@@ -1,6 +1,6 @@
 import * as React from "react";
 import { Eyebrow } from "./Typography";
-import { currencyFormatter } from "../uitls/currencyFormatter";
+import { currencyFormatter } from "../utils/currencyFormatter";
 
 interface Props {
   msrp?: number | null;
