@@ -1,20 +1,20 @@
 import * as React from "react";
 import { IoIosClose } from "react-icons/io";
-import Link from "next/link";
-import { Button, useCart, CartLineItem } from "shared-ui";
-import { currencyFormatter } from "utils/currencyFormatter";
+import { Button } from "../Button/Button";
+import { useCart, CartLineItem } from "./index";
+import { currencyFormatter } from "../../utils/currencyFormatter";
 
 type CartContentProps = {
-  onClose: () => void;
+  ProductListLink: JSX.Element;
 };
 
-export const CartContent = ({ onClose }: CartContentProps) => {
-  const { isFetchingCartItems, totalPrice: totalCartPrice, cartItems } = useCart();
+export const CartContent = ({ ProductListLink }: CartContentProps) => {
+  const { isLoading, totalPrice, cartItems, toggleCartOpen } = useCart();
 
   return (
     <div className="flex-1 w-full flex flex-col text-primary p-4 gap-4">
       <div className="w-full flex justify-end items-center gap-x-1">
-        <button className="gap-x-1 items-center inline-flex" onClick={onClose}>
+        <button className="gap-x-1 items-center inline-flex" onClick={() => toggleCartOpen(false)}>
           <span>Close</span>
           <IoIosClose size={24} />
         </button>
@@ -37,11 +37,7 @@ export const CartContent = ({ onClose }: CartContentProps) => {
         ) : (
           <div className="py-3 flex flex-col gap-3">
             <p className="text-h6">You don&apos;t have anything in your cart.</p>
-            <Link href="/products" passHref legacyBehavior>
-              <Button as="a" variant="secondary" onClick={onClose}>
-                View Products
-              </Button>
-            </Link>
+            {ProductListLink}
           </div>
         )}
       </div>
@@ -49,9 +45,7 @@ export const CartContent = ({ onClose }: CartContentProps) => {
       <div className="flex flex-col gap-3">
         <div className="flex justify-between items-center text-h6">
           <span>Total</span>
-          <span className="font-bold font-jeanLuc">
-            {isFetchingCartItems ? "..." : currencyFormatter.format(totalCartPrice)}
-          </span>
+          <span className="font-bold font-jeanLuc">{isLoading ? "..." : currencyFormatter.format(totalPrice)}</span>
         </div>
         <Button variant="primary" as="button" onClick={notifyWeDontSellBread}>
           Checkout

@@ -1,26 +1,14 @@
 import * as React from "react";
 import { FiShoppingCart, FiLoader } from "react-icons/fi";
 import { AnimatePresence, motion } from "framer-motion";
-import { CartContent } from "./CartContent";
+import { useCart } from "./CartContext";
 
 type CartProps = {
   onMobileNavClose: () => void;
-  isFetchingCartItems: boolean;
-  cartTotal: number;
-  isCartOpen: boolean;
-  openCart: () => void;
-  onCartClose: () => void;
 };
 
-export const Cart = ({
-  cartTotal,
-  onMobileNavClose,
-  isFetchingCartItems,
-  openCart,
-  isCartOpen,
-  onCartClose,
-}: CartProps) => {
-  const cartPopup = React.useRef<HTMLDivElement>(null);
+export const Cart = ({ onMobileNavClose, children }: React.PropsWithChildren<CartProps>) => {
+  const { isCartOpen, cartPopupRef, toggleCartOpen, isLoading, totalQuantity } = useCart();
 
   React.useEffect(() => {
     if (!isCartOpen) return;
@@ -30,15 +18,15 @@ export const Cart = ({
       const hit = evt.target;
       if (!(hit instanceof Node && hit instanceof Element)) return;
 
-      if (hit.closest(".cart-popup") !== cartPopup.current) {
-        onCartClose();
+      if (hit.closest(".cart-popup") !== cartPopupRef?.current) {
+        toggleCartOpen(false);
       }
     };
     window.addEventListener("click", handleClick);
 
     // Esc-key
     const handleKeyup = (evt: KeyboardEvent) => {
-      if (evt.key === "Escape") onCartClose();
+      if (evt.key === "Escape") toggleCartOpen(false);
     };
     window.addEventListener("keyup", handleKeyup);
 
@@ -55,12 +43,12 @@ export const Cart = ({
         onClick={(e) => {
           e.stopPropagation();
           onMobileNavClose();
-          openCart();
+          toggleCartOpen(true);
         }}
       >
         <span className="hidden sm:block">Cart</span>
         <AnimatePresence mode="popLayout">
-          {isFetchingCartItems ? (
+          {isLoading ? (
             <motion.div key="loader" exit={{ opacity: 0, scale: 0.4 }}>
               <FiLoader size={20} className="motion-safe:animate-[spin_2s_ease-in-out_infinite]" />
             </motion.div>
@@ -73,7 +61,7 @@ export const Cart = ({
               transition={{ duration: 0.2, ease: "easeIn" }}
             >
               <FiShoppingCart size={24} className="mx-2" />
-              <span>{cartTotal}</span>
+              <span>{totalQuantity}</span>
             </motion.div>
           )}
         </AnimatePresence>
@@ -81,13 +69,13 @@ export const Cart = ({
       <AnimatePresence>
         {isCartOpen && (
           <motion.div
-            ref={cartPopup}
+            ref={cartPopupRef}
             className="cart-popup fixed inset-0 sm:absolute bg-secondary sm:top-10 sm:right-0 sm:left-[inherit] sm:bottom-[inherit] sm:w-[400px] sm:max-h-[calc(100vh-100px)] sm:shadow-lg sm:rounded sm:border border-primary flex cursor-auto"
             initial={{ opacity: 0, y: -10 }}
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: -10 }}
           >
-            <CartContent onClose={onCartClose} />
+            {children}
           </motion.div>
         )}
       </AnimatePresence>

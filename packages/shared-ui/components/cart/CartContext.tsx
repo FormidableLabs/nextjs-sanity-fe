@@ -1,4 +1,5 @@
 import React, { useEffect, useReducer } from "react";
+import { CartUpdate, cartReducer, initialState } from "./reducer/cartReducer";
 
 export type CartItem = {
   _id: string;
@@ -15,6 +16,9 @@ type CartContext<P extends CartItem> = {
   totalQuantity: number;
   totalPrice: number;
   errorLines: string[];
+  toggleCartOpen: (isOpen: boolean) => void;
+  isCartOpen: boolean;
+  cartPopupRef: React.RefObject<HTMLDivElement> | null;
 };
 
 // eslint-disable-next-line @typescript-eslint/no-empty-function
@@ -24,9 +28,12 @@ const initialValues = {
   cartItems: [],
   updateCart: noop,
   clearCart: noop,
+  toggleCartOpen: noop,
   isLoading: false,
+  isCartOpen: false,
   totalQuantity: 0,
   totalPrice: 0,
+  cartPopupRef: null,
   errorLines: [],
 };
 
@@ -42,49 +49,6 @@ export const useCart = () => {
   return context;
 };
 
-type Action =
-  | { type: "loading" }
-  | { type: "update"; payload: CartUpdate }
-  | { type: "reset" }
-  | { type: "success"; payload: { results: CartItem[]; errors?: string[] } };
-
-type CartState = {
-  cartItems: CartItem[];
-  state: "loading" | "success";
-};
-
-const initialState: CartState = {
-  cartItems: [],
-  state: "loading",
-};
-
-const cartReducer = (state: CartState, action: Action): CartState => {
-  switch (action.type) {
-    case "loading":
-      return { ...state, state: "loading" };
-    case "update": {
-      const updateIndex = state.cartItems.findIndex(({ _id }) => _id === action.payload._id);
-      const newCartItems = [
-        ...state.cartItems.slice(0, updateIndex),
-        ...(action.payload.quantity === 0
-          ? []
-          : [
-              {
-                ...state.cartItems[updateIndex],
-                ...action.payload,
-              },
-            ]),
-        ...state.cartItems.slice(updateIndex + 1),
-      ];
-      return { ...state, cartItems: newCartItems };
-    }
-    case "reset":
-      return { ...state, cartItems: [] };
-    case "success":
-      return { ...state, state: "success", cartItems: action.payload.results };
-  }
-};
-
 type ManagedCart = {
   onCartFetch: () => Promise<{ results: CartItem[]; errors?: string[] }>;
   onCartUpdate: (changeSet: CartUpdate) => void;
@@ -95,14 +59,9 @@ type ManagedCart = {
 type LocalCart = Omit<ManagedCart, "onCartFetch" | "onCartUpdate" | "onCartClear" | "errorLines">;
 type ProviderProps = LocalCart | ManagedCart;
 
-export type CartUpdate = Partial<CartItem> & {
-  _id: string;
-  quantity: number;
-};
-
 export const CartProvider = ({ children, ...props }: React.PropsWithChildren<ProviderProps>) => {
   const isManaged = "onCartFetch" in props && typeof props.onCartFetch !== "undefined";
-  const [{ cartItems, state }, dispatch] = useReducer(cartReducer, {
+  const [{ cartItems, state, isCartOpen }, dispatch] = useReducer(cartReducer, {
     ...initialState,
     state: isManaged ? "loading" : "success",
   });
@@ -161,9 +120,27 @@ export const CartProvider = ({ children, ...props }: React.PropsWithChildren<Pro
   );
   const errorLines = isManaged ? props.errorLines : [];
 
+  useEffect(() => {
+    document.body.classList[isCartOpen ? "add" : "remove"]("overflow-hidden", "sm:overflow-auto");
+  }, [isCartOpen]);
+
+  const toggleCartOpen = (open: boolean) => dispatch({ type: "toggleCartOpen", payload: open });
+  const cartPopupRef = React.useRef<HTMLDivElement>(null);
+
   return (
     <CartContext.Provider
-      value={{ errorLines, totalQuantity, totalPrice, cartItems, updateCart, clearCart, isLoading }}
+      value={{
+        toggleCartOpen,
+        isCartOpen,
+        errorLines,
+        totalQuantity,
+        totalPrice,
+        cartItems,
+        updateCart,
+        clearCart,
+        isLoading,
+        cartPopupRef,
+      }}
     >
       {children}
     </CartContext.Provider>
