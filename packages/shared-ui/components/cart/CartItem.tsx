@@ -2,7 +2,7 @@ import * as React from "react";
 import { IoMdClose } from "react-icons/io";
 import { useCart, CartItem as CartItemType } from "./CartContext";
 import { Input } from "../Input";
-import { currencyFormatter } from "../../uitls/currencyFormatter";
+import { currencyFormatter } from "../../utils/currencyFormatter";
 
 type CartItemProps = {
   item: CartItemType;
