@@ -55,7 +55,7 @@ const AddToCartButtons = () => {
       >
         Add product2
       </button>
-      <button type="button" className="bg-red text-white hover:bg-red/90 mr-2 p-2" onClick={clearCart}>
+      <button type="button" className="border-black border hover:bg-red/90 mr-2 p-2" onClick={clearCart}>
         Clear Cart
       </button>
     </div>
@@ -121,12 +121,25 @@ export const API: StoryObj<typeof Cart> = {
       );
     },
   ],
-  play: async ({ canvasElement }) => {
+  play: async ({ canvasElement, step }) => {
     const canvas = within(canvasElement);
-    await waitFor(async () => {
+    await step("add to cart", async () => {
       await userEvent.click(canvas.getByRole("button", { name: /product1/i }));
       await userEvent.click(canvas.getByRole("button", { name: /product2/i }));
       expect(canvas.getByTestId("cart")).toHaveTextContent("Cart3");
+    });
+
+    await step("open cart and modify quantity", async () => {
+      await userEvent.click(canvas.getByTestId("cart"));
+      await userEvent.type(canvas.getByLabelText("product 1 quantity"), "{backspace}9");
+      await waitFor(() => expect(canvas.getByTestId("total")).toHaveTextContent("$20.00"));
+    });
+
+    await step("clear cart", async () => {
+      await userEvent.click(canvas.getByRole("button", { name: /close/i }));
+      expect(canvas.getByTestId("cart")).toHaveTextContent("Cart10");
+      await userEvent.click(canvas.getByRole("button", { name: /clear/i }));
+      expect(canvas.getByTestId("cart")).toHaveTextContent("Cart0");
     });
   },
 };

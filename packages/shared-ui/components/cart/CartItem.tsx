@@ -45,6 +45,7 @@ export const CartLineItem = ({ item }: CartItemProps) => {
             value={desiredQty}
             name="amount"
             type="number"
+            aria-label={`${item.name} quantity`}
             placeholder="1"
             min={1}
             max={100}

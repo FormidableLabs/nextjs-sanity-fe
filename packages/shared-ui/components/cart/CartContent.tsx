@@ -45,7 +45,9 @@ export const CartContent = ({ ProductListLink }: CartContentProps) => {
       <div className="flex flex-col gap-3">
         <div className="flex justify-between items-center text-h6">
           <span>Total</span>
-          <span className="font-bold font-jeanLuc">{isLoading ? "..." : currencyFormatter.format(totalPrice)}</span>
+          <span className="font-bold font-jeanLuc" data-testid="total">
+            {isLoading ? "..." : currencyFormatter.format(totalPrice)}
+          </span>
         </div>
         <Button variant="primary" as="button" onClick={notifyWeDontSellBread}>
           Checkout

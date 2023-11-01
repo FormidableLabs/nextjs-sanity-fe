@@ -5,6 +5,7 @@ const config = {
     "@storybook/addon-essentials",
     "@storybook/addon-onboarding",
     "@storybook/addon-interactions",
+    "@storybook/addon-a11y",
   ],
   docs: {
     autodocs: "tag",
