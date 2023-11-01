@@ -45,6 +45,7 @@ export const Cart = ({ onMobileNavClose, children }: React.PropsWithChildren<Car
           onMobileNavClose();
           toggleCartOpen(true);
         }}
+        data-testid="cart"
       >
         <span className="hidden sm:block">Cart</span>
         <AnimatePresence mode="popLayout">

@@ -4,6 +4,9 @@ import { CartContent } from "../CartContent";
 import { CartItem, CartProvider, useCart } from "../CartContext";
 import { action } from "@storybook/addon-actions";
 
+import { userEvent, within, waitFor } from "@storybook/testing-library";
+import { expect } from "@storybook/jest";
+
 const meta: Meta<typeof Cart> = {
   component: Cart,
   title: "Cart",
@@ -95,8 +98,8 @@ export const API: StoryObj<typeof Cart> = {
       const onCartFetch = () => {
         const items: CartItem[] = [
           {
-            _id: "Product 1",
-            name: "Product 1",
+            _id: "product 1",
+            name: "product 1",
             quantity: 1,
             price: 2,
           },
@@ -118,4 +121,12 @@ export const API: StoryObj<typeof Cart> = {
       );
     },
   ],
+  play: async ({ canvasElement }) => {
+    const canvas = within(canvasElement);
+    await waitFor(async () => {
+      await userEvent.click(canvas.getByRole("button", { name: /product1/i }));
+      await userEvent.click(canvas.getByRole("button", { name: /product2/i }));
+      expect(canvas.getByTestId("cart")).toHaveTextContent("Cart3");
+    });
+  },
 };
