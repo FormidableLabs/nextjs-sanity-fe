@@ -1,5 +1,5 @@
 const config = {
-  stories: ["../**/*.mdx", "../**/*.stories.@(js|jsx|mjs|ts|tsx)"],
+  stories: ["../**/*.mdx", "../components/**/*.stories.@(js|jsx|mjs|ts|tsx)"],
   addons: [
     "@storybook/addon-links",
     "@storybook/addon-essentials",
@@ -8,6 +8,10 @@ const config = {
   ],
   docs: {
     autodocs: "tag",
+  },
+  framework: {
+    name: "@storybook/react-vite",
+    options: {},
   },
 };
 export default config;
