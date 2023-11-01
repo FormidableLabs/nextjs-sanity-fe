@@ -1,7 +1,8 @@
 import type { Meta, StoryObj } from "../../../.storybook/types";
 import { Cart } from "../Cart";
 import { CartContent } from "../CartContent";
-import { CartProvider, useCart } from "../CartContext";
+import { CartItem, CartProvider, useCart } from "../CartContext";
+import { action } from "@storybook/addon-actions";
 
 const meta: Meta<typeof Cart> = {
   component: Cart,
@@ -12,7 +13,7 @@ const meta: Meta<typeof Cart> = {
 export default meta;
 
 const AddToCartButtons = () => {
-  const { updateCart, cartItems } = useCart();
+  const { updateCart, cartItems, clearCart } = useCart();
 
   const onAddToCart = ({
     _id,
@@ -26,7 +27,7 @@ const AddToCartButtons = () => {
     quantity: number;
   }) => {
     const existingCartItem = cartItems.find((item) => item._id === _id);
-    console.log("update cart", { _id, name, price, quantity });
+
     updateCart({
       _id: _id,
       name: name,
@@ -50,6 +51,9 @@ const AddToCartButtons = () => {
         onClick={() => onAddToCart({ _id: "product 2", name: "product 2", price: 2, quantity: 1 })}
       >
         Add product2
+      </button>
+      <button type="button" className="bg-red text-white hover:bg-red/90 mr-2 p-2" onClick={clearCart}>
+        Clear Cart
       </button>
     </div>
   );
@@ -87,12 +91,31 @@ export const API: StoryObj<typeof Cart> = {
         <AddToCartButtons />
       </>
     ),
-    (Story) => (
-      <CartProvider>
-        <div className="flex flex-row-reverse">
-          <Story />
-        </div>
-      </CartProvider>
-    ),
+    (Story) => {
+      const onCartFetch = () => {
+        const items: CartItem[] = [
+          {
+            _id: "Product 1",
+            name: "Product 1",
+            quantity: 1,
+            price: 2,
+          },
+        ];
+        return Promise.resolve({ results: items, errors: [] });
+      };
+
+      return (
+        <CartProvider
+          onCartClear={action("cart cleared")}
+          errorLines={[]}
+          onCartFetch={onCartFetch}
+          onCartUpdate={action("cart updated")}
+        >
+          <div className="flex flex-row-reverse">
+            <Story />
+          </div>
+        </CartProvider>
+      );
+    },
   ],
 };

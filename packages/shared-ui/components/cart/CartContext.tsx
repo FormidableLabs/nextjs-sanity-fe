@@ -69,6 +69,7 @@ export const CartProvider = ({ children, ...props }: React.PropsWithChildren<Pro
   const updateCart = React.useCallback(
     (changeSet: CartUpdate) => {
       if (isManaged) {
+        console.log("calling actions");
         props.onCartUpdate(changeSet);
       }
 
