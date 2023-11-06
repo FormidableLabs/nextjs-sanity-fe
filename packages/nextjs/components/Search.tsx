@@ -29,17 +29,16 @@ export const Search: React.FC = () => {
     <BaseSearch
       onSearch={(searchTerm = "") => searchQuery(searchTerm.trim())}
       itemToString={(item) => item?.name || ""}
+      getKey={(item) => item._id}
       renderItem={(variant, clearSearch) => (
-        <li key={variant._id} className="border-b last:border-b-0 border-primary py-2 last:pb-0 first:pt-0">
-          <Link
-            href={{ pathname: `/products/${variant.productSlug}`, query: { variant: variant.slug } }}
-            className="flex items-center"
-            onClick={clearSearch}
-          >
-            <Image className="rounded" src={variant.image} width={50} height={50} alt={variant.slug} />
-            <span className="text-body-reg font-medium text-primary ml-4">{variant.name}</span>
-          </Link>
-        </li>
+        <Link
+          href={{ pathname: `/products/${variant.productSlug}`, query: { variant: variant.slug } }}
+          className="flex items-center"
+          onClick={clearSearch}
+        >
+          <Image className="rounded" src={variant.image} width={50} height={50} alt={variant.slug} />
+          <span className="text-body-reg font-medium text-primary ml-4">{variant.name}</span>
+        </Link>
       )}
     />
   );

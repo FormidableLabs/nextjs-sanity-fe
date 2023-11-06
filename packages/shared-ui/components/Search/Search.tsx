@@ -37,9 +37,10 @@ type Props<ItemType> = {
   onSearch: (input?: string) => Promise<ItemType[]>;
   itemToString: (item: ItemType | null) => string;
   renderItem: (item: ItemType, clearSearch: () => void) => JSX.Element;
+  getKey: (item: ItemType) => string;
 };
 
-export const Search = <ItemType,>({ onSearch, itemToString, renderItem }: Props<ItemType>) => {
+export const Search = <ItemType,>({ onSearch, itemToString, renderItem, getKey }: Props<ItemType>) => {
   const [{ items, inputValue, loading, error }, dispatch] = useReducer(
     createSearchReducer<ItemType>(),
     getDefaultState<ItemType>()
@@ -107,7 +108,11 @@ export const Search = <ItemType,>({ onSearch, itemToString, renderItem }: Props<
         className={`absolute w-72 bg-secondary mt-2 border border-primary rounded z-10 p-5 ${!isOpen ? "hidden" : ""}`}
       >
         {isOpen && items.length ? (
-          items.map((item) => renderItem(item, clearSearch))
+          items.map((item) => (
+            <li key={getKey(item)} className="border-b last:border-b-0 border-primary py-2 last:pb-0 first:pt-0">
+              {renderItem(item, clearSearch)}
+            </li>
+          ))
         ) : (
           <li>{loading ? "Loading..." : error ? "Oops! Something went wrong!" : "No Products Found"}</li>
         )}
