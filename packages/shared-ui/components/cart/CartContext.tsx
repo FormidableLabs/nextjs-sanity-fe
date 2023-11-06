@@ -68,11 +68,14 @@ export const CartProvider = ({ children, ...props }: React.PropsWithChildren<Pro
 
   const updateCart = React.useCallback(
     (changeSet: CartUpdate) => {
-      if (isManaged) {
-        props.onCartUpdate(changeSet);
-      }
+      // force change to happen after click event to prevent cart closing if item is removed
+      setTimeout(() => {
+        if (isManaged) {
+          props.onCartUpdate(changeSet);
+        }
 
-      dispatch({ type: "update", payload: changeSet });
+        dispatch({ type: "update", payload: changeSet });
+      }, 0);
     },
     [isManaged]
   );
