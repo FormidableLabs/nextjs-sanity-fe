@@ -61,7 +61,7 @@ type ProviderProps = LocalCart | ManagedCart;
 
 export const CartProvider = ({ children, ...props }: React.PropsWithChildren<ProviderProps>) => {
   const isManaged = "onCartFetch" in props && typeof props.onCartFetch !== "undefined";
-  const [{ cartItems, state, isCartOpen }, dispatch] = useReducer(cartReducer, {
+  const [{ cartItems, state, isCartOpen, totalPrice, totalQuantity }, dispatch] = useReducer(cartReducer, {
     ...initialState,
     state: isManaged ? "loading" : "success",
   });
@@ -108,16 +108,6 @@ export const CartProvider = ({ children, ...props }: React.PropsWithChildren<Pro
     }
   }, [isManaged, fetchCart, isLoading]);
 
-  const { totalQuantity, totalPrice } = React.useMemo(
-    () =>
-      cartItems.reduce(
-        (acc, { quantity, price }) => {
-          return { totalPrice: acc.totalPrice + quantity * price, totalQuantity: acc.totalQuantity + quantity };
-        },
-        { totalQuantity: 0, totalPrice: 0 }
-      ),
-    [cartItems]
-  );
   const errorLines = isManaged ? props.errorLines : [];
 
   useEffect(() => {

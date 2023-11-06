@@ -16,18 +16,25 @@ type CartState = {
   cartItems: CartItem[];
   state: "loading" | "success";
   isCartOpen: boolean;
+  totalQuantity: number;
+  totalPrice: number;
 };
 
 export const initialState: CartState = {
   cartItems: [],
   state: "loading",
   isCartOpen: false,
+  totalQuantity: 0,
+  totalPrice: 0,
 };
 
 export const cartReducer = (state: CartState, action: Action): CartState => {
+  let newState = state;
+
   switch (action.type) {
     case "loading":
-      return { ...state, state: "loading" };
+      newState = { ...state, state: "loading" };
+      break;
     case "update": {
       const updateIndex = state.cartItems.findIndex(({ _id }) => _id === action.payload._id);
       const newCartItems = [
@@ -42,13 +49,30 @@ export const cartReducer = (state: CartState, action: Action): CartState => {
             ]),
         ...state.cartItems.slice(updateIndex + 1),
       ];
-      return { ...state, cartItems: newCartItems };
+      newState = { ...state, cartItems: newCartItems };
+      break;
     }
     case "reset":
-      return { ...state, cartItems: [] };
+      newState = { ...state, cartItems: [] };
+      break;
     case "success":
-      return { ...state, state: "success", cartItems: action.payload.results };
+      newState = { ...state, state: "success", cartItems: action.payload.results };
+      break;
     case "toggleCartOpen":
-      return { ...state, isCartOpen: action.payload };
+      newState = { ...state, isCartOpen: action.payload };
+      break;
   }
+
+  const { totalQuantity, totalPrice } = newState.cartItems.reduce(
+    (acc, { quantity, price }) => {
+      return { totalPrice: acc.totalPrice + quantity * price, totalQuantity: acc.totalQuantity + quantity };
+    },
+    { totalQuantity: 0, totalPrice: 0 }
+  );
+
+  return {
+    ...newState,
+    totalQuantity,
+    totalPrice,
+  };
 };
