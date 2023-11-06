@@ -1,4 +1,4 @@
-import type { Meta, StoryObj } from ".storybook/types";
+import type { Meta, StoryObj } from "../../.storybook/types";
 import { expect } from "@storybook/jest";
 import { userEvent, waitFor, within } from "@storybook/testing-library";
 

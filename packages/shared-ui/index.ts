@@ -16,3 +16,4 @@ export * from "./components/QuantityInput";
 export * from "./components/sanity";
 export * from "./components/cart";
 export * from "./components/ImageCarousel";
+export * from "./components/Search";

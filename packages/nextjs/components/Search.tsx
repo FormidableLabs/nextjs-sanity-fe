@@ -1,27 +1,9 @@
 import * as React from "react";
-import { useCombobox } from "downshift";
-import { useCallback, useEffect, useMemo, useReducer } from "react";
-import debounce from "lodash.debounce";
 import Link from "next/link";
-import { q, sanityImage, TypeFromSelection } from "groqd";
-import { Input } from "shared-ui";
+import { q, sanityImage } from "groqd";
 import { runQuery } from "utils/sanityClient";
 import { Image } from "./Image";
-
-type State = {
-  results: ProductSearch[];
-  inputValue: string;
-  loading: boolean;
-  error: Error | null;
-};
-
-type Action =
-  | { type: "updating"; inputValue: string }
-  | { type: "success"; results: ProductSearch[] }
-  | { type: "clear" }
-  | { type: "failure"; error: Error };
-
-type ProductSearch = TypeFromSelection<typeof searchSelection>;
+import { Search as BaseSearch } from "shared-ui";
 
 const searchSelection = {
   _id: q.string(),
@@ -42,102 +24,23 @@ const searchQuery = (query: string) =>
     { query }
   );
 
-const defaultState: State = { results: [], error: null, loading: false, inputValue: "" };
-
-const searchReducer = (state: State, action: Action): State => {
-  switch (action.type) {
-    case "updating":
-      return { ...state, inputValue: action.inputValue, loading: true, error: null };
-    case "success":
-      return { ...state, results: action.results, error: null, loading: false };
-    case "failure":
-      return { ...state, results: [], error: action.error, loading: false };
-    case "clear":
-      return defaultState;
-  }
-};
-
 export const Search: React.FC = () => {
-  const [{ results, inputValue, loading, error }, dispatch] = useReducer(searchReducer, defaultState);
-
-  const performSearch = useMemo(
-    () =>
-      debounce(async (searchTerm?: string) => {
-        if (searchTerm) {
-          try {
-            const results = await searchQuery(searchTerm.trim());
-            dispatch({ type: "success", results });
-          } catch (error) {
-            dispatch({ type: "failure", error: error as Error });
-          }
-        } else {
-          dispatch({ type: "clear" });
-        }
-      }, 500),
-    []
-  );
-
-  const { isOpen, getInputProps, getComboboxProps, getMenuProps, closeMenu } = useCombobox({
-    onInputValueChange({ inputValue: input }) {
-      dispatch({ type: "updating", inputValue: input || "" });
-      performSearch(input);
-
-      if (input === "") {
-        closeMenu();
-      }
-    },
-    items: results,
-    itemToString: (item) => (item ? item.name : ""),
-    inputValue,
-    menuId: "search-menu",
-  });
-
-  useEffect(() => {
-    return () => {
-      return performSearch.cancel();
-    };
-  }, [performSearch]);
-
-  const clearSearch = useCallback(() => {
-    dispatch({ type: "clear" });
-    closeMenu();
-  }, [closeMenu]);
-
   return (
-    <div className="mr-4 hidden lg:block">
-      <div {...getComboboxProps()}>
-        <Input
-          {...getInputProps({
-            type: "search",
-            id: "search",
-            placeholder: "Search for products",
-            "aria-labelledby": "search-label",
-          })}
-        />
-      </div>
-      <ul
-        {...getMenuProps({
-          "aria-labelledby": "search-label",
-        })}
-        className={`absolute w-72 bg-secondary mt-2 border border-primary rounded z-10 p-5 ${!isOpen ? "hidden" : ""}`}
-      >
-        {isOpen && results.length ? (
-          results.map((variant) => (
-            <li key={variant._id} className="border-b last:border-b-0 border-primary py-2 last:pb-0 first:pt-0">
-              <Link
-                href={{ pathname: `/products/${variant.productSlug}`, query: { variant: variant.slug } }}
-                className="flex items-center"
-                onClick={clearSearch}
-              >
-                <Image className="rounded" src={variant.image} width={50} height={50} alt={variant.slug} />
-                <span className="text-body-reg font-medium text-primary ml-4">{variant.name}</span>
-              </Link>
-            </li>
-          ))
-        ) : (
-          <li>{loading ? "Loading..." : error ? "Oops! Something went wrong!" : "No Products Found"}</li>
-        )}
-      </ul>
-    </div>
+    <BaseSearch
+      onSearch={(searchTerm = "") => searchQuery(searchTerm.trim())}
+      itemToString={(item) => item?.name || ""}
+      renderItem={(variant, clearSearch) => (
+        <li key={variant._id} className="border-b last:border-b-0 border-primary py-2 last:pb-0 first:pt-0">
+          <Link
+            href={{ pathname: `/products/${variant.productSlug}`, query: { variant: variant.slug } }}
+            className="flex items-center"
+            onClick={clearSearch}
+          >
+            <Image className="rounded" src={variant.image} width={50} height={50} alt={variant.slug} />
+            <span className="text-body-reg font-medium text-primary ml-4">{variant.name}</span>
+          </Link>
+        </li>
+      )}
+    />
   );
 };
