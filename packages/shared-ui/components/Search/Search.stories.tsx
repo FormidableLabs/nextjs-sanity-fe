@@ -4,9 +4,32 @@ import { userEvent, waitFor, within } from "@storybook/testing-library";
 
 import { Search } from "./Search";
 
+const products = [
+  {
+    id: "123",
+    name: "one",
+  },
+  {
+    id: "234",
+    name: "two",
+  },
+  {
+    id: "345",
+    name: "three",
+  },
+];
+
+const handleMockSearch = (searchTerm?: string) => {
+  return Promise.resolve(products.filter((product) => product.name.includes(searchTerm || "")));
+};
+
 const meta: Meta<typeof Search> = {
   component: Search,
-  args: {},
+  args: {
+    onSearch: (searchTerm?: string) => handleMockSearch(searchTerm),
+    itemToString: (item) => (item as (typeof products)[number]).name,
+    renderItem: (item) => <div>{(item as (typeof products)[number]).name}</div>,
+  },
 };
 
 export default meta;
