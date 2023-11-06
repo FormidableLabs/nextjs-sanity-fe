@@ -5,6 +5,13 @@ const meta: Meta<typeof ImageCarouselBase> = {
   component: ImageCarouselBase,
   title: "ImageCarousel",
   tags: ["autodocs"],
+  decorators: [
+    (Story) => (
+      <div className="w-[600px]">
+        <Story />
+      </div>
+    ),
+  ],
 };
 
 export default meta;
