@@ -1,9 +1,8 @@
 import * as React from "react";
 import Link from "next/link";
 import classNames from "classnames";
-import { useCart } from "components/CartContext";
+import { Cart, CartContent, Button, useCart } from "shared-ui";
 import { Search } from "components/Search";
-import { Cart } from "./Cart";
 import { MobileHeaderItems } from "./MobileHeaderItems";
 import { NAV_ITEMS } from "./NavItems";
 import { MobileNavMenu } from "./MobileNavMenu";
@@ -12,9 +11,7 @@ import { Logo } from "./Logo";
 
 export const Header = () => {
   const [isNavOpen, setIsNavOpen] = React.useState(false);
-
-  const [isCartOpen, setIsCartOpen] = React.useState(false);
-  const { cartTotal, isFetchingCartItems } = useCart();
+  const { toggleCartOpen } = useCart();
 
   const onMobileNavClick = () => setIsNavOpen((prev) => !prev);
   const onMobileNavClose = () => setIsNavOpen(false);
@@ -22,10 +19,6 @@ export const Header = () => {
   React.useEffect(() => {
     document.body.classList[isNavOpen ? "add" : "remove"]("overflow-hidden");
   }, [isNavOpen]);
-
-  React.useEffect(() => {
-    document.body.classList[isCartOpen ? "add" : "remove"]("overflow-hidden", "sm:overflow-auto");
-  }, [isCartOpen]);
 
   return (
     <header className={classNames("sticky top-0 z-10 flex flex-col", isNavOpen && "h-screen")}>
@@ -44,14 +37,17 @@ export const Header = () => {
           </div>
           <div className="flex items-center">
             <Search />
-            <Cart
-              cartTotal={cartTotal}
-              onMobileNavClose={onMobileNavClose}
-              isFetchingCartItems={isFetchingCartItems}
-              openCart={() => setIsCartOpen(true)}
-              isCartOpen={isCartOpen}
-              onCartClose={() => setIsCartOpen(false)}
-            />
+            <Cart onMobileNavClose={onMobileNavClose}>
+              <CartContent
+                ProductListLink={
+                  <Link href="/products" passHref legacyBehavior>
+                    <Button as="a" variant="secondary" onClick={() => toggleCartOpen(false)}>
+                      View Products
+                    </Button>
+                  </Link>
+                }
+              />
+            </Cart>
             <MobileNavMenu navOpen={isNavOpen} onMobileNavClick={onMobileNavClick} />
           </div>
         </div>

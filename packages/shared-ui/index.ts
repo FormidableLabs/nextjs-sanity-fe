@@ -14,3 +14,4 @@ export * from "./components/Price";
 export * from "./components/QuantityInput";
 
 export * from "./components/sanity";
+export * from "./components/cart";

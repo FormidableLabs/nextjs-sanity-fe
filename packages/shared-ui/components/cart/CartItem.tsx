@@ -1,26 +1,26 @@
 import * as React from "react";
 import { IoMdClose } from "react-icons/io";
-import { Input } from "shared-ui";
-import { currencyFormatter } from "utils/currencyFormatter";
-import { CartItem as CartItemType, useCart } from "./CartContext";
+import { useCart, CartItem as CartItemType } from "./CartContext";
+import { Input } from "../Input";
+import { currencyFormatter } from "../../utils/currencyFormatter";
 
 type CartItemProps = {
   item: CartItemType;
 };
 
-export const CartItem = ({ item }: CartItemProps) => {
+export const CartLineItem = ({ item }: CartItemProps) => {
   const { updateCart } = useCart();
-  const [desiredQty, setDesiredQty] = React.useState(item.qty);
+  const [desiredQty, setDesiredQty] = React.useState(item.quantity);
 
   const updateQty = React.useCallback(
     (value: number) => {
-      updateCart(item._id, value);
+      updateCart({ _id: item._id, quantity: value });
     },
     [updateCart]
   );
 
   React.useEffect(() => {
-    if (desiredQty === 0 || desiredQty === item.qty) return;
+    if (desiredQty === 0 || desiredQty === item.quantity) return;
 
     const id = setTimeout(() => {
       updateQty(desiredQty);
@@ -35,11 +35,9 @@ export const CartItem = ({ item }: CartItemProps) => {
     <div className="flex flex-col gap-2">
       <div className="flex justify-between items-center">
         <div>
-          <h6 className="text-h6">{item.variantInfo.name}</h6>
+          <h6 className="text-h6">{item.name}</h6>
         </div>
-        <h6 className="text-h6 font-bold font-jeanLuc">
-          {currencyFormatter.format(item.qty * item.variantInfo.price)}
-        </h6>
+        <h6 className="text-h6 font-bold font-jeanLuc">{currencyFormatter.format(item.quantity * item.price)}</h6>
       </div>
       <div className="flex gap-2 items-center">
         <div className="w-16">
@@ -47,8 +45,9 @@ export const CartItem = ({ item }: CartItemProps) => {
             value={desiredQty}
             name="amount"
             type="number"
+            aria-label={`${item.name} quantity`}
             placeholder="1"
-            min={0}
+            min={1}
             max={100}
             step={1}
             onChange={(evt) => {
