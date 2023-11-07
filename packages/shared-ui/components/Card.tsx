@@ -1,22 +1,16 @@
-import * as React from "react";
-import { SanityImageSource } from "@sanity/image-url/lib/types/types";
-import Link, { LinkProps } from "next/link";
 import classNames from "classnames";
 
-import { currencyFormatter } from "utils/currencyFormatter";
-import { Image } from "./Image";
+import { currencyFormatter } from "../utils/currencyFormatter";
 
 export interface CardProps {
   title: string;
   price?: number;
+  Link?: React.ElementType;
+  Image?: React.ElementType;
   subTitle?: string;
-  to: LinkProps["href"];
+  to: string;
   className?: string;
-  imageProps: {
-    src: SanityImageSource;
-    alt: string;
-    containerClassName?: string;
-  };
+  imageContainerClass?: string;
 }
 
 export const Card = ({
@@ -24,18 +18,20 @@ export const Card = ({
   subTitle,
   title,
   price,
-  imageProps: { containerClassName, ...imageProps },
+  Link = "a",
   className = "",
-}: CardProps) => {
+  imageContainerClass,
+  children,
+}: React.PropsWithChildren<CardProps>) => {
   return (
     <Link href={to} className={`flex flex-col justify-center text-primary group w-full ${className}`}>
       <span
         className={classNames(
           "rounded-xl group-hover:shadow-lg transition-shadow duration-150 overflow-hidden relative",
-          containerClassName
+          imageContainerClass
         )}
       >
-        <Image layout="fill" src={imageProps.src} alt={imageProps.alt} objectFit="cover" objectPosition="center" />
+        {children}
       </span>
       <h2 className="text-h5 font-medium mt-4 mb-1">{title}</h2>
       {price && <span className="text-eyebrow font-bold">{currencyFormatter.format(price)}</span>}
