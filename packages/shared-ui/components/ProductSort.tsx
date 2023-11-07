@@ -1,13 +1,15 @@
 import * as React from "react";
-import { Pill, Select } from "shared-ui";
-import { PAGE_QUERY_PARAM, SORT_OPTIONS, SORT_OPTIONS_ARRAY, SORT_QUERY_PARAM, SortType } from "utils/sorting";
-import { useRouterQueryParams } from "utils/useRouterQueryParams";
+import { Pill, Select } from "../";
+import { PAGE_QUERY_PARAM, SORT_OPTIONS, SORT_OPTIONS_ARRAY, SORT_QUERY_PARAM, SortType } from "../utils/sorting";
 
-type ProductSortProps = {
+export type ProductSortProps = {
   as?: "select" | "pills";
   showTitle?: boolean;
   title?: string;
   selectClassName?: string;
+  onClear: (key: string) => void;
+  onReplace: (key: Record<string, string>) => void;
+  query: Record<string, string | string[] | undefined>;
 };
 
 export const ProductSort: React.FC<ProductSortProps> = ({
@@ -15,19 +17,21 @@ export const ProductSort: React.FC<ProductSortProps> = ({
   showTitle = false,
   title = "Sort by",
   selectClassName = "",
+  onClear,
+  onReplace,
+  query,
 }) => {
-  const { replace, clear, query } = useRouterQueryParams();
   const defaultSortValue = SORT_OPTIONS_ARRAY.find(({ type }) => type === SortType.Default)?.value;
 
   const handleChange = (value: string) => {
     switch (SORT_OPTIONS[value].type) {
       case SortType.Natural: {
-        replace({ [SORT_QUERY_PARAM]: value, [PAGE_QUERY_PARAM]: "1" });
+        onReplace({ [SORT_QUERY_PARAM]: value, [PAGE_QUERY_PARAM]: "1" });
         break;
       }
       case SortType.Default:
       default:
-        clear(SORT_QUERY_PARAM);
+        onClear(SORT_QUERY_PARAM);
     }
   };
 

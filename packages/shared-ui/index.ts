@@ -12,8 +12,11 @@ export * from "./components/Modal";
 export * from "./components/WeDontSellBreadBanner";
 export * from "./components/Price";
 export * from "./components/QuantityInput";
+export * from './components/ProductSort';
 
 export * from "./components/sanity";
 export * from "./components/cart";
 export * from "./components/ImageCarousel";
 export * from "./components/Search";
+
+export * from './utils';
