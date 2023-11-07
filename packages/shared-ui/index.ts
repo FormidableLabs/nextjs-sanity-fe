@@ -14,6 +14,7 @@ export * from "./components/Price";
 export * from "./components/QuantityInput";
 export * from './components/ProductSort';
 export * from './components/Pagination';
+export * from './components/Card';
 
 export * from "./components/sanity";
 export * from "./components/cart";
