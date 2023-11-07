@@ -9,6 +9,8 @@ type PaginationProps = {
   onPageChange?: (page: number) => void;
   NextPreviousLink: React.ElementType;
   renderPaginationLink: ({ page, href }: { page: number; href: string }) => JSX.Element;
+  currentHref: string;
+  search: string;
 };
 
 export const Pagination = ({
@@ -16,18 +18,20 @@ export const Pagination = ({
   currentPage = 1,
   renderPaginationLink,
   NextPreviousLink,
+  currentHref,
+  search,
 }: PaginationProps) => {
-  const url = new URL(window.location.href);
-  const params = new URLSearchParams(url.search);
+  const params = new URLSearchParams(search);
   const getUrlWithPage = (pageNum: number) => {
     params.set("page", pageNum.toString());
-    return `${url.pathname}?${params}`;
+    const newUrl = `${currentHref}?${params}`;
+    return newUrl;
   };
 
   const totalPages = Array.from({ length: pageCount }, (_item, index) => index + 1);
 
-  const prevUrl = currentPage <= 2 ? url.toString() : getUrlWithPage(currentPage - 1);
-  const nextUrl = currentPage >= pageCount ? url.toString() : getUrlWithPage(currentPage + 1);
+  const prevUrl = currentPage <= 2 ? currentHref : getUrlWithPage(currentPage - 1);
+  const nextUrl = currentPage >= pageCount ? currentHref : getUrlWithPage(currentPage + 1);
 
   return (
     <motion.nav className="flex items-center justify-between text-primary" layoutId="pagination-nav">
@@ -42,7 +46,7 @@ export const Pagination = ({
       </MaybeDisabledLink>
       <div className="flex gap-x-1">
         {totalPages.map((page) =>
-          renderPaginationLink({ page, href: page === 1 ? url.toString() : getUrlWithPage(page) })
+          renderPaginationLink({ page, href: page === 1 ? currentHref : getUrlWithPage(page) })
         )}
       </div>
       <MaybeDisabledLink

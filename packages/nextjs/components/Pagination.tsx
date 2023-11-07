@@ -2,6 +2,8 @@ import * as React from "react";
 import { Pagination as BasePagination } from "shared-ui";
 import Link from "next/link";
 import classNames from "classnames";
+import { useRouter } from "next/router";
+import { stringify } from "querystring";
 
 type PaginationProps = {
   pageCount: number;
@@ -10,6 +12,7 @@ type PaginationProps = {
 };
 
 export const Pagination = ({ onPageChange, pageCount = 1, currentPage = 1 }: PaginationProps) => {
+  const router = useRouter();
   const handlePageChanged = (e: React.MouseEvent<HTMLAnchorElement>, page: number) => {
     if (onPageChange) {
       e.preventDefault();
@@ -22,6 +25,8 @@ export const Pagination = ({ onPageChange, pageCount = 1, currentPage = 1 }: Pag
       pageCount={pageCount}
       NextPreviousLink={Link}
       currentPage={currentPage}
+      currentHref={router.pathname}
+      search={stringify(router.query)}
       renderPaginationLink={({ page, href }) => (
         <Link key={`page-${page}`} href={href} passHref legacyBehavior>
           <a
