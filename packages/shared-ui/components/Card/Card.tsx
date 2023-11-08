@@ -1,6 +1,7 @@
 import classNames from "classnames";
 
 import { currencyFormatter } from "../../utils/currencyFormatter";
+import { UrlObject } from "url";
 
 export interface CardProps {
   title: string;
@@ -8,7 +9,7 @@ export interface CardProps {
   Link?: React.ElementType;
   Image?: React.ElementType;
   subTitle?: string;
-  to: string;
+  to: string | UrlObject;
   className?: string;
   imageContainerClass?: string;
 }

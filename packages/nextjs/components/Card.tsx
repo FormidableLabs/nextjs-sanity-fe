@@ -29,7 +29,7 @@ export const Card = ({
     <BaseCard
       title={title}
       subTitle={subTitle}
-      to={to.toString()}
+      to={to}
       price={price}
       className={className}
       imageContainerClass={containerClassName}
