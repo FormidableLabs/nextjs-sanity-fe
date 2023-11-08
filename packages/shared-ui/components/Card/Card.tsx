@@ -1,6 +1,6 @@
 import classNames from "classnames";
 
-import { currencyFormatter } from "../utils/currencyFormatter";
+import { currencyFormatter } from "../../utils/currencyFormatter";
 
 export interface CardProps {
   title: string;

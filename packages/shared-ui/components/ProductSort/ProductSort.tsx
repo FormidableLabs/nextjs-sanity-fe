@@ -1,6 +1,6 @@
 import * as React from "react";
-import { Pill, Select } from "../";
-import { PAGE_QUERY_PARAM, SORT_OPTIONS, SORT_OPTIONS_ARRAY, SORT_QUERY_PARAM, SortType } from "../utils/sorting";
+import { Pill, Select } from "../../";
+import { PAGE_QUERY_PARAM, SORT_OPTIONS, SORT_OPTIONS_ARRAY, SORT_QUERY_PARAM, SortType } from "../../utils/sorting";
 
 export type ProductSortProps = {
   as?: "select" | "pills";

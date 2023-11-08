@@ -7,7 +7,7 @@ type PaginationProps = {
   pageCount: number;
   currentPage?: number;
   onPageChange?: (page: number) => void;
-  NextPreviousLink: React.ElementType;
+  NextPreviousLink?: React.ElementType;
   renderPaginationLink: ({ page, href }: { page: number; href: string }) => JSX.Element;
   currentHref: string;
   search: string;
