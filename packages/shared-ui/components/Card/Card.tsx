@@ -1,31 +1,34 @@
 import classNames from "classnames";
 
 import { currencyFormatter } from "../../utils/currencyFormatter";
-import { UrlObject } from "url";
+import { PolymorphicComponentProps } from "../../uitls/polymorphicComponent";
 
-export interface CardProps {
+export interface BaseProps {
   title: string;
   price?: number;
-  Link?: React.ElementType;
   Image?: React.ElementType;
   subTitle?: string;
-  to: string | UrlObject;
-  className?: string;
   imageContainerClass?: string;
 }
 
-export const Card = ({
-  to,
+type CardProps<AsComponent extends React.ElementType> = PolymorphicComponentProps<AsComponent, BaseProps>;
+
+export const Card = <T extends React.ElementType>({
   subTitle,
   title,
   price,
-  Link = "a",
-  className = "",
+  as,
   imageContainerClass,
   children,
-}: React.PropsWithChildren<CardProps>) => {
+  ...linkProps
+}: React.PropsWithChildren<CardProps<T>>) => {
+  const RenderedLink = as || "a";
+
   return (
-    <Link href={to} className={`flex flex-col justify-center text-primary group w-full ${className}`}>
+    <RenderedLink
+      {...linkProps}
+      className={`flex flex-col justify-center text-primary group w-full ${linkProps.className}`}
+    >
       <span
         className={classNames(
           "rounded-xl group-hover:shadow-lg transition-shadow duration-150 overflow-hidden relative",
@@ -37,6 +40,6 @@ export const Card = ({
       <h2 className="text-h5 font-medium mt-4 mb-1">{title}</h2>
       {price && <span className="text-eyebrow font-bold">{currencyFormatter.format(price)}</span>}
       {subTitle && <span className="text-eyebrow">{subTitle}</span>}
-    </Link>
+    </RenderedLink>
   );
 };

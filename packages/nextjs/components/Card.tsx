@@ -29,11 +29,11 @@ export const Card = ({
     <BaseCard
       title={title}
       subTitle={subTitle}
-      to={to}
       price={price}
-      className={className}
       imageContainerClass={containerClassName}
-      Link={Link}
+      as={Link}
+      href={to}
+      className={className}
     >
       <Image layout="fill" src={imageProps.src} alt={imageProps.alt} objectFit="cover" objectPosition="center" />
     </BaseCard>
