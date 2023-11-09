@@ -1,27 +1,13 @@
-import type { ImageCarouselProps } from "./types";
-import * as React from "react";
+import React from "react";
 import Carousel from "nuka-carousel";
-import { Image } from "components/Image";
 import { ImageCarouselDots } from "./ImageCarouselDots";
 import { ImageCarouselNext } from "./ImageCarouselNext";
 import { ImageCarouselPrev } from "./ImageCarouselPrev";
 
-export const ImageCarousel = ({ productImages }: ImageCarouselProps) => {
-  const innerNode = productImages?.map((image) => {
-    return (
-      <Image
-        className="rounded-2xl aspect-square w-full"
-        layout="fill"
-        key={image?.name}
-        src={image ?? ""}
-        alt={image?.name ?? ""}
-      />
-    );
-  });
-
+export const ImageCarousel = ({ children }: React.PropsWithChildren) => {
   return (
     <div className="text-primary relative w-full aspect-square">
-      {productImages?.length && productImages?.length > 1 ? (
+      {React.Children.count(children) > 1 ? (
         <Carousel
           animation="fade"
           dragging={false}
@@ -29,10 +15,10 @@ export const ImageCarousel = ({ productImages }: ImageCarouselProps) => {
           renderCenterLeftControls={ImageCarouselPrev}
           renderCenterRightControls={ImageCarouselNext}
         >
-          {innerNode}
+          {children}
         </Carousel>
       ) : (
-        innerNode
+        children
       )}
     </div>
   );

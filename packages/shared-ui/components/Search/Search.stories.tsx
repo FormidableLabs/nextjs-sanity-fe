@@ -1,12 +1,38 @@
-import type { Meta, StoryObj } from ".storybook/types";
+import type { Meta, StoryObj } from "../../.storybook/types";
 import { expect } from "@storybook/jest";
 import { userEvent, waitFor, within } from "@storybook/testing-library";
 
 import { Search } from "./Search";
 
+const products = [
+  {
+    id: "123",
+    name: "Road Bike",
+  },
+  {
+    id: "234",
+    name: "Dirt Bike",
+  },
+  {
+    id: "345",
+    name: "Tricycle",
+  },
+];
+
+const handleMockSearch = (searchTerm?: string) => {
+  return Promise.resolve(
+    products.filter((product) => product.name.toLowerCase().includes((searchTerm || "").toLowerCase()))
+  );
+};
+
 const meta: Meta<typeof Search> = {
   component: Search,
-  args: {},
+  args: {
+    onSearch: (searchTerm?: string) => handleMockSearch(searchTerm),
+    itemToString: (item) => (item as (typeof products)[number]).name,
+    renderItem: (item) => <div>{(item as (typeof products)[number]).name}</div>,
+    getKey: (item) => (item as (typeof products)[number]).id,
+  },
 };
 
 export default meta;
@@ -26,9 +52,9 @@ export const WithSearchTerm: Story = {
   async play({ canvasElement, step }) {
     const ui = wrap(canvasElement);
 
-    await step("Type 'baguette' into the search box", async () => {
+    await step("Type 'bike' into the search box", async () => {
       ui.searchbox.focus();
-      await userEvent.type(ui.searchbox, "baguette");
+      await userEvent.type(ui.searchbox, "bike");
     });
 
     await step("expect to see a loading indicator", async () => {
@@ -56,13 +82,14 @@ export const WithSearchTerm_Test_FilteredResults: Story = {
     const { canvasElement, step } = ctx;
     const ui = wrap(canvasElement);
 
-    await step("type 'plain'", async () => {
-      await userEvent.type(ui.searchbox, " plain");
+    await step("type 'road'", async () => {
+      await userEvent.clear(ui.searchbox);
+      await userEvent.type(ui.searchbox, "road bike");
     });
 
     await step("there should be one result", async () => {
       await waitFor(() => {
-        expect(ui.resultsText).toEqual(["Plain Baguette"]);
+        expect(ui.resultsText).toEqual(["Road Bike"]);
       });
     });
   },
@@ -76,9 +103,9 @@ export const WithSearchTerm_Test_NoResults: Story = {
     const { canvasElement, step } = ctx;
     const ui = wrap(canvasElement);
 
-    await step("update text to 'cake'", async () => {
+    await step("update text to 'electric'", async () => {
       await userEvent.clear(ui.searchbox);
-      await userEvent.type(ui.searchbox, "cake");
+      await userEvent.type(ui.searchbox, "electric");
     });
 
     await step("there should be no results", async () => {

@@ -3,13 +3,5 @@
     "../../.eslintrc.json",
     "next/core-web-vitals",
     "plugin:storybook/recommended"
-  ],
-  "rules": {
-    "import/order": [
-      "error",
-      {
-        "groups": ["type", "builtin", "external", "internal"]
-      }
-    ]
-  }
+  ]
 }

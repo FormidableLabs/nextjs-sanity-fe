@@ -1,5 +1,5 @@
 import { ParsedUrlQuery } from "querystring";
-import { SORT_OPTIONS, SORT_QUERY_PARAM } from "utils/sorting";
+import { SORT_OPTIONS, SORT_QUERY_PARAM } from "./sorting";
 
 export const getOrderingFromQuery = (query: ParsedUrlQuery) => {
   const { [SORT_QUERY_PARAM]: sortValue } = query;

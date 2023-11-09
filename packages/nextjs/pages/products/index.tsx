@@ -9,7 +9,7 @@ import { getAllFilteredVariants } from "utils/getFilteredPaginatedQuery";
 import { getCategoryFilters, getFlavourFilters, getStyleFilters } from "utils/getFilters";
 import { getPaginationFromQuery } from "utils/getPaginationFromQuery";
 import { getFiltersFromQuery } from "utils/getFiltersFromQuery";
-import { getOrderingFromQuery } from "utils/getOrderingFromQuery";
+import { getOrderingFromQuery } from "shared-ui";
 import { setCachingHeaders } from "utils/setCachingHeaders";
 import { SanityType } from "utils/consts";
 import { pluralize } from "utils/pluralize";
