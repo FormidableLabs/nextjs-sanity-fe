@@ -1,6 +1,6 @@
 import classNames from "classnames";
 import { forwardRef } from "react";
-import { PolymorphicComponentPropsWithRef, PolymorphicRef } from "../../uitls/polymorphicComponent";
+import { PolymorphicComponentPropsWithRef, PolymorphicRef } from "../../utils/polymorphicComponent";
 
 export interface ButtonProps {
   children?: React.ReactNode;

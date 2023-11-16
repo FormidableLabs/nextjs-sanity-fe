@@ -21,7 +21,7 @@ import { ProductSort } from "components/ProductSort";
 import { ProductFilters } from "components/ProductFilters/ProductFilters";
 import { Product } from "components/Product";
 import { Pagination } from "components/Pagination";
-import { Breadcrumbs } from "components/Breadcrumbs/Breadcrumbs";
+import { Breadcrumbs } from "components/Breadcrumbs";
 import { ModalFiltersMobile } from "views/ModalFiltersMobile";
 import { SortAndFiltersToolbarMobile } from "views/SortAndFiltersToolbarMobile";
 
