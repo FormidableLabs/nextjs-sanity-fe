@@ -1,4 +1,4 @@
-import { LinkText } from "shared-ui";
+import { LinkText } from "../LinkText";
 
 export const FooterLinks = () => {
   return (

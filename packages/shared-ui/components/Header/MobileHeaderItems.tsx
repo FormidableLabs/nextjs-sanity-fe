@@ -1,15 +1,21 @@
 import classNames from "classnames";
-import Link from "next/link";
-import { useRouter } from "next/router";
 import { NAV_ITEMS } from "./NavItems";
+import { PolymorphicComponentProps } from "../../utils";
 
-type MobileHeaderItemsProps = {
+type BaseProps = {
   navOpen: boolean;
-  onMobileNavClose: () => void;
+  currentRoute: string;
 };
 
-export const MobileHeaderItems = ({ navOpen, onMobileNavClose }: MobileHeaderItemsProps) => {
-  const router = useRouter();
+type MobileHeaderItemsProps<AsComponent extends React.ElementType> = PolymorphicComponentProps<AsComponent, BaseProps>;
+
+export const MobileHeaderItems = <T extends React.ElementType>({
+  as,
+  currentRoute,
+  navOpen,
+  ...linkProps
+}: MobileHeaderItemsProps<T>) => {
+  const Link = as || "a";
 
   return (
     <ul className="flex-1 flex flex-col sm:hidden bg-secondary text-primary transition-all">
@@ -19,12 +25,10 @@ export const MobileHeaderItems = ({ navOpen, onMobileNavClose }: MobileHeaderIte
             <li
               key={href}
               className={classNames("border-b border-b-primary text-h5 py-4 px-3", {
-                "font-bold": router.pathname === href,
+                "font-bold": currentRoute === href,
               })}
             >
-              <Link href={href} onClick={onMobileNavClose}>
-                {label}
-              </Link>
+              <Link {...linkProps}>{label}</Link>
             </li>
           );
         })}

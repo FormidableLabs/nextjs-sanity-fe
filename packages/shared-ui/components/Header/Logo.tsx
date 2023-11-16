@@ -1,5 +1,3 @@
-import * as React from "react";
-
 type LogoProps = { className?: string };
 
 export const Logo = ({ className }: LogoProps) => {

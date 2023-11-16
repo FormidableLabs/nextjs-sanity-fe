@@ -1,6 +1,6 @@
 import * as React from "react";
 import Head from "next/head";
-import { Footer } from "./Footer/Footer";
+import { Footer } from "shared-ui";
 import { Header } from "./Header/Header";
 
 export const Layout = ({ children }: React.PropsWithChildren) => {

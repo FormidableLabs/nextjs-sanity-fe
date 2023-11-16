@@ -2,6 +2,7 @@ import { Copyright } from "./Copyright";
 import { EmailSubscribe } from "./EmailSubscribe";
 import { FooterLinks } from "./FooterLinks";
 import { FooterDivider } from "./FooterDivider";
+
 export const Footer = () => {
   return (
     <footer className="flex flex-wrap border-t-2 border-primary">

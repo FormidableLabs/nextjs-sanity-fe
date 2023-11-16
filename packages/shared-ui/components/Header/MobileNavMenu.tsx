@@ -1,5 +1,6 @@
 import { FiMenu } from "react-icons/fi";
 import { MdClose } from "react-icons/md";
+
 type MobileNavMenuProps = {
   onMobileNavClick: () => void;
   navOpen: boolean;
