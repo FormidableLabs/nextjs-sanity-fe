@@ -24,4 +24,6 @@ export * from "./components/Search";
 export * from "./components/Footer";
 export * from "./components/Header";
 
+export * from "./components/MobileNav";
+
 export * from "./utils";

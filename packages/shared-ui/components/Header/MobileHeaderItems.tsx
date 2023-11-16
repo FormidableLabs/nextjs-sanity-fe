@@ -28,7 +28,9 @@ export const MobileHeaderItems = <T extends React.ElementType>({
                 "font-bold": currentRoute === href,
               })}
             >
-              <Link {...linkProps}>{label}</Link>
+              <Link {...linkProps} href={href}>
+                {label}
+              </Link>
             </li>
           );
         })}
