@@ -232,9 +232,6 @@ importers:
       msw:
         specifier: ^0.47.4
         version: 0.47.4(typescript@5.2.2)
-      playwright:
-        specifier: ^1.38.0
-        version: 1.39.0
       postcss:
         specifier: ^8.4.16
         version: 8.4.31
@@ -314,6 +311,9 @@ importers:
       http-server:
         specifier: ^14.1.1
         version: 14.1.1
+      playwright:
+        specifier: ^1.38.0
+        version: 1.39.0
       react:
         specifier: 18.2.0
         version: 18.2.0
