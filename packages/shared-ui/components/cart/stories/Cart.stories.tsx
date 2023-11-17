@@ -126,7 +126,7 @@ export const API: StoryObj<typeof Cart> = {
     await step("add to cart", async () => {
       await userEvent.click(canvas.getByRole("button", { name: /product1/i }));
       await userEvent.click(canvas.getByRole("button", { name: /product2/i }));
-      expect(canvas.getByTestId("cart")).toHaveTextContent("Cart3");
+      await waitFor(() => expect(canvas.getByTestId("cart")).toHaveTextContent("Cart3"));
     });
 
     await step("open cart and modify quantity", async () => {
