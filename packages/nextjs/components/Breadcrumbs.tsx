@@ -1,20 +1,15 @@
 import React from "react";
 import { useRouter } from "next/router";
 import { MdOutlineHome } from "react-icons/md";
-import { capitalizeWords } from "utils/capitalizeWords";
-import { BreadcrumbsContainer } from "./BreadcrumbsContainer";
-import { BreadcrumbItem } from "./BreadcrumbItem";
-
-type BreadcrumbsProps = React.PropsWithChildren & {
-  separator?: string;
-};
+import { BreadcrumbItem, BreadcrumbsContainer, capitalizeWords } from "shared-ui";
+import Link from "next/link";
 
 type LinkElement = {
   title: string;
   href: string;
 };
 
-export const Breadcrumbs = ({ separator = "/" }: BreadcrumbsProps) => {
+export const Breadcrumbs = () => {
   const { query, asPath } = useRouter();
   // Remove query string.
   const urlPath = asPath.split("?")[0];
@@ -52,12 +47,12 @@ export const Breadcrumbs = ({ separator = "/" }: BreadcrumbsProps) => {
   }, []);
 
   return (
-    <BreadcrumbsContainer aria-label="breadcrumb" separator={separator}>
+    <BreadcrumbsContainer aria-label="breadcrumb">
       <BreadcrumbItem href="/">
         <MdOutlineHome className="mr-2" /> Home
       </BreadcrumbItem>
       {elements.map(({ title, href }, index) => (
-        <BreadcrumbItem key={`${href}-${index}`} href={`${href}`} isLast={index == elements.length - 1}>
+        <BreadcrumbItem as={Link} key={`${href}-${index}`} href={`${href}`} isLast={index == elements.length - 1}>
           {title}
         </BreadcrumbItem>
       ))}

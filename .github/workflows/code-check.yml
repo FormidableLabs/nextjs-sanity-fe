@@ -83,22 +83,22 @@ jobs:
         run: pnpm build
 
       - name: "Storybook: Install Extra Dependencies"
-        working-directory: packages/nextjs
+        working-directory: packages/shared-ui
         run: pnpm exec playwright install
 
       - name: "Storybook: Build"
-        working-directory: packages/nextjs
+        working-directory: packages/shared-ui
         run: pnpm run storybook:build
 
       - name: "Storybook: Chromatic"
         uses: chromaui/action@v1
         # Chromatic GitHub Action options
         with:
-          workingDir: packages/nextjs
+          workingDir: packages/shared-ui
           storybookBuildDir: storybook-static
           exitOnceUploaded: true
           projectToken: ${{ secrets.CHROMATIC_PROJECT_TOKEN }}
 
       - name: "Storybook: Run Tests"
-        working-directory: packages/nextjs
+        working-directory: packages/shared-ui
         run: pnpm run test:storybook:start

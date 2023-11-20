@@ -12,13 +12,18 @@ export * from "./components/Modal";
 export * from "./components/WeDontSellBreadBanner";
 export * from "./components/Price";
 export * from "./components/QuantityInput";
-export * from './components/ProductSort';
-export * from './components/Card';
+export * from "./components/ProductSort";
+export * from "./components/Card";
 
-export * from './components/Pagination';
+export * from "./components/Breadcrumbs";
+export * from "./components/Pagination";
 export * from "./components/sanity";
 export * from "./components/cart";
 export * from "./components/ImageCarousel";
 export * from "./components/Search";
+export * from "./components/Footer";
+export * from "./components/Header";
 
-export * from './utils';
+export * from "./components/MobileNav";
+
+export * from "./utils";

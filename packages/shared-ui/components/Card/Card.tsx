@@ -1,7 +1,7 @@
 import classNames from "classnames";
 
 import { currencyFormatter } from "../../utils/currencyFormatter";
-import { PolymorphicComponentProps } from "../../uitls/polymorphicComponent";
+import { PolymorphicComponentProps } from "../../utils/polymorphicComponent";
 
 export interface BaseProps {
   title: string;

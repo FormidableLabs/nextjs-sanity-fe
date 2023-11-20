@@ -38,6 +38,17 @@
     "http-server": "^14.1.1",
     "react": "18.2.0",
     "react-dom": "18.2.0",
-    "tsup": "^7.2.0"
+    "tsup": "^7.2.0",
+    "storybook": "^7.4.0",
+    "@storybook/addon-essentials": "^7.4.0",
+    "@storybook/addon-interactions": "^7.4.0",
+    "@storybook/addon-links": "^7.4.0",
+    "@storybook/addon-onboarding": "^1.0.8",
+    "@storybook/blocks": "^7.4.0",
+    "@storybook/jest": "^0.2.2",
+    "@storybook/react": "^7.4.0",
+    "@storybook/test-runner": "^0.13.0",
+    "@storybook/testing-library": "^0.2.0",
+    "playwright": "^1.38.0"
   }
 }
