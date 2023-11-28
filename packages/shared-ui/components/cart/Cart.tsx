@@ -47,7 +47,7 @@ export const Cart = ({ onMobileNavClose, children }: React.PropsWithChildren<Car
         }}
         data-testid="cart"
       >
-        <span className="hidden sm:block">Cart</span>
+        <span className="sr-only">Cart</span>
         <AnimatePresence mode="popLayout">
           {isLoading ? (
             <motion.div key="loader" exit={{ opacity: 0, scale: 0.4 }}>

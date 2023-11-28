@@ -1,8 +1,10 @@
+"use client"; // TODO: move down the tree
+
 import * as React from "react";
 import Link from "next/link";
 import { Button, useCart, Header as BaseHeader, useMobileNav } from "shared-ui";
 import { Search } from "components/Search";
-import { useRouter } from "next/router";
+import { usePathname } from "next/navigation";
 import { NAV_ITEMS } from "shared-ui";
 import { DesktopNavItem } from "shared-ui";
 import { Cart } from "shared-ui";
@@ -12,7 +14,7 @@ import { MobileNavMenu } from "shared-ui";
 
 export const Header = () => {
   const { toggleCartOpen } = useCart();
-  const { pathname } = useRouter();
+  const pathname = usePathname() || "";
   const { onMobileNavClose } = useMobileNav();
 
   return (
