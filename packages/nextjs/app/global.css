@@ -6,6 +6,77 @@ body {
   @apply bg-secondary;
 }
 
+/* Cabinet Grotesk */
+/* See: https://api.fontshare.com/v2/css?f[]=cabinet-grotesk@500,700,400,300&display=swap */
+/* See: https://nextjs.org/docs/app/building-your-application/styling/css-modules#external-stylesheets */
+@font-face {
+  font-family: 'Cabinet Grotesk';
+  src: url('//cdn.fontshare.com/wf/7GWNQ5AHAZORLOWZ7ELKPLOIQITAR5S5/NYLYMGXMB4RANWVNJSIHG2IKPZ44CN5E/MT4CWVHB3N2C6KFUZ75QK4JQ2FYK4J4M.woff2') format('woff2'),
+       url('//cdn.fontshare.com/wf/7GWNQ5AHAZORLOWZ7ELKPLOIQITAR5S5/NYLYMGXMB4RANWVNJSIHG2IKPZ44CN5E/MT4CWVHB3N2C6KFUZ75QK4JQ2FYK4J4M.woff') format('woff'),
+       url('//cdn.fontshare.com/wf/7GWNQ5AHAZORLOWZ7ELKPLOIQITAR5S5/NYLYMGXMB4RANWVNJSIHG2IKPZ44CN5E/MT4CWVHB3N2C6KFUZ75QK4JQ2FYK4J4M.ttf') format('truetype');
+  font-weight: 300;
+  font-display: swap;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'Cabinet Grotesk';
+  src: url('//cdn.fontshare.com/wf/J6PPRPKWXDUIYA47IXLEQB4R4OPVYDQH/N2ZXAXWEHVMLISD2TIXJC7EF4GOY43L4/NXM4Z4TDCMYWBZ7AVI2N6DQ5VMWNENMU.woff2') format('woff2'),
+       url('//cdn.fontshare.com/wf/J6PPRPKWXDUIYA47IXLEQB4R4OPVYDQH/N2ZXAXWEHVMLISD2TIXJC7EF4GOY43L4/NXM4Z4TDCMYWBZ7AVI2N6DQ5VMWNENMU.woff') format('woff'),
+       url('//cdn.fontshare.com/wf/J6PPRPKWXDUIYA47IXLEQB4R4OPVYDQH/N2ZXAXWEHVMLISD2TIXJC7EF4GOY43L4/NXM4Z4TDCMYWBZ7AVI2N6DQ5VMWNENMU.ttf') format('truetype');
+  font-weight: 400;
+  font-display: swap;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'Cabinet Grotesk';
+  src: url('//cdn.fontshare.com/wf/CKQBK2QBTCDREE7L3MXZ3PPW7LDNJCWU/OTOY7FQFSFOJVZKJWKO2EHUJLOGBDN4Q/4CO2ETY7NITKLUDKMYJ75RHJSPHOJ7XT.woff2') format('woff2'),
+       url('//cdn.fontshare.com/wf/CKQBK2QBTCDREE7L3MXZ3PPW7LDNJCWU/OTOY7FQFSFOJVZKJWKO2EHUJLOGBDN4Q/4CO2ETY7NITKLUDKMYJ75RHJSPHOJ7XT.woff') format('woff'),
+       url('//cdn.fontshare.com/wf/CKQBK2QBTCDREE7L3MXZ3PPW7LDNJCWU/OTOY7FQFSFOJVZKJWKO2EHUJLOGBDN4Q/4CO2ETY7NITKLUDKMYJ75RHJSPHOJ7XT.ttf') format('truetype');
+  font-weight: 500;
+  font-display: swap;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'Cabinet Grotesk';
+  src: url('//cdn.fontshare.com/wf/XMXWOHABYLQDJ42L65EFRYNVRY37HQCB/B2O4O6V3JMFM2WDCYQI3A47L5U4THDUL/WN5274VQ3AUBDFP74GB4EC4XYJ3EKVNE.woff2') format('woff2'),
+       url('//cdn.fontshare.com/wf/XMXWOHABYLQDJ42L65EFRYNVRY37HQCB/B2O4O6V3JMFM2WDCYQI3A47L5U4THDUL/WN5274VQ3AUBDFP74GB4EC4XYJ3EKVNE.woff') format('woff'),
+       url('//cdn.fontshare.com/wf/XMXWOHABYLQDJ42L65EFRYNVRY37HQCB/B2O4O6V3JMFM2WDCYQI3A47L5U4THDUL/WN5274VQ3AUBDFP74GB4EC4XYJ3EKVNE.ttf') format('truetype');
+  font-weight: 700;
+  font-display: swap;
+  font-style: normal;
+}
+
+
+@font-face {
+  font-family: "JeanLuc";
+  src: url('../assets/fonts/jeanluc/jeanlucweb-bold.woff');
+  font-weight: bold;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: "JeanLuc";
+  src: url('../assets/fonts/jeanluc/jeanlucweb-thin.woff');
+  font-weight: auto;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: "JetBrains Mono";
+  src: url('../assets/fonts/jetbrainsmono/JetBrainsMono-Bold.woff2');
+  font-weight: bold;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: "JetBrains Mono";
+  src: url('../assets/fonts/jetbrainsmono/JetBrainsMono-Regular.woff2');
+  font-weight: auto;
+  font-style: normal;
+}
 
 code {
   @apply rounded-md bg-black/5 px-1.5 py-0.5;
