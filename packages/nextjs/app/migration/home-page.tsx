@@ -7,7 +7,7 @@ import { FiArrowRight } from "react-icons/fi";
 import Link from "next/link";
 import NextImage from "next/legacy/image";
 
-import { Button, FeaturedQuote } from "./ui/shared-ui";
+import { Button, FeaturedQuote } from "../ui/shared-ui";
 import { localImageLoader } from "utils/localImageLoader";
 
 import featuredImg from "assets/featured-story.jpg";

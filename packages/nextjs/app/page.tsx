@@ -1,5 +1,5 @@
 import { Metadata } from "next";
-import HomePage from "./home-page";
+import HomePage from "./migration/home-page";
 import { getAllCategories } from "utils/getAllCategoriesQuery";
 import { getRecommendations } from "utils/getRecommendationsQuery";
 
