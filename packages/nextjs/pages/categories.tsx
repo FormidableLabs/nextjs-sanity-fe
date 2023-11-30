@@ -1,8 +1,6 @@
 import { GetServerSideProps, NextPage } from "next";
 
 import { WeDontSellBreadBanner } from "shared-ui";
-import { setCachingHeaders } from "utils/setCachingHeaders";
-import { SanityType } from "utils/consts";
 import { isString, pluralize } from "utils/pluralize";
 import { getAllCategories } from "utils/getAllCategoriesQuery";
 
@@ -34,9 +32,7 @@ const CategoriesPage: NextPage<PageProps> = ({ categories, categoryNames }) => {
   );
 };
 
-export const getServerSideProps = (async ({ res }) => {
-  setCachingHeaders(res, [SanityType.Category, SanityType.CategoryImage]);
-
+export const getServerSideProps = (async () => {
   const categories = await getAllCategories();
   const categoryNames = pluralize((categories || []).map((cat) => cat.name).filter(isString));
 

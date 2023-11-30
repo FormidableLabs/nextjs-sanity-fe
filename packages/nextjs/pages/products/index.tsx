@@ -10,8 +10,6 @@ import { getCategoryFilters, getFlavourFilters, getStyleFilters } from "utils/ge
 import { getPaginationFromQuery } from "utils/getPaginationFromQuery";
 import { getFiltersFromQuery } from "utils/getFiltersFromQuery";
 import { getOrderingFromQuery } from "shared-ui";
-import { setCachingHeaders } from "utils/setCachingHeaders";
-import { SanityType } from "utils/consts";
 import { pluralize } from "utils/pluralize";
 import { CategoryFilterItem, FlavourFilterItem, PLPVariant, StyleFilterItem } from "utils/groqTypes/ProductList";
 import { useDeviceSize } from "utils/useDeviceSize";
@@ -143,8 +141,6 @@ const ProductsPage: NextPage<ProductsPageProps> = ({
 };
 
 export const getServerSideProps = (async ({ query, res, resolvedUrl }) => {
-  setCachingHeaders(res, [SanityType.Product, SanityType.Style, SanityType.Flavour, SanityType.Variant]);
-
   // Sort/ordering.
   const order = getOrderingFromQuery(query);
 

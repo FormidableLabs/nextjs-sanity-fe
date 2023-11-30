@@ -6,9 +6,7 @@ import { useRouter } from "next/router";
 import { AnimatePresence } from "framer-motion";
 
 import { H6, FadeInOut, BlockContent, Price, QuantityInput, useCart } from "shared-ui";
-import { setCachingHeaders } from "utils/setCachingHeaders";
 import { isSlug } from "utils/isSlug";
-import { SanityType } from "utils/consts";
 import { getRecommendations } from "utils/getRecommendationsQuery";
 import { getProductBySlug } from "utils/getProductBySlug";
 
@@ -149,21 +147,11 @@ const PageBody = ({ variant, product }: { product?: ProductType; variant?: Varia
   );
 };
 
-export const getServerSideProps = (async ({ res, query }) => {
+export const getServerSideProps = (async ({ query }) => {
   const { slug } = query;
-
-  const cacheKeys = [] as string[];
-  if (isSlug(slug)) {
-    cacheKeys.push(`${SanityType.Product}_${slug}`);
-  }
 
   const products = await getProductBySlug(isSlug(slug) ? slug : "");
   const recommendations = await getRecommendations();
-
-  // Extract variant slugs to add to cache keys, in case any of those change.
-  const variantSlugs: string[] = (products[0]?.variants?.map((v: any) => v?.slug) || []).filter(Boolean);
-  cacheKeys.push(...variantSlugs.map((s) => `${SanityType.Variant}_${s}`));
-  setCachingHeaders(res, cacheKeys);
 
   return {
     props: {
