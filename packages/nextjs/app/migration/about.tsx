@@ -1,3 +1,5 @@
+"use client";
+
 import * as React from "react";
 import { NextPage } from "next";
 import NextImage from "next/legacy/image";
@@ -58,7 +60,7 @@ const AboutPage: NextPage = () => {
         </div>
         <div className="order-2">
           <NextImage
-            src={require("../../../docs/img/big-picture.png")}
+            src={require("../../../../docs/img/big-picture.png")}
             loader={localImageLoader}
             layout="intrinsic"
             width={DIAGRAM_WIDTH}
@@ -160,7 +162,7 @@ const AboutPage: NextPage = () => {
                   </p>
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-9 text-primary">
                     <NextImage
-                      src={require("../../../docs/img/caching-diagram.png")}
+                      src={require("../../../../docs/img/caching-diagram.png")}
                       loader={localImageLoader}
                       layout="intrinsic"
                       width={FASTLY_WIDTH}

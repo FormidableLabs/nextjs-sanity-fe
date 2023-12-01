@@ -1,7 +1,8 @@
+"use client";
+
 import { GetServerSideProps, GetServerSidePropsResult, NextPage } from "next";
 import * as React from "react";
 import { AnimatePresence } from "framer-motion";
-import { useRouter } from "next/router";
 import classNames from "classnames";
 
 import { H6, WeDontSellBreadBanner, FadeInOut } from "shared-ui";
@@ -22,6 +23,7 @@ import { Pagination } from "components/Pagination";
 import { Breadcrumbs } from "components/Breadcrumbs";
 import { ModalFiltersMobile } from "views/ModalFiltersMobile";
 import { SortAndFiltersToolbarMobile } from "views/SortAndFiltersToolbarMobile";
+import { useSearchParams } from "next/navigation";
 
 interface ProductsPageProps {
   variants: PLPVariant[];
@@ -43,7 +45,7 @@ const ProductsPage: NextPage<ProductsPageProps> = ({
   styleFilters,
 }) => {
   const productNames = pluralize(variants.map((prod) => prod.name));
-  const { query } = useRouter();
+  const query = useSearchParams();
   const [isModalOpen, setIsModalOpen] = React.useState(false);
   const { isSm } = useDeviceSize();
 

@@ -1,3 +1,5 @@
+"use client";
+
 import { GetServerSideProps, NextPage } from "next";
 
 import { WeDontSellBreadBanner } from "shared-ui";

@@ -1,3 +1,5 @@
+"use client";
+
 import { MdArrowForward } from "react-icons/md";
 import { Button, Input, Pill, Checkbox, Select, LinkText } from "shared-ui";
 

@@ -1,8 +1,9 @@
+"use client";
+
 import type { GetProductsAndCategoriesQuery, Product as ProductType, Variant } from "utils/groqTypes/ProductList";
 import * as React from "react";
 import { useState } from "react";
 import { GetServerSideProps, NextPage } from "next";
-import { useRouter } from "next/router";
 import { AnimatePresence } from "framer-motion";
 
 import { H6, FadeInOut, BlockContent, Price, QuantityInput, useCart } from "shared-ui";
@@ -16,6 +17,7 @@ import { StyleOptions } from "components/ProductPage/StyleOptions";
 import { ProductVariantSelector } from "components/ProductPage/ProductVariantSelector";
 import { Product } from "components/Product";
 import { Breadcrumbs } from "components/Breadcrumbs";
+import { useSearchParams, useRouter } from "next/navigation";
 
 interface PageProps {
   data?: {
@@ -25,7 +27,7 @@ interface PageProps {
 }
 
 const ProductPage: NextPage<PageProps> = ({ data }) => {
-  const { query } = useRouter();
+  const query = useSearchParams();
 
   const product = data?.products[0];
   const selectedVariant =
@@ -79,12 +81,7 @@ const PageBody = ({ variant, product }: { product?: ProductType; variant?: Varia
 
   const setSelectedVariant = React.useCallback(
     (slug: string) => {
-      replace({
-        pathname: window.location.pathname,
-        query: {
-          variant: slug,
-        },
-      }).catch(() => null);
+      replace(`${window.location.pathname}?variant=${slug}`);
     },
     [replace]
   );

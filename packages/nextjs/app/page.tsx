@@ -24,9 +24,5 @@ async function getData() {
 
 export default async function Page() {
   const data = await getData();
-  return (
-    <>
-      <HomePage data={data} />)
-    </>
-  );
+  return <HomePage data={data} />;
 }
