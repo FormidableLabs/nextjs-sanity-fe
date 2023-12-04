@@ -3,12 +3,7 @@ import { getProductBySlug } from "utils/getProductBySlug";
 import { getRecommendations } from "utils/getRecommendationsQuery";
 import { isSlug } from "utils/isSlug";
 
-// See: https://nextjs.org/docs/app/api-reference/file-conventions/page
-type RouteSearchParams = { [key: string]: string | string[] | undefined };
-
-const getData = async ({ searchParams }: { searchParams: RouteSearchParams }) => {
-  const { slug } = searchParams;
-
+const getData = async (slug: string) => {
   const products = await getProductBySlug(isSlug(slug) ? slug : "");
   const recommendations = await getRecommendations();
 
@@ -18,8 +13,8 @@ const getData = async ({ searchParams }: { searchParams: RouteSearchParams }) =>
   };
 };
 
-export default async function Page({ searchParams }: { searchParams: RouteSearchParams }) {
-  const data = await getData({ searchParams });
+export default async function Page({ params }: { params: { slug: string } }) {
+  const data = await getData(params.slug);
 
   return <ProductsPage data={data} />;
 }
