@@ -31,6 +31,7 @@ export const ProductVariantSelector = ({ variants, selectedVariant, onVariantCha
       ) : (
         <Select
           options={options}
+          id="product-variants-select"
           placeholder="Select a flavour"
           selectedItem={{
             title: selectedVariant?.name ?? "",

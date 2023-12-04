@@ -38,6 +38,7 @@ export default function ComponentsPage() {
       <h1 className="text-h4">Select</h1>
       <div className="mb-8 mt-2">
         <Select
+          id="demo"
           label="Label"
           placeholder="Placeholder Text"
           options={[

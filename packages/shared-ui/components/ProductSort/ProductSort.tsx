@@ -52,6 +52,7 @@ export const ProductSort: React.FC<ProductSortProps> = ({
         <Select
           label=""
           placeholder={title}
+          id="sort-select"
           selectedItem={selectedItem}
           options={elements}
           className={selectClassName}
