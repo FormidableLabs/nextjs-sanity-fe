@@ -13,7 +13,7 @@ const getData = async ({ searchParams }: { searchParams: RouteSearchParams }) =>
   const recommendations = await getRecommendations();
 
   return {
-    products,
+    product: products[0],
     recommendations,
   };
 };
