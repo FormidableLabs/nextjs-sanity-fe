@@ -1,51 +1,36 @@
-import { useRouter } from "next/router";
+import { usePathname, useRouter, useSearchParams } from "next/navigation";
 
 export const useRouterQueryParams = () => {
   const router = useRouter();
+  const pathname = usePathname();
+  const query = useSearchParams();
+  const current = new URLSearchParams(query ?? "");
 
   const add = (key: string, value: string) => {
-    const query = { ...router.query };
-    const currentValue = query[key];
-    if (currentValue) {
-      if (typeof currentValue === "string" || currentValue instanceof String) {
-        // Single existing, create and append to array
-        query[key] = [currentValue as string, value];
-      } else {
-        // Multiple options, append to array
-        (query[key] as string[]).push(value);
-      }
-    } else {
-      // No existing options, sdd single option
-      query[key] = value;
-    }
-    router.replace({ query });
+    current.append(key, value);
+    router.replace(`${pathname}?${current.toString()}`);
   };
 
   const replace = (args: Record<string, string>) => {
-    const query = { ...router.query, ...args };
-    router.replace({ query });
+    const currentQuery = Object.fromEntries(current);
+    const updatedEntries = {
+      ...currentQuery,
+      ...args,
+    };
+    const newQuery = new URLSearchParams(updatedEntries).toString();
+
+    router.replace(`${pathname}?${newQuery}`);
   };
 
   const clear = (key: string) => {
-    const query = { ...router.query };
-    delete query[key];
-    router.replace({ query });
+    current.delete(key);
+    router.replace(`${pathname}?${current.toString()}`);
   };
 
   const remove = (key: string, value: string) => {
-    const query = { ...router.query };
-    const currentValue = query[key];
-    if (currentValue) {
-      if (typeof currentValue === "string" || currentValue instanceof String) {
-        // Single option, remove group and option
-        delete query[key];
-      } else {
-        // Multiple options, only remove option
-        query[key] = (query[key] as string[]).filter((curr) => curr !== value);
-      }
-    }
-    router.replace({ query });
+    current.delete(key, value);
+    router.replace(`${pathname}?${current.toString()}`);
   };
 
-  return { add, replace, clear, remove, query: router.query };
+  return { add, replace, clear, remove, query };
 };

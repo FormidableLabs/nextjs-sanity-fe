@@ -1,10 +1,8 @@
 "use client";
 
-import { GetServerSideProps, NextPage } from "next";
+import { NextPage } from "next";
 
 import { WeDontSellBreadBanner } from "shared-ui";
-import { isString, pluralize } from "utils/pluralize";
-import { getAllCategories } from "utils/getAllCategoriesQuery";
 
 import { CategoryList } from "components/CategoryList";
 import { PageHead } from "components/PageHead";
@@ -33,17 +31,5 @@ const CategoriesPage: NextPage<PageProps> = ({ categories, categoryNames }) => {
     </>
   );
 };
-
-export const getServerSideProps = (async () => {
-  const categories = await getAllCategories();
-  const categoryNames = pluralize((categories || []).map((cat) => cat.name).filter(isString));
-
-  return {
-    props: {
-      categories,
-      categoryNames,
-    },
-  };
-}) satisfies GetServerSideProps<PageProps>;
 
 export default CategoriesPage;

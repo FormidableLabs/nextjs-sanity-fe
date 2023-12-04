@@ -1,13 +1,12 @@
-import { useRouter } from "next/router";
-import { ParsedUrlQuery } from "querystring";
+import { ReadonlyURLSearchParams, useSearchParams } from "next/navigation";
 import type { FilterGroup } from "./filters";
 import { getFilterGroups } from "./filters";
 
-export const getFiltersCount = (query: ParsedUrlQuery) => {
+export const getFiltersCount = (query: ReadonlyURLSearchParams | null) => {
   const filters = getFilterGroups();
 
   const total = filters.reduce((acc: number, { label, value }: FilterGroup) => {
-    const selectedFilters = query[value];
+    const selectedFilters = query?.get(value);
     const elements = selectedFilters?.length ?? 0;
 
     // if a single element is selected, type would be a string instead of an array.
@@ -20,7 +19,6 @@ export const getFiltersCount = (query: ParsedUrlQuery) => {
 };
 
 export const useGetFiltersCount = () => {
-  const router = useRouter();
-
-  return getFiltersCount(router.query);
+  const query = useSearchParams();
+  return getFiltersCount(query);
 };

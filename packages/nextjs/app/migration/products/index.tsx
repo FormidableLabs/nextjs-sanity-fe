@@ -1,16 +1,11 @@
 "use client";
 
-import { GetServerSideProps, GetServerSidePropsResult, NextPage } from "next";
+import { NextPage } from "next";
 import * as React from "react";
 import { AnimatePresence } from "framer-motion";
 import classNames from "classnames";
 
 import { H6, WeDontSellBreadBanner, FadeInOut } from "shared-ui";
-import { getAllFilteredVariants } from "utils/getFilteredPaginatedQuery";
-import { getCategoryFilters, getFlavourFilters, getStyleFilters } from "utils/getFilters";
-import { getPaginationFromQuery } from "utils/getPaginationFromQuery";
-import { getFiltersFromQuery } from "utils/getFiltersFromQuery";
-import { getOrderingFromQuery } from "shared-ui";
 import { pluralize } from "utils/pluralize";
 import { CategoryFilterItem, FlavourFilterItem, PLPVariant, StyleFilterItem } from "utils/groqTypes/ProductList";
 import { useDeviceSize } from "utils/useDeviceSize";
@@ -141,54 +136,5 @@ const ProductsPage: NextPage<ProductsPageProps> = ({
     </>
   );
 };
-
-export const getServerSideProps = (async ({ query, res, resolvedUrl }) => {
-  // Sort/ordering.
-  const order = getOrderingFromQuery(query);
-
-  // Fetch size filters from sanity
-  const categoryFilters = await getCategoryFilters();
-  const flavourFilters = await getFlavourFilters();
-  const styleFilters = await getStyleFilters();
-
-  // Filters.
-  const filters = getFiltersFromQuery(query, { flavourFilters, styleFilters, categoryFilters });
-  // Pagination data.
-  const pagination = getPaginationFromQuery(query);
-  const result = await getAllFilteredVariants(filters, order, pagination);
-
-  const { variants, itemCount } = result;
-  const { currentPage, pageSize } = pagination;
-  const pageCount = Math.ceil(itemCount / pageSize);
-
-  /**
-   * Scenario: If user is on the third page and then enables
-   * a filter that only returns two pages worth of products,
-   * redirect them to the last page/pageCount
-   */
-  if (pageCount > 0 && currentPage > pageCount) {
-    const destination = resolvedUrl.replace(`page=${currentPage}`, `page=${pageCount}`);
-    const redirect: GetServerSidePropsResult<unknown> = {
-      redirect: {
-        destination,
-        permanent: false,
-      },
-    };
-    return redirect as never; // Exclude this return type from the return signature
-  }
-
-  return {
-    props: {
-      categoryFilters,
-      flavourFilters,
-      styleFilters,
-      variants,
-      itemCount,
-      pageCount,
-      pageSize,
-      currentPage,
-    },
-  };
-}) satisfies GetServerSideProps<ProductsPageProps>;
 
 export default ProductsPage;
