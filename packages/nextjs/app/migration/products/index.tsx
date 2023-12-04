@@ -98,7 +98,7 @@ const ProductsPage: NextPage<ProductsPageProps> = ({
                   <FadeInOut
                     className={classNames(
                       "w-full grid grid-cols-2 sm:grid-cols-3 md:grid-cols-2 lg:grid-cols-3 gap-x-3 gap-y-9 mb-9",
-                      +(query?.page || 1) > 1 && "grid-rows-2"
+                      +(query?.get("page") || 1) > 1 && "grid-rows-2"
                     )}
                     key={productNames}
                   >
@@ -106,7 +106,7 @@ const ProductsPage: NextPage<ProductsPageProps> = ({
                       <Product key={variant._id} item={variant} />
                     ))}
                     {/* Add padder items when on page > 1 so pagination bar isn't moving around */}
-                    {+(query?.page || 1) > 1 &&
+                    {+(query?.get("page") || 1) > 1 &&
                       Array.from({ length: 6 - variants.length })
                         .fill(undefined)
                         .map((_, i) => <div key={i} className="invisible" />)}
