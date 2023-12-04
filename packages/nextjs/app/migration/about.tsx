@@ -217,8 +217,8 @@ const AboutPage: NextPage = () => {
                   </div>
                   <div className="mt-3">
                     On the Next.js side we’ll need to include a few primary response headers to then control caching (in
-                    our case, we’re setting these headers from <code>getServerSideProps</code> on server-rendered pages
-                    that we’d like to cache).
+                    our case, we’re setting these headers from <code>middleware</code> on server-rendered pages that
+                    we’d like to cache).
                     <ul>
                       <li className="my-3 last-of-type:mb-0 flex items-baseline gap-2">
                         <div className="top-1 relative">

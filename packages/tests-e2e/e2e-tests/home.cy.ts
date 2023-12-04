@@ -13,13 +13,10 @@ describe("when I visit the home page", () => {
       .nextClosest("section")
       .within(() => {
         cy.findByText("Show all breads").should("exist");
-        cy.getServerSideProps("/home").then((props) => {
-          const bestSellers = props.data.products;
-          expect(bestSellers).to.have.length(3);
-          for (const product of bestSellers) {
-            cy.findByText(product.name!).should("exist");
-          }
-        });
+        const bestSellers = ["Kouign Amann", "Sourdough Loaf", "Pain au Chocolat"];
+        for (const product of bestSellers) {
+          cy.findByText(product).should("exist");
+        }
       });
   });
   it('I see the "Top Categories" section with 3 categories', () => {
@@ -27,13 +24,11 @@ describe("when I visit the home page", () => {
       .should("exist")
       .nextClosest("section")
       .within(() => {
-        cy.getServerSideProps("/home").then((props) => {
-          const categories = props.data.categories.slice(0, 3);
-          cy.get('[data-testid="featured-list-item"]').should("have.length", 3);
-          for (const category of categories) {
-            cy.findByText(category.name!).should("exist");
-          }
-        });
+        const categories = ["Delectable Donuts", "Palatable Pastries", "Love Loaves"];
+        cy.get('[data-testid="featured-list-item"]').should("have.length", 3);
+        for (const category of categories) {
+          cy.findByText(category).should("exist");
+        }
       });
   });
 });

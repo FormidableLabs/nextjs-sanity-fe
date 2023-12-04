@@ -1,6 +1,5 @@
 import "@testing-library/cypress/add-commands";
 
-import "./getServerSideProps";
 import "./nextClosest";
 import "./setMockData";
 

@@ -1,5 +1,4 @@
 import { generateMockData } from "mocks/msw/db/mock-data";
-import type { PageDataTypes } from "../cypress/support/commands/getServerSideProps";
 import { mockOnly } from "../utils/real-or-mock";
 
 describe("when I visit the products page", () => {
@@ -44,29 +43,16 @@ describe("when I visit the products page", () => {
     });
 
     describe("on the default page", () => {
-      let pageProps: PageDataTypes["/products"];
-
-      before(async () => {
-        cy.getServerSideProps("/products").then((props) => {
-          pageProps = props;
-        });
-      });
-
-      const EXPECTED_ITEMS_PER_PAGE = 6;
-      const EXPECTED_ITEMS_MINIMUM = 10;
-
       it("I see 6 products", () => {
-        expect(pageProps.variants.length).to.equal(
-          EXPECTED_ITEMS_PER_PAGE,
-          `there should be ${EXPECTED_ITEMS_PER_PAGE} items on this page`
-        );
-        expect(pageProps.itemCount).to.gte(
-          EXPECTED_ITEMS_MINIMUM,
-          `there should be at least ${EXPECTED_ITEMS_MINIMUM} items`
-        );
-
-        pageProps.variants.forEach((variant) => {
-          cy.findByText(variant.name).should("exist");
+        [
+          "Seeded Sourdough Loaf",
+          "Pain au Chocolat",
+          "Sourdough Loaf",
+          "Chocolate Croissant",
+          "Whole Grain Potato Rosemary",
+          "Lemon Tart",
+        ].forEach((variant) => {
+          cy.findByText(variant).should("exist");
         });
       });
 
@@ -74,7 +60,7 @@ describe("when I visit the products page", () => {
         cy.findByText("Previous").should("exist");
         cy.findByText("Next").should("exist");
 
-        const pageCount = pageProps.pageCount;
+        const pageCount = 4;
         for (let i = 0; i < pageCount; i++) {
           cy.findByText(`${i + 1}`).should("exist");
         }
