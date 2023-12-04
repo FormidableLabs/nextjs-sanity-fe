@@ -1,15 +1,12 @@
 "use client";
 
-import type { GetProductsAndCategoriesQuery, Product as ProductType, Variant } from "utils/groqTypes/ProductList";
 import * as React from "react";
 import { useState } from "react";
-import { GetServerSideProps, NextPage } from "next";
+import { NextPage } from "next";
 import { AnimatePresence } from "framer-motion";
 
 import { H6, FadeInOut, BlockContent, Price, QuantityInput, useCart } from "shared-ui";
-import { isSlug } from "utils/isSlug";
 import { getRecommendations } from "utils/getRecommendationsQuery";
-import { getProductBySlug } from "utils/getProductBySlug";
 
 import { ImageCarousel } from "components/ImageCarousel";
 import { PageHead } from "components/PageHead";
@@ -18,20 +15,21 @@ import { ProductVariantSelector } from "components/ProductPage/ProductVariantSel
 import { Product } from "components/Product";
 import { Breadcrumbs } from "components/Breadcrumbs";
 import { useSearchParams, useRouter } from "next/navigation";
+import { ProductDetail, ProductDetailVariants } from "utils/groqTypes/ProductDetail";
 
 interface PageProps {
   data?: {
-    products: GetProductsAndCategoriesQuery["products"];
-    recommendations: GetProductsAndCategoriesQuery["products"];
+    product: ProductDetail;
+    recommendations: Awaited<ReturnType<typeof getRecommendations>>;
   };
 }
 
 const ProductPage: NextPage<PageProps> = ({ data }) => {
   const query = useSearchParams();
+  const product = data?.product;
 
-  const product = data?.products[0];
   const selectedVariant =
-    (product?.variants || []).find((v) => v?.slug && v.slug === query.variant) || product?.variants?.[0];
+    (product?.variants || []).find((v) => v?.slug && v.slug === query?.get("variant")) || product?.variants?.[0];
 
   return (
     <React.Fragment>
@@ -41,7 +39,7 @@ const ProductPage: NextPage<PageProps> = ({ data }) => {
       </div>
       <div className="flex flex-col gap-6 py-6">
         <AnimatePresence initial={false} mode="wait">
-          <React.Fragment key={`${query.slug}:${query.variant}`}>
+          <React.Fragment key={`${query?.get("slug")}:${query?.get("variant")}`}>
             <FadeInOut>
               <PageBody product={product} variant={selectedVariant} />
             </FadeInOut>
@@ -75,7 +73,7 @@ const ProductPage: NextPage<PageProps> = ({ data }) => {
   );
 };
 
-const PageBody = ({ variant, product }: { product?: ProductType; variant?: Variant }) => {
+const PageBody = ({ variant, product }: { product?: ProductDetail; variant?: ProductDetailVariants[number] }) => {
   const { replace } = useRouter();
   const { updateCart, cartItems } = useCart();
 
@@ -143,21 +141,5 @@ const PageBody = ({ variant, product }: { product?: ProductType; variant?: Varia
     </div>
   );
 };
-
-export const getServerSideProps = (async ({ query }) => {
-  const { slug } = query;
-
-  const products = await getProductBySlug(isSlug(slug) ? slug : "");
-  const recommendations = await getRecommendations();
-
-  return {
-    props: {
-      data: {
-        products,
-        recommendations,
-      },
-    },
-  };
-}) satisfies GetServerSideProps;
 
 export default ProductPage;

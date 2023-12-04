@@ -1,6 +1,6 @@
 import * as React from "react";
 import { H6, Pill } from "shared-ui";
-import { Style } from "utils/groqTypes/ProductList";
+import { Style } from "utils/groqTypes/ProductDetail";
 
 interface Props {
   options: Style[];

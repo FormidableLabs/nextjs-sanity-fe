@@ -1,11 +1,11 @@
 import * as React from "react";
 import { useMemo } from "react";
 import { H6, Select } from "shared-ui";
-import { Variant } from "utils/groqTypes/ProductList";
+import { ProductDetailVariants } from "utils/groqTypes/ProductDetail";
 
 interface Props {
-  variants: Variant[];
-  selectedVariant?: Variant;
+  variants: ProductDetailVariants;
+  selectedVariant?: ProductDetailVariants[number];
   onVariantChange: (slug?: string) => void;
 }
 
