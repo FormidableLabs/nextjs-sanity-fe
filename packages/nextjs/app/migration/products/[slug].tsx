@@ -27,9 +27,10 @@ interface PageProps {
 const ProductPage: NextPage<PageProps> = ({ data }) => {
   const query = useSearchParams();
   const product = data?.product;
+  const variant = query?.get("variant");
 
   const selectedVariant =
-    (product?.variants || []).find((v) => v?.slug && v.slug === query?.get("variant")) || product?.variants?.[0];
+    (product?.variants || []).find((v) => v?.slug && v.slug === variant) || product?.variants?.[0];
 
   return (
     <React.Fragment>
@@ -39,7 +40,7 @@ const ProductPage: NextPage<PageProps> = ({ data }) => {
       </div>
       <div className="flex flex-col gap-6 py-6">
         <AnimatePresence initial={false} mode="wait">
-          <React.Fragment key={`${query?.get("slug")}:${query?.get("variant")}`}>
+          <React.Fragment key={`${query?.get("slug")}:${variant}`}>
             <FadeInOut>
               <PageBody product={product} variant={selectedVariant} />
             </FadeInOut>
