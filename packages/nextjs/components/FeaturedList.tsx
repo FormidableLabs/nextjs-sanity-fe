@@ -35,6 +35,7 @@ export const FeaturedList = ({ items }: Props) => {
               src: item.variants?.[0]?.images?.[0] ?? "",
               alt: item.variants?.[0]?.name ?? "",
               containerClassName: "aspect-square",
+              sizes: "(max-width: 768px) 100vw, 33vw",
             },
           };
         } else if (item._type === "category") {
@@ -52,6 +53,7 @@ export const FeaturedList = ({ items }: Props) => {
                 src: item.images?.[0]?.images ?? "",
                 alt: item.images?.[0]?.name ?? "",
                 containerClassName: "aspect-[16/10]",
+                sizes: "(max-width: 768px) 100vw, 33vw",
               },
             };
           }

@@ -37,7 +37,7 @@ const Home: NextPage<PageProps> = ({ data }) => {
             <Image
               width={600}
               height={600}
-              className="rounded-2xl"
+              className="rounded-2xl aspect-square"
               src={data?.products[0].images?.[0] ?? ""}
               alt={data?.products[0].name ?? ""}
             />
