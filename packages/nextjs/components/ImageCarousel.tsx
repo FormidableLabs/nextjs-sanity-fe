@@ -6,9 +6,10 @@ import { ImageCarousel as BaseImageCarousel } from "shared-ui";
 export type ImageCarouselProps = {
   productImages: ProductImage[];
   imagePriority?: boolean;
+  sizes?: string;
 };
 
-export const ImageCarousel = ({ productImages, imagePriority }: ImageCarouselProps) => {
+export const ImageCarousel = ({ productImages, imagePriority, sizes }: ImageCarouselProps) => {
   return (
     <BaseImageCarousel>
       {productImages?.map((image) => (
@@ -16,6 +17,7 @@ export const ImageCarousel = ({ productImages, imagePriority }: ImageCarouselPro
           className="rounded-2xl aspect-square w-full"
           fill
           priority={imagePriority}
+          sizes={sizes}
           key={image?._key}
           src={image ?? ""}
           alt={image?.name ?? ""}
