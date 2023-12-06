@@ -5,7 +5,7 @@ import * as React from "react";
 import { NextPage } from "next";
 import { FiArrowRight } from "react-icons/fi";
 import Link from "next/link";
-import NextImage from "next/legacy/image";
+import NextImage from "next/image";
 
 import { Button, FeaturedQuote } from "../ui/shared-ui";
 import { localImageLoader } from "utils/localImageLoader";
@@ -66,9 +66,12 @@ const Home: NextPage<PageProps> = ({ data }) => {
             <NextImage
               src={featuredImg}
               loader={localImageLoader}
-              layout="intrinsic"
               alt="featured image"
               className="rounded-full overflow-hidden aspect-square"
+              style={{
+                maxWidth: "100%",
+                height: "auto",
+              }}
             />
           </div>
           <div className="flex-1 text-secondary">

@@ -1,7 +1,7 @@
-import type { ImageProps, ImageLoaderProps } from "next/legacy/image";
+import type { ImageProps, ImageLoaderProps } from "next/image";
 import * as React from "react";
 import { SanityImageSource } from "@sanity/image-url/lib/types/types";
-import NextImage from "next/legacy/image";
+import NextImage from "next/image";
 import { imageBuilder } from "utils/sanityClient";
 
 interface Props extends Omit<ImageProps, "src"> {
@@ -29,6 +29,9 @@ export const Image = (props: Props) => {
       loader={(p) => sanityLoader(props.src, p)}
       {...props}
       src={imageBuilder.image(props?.src).url()?.toString().replace(baseURL, "") ?? ""}
+      style={{
+        maxWidth: "100%",
+      }}
     />
   );
 };
