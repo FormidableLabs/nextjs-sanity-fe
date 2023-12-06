@@ -11,6 +11,7 @@ export interface Props {
   options: Option[];
   label?: string;
   placeholder: string;
+  id: string;
   selectedItem?: Option | null;
   className?: string;
   onChange?: (value?: Option | null) => void;
@@ -18,11 +19,12 @@ export interface Props {
 
 const itemToString = (item: Option | null) => (item ? item.title : "");
 
-export function Select({ label, placeholder, options, className, selectedItem, onChange }: Props) {
+export function Select({ label, placeholder, options, className, selectedItem, onChange, id }: Props) {
   const { isOpen, getToggleButtonProps, getLabelProps, getMenuProps, highlightedIndex, getItemProps } = useSelect({
     items: options,
     itemToString,
     selectedItem,
+    id,
     onSelectedItemChange({ selectedItem }) {
       onChange && onChange(selectedItem);
     },

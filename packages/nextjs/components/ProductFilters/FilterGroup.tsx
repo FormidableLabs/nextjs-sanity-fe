@@ -13,8 +13,7 @@ export const FilterGroup: React.FC<FilterGroupProps> = ({ group }) => {
 
   const { query, add, remove } = useRouterQueryParams();
 
-  const queryValue = query[groupValue];
-  const queryValueIsString = typeof queryValue === "string" || queryValue instanceof String;
+  const queryValue = query?.get(groupValue);
 
   const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
     const { checked, value: optionValue } = e.target;
@@ -33,8 +32,8 @@ export const FilterGroup: React.FC<FilterGroupProps> = ({ group }) => {
         {options.map(({ value: optionValue, label: optionLabel }) => {
           const isChecked =
             !!queryValue && // Value exists
-            ((queryValueIsString && queryValue === optionValue) || // Single value matches option
-              (!queryValueIsString && queryValue.includes(optionValue))); // Multiple values includes option
+            (queryValue === optionValue || // Single value matches option
+              queryValue.includes(optionValue)); // Multiple values includes option
 
           return (
             <li key={optionValue}>

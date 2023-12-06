@@ -1,3 +1,5 @@
+"use client";
+
 import * as React from "react";
 import { q } from "groqd";
 import { CartItem, CartUpdate, CartProvider as SharedCartProvider } from "shared-ui";

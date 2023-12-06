@@ -1,3 +1,5 @@
+"use client";
+
 import * as React from "react";
 import { NextPage } from "next";
 import NextImage from "next/legacy/image";
@@ -58,7 +60,7 @@ const AboutPage: NextPage = () => {
         </div>
         <div className="order-2">
           <NextImage
-            src={require("../../../docs/img/big-picture.png")}
+            src={require("../../../../docs/img/big-picture.png")}
             loader={localImageLoader}
             layout="intrinsic"
             width={DIAGRAM_WIDTH}
@@ -160,7 +162,7 @@ const AboutPage: NextPage = () => {
                   </p>
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-9 text-primary">
                     <NextImage
-                      src={require("../../../docs/img/caching-diagram.png")}
+                      src={require("../../../../docs/img/caching-diagram.png")}
                       loader={localImageLoader}
                       layout="intrinsic"
                       width={FASTLY_WIDTH}
@@ -215,8 +217,8 @@ const AboutPage: NextPage = () => {
                   </div>
                   <div className="mt-3">
                     On the Next.js side we’ll need to include a few primary response headers to then control caching (in
-                    our case, we’re setting these headers from <code>getServerSideProps</code> on server-rendered pages
-                    that we’d like to cache).
+                    our case, we’re setting these headers from <code>middleware</code> on server-rendered pages that
+                    we’d like to cache).
                     <ul>
                       <li className="my-3 last-of-type:mb-0 flex items-baseline gap-2">
                         <div className="top-1 relative">

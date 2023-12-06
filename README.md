@@ -55,7 +55,7 @@ To cache our server-rendered pages at the Fastly layer, we use response headers 
 1. `Surrogate-Control` response header needs to be added to pages where caching is desired ([reference](https://docs.fastly.com/en/guides/working-with-surrogate-keys)),
 2. `Surrogate-Key` response header needs to be added to enable appropriate cache invalidation ([reference](https://developer.fastly.com/reference/api/purging/)).
 
-On the Next.js side we'll need to include a few primary response headers to then control caching (in our case, we're setting these headers from `getServerSideProps` on server-rendered pages that we'd like to cache).
+On the Next.js side we'll need to include a few primary response headers to then control caching (in our case, we're setting these headers from `middleware` on server-rendered pages that we'd like to cache).
 
 - `surrogate-control` – Fastly-specific header used to set the cache policies. (`max-age`, `stale-while-revalidate`, `stale-while-error`).
 - `surrogate-key` – Fastly-specific header that allows purging by key. Note: this header is removed by Fastly before sending the response to the client. To see the value of this header, you must include the [`Fastly-Debug`](https://developer.fastly.com/reference/http/http-headers/Fastly-Debug/) header in your request.

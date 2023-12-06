@@ -1,3 +1,5 @@
+"use client";
+
 import { MdArrowForward } from "react-icons/md";
 import { Button, Input, Pill, Checkbox, Select, LinkText } from "shared-ui";
 
@@ -36,6 +38,7 @@ export default function ComponentsPage() {
       <h1 className="text-h4">Select</h1>
       <div className="mb-8 mt-2">
         <Select
+          id="demo"
           label="Label"
           placeholder="Placeholder Text"
           options={[

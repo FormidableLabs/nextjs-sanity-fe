@@ -1,8 +1,8 @@
 import React from "react";
-import { useRouter } from "next/router";
 import { MdOutlineHome } from "react-icons/md";
 import { BreadcrumbItem, BreadcrumbsContainer, capitalizeWords } from "shared-ui";
 import Link from "next/link";
+import { usePathname, useSearchParams } from "next/navigation";
 
 type LinkElement = {
   title: string;
@@ -10,9 +10,9 @@ type LinkElement = {
 };
 
 export const Breadcrumbs = () => {
-  const { query, asPath } = useRouter();
-  // Remove query string.
-  const urlPath = asPath.split("?")[0];
+  const searchParams = useSearchParams();
+  const query = searchParams ? Object.fromEntries(searchParams?.entries()) : {};
+  const urlPath = usePathname() ?? "";
 
   // Normal route.
   let pathElements = urlPath.split("/");
@@ -48,7 +48,7 @@ export const Breadcrumbs = () => {
 
   return (
     <BreadcrumbsContainer aria-label="breadcrumb">
-      <BreadcrumbItem href="/">
+      <BreadcrumbItem as={Link} href="/">
         <MdOutlineHome className="mr-2" /> Home
       </BreadcrumbItem>
       {elements.map(({ title, href }, index) => (

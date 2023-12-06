@@ -6,5 +6,7 @@ type ProductSortProps = Pick<BaseProps, "as" | "showTitle" | "title" | "selectCl
 
 export const ProductSort: React.FC<ProductSortProps> = (props) => {
   const { replace, clear, query } = useRouterQueryParams();
-  return <BaseProductSort {...props} onClear={clear} onReplace={replace} query={query} />;
+  const searchParams = new URLSearchParams(query ?? "");
+
+  return <BaseProductSort {...props} onClear={clear} onReplace={replace} query={Object.fromEntries(searchParams)} />;
 };

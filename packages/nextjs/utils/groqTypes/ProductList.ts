@@ -32,7 +32,7 @@ export interface CategoryFilterItem {
   slug: string;
 }
 
-type NullableArrayType<T, K extends keyof T> = Exclude<T[K], null>;
+export type NullableArrayType<T, K extends keyof T> = Exclude<T[K], null>;
 
 export type Flavour = NullableArrayType<Product["variants"][number], "flavour">[number];
 export type Style = NullableArrayType<Product["variants"][number], "style">[number];

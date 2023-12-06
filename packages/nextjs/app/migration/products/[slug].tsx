@@ -1,16 +1,12 @@
-import type { GetProductsAndCategoriesQuery, Product as ProductType, Variant } from "utils/groqTypes/ProductList";
+"use client";
+
 import * as React from "react";
 import { useState } from "react";
-import { GetServerSideProps, NextPage } from "next";
-import { useRouter } from "next/router";
+import { NextPage } from "next";
 import { AnimatePresence } from "framer-motion";
 
 import { H6, FadeInOut, BlockContent, Price, QuantityInput, useCart } from "shared-ui";
-import { setCachingHeaders } from "utils/setCachingHeaders";
-import { isSlug } from "utils/isSlug";
-import { SanityType } from "utils/consts";
 import { getRecommendations } from "utils/getRecommendationsQuery";
-import { getProductBySlug } from "utils/getProductBySlug";
 
 import { ImageCarousel } from "components/ImageCarousel";
 import { PageHead } from "components/PageHead";
@@ -18,20 +14,23 @@ import { StyleOptions } from "components/ProductPage/StyleOptions";
 import { ProductVariantSelector } from "components/ProductPage/ProductVariantSelector";
 import { Product } from "components/Product";
 import { Breadcrumbs } from "components/Breadcrumbs";
+import { useSearchParams, useRouter } from "next/navigation";
+import { ProductDetail, ProductDetailVariants } from "utils/groqTypes/ProductDetail";
 
 interface PageProps {
   data?: {
-    products: GetProductsAndCategoriesQuery["products"];
-    recommendations: GetProductsAndCategoriesQuery["products"];
+    product: ProductDetail;
+    recommendations: Awaited<ReturnType<typeof getRecommendations>>;
   };
 }
 
 const ProductPage: NextPage<PageProps> = ({ data }) => {
-  const { query } = useRouter();
+  const query = useSearchParams();
+  const product = data?.product;
+  const variant = query?.get("variant");
 
-  const product = data?.products[0];
   const selectedVariant =
-    (product?.variants || []).find((v) => v?.slug && v.slug === query.variant) || product?.variants?.[0];
+    (product?.variants || []).find((v) => v?.slug && v.slug === variant) || product?.variants?.[0];
 
   return (
     <React.Fragment>
@@ -41,7 +40,7 @@ const ProductPage: NextPage<PageProps> = ({ data }) => {
       </div>
       <div className="flex flex-col gap-6 py-6">
         <AnimatePresence initial={false} mode="wait">
-          <React.Fragment key={`${query.slug}:${query.variant}`}>
+          <React.Fragment key={`${query?.get("slug")}:${variant}`}>
             <FadeInOut>
               <PageBody product={product} variant={selectedVariant} />
             </FadeInOut>
@@ -75,18 +74,13 @@ const ProductPage: NextPage<PageProps> = ({ data }) => {
   );
 };
 
-const PageBody = ({ variant, product }: { product?: ProductType; variant?: Variant }) => {
+const PageBody = ({ variant, product }: { product?: ProductDetail; variant?: ProductDetailVariants[number] }) => {
   const { replace } = useRouter();
   const { updateCart, cartItems } = useCart();
 
   const setSelectedVariant = React.useCallback(
     (slug: string) => {
-      replace({
-        pathname: window.location.pathname,
-        query: {
-          variant: slug,
-        },
-      }).catch(() => null);
+      replace(`${window.location.pathname}?variant=${slug}`);
     },
     [replace]
   );
@@ -148,31 +142,5 @@ const PageBody = ({ variant, product }: { product?: ProductType; variant?: Varia
     </div>
   );
 };
-
-export const getServerSideProps = (async ({ res, query }) => {
-  const { slug } = query;
-
-  const cacheKeys = [] as string[];
-  if (isSlug(slug)) {
-    cacheKeys.push(`${SanityType.Product}_${slug}`);
-  }
-
-  const products = await getProductBySlug(isSlug(slug) ? slug : "");
-  const recommendations = await getRecommendations();
-
-  // Extract variant slugs to add to cache keys, in case any of those change.
-  const variantSlugs: string[] = (products[0]?.variants?.map((v: any) => v?.slug) || []).filter(Boolean);
-  cacheKeys.push(...variantSlugs.map((s) => `${SanityType.Variant}_${s}`));
-  setCachingHeaders(res, cacheKeys);
-
-  return {
-    props: {
-      data: {
-        products,
-        recommendations,
-      },
-    },
-  };
-}) satisfies GetServerSideProps;
 
 export default ProductPage;

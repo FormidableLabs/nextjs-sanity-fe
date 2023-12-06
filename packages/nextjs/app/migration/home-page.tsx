@@ -1,21 +1,18 @@
+"use client";
+
 import type { Categories, Products } from "utils/groqTypes/ProductList";
 import * as React from "react";
-import { GetServerSideProps, NextPage } from "next";
+import { NextPage } from "next";
 import { FiArrowRight } from "react-icons/fi";
 import Link from "next/link";
 import NextImage from "next/legacy/image";
 
-import { Button, FeaturedQuote } from "shared-ui";
-import { setCachingHeaders } from "utils/setCachingHeaders";
+import { Button, FeaturedQuote } from "../ui/shared-ui";
 import { localImageLoader } from "utils/localImageLoader";
-import { SanityType } from "utils/consts";
-import { getAllCategories } from "utils/getAllCategoriesQuery";
-import { getRecommendations } from "utils/getRecommendationsQuery";
 
 import featuredImg from "assets/featured-story.jpg";
 import { FeaturedList } from "components/FeaturedList";
 import { Image } from "components/Image";
-import { PageHead } from "components/PageHead";
 
 interface PageProps {
   data?: {
@@ -27,10 +24,6 @@ interface PageProps {
 const Home: NextPage<PageProps> = ({ data }) => {
   return (
     <>
-      <PageHead
-        title="Home"
-        description="Formidable Boulangerie home page. A showcase of Next.js, Sanity CMS, and Fastly CDN."
-      />
       <section className="container">
         <div className="flex justify-between items-center py-9">
           <div className="max-w-[600px]">
@@ -100,21 +93,5 @@ const TitleBanner = ({ children }: React.PropsWithChildren) => (
     <h4 className="text-h4 text-primary container">{children}</h4>
   </div>
 );
-
-export const getServerSideProps = (async ({ res }) => {
-  setCachingHeaders(res, [SanityType.Category, SanityType.CategoryImage]);
-
-  const categories = await getAllCategories();
-  const products = await getRecommendations();
-
-  return {
-    props: {
-      data: {
-        products,
-        categories,
-      },
-    },
-  };
-}) satisfies GetServerSideProps<PageProps>;
 
 export default Home;
