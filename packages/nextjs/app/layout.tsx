@@ -4,6 +4,7 @@ import { Header } from "components/Header/Header";
 import { Metadata } from "next";
 import { CartProvider } from "components/CartContext";
 import { AnimatePresence, MotionConfig } from "./ui/framer";
+import localFont from "next/font/local";
 
 export const metadata: Metadata = {
   title: "Home",
@@ -14,9 +15,51 @@ export const viewport = {
   width: "device-width",
 };
 
+const cabinetFont = localFont({
+  src: [
+    {
+      path: "../assets/fonts/cabinetgrotesk/cabinetgrotesk-300.woff2",
+      weight: "300",
+      style: "normal",
+    },
+    {
+      path: "../assets/fonts/cabinetgrotesk/cabinetgrotesk-400.woff2",
+      weight: "400",
+      style: "normal",
+    },
+    {
+      path: "../assets/fonts/cabinetgrotesk/cabinetgrotesk-500.woff2",
+      weight: "500",
+      style: "normal",
+    },
+    {
+      path: "../assets/fonts/cabinetgrotesk/cabinetgrotesk-700.woff2",
+      weight: "700",
+      style: "normal",
+    },
+  ],
+  variable: "--font-cabinet",
+});
+
+const jeanLuc = localFont({
+  src: [
+    {
+      path: "../assets/fonts/jeanLuc/jeanlucweb-bold.woff",
+      weight: "bold",
+      style: "normal",
+    },
+    {
+      path: "../assets/fonts/jeanLuc/jeanlucweb-thin.woff",
+      weight: "normal",
+      style: "normal",
+    },
+  ],
+  variable: "--font-jeanLuc",
+});
+
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
-    <html lang="en">
+    <html lang="en" className={`${cabinetFont.variable} ${jeanLuc.variable}`}>
       <body>
         <MotionConfig reducedMotion="user">
           <CartProvider>
