@@ -44,12 +44,12 @@ const cabinetFont = localFont({
 const jeanLuc = localFont({
   src: [
     {
-      path: "../assets/fonts/jeanLuc/jeanlucweb-bold.woff",
+      path: "../assets/fonts/jeanluc/jeanlucweb-bold.woff",
       weight: "bold",
       style: "normal",
     },
     {
-      path: "../assets/fonts/jeanLuc/jeanlucweb-thin.woff",
+      path: "../assets/fonts/jeanluc/jeanlucweb-thin.woff",
       weight: "normal",
       style: "normal",
     },
