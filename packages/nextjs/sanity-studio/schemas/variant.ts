@@ -84,7 +84,7 @@ export default defineType({
           name: "productImage",
           title: "Product Image",
           type: "productImage",
-        }),
+        } as const),
       ],
     }),
     defineField({
