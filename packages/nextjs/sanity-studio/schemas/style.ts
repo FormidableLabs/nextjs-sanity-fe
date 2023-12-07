@@ -1,5 +1,5 @@
 import { RiKnifeLine } from "react-icons/ri";
-import { defineField, defineType } from "sanity";
+import { defineField, defineType } from "@sanity-typed/types";
 
 export default defineType({
   name: "style",

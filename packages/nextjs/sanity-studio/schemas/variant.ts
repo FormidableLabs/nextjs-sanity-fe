@@ -1,6 +1,7 @@
 import { GrMultiple } from "react-icons/gr";
 import groq from "groq";
-import { defineField, ValidationContext } from "sanity";
+import { ValidationContext } from "sanity";
+import { defineArrayMember, defineField, defineType } from "@sanity-typed/types";
 import { sanityClient } from "utils/sanityClient";
 
 const isUniqueId = (value: string, context: ValidationContext) => {
@@ -21,7 +22,7 @@ const isUniqueId = (value: string, context: ValidationContext) => {
   return sanityClient.fetch(query, params);
 };
 
-export default defineField({
+export default defineType({
   name: "variant",
   title: "Variant",
   description: "Variant of the product",
@@ -79,11 +80,11 @@ export default defineField({
       title: "Images",
       type: "array",
       of: [
-        {
+        defineArrayMember({
           name: "productImage",
           title: "Product Image",
           type: "productImage",
-        },
+        }),
       ],
     }),
     defineField({
@@ -91,10 +92,10 @@ export default defineField({
       title: "Flavour",
       type: "array",
       of: [
-        {
+        defineArrayMember({
           type: "reference",
-          to: [{ type: "flavour" }],
-        },
+          to: [{ type: "flavour" } as const],
+        }),
       ],
     }),
     defineField({
@@ -102,10 +103,10 @@ export default defineField({
       title: "Style (options)",
       type: "array",
       of: [
-        {
+        defineArrayMember({
           type: "reference",
-          to: [{ type: "style" }],
-        },
+          to: [{ type: "style" } as const],
+        }),
       ],
     }),
   ],

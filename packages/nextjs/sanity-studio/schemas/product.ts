@@ -1,5 +1,5 @@
 import { MdShoppingCart } from "react-icons/md";
-import { defineField, defineType } from "sanity";
+import { defineArrayMember, defineField, defineType } from "@sanity-typed/types";
 
 export default defineType({
   name: "product",
@@ -33,10 +33,10 @@ export default defineType({
       title: "Categories",
       type: "array",
       of: [
-        {
+        defineArrayMember({
           type: "reference",
-          to: [{ type: "category" }],
-        },
+          to: [{ type: "category" } as const],
+        }),
       ],
     }),
     defineField({
@@ -56,10 +56,10 @@ export default defineType({
       title: "Variants",
       type: "array",
       of: [
-        {
+        defineArrayMember({
           type: "reference",
-          to: [{ type: "variant" }],
-        },
+          to: [{ type: "variant" } as const],
+        }),
       ],
     },
   ],

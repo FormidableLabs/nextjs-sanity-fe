@@ -51,6 +51,7 @@
   },
   "devDependencies": {
     "@portabletext/types": "^2.0.0",
+    "@sanity-typed/types": "^5.8.13",
     "@sanity/cli": "^3.9.1",
     "@testing-library/jest-dom": "^5.16.5",
     "@testing-library/react": "^13.4.0",
@@ -75,7 +76,8 @@
     "jest-environment-jsdom": "^29.3.1",
     "msw": "^0.47.4",
     "postcss": "^8.4.16",
-    "tailwindcss": "^3.1.8"
+    "tailwindcss": "^3.1.8",
+    "ts-simplify": "^0.1.2"
   },
   "msw": {
     "workerDirectory": "public"

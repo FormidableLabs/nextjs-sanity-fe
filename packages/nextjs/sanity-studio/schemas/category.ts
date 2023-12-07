@@ -1,5 +1,5 @@
 import { MdCategory } from "react-icons/md";
-import { defineField, defineType } from "sanity";
+import { defineArrayMember, defineField, defineType } from "@sanity-typed/types";
 
 export default defineType({
   name: "category",
@@ -33,10 +33,10 @@ export default defineType({
       title: "Images",
       type: "array",
       of: [
-        {
+        defineArrayMember({
           type: "reference",
-          to: [{ type: "categoryImage" }],
-        },
+          to: [{ type: "categoryImage" } as const],
+        }),
       ],
     }),
   ],
