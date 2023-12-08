@@ -67,11 +67,7 @@ const Home: NextPage<PageProps> = ({ data }) => {
               src={featuredImg}
               loader={localImageLoader}
               alt="featured image"
-              className="rounded-full overflow-hidden aspect-square"
-              style={{
-                maxWidth: "100%",
-                height: "auto",
-              }}
+              className="rounded-full overflow-hidden aspect-square max-w-full h-auto"
             />
           </div>
           <div className="flex-1 text-secondary">

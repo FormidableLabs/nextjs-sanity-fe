@@ -43,7 +43,7 @@ export const Card = ({
         alt={imageProps.alt}
         sizes={imageProps.sizes}
         priority={imageProps.priority}
-        style={{ objectFit: "cover", objectPosition: "center" }}
+        className="object-cover object-center"
       />
     </BaseCard>
   );

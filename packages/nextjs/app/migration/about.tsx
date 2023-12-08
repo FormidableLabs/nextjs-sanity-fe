@@ -65,14 +65,8 @@ const AboutPage: NextPage = () => {
             loader={localImageLoader}
             width={DIAGRAM_WIDTH}
             height={DIAGRAM_HEIGHT}
-            className="rounded-2xl"
+            className="rounded-2xl max-w-full h-auto object-contain object-center"
             priority
-            style={{
-              maxWidth: "100%",
-              height: "auto",
-              objectFit: "contain",
-              objectPosition: "center",
-            }}
           />
         </div>
         <div className="order-3 lg:col-span-2 flex flex-col gap-9 justify-between">
@@ -172,13 +166,7 @@ const AboutPage: NextPage = () => {
                       loader={localImageLoader}
                       width={FASTLY_WIDTH}
                       height={FASTLY_HEIGHT}
-                      className="rounded-2xl"
-                      style={{
-                        maxWidth: "100%",
-                        height: "auto",
-                        objectFit: "contain",
-                        objectPosition: "center",
-                      }}
+                      className="rounded-2xl max-w-full h-auto object-contain object-center"
                     />
                     <div>
                       <div>

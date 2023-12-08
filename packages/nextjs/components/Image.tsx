@@ -21,7 +21,7 @@ const sanityLoader = (sanitySrc: SanityImageSource, { width, quality }: ImageLoa
 
 export const Image = (props: Props) => {
   const baseURL = "https://cdn.sanity.io/images/";
-  const { style, ...rest } = props;
+  const { className, ...rest } = props;
 
   if (!props.src) return null;
 
@@ -30,10 +30,7 @@ export const Image = (props: Props) => {
       loader={(p) => sanityLoader(props.src, p)}
       {...rest}
       src={imageBuilder.image(props?.src).url()?.toString().replace(baseURL, "") ?? ""}
-      style={{
-        ...style,
-        maxWidth: "100%",
-      }}
+      className={`${className} max-w-full`}
     />
   );
 };
