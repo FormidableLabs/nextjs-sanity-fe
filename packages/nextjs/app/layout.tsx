@@ -8,7 +8,7 @@ import localFont from "next/font/local";
 
 export const metadata: Metadata = {
   title: "Home",
-  description: "Welcome to Next.js",
+  description: "Welcome to Formidable Boulangerie",
 };
 
 export const viewport = {
