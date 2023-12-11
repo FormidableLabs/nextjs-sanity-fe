@@ -18,8 +18,8 @@ module.exports = {
         },
       },
       fontFamily: {
-        sans: ["Cabinet Grotesk", ...defaultTheme.fontFamily.sans],
-        jeanLuc: ["JeanLuc", ...defaultTheme.fontFamily.sans],
+        sans: ["var(--font-cabinet)", ...defaultTheme.fontFamily.sans],
+        jeanLuc: ["var(--font-jeanLuc)", ...defaultTheme.fontFamily.sans],
       },
       backgroundImage: {
         // converted to data url from Figma export

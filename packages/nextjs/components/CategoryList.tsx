@@ -10,7 +10,7 @@ export const CategoryList = ({ items }: CategoryListProps) => {
 
   return (
     <ul className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-9">
-      {items.map((category) => (
+      {items.map((category, index) => (
         <li key={category._id}>
           <Card
             to={{
@@ -20,8 +20,10 @@ export const CategoryList = ({ items }: CategoryListProps) => {
               },
             }}
             imageProps={{
+              priority: index === 0,
               src: category.images?.[0]?.images ?? "",
               alt: category.images?.[0]?.name ?? "",
+              sizes: "(max-width: 768px) 100vw, 50vw",
               containerClassName: "aspect-[16/10]",
             }}
             title={category.name ?? ""}

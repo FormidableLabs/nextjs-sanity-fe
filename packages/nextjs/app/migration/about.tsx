@@ -2,7 +2,7 @@
 
 import * as React from "react";
 import { NextPage } from "next";
-import NextImage from "next/legacy/image";
+import NextImage from "next/image";
 
 import Link from "next/link";
 import { BreadIcon } from "shared-ui";
@@ -60,14 +60,13 @@ const AboutPage: NextPage = () => {
         </div>
         <div className="order-2">
           <NextImage
+            alt="big picture diagram"
             src={require("../../../../docs/img/big-picture.png")}
             loader={localImageLoader}
-            layout="intrinsic"
             width={DIAGRAM_WIDTH}
             height={DIAGRAM_HEIGHT}
-            objectFit="contain"
-            objectPosition="center"
-            className="rounded-2xl"
+            className="rounded-2xl max-w-full h-auto object-contain object-center"
+            priority
           />
         </div>
         <div className="order-3 lg:col-span-2 flex flex-col gap-9 justify-between">
@@ -162,14 +161,12 @@ const AboutPage: NextPage = () => {
                   </p>
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-9 text-primary">
                     <NextImage
+                      alt="cache diagram"
                       src={require("../../../../docs/img/caching-diagram.png")}
                       loader={localImageLoader}
-                      layout="intrinsic"
                       width={FASTLY_WIDTH}
                       height={FASTLY_HEIGHT}
-                      objectFit="contain"
-                      objectPosition="center"
-                      className="rounded-2xl"
+                      className="rounded-2xl max-w-full h-auto object-contain object-center"
                     />
                     <div>
                       <div>

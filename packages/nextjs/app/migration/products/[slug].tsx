@@ -110,7 +110,9 @@ const PageBody = ({ variant, product }: { product?: ProductDetail; variant?: Pro
     <div className="container">
       <div className="grid md:grid-cols-2 gap-6">
         <div className="md:row-span-2 order-2 md:order-1">
-          {variant?.images && <ImageCarousel productImages={variant?.images} />}
+          {variant?.images && (
+            <ImageCarousel sizes="(max-width: 768px) 100vw, 50vw" imagePriority productImages={variant?.images} />
+          )}
         </div>
         <div className="text-primary order-1 md:order-2 self-end">
           <h4 className="text-h4 font-medium mb-2">{product?.name}</h4>

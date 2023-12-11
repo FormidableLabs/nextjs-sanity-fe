@@ -13,6 +13,8 @@ export interface CardProps {
   imageProps: {
     src: SanityImageSource;
     alt: string;
+    priority?: boolean;
+    sizes?: string;
     containerClassName?: string;
   };
 }
@@ -35,7 +37,14 @@ export const Card = ({
       href={to}
       className={className}
     >
-      <Image layout="fill" src={imageProps.src} alt={imageProps.alt} objectFit="cover" objectPosition="center" />
+      <Image
+        fill
+        src={imageProps.src}
+        alt={imageProps.alt}
+        sizes={imageProps.sizes}
+        priority={imageProps.priority}
+        className="object-cover object-center"
+      />
     </BaseCard>
   );
 };

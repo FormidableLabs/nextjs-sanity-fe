@@ -5,7 +5,7 @@ import * as React from "react";
 import { NextPage } from "next";
 import { FiArrowRight } from "react-icons/fi";
 import Link from "next/link";
-import NextImage from "next/legacy/image";
+import NextImage from "next/image";
 
 import { Button, FeaturedQuote } from "../ui/shared-ui";
 import { localImageLoader } from "utils/localImageLoader";
@@ -28,18 +28,16 @@ const Home: NextPage<PageProps> = ({ data }) => {
         <div className="flex justify-between items-center py-9">
           <div className="max-w-[600px]">
             <h1 className="text-primary text-h1">Formidable breads for your daily life.</h1>
-            <Link href="/products" legacyBehavior>
-              <Button as="a" variant="secondary" className="inline-flex items-center mt-6">
-                <FiArrowRight size={24} className="mr-2" /> Show now
-              </Button>
-            </Link>
+            <Button as={Link} href="/products" variant="secondary" className="inline-flex items-center mt-6">
+              <FiArrowRight size={24} className="mr-2" /> Show now
+            </Button>
           </div>
 
           <span className="hidden sm:block">
             <Image
               width={600}
               height={600}
-              className="rounded-2xl"
+              className="rounded-2xl aspect-square"
               src={data?.products[0].images?.[0] ?? ""}
               alt={data?.products[0].name ?? ""}
             />
@@ -50,11 +48,9 @@ const Home: NextPage<PageProps> = ({ data }) => {
       <TitleBanner>Our bestsellers</TitleBanner>
       <section className="container py-9 flex flex-col gap-9">
         <FeaturedList items={data?.products} />
-        <Link href="/products" legacyBehavior>
-          <Button as="a" variant="primary" className="w-full inline-block text-center">
-            Show all breads
-          </Button>
-        </Link>
+        <Button as={Link} href="/products" variant="primary" className="w-full inline-block text-center">
+          Show all breads
+        </Button>
       </section>
 
       <FeaturedQuote />
@@ -70,9 +66,8 @@ const Home: NextPage<PageProps> = ({ data }) => {
             <NextImage
               src={featuredImg}
               loader={localImageLoader}
-              layout="intrinsic"
               alt="featured image"
-              className="rounded-full overflow-hidden aspect-square"
+              className="rounded-full overflow-hidden aspect-square max-w-full h-auto"
             />
           </div>
           <div className="flex-1 text-secondary">
