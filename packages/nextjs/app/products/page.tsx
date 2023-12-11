@@ -5,6 +5,8 @@ import { getCategoryFilters, getFlavourFilters, getStyleFilters } from "utils/ge
 import { getFiltersFromQuery } from "utils/getFiltersFromQuery";
 import { getPaginationFromQuery } from "utils/getPaginationFromQuery";
 import ProductsPage from "app/migration/products";
+import { pluralize } from "utils/pluralize";
+import { Metadata } from "next";
 
 // See: https://nextjs.org/docs/app/api-reference/file-conventions/page
 type RouteSearchParams = { [key: string]: string | string[] | undefined };
@@ -46,7 +48,21 @@ const getData = async ({ searchParams }: { searchParams: RouteSearchParams }) =>
   };
 };
 
-export default async function Page({ searchParams }: { searchParams: RouteSearchParams }) {
+type Props = {
+  searchParams: RouteSearchParams;
+};
+
+export async function generateMetadata({ searchParams }: Props): Promise<Metadata> {
+  const data = await getData({ searchParams });
+  const productNames = pluralize(data.variants.map((prod) => prod.name));
+
+  return {
+    title: "Products",
+    description: `Formidable Boulangerie product listing page, featuring ${productNames}.`,
+  };
+}
+
+export default async function Page({ searchParams }: Props) {
   const data = await getData({ searchParams });
 
   if (data.pageCount > 0 && data.currentPage > data.pageCount) {

@@ -10,7 +10,6 @@ import { pluralize } from "utils/pluralize";
 import { CategoryFilterItem, FlavourFilterItem, PLPVariant, StyleFilterItem } from "utils/groqTypes/ProductList";
 import { useDeviceSize } from "utils/useDeviceSize";
 
-import { PageHead } from "components/PageHead";
 import { ProductSort } from "components/ProductSort";
 import { ProductFilters } from "components/ProductFilters/ProductFilters";
 import { Product } from "components/Product";
@@ -62,10 +61,6 @@ const ProductsPage: NextPage<ProductsPageProps> = ({
 
   return (
     <>
-      <PageHead
-        title="Products"
-        description={`Formidable Boulangerie product listing page, featuring ${productNames}.`}
-      />
       <div>
         <WeDontSellBreadBanner />
         <div className="py-9 container">

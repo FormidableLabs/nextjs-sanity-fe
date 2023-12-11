@@ -7,7 +7,6 @@ import NextImage from "next/image";
 import Link from "next/link";
 import { BreadIcon } from "shared-ui";
 import { localImageLoader } from "utils/localImageLoader";
-import { PageHead } from "components/PageHead";
 import { Breadcrumbs } from "components/Breadcrumbs";
 
 const DIAGRAM_WIDTH = 700.0;
@@ -18,7 +17,6 @@ const FASTLY_HEIGHT = FASTLY_WIDTH / 2.93;
 const AboutPage: NextPage = () => {
   return (
     <>
-      <PageHead title="About" description="About the Formidable Boulangerie project." />
       <div className="container my-4">
         <Breadcrumbs />
       </div>
