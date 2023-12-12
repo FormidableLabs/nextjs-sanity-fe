@@ -1,5 +1,5 @@
 import type { GetCategoriesQuery, GetProductsAndCategoriesQuery } from "utils/groqTypes/ProductList";
-import { Card } from "components/Card";
+import { Card } from "app/components/Card";
 
 type CategoryListProps = {
   items?: GetCategoriesQuery["categories"] | GetProductsAndCategoriesQuery["categories"];

@@ -1,5 +1,7 @@
-import CategoriesPage from "app/migration/categories";
+import { Breadcrumbs } from "components/Breadcrumbs";
+import { CategoryList } from "components/CategoryList";
 import { Metadata } from "next";
+import { WeDontSellBreadBanner } from "../ui/shared-ui";
 import { getAllCategories } from "utils/getAllCategoriesQuery";
 import { isString, pluralize } from "utils/pluralize";
 
@@ -25,5 +27,16 @@ export async function generateMetadata(): Promise<Metadata> {
 export default async function Page() {
   const data = await getData();
 
-  return <CategoriesPage {...data} />;
+  return (
+    <div>
+      <WeDontSellBreadBanner />
+      <div className="container py-9 text-primary flex flex-col gap-9">
+        <h1 className="text-h1">Categories</h1>
+        <div className="my-2">
+          <Breadcrumbs />
+        </div>
+        <CategoryList items={data.categories} />
+      </div>
+    </div>
+  );
 }

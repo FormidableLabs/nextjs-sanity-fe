@@ -1,3 +1,5 @@
+"use client";
+
 import type { ImageProps, ImageLoaderProps } from "next/image";
 import * as React from "react";
 import { SanityImageSource } from "@sanity/image-url/lib/types/types";

@@ -9,7 +9,6 @@ import { H6, FadeInOut, BlockContent, Price, QuantityInput, useCart } from "shar
 import { getRecommendations } from "utils/getRecommendationsQuery";
 
 import { ImageCarousel } from "components/ImageCarousel";
-import { PageHead } from "components/PageHead";
 import { StyleOptions } from "components/ProductPage/StyleOptions";
 import { ProductVariantSelector } from "components/ProductPage/ProductVariantSelector";
 import { Product } from "components/Product";
@@ -34,7 +33,6 @@ const ProductPage: NextPage<PageProps> = ({ data }) => {
 
   return (
     <React.Fragment>
-      <PageHead title={product?.name || "Product details"} description={`Product details page for ${product?.name}.`} />
       <div className="container my-4">
         <Breadcrumbs />
       </div>
@@ -110,9 +108,7 @@ const PageBody = ({ variant, product }: { product?: ProductDetail; variant?: Pro
     <div className="container">
       <div className="grid md:grid-cols-2 gap-6">
         <div className="md:row-span-2 order-2 md:order-1">
-          {variant?.images && (
-            <ImageCarousel sizes="(max-width: 768px) 100vw, 50vw" imagePriority productImages={variant?.images} />
-          )}
+          {variant?.images && <ImageCarousel sizes="(max-width: 768px) 100vw, 50vw" productImages={variant?.images} />}
         </div>
         <div className="text-primary order-1 md:order-2 self-end">
           <h4 className="text-h4 font-medium mb-2">{product?.name}</h4>

@@ -12,7 +12,7 @@ const DIAGRAM_HEIGHT = DIAGRAM_WIDTH / 1.86;
 const FASTLY_WIDTH = 700.0;
 const FASTLY_HEIGHT = FASTLY_WIDTH / 2.93;
 
-export const metaData: Metadata = {
+export const metadata: Metadata = {
   title: "About",
   description: "About the Formidable Boulangerie project.",
 };
