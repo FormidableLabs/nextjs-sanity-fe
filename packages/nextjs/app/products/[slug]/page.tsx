@@ -1,6 +1,6 @@
 import { Product } from "app/components/Product";
 import ProductsPage from "app/components/ProductDetailBody";
-import { Breadcrumbs } from "components/Breadcrumbs";
+import { Breadcrumbs } from "app/components/Breadcrumbs";
 import { AnimatePresence } from "../../ui/framer";
 import { Metadata } from "next";
 import React from "react";

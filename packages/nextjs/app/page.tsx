@@ -7,8 +7,8 @@ import Link from "next/link";
 import { Button, FeaturedQuote } from "./ui/shared-ui";
 
 import featuredImg from "assets/featured-story.jpg";
-import { FeaturedList } from "components/FeaturedList";
-import { Image } from "components/Image";
+import { FeaturedList } from "app/components/FeaturedList";
+import { Image } from "app/components/Image";
 import LocalImage from "app/components/LocalImage";
 
 export const metadata: Metadata = {

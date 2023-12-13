@@ -1,7 +1,7 @@
 import * as React from "react";
 import { SanityImageSource } from "@sanity/image-url/lib/types/types";
 import Link, { LinkProps } from "next/link";
-import { Image } from "../../components/Image";
+import { Image } from "./Image";
 import { Card as BaseCard } from "../ui/shared-ui";
 
 export interface CardProps {

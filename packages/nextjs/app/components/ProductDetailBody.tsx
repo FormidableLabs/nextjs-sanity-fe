@@ -3,8 +3,8 @@ import * as React from "react";
 import { BlockContent, Price } from "../ui/shared-ui";
 
 import { ImageCarousel } from "app/components/ImageCarousel";
-import { StyleOptions } from "components/ProductPage/StyleOptions";
-import { ProductVariantSelector } from "components/ProductPage/ProductVariantSelector";
+import { StyleOptions } from "app/components/ProductPage/StyleOptions";
+import { ProductVariantSelector } from "app/components/ProductPage/ProductVariantSelector";
 import { ProductDetail, ProductDetailVariants } from "utils/groqTypes/ProductDetail";
 import QuantityInput from "./QuantityInput";
 

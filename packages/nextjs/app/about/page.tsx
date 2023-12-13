@@ -2,7 +2,7 @@ import { Metadata } from "next";
 
 import Link from "next/link";
 import { BreadIcon } from "../ui/shared-ui";
-import { Breadcrumbs } from "components/Breadcrumbs";
+import { Breadcrumbs } from "app/components/Breadcrumbs";
 import LocalImage from "app/components/LocalImage";
 import bigPictureImage from "../../../../docs/img/big-picture.png";
 import cacheDiagramImage from "../../../../docs/img/caching-diagram.png";

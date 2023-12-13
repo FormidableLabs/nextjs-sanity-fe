@@ -4,10 +4,10 @@ import { AnimatePresence } from "../ui/framer";
 import { H6, WeDontSellBreadBanner } from "../ui/shared-ui";
 import { CategoryFilterItem, FlavourFilterItem, PLPVariant, StyleFilterItem } from "utils/groqTypes/ProductList";
 
-import { ProductFilters } from "components/ProductFilters/ProductFilters";
+import { ProductFilters } from "app/components/ProductFilters/ProductFilters";
 import { Product } from "app/components/Product";
 import { Pagination } from "app/components/Pagination";
-import { Breadcrumbs } from "components/Breadcrumbs";
+import { Breadcrumbs } from "app/components/Breadcrumbs";
 import { SortAndFiltersToolbarMobile } from "app/components/SortAndFiltersToolbarMobile";
 import { ProductSort } from "app/components/ProductSort";
 import PaginationFade from "./PaginationFade";

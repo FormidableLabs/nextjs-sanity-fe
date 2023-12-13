@@ -3,7 +3,7 @@
 import * as React from "react";
 import Link from "next/link";
 import { Button, useCart, Header as BaseHeader, useMobileNav } from "shared-ui";
-import { Search } from "components/Search";
+import { Search } from "app/components/Search";
 import { usePathname } from "next/navigation";
 import { NAV_ITEMS } from "shared-ui";
 import { DesktopNavItem } from "shared-ui";
