@@ -4,9 +4,9 @@ import { getAllFilteredVariants } from "utils/getFilteredPaginatedQuery";
 import { getCategoryFilters, getFlavourFilters, getStyleFilters } from "utils/getFilters";
 import { getFiltersFromQuery } from "utils/getFiltersFromQuery";
 import { getPaginationFromQuery } from "utils/getPaginationFromQuery";
-import ProductsPage from "app/migration/products";
 import { pluralize } from "utils/pluralize";
 import { Metadata } from "next";
+import ProductsList from "app/components/ProductsList";
 
 // See: https://nextjs.org/docs/app/api-reference/file-conventions/page
 type RouteSearchParams = { [key: string]: string | string[] | undefined };
@@ -70,5 +70,5 @@ export default async function Page({ searchParams }: Props) {
     return redirect(`/products?${newParams.toString()}`);
   }
 
-  return <ProductsPage {...data} />;
+  return <ProductsList {...data} />;
 }

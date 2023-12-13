@@ -1,15 +1,15 @@
-import { Button } from "shared-ui";
+"use client";
+
+import { Button } from "../ui/shared-ui";
 import React from "react";
 import { MdOutlineFilterList } from "react-icons/md";
-import { ProductSort } from "components/ProductSort";
+import { ProductSort } from "app/components/ProductSort";
 import { useGetFiltersCount } from "utils/getFiltersCount";
+import { useModalFilters } from "app/components/ModalFiltersProvider";
 
-interface SortAndFiltersToolbarMobileProps {
-  onFiltersClick?: React.MouseEventHandler;
-}
-
-export const SortAndFiltersToolbarMobile: React.FC<SortAndFiltersToolbarMobileProps> = ({ onFiltersClick }) => {
+export const SortAndFiltersToolbarMobile: React.FC = () => {
   const total = useGetFiltersCount();
+  const { handleOpenModal } = useModalFilters();
 
   return (
     <div className="my-6 mb-8 w-full inline-flex items-end justify-between md:hidden">
@@ -20,7 +20,7 @@ export const SortAndFiltersToolbarMobile: React.FC<SortAndFiltersToolbarMobilePr
         type="button"
         variant="primary"
         leftIcon={<MdOutlineFilterList className="w-5 h-5" />}
-        onClick={onFiltersClick}
+        onClick={handleOpenModal}
       >
         Filters {total > 0 ? `(${total})` : ""}
       </Button>

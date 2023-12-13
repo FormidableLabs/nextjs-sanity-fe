@@ -5,13 +5,13 @@ import { useState } from "react";
 import { NextPage } from "next";
 import { AnimatePresence } from "framer-motion";
 
-import { H6, FadeInOut, BlockContent, Price, QuantityInput, useCart } from "shared-ui";
+import { H6, FadeInOut, BlockContent, Price, QuantityInput, useCart } from "../../ui/shared-ui";
 import { getRecommendations } from "utils/getRecommendationsQuery";
 
 import { ImageCarousel } from "components/ImageCarousel";
 import { StyleOptions } from "components/ProductPage/StyleOptions";
 import { ProductVariantSelector } from "components/ProductPage/ProductVariantSelector";
-import { Product } from "components/Product";
+import { Product } from "app/components/Product";
 import { Breadcrumbs } from "components/Breadcrumbs";
 import { useSearchParams, useRouter } from "next/navigation";
 import { ProductDetail, ProductDetailVariants } from "utils/groqTypes/ProductDetail";

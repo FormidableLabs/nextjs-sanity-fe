@@ -1,7 +1,7 @@
 import Link from "next/link";
-import { Price } from "shared-ui";
+import { Price } from "../ui/shared-ui";
 import { PLPVariant } from "utils/groqTypes/ProductList";
-import { Image } from "./Image";
+import { Image } from "../../components/Image";
 
 type Props = {
   item: PLPVariant;
