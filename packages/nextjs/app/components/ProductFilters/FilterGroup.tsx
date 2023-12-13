@@ -32,6 +32,7 @@ export const FilterGroup: React.FC<FilterGroupProps> = ({ group }) => {
       <legend className="text-h5 text-primary mb-2">{groupLabel}</legend>
       <ul>
         {options.map(({ value: optionValue, label: optionLabel }) => {
+          console.log({ queryValue, optionValue, groupValue });
           const isChecked =
             !!queryValue && // Value exists
             (queryValue === optionValue || // Single value matches option

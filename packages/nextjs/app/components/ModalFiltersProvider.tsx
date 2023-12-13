@@ -1,7 +1,7 @@
 "use client";
 
 import React from "react";
-import { ModalFiltersMobile } from "views/ModalFiltersMobile";
+import { ModalFiltersMobile } from "app/components/ModalFiltersMobile";
 import { useDeviceSize } from "utils/useDeviceSize";
 import { CategoryFilterItem, FlavourFilterItem, StyleFilterItem } from "utils/groqTypes/ProductList";
 

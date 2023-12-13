@@ -11,6 +11,7 @@ import { Breadcrumbs } from "app/components/Breadcrumbs";
 import { SortAndFiltersToolbarMobile } from "app/components/SortAndFiltersToolbarMobile";
 import { ProductSort } from "app/components/ProductSort";
 import PaginationFade from "./PaginationFade";
+import ModalFiltersProvider from "./ModalFiltersProvider";
 
 interface ProductListProps {
   variants: PLPVariant[];
@@ -32,7 +33,7 @@ const ProductList = ({
   styleFilters,
 }: ProductListProps) => {
   return (
-    <>
+    <ModalFiltersProvider categoryFilters={categoryFilters} flavourFilters={flavourFilters} styleFilters={styleFilters}>
       <div>
         <WeDontSellBreadBanner />
         <div className="py-9 container">
@@ -80,7 +81,7 @@ const ProductList = ({
           </section>
         </div>
       </div>
-    </>
+    </ModalFiltersProvider>
   );
 };
 
