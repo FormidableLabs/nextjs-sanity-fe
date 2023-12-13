@@ -1,9 +1,7 @@
-"use client";
-
 import { MdArrowForward } from "react-icons/md";
-import { Button, Input, Pill, Checkbox, Select, LinkText } from "shared-ui";
+import { Button, Input, Pill, Checkbox, Select, LinkText } from "../ui/shared-ui";
 
-export default function ComponentsPage() {
+export default async function Page() {
   return (
     <div className="container mt-10">
       <h1 className="text-h4">Buttons</h1>
