@@ -1,3 +1,6 @@
+"use client";
+
+import { useRouter } from "next/navigation";
 import * as React from "react";
 import { useMemo } from "react";
 import { H6, Select } from "shared-ui";
@@ -6,10 +9,11 @@ import { ProductDetailVariants } from "utils/groqTypes/ProductDetail";
 interface Props {
   variants: ProductDetailVariants;
   selectedVariant?: ProductDetailVariants[number];
-  onVariantChange: (slug?: string) => void;
 }
 
-export const ProductVariantSelector = ({ variants, selectedVariant, onVariantChange }: Props) => {
+export const ProductVariantSelector = ({ variants, selectedVariant }: Props) => {
+  const { replace } = useRouter();
+
   const options = useMemo(
     () =>
       variants?.map((variant) => ({
@@ -18,6 +22,17 @@ export const ProductVariantSelector = ({ variants, selectedVariant, onVariantCha
       })),
     [variants]
   );
+
+  const setSelectedVariant = React.useCallback(
+    (slug: string) => {
+      replace(`${window.location.pathname}?variant=${slug}`);
+    },
+    [replace]
+  );
+
+  const onVariantChange = (slug?: string) => {
+    if (slug) setSelectedVariant(slug);
+  };
 
   if (!options?.length) {
     return null;
