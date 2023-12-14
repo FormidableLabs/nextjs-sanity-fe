@@ -1,7 +1,7 @@
 import { ProductImage } from "utils/groqTypes/ProductList";
 import * as React from "react";
-import { Image } from "components/Image";
-import { ImageCarousel as BaseImageCarousel } from "shared-ui";
+import { Image } from "app/components/Image";
+import { ImageCarousel as BaseImageCarousel } from "../ui/shared-ui";
 
 export type ImageCarouselProps = {
   productImages: ProductImage[];

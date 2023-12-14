@@ -1,3 +1,5 @@
+"use client";
+
 import React from "react";
 import { MdOutlineHome } from "react-icons/md";
 import { BreadcrumbItem, BreadcrumbsContainer, capitalizeWords } from "shared-ui";

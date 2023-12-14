@@ -1,14 +1,14 @@
 import { Footer, MobileNavProvider } from "./ui/shared-ui";
 import "./global.css";
-import { Header } from "components/Header/Header";
+import { Header } from "app/components/Header/Header";
 import { Metadata } from "next";
-import { CartProvider } from "components/CartContext";
+import { CartProvider } from "app/components/CartContext";
 import { AnimatePresence, MotionConfig } from "./ui/framer";
 import localFont from "next/font/local";
 
 export const metadata: Metadata = {
   title: "Home",
-  description: "Welcome to Next.js",
+  description: "Welcome to Formidable Boulangerie",
 };
 
 export const viewport = {

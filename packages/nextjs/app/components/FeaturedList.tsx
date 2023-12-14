@@ -1,7 +1,7 @@
 import type { Categories, Products } from "utils/groqTypes/ProductList";
 import * as React from "react";
 import classNames from "classnames";
-import { Card, CardProps } from "components/Card";
+import { Card, CardProps } from "app/components/Card";
 
 type Props = {
   items?: Products | Categories;

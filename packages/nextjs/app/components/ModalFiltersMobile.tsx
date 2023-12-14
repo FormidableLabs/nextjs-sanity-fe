@@ -1,6 +1,6 @@
 import { Button, Modal } from "shared-ui";
 import React from "react";
-import { ProductFilters } from "components/ProductFilters/ProductFilters";
+import { ProductFilters } from "app/components/ProductFilters/ProductFilters";
 import { CategoryFilterItem, FlavourFilterItem, StyleFilterItem } from "utils/groqTypes/ProductList";
 
 interface ModalFiltersMobileProps {
