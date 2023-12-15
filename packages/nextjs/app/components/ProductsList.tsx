@@ -1,7 +1,7 @@
 import * as React from "react";
 import { AnimatePresence } from "../ui/framer";
 
-import { H6, WeDontSellBreadBanner } from "../ui/shared-ui";
+import { H6, WeDontSellBreadBanner } from "shared-ui";
 import { CategoryFilterItem, FlavourFilterItem, PLPVariant, StyleFilterItem } from "utils/groqTypes/ProductList";
 
 import { ProductFilters } from "app/components/ProductFilters/ProductFilters";

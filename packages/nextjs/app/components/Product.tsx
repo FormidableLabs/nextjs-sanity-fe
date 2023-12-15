@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { Price } from "../ui/shared-ui";
+import { Price } from "shared-ui";
 import { PLPVariant } from "utils/groqTypes/ProductList";
 import { Image } from "./Image";
 

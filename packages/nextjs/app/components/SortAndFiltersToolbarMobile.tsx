@@ -1,6 +1,6 @@
 "use client";
 
-import { Button } from "../ui/shared-ui";
+import { Button } from "shared-ui";
 import React from "react";
 import { MdOutlineFilterList } from "react-icons/md";
 import { ProductSort } from "app/components/ProductSort";

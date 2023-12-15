@@ -1,4 +1,4 @@
-import { Footer, MobileNavProvider } from "./ui/shared-ui";
+import { Footer, MobileNavProvider } from "shared-ui";
 import "./global.css";
 import { Header } from "app/components/Header/Header";
 import { Metadata } from "next";

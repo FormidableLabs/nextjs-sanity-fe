@@ -1,6 +1,6 @@
 import * as React from "react";
 
-import { BlockContent, Price } from "../ui/shared-ui";
+import { BlockContent, Price } from "shared-ui";
 
 import { ImageCarousel } from "app/components/ImageCarousel";
 import { StyleOptions } from "app/components/ProductPage/StyleOptions";

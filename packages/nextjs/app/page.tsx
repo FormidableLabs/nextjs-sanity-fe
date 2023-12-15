@@ -4,7 +4,7 @@ import { getRecommendations } from "utils/getRecommendationsQuery";
 import { FiArrowRight } from "react-icons/fi";
 import Link from "next/link";
 
-import { Button, FeaturedQuote } from "./ui/shared-ui";
+import { Button, FeaturedQuote } from "shared-ui";
 
 import featuredImg from "assets/featured-story.jpg";
 import { FeaturedList } from "app/components/FeaturedList";
