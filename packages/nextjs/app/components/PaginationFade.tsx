@@ -1,7 +1,7 @@
 "use client";
 
 import classNames from "classnames";
-import { FadeInOut } from "../ui/shared-ui";
+import { FadeInOut } from "shared-ui";
 import { useSearchParams } from "next/navigation";
 import { pluralize } from "utils/pluralize";
 import { PLPVariant } from "utils/groqTypes/ProductList";

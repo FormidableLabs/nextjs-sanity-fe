@@ -4,7 +4,7 @@ import { Breadcrumbs } from "app/components/Breadcrumbs";
 import { AnimatePresence } from "../../ui/framer";
 import { Metadata } from "next";
 import React from "react";
-import { H6, FadeInOut } from "../../ui/shared-ui";
+import { H6, FadeInOut } from "shared-ui";
 import { getProductBySlug } from "utils/getProductBySlug";
 import { getRecommendations } from "utils/getRecommendationsQuery";
 import { isSlug } from "utils/isSlug";

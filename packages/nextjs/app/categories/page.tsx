@@ -1,7 +1,7 @@
 import { Breadcrumbs } from "app/components/Breadcrumbs";
 import { CategoryList } from "app/components/CategoryList";
 import { Metadata } from "next";
-import { WeDontSellBreadBanner } from "../ui/shared-ui";
+import { WeDontSellBreadBanner } from "shared-ui";
 import { getAllCategories } from "utils/getAllCategoriesQuery";
 import { isString, pluralize } from "utils/pluralize";
 

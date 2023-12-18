@@ -1,7 +1,7 @@
 "use client";
 
 import * as React from "react";
-import { Pagination as BasePagination } from "../ui/shared-ui";
+import { Pagination as BasePagination } from "shared-ui";
 import Link from "next/link";
 import classNames from "classnames";
 import { usePathname, useSearchParams } from "next/navigation";

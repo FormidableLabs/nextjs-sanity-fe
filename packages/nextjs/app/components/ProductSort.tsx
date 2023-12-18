@@ -2,7 +2,7 @@
 
 import * as React from "react";
 import { useRouterQueryParams } from "utils/useRouterQueryParams";
-import { ProductSort as BaseProductSort, ProductSortProps as BaseProps } from "../ui/shared-ui";
+import { ProductSort as BaseProductSort, ProductSortProps as BaseProps } from "shared-ui";
 
 type ProductSortProps = Pick<BaseProps, "as" | "showTitle" | "title" | "selectClassName">;
 
