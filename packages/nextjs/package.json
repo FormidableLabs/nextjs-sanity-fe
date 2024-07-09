@@ -44,13 +44,13 @@
     "react-dom": "18.2.0",
     "react-icons": "^4.4.0",
     "react-is": "^18.2.0",
-    "sanity": "^3.9.1",
+    "sanity": "^3.49.0",
     "shared-ui": "workspace:*",
     "styled-components": "^5.2.0"
   },
   "devDependencies": {
     "@portabletext/types": "^2.0.0",
-    "@sanity/cli": "^3.9.1",
+    "@sanity/cli": "^3.49.0",
     "@storybook/nextjs": "^7.4.0",
     "@testing-library/jest-dom": "^5.16.5",
     "@testing-library/react": "^13.4.0",
