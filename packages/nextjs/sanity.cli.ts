@@ -5,4 +5,7 @@ export default defineCliConfig({
     projectId: "5bsv02jj",
     dataset: "production",
   },
+  project: {
+    basePath: "./sanity-studio",
+  },
 });
