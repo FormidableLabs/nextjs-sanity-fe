@@ -14,7 +14,7 @@
     "test:unit:watch": "jest --watch",
     "lint": "next lint --quiet",
     "typecheck": "tsc --noEmit",
-    "codegen": "cd sanity-studio && sanity schema extract && mv schema.json generated/schema.json && sanity typegen generate"
+    "codegen": "cd sanity-studio && sanity schema extract --enforce-required-fields && mv schema.json generated/schema.json && sanity typegen generate"
   },
   "dependencies": {
     "@sanity/client": "^6.21.0",
