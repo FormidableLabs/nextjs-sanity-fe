@@ -9,7 +9,7 @@ const sanityOptions = {
 
 export const sanityClient = client({
   ...sanityOptions,
-  projectId: process.env.NEXT_PUBLIC_SANITY_PROJECT_ID,
+  projectId: process.env.NEXT_PUBLIC_SANITY_PROJECT_ID || "MISSING-ENV-VAR",
   useCdn: true,
 });
 
