@@ -16,14 +16,14 @@ jobs:
     name: E2E Tests
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v2
-      - uses: actions/setup-node@v2
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
         with:
           node-version: 18.x
 
-      - uses: pnpm/action-setup@v2.2.2
+      - uses: pnpm/action-setup@v4
         with:
-          version: 8
+          version: 8.15.9
 
       - name: Get pnpm store directory
         id: pnpm-cache
@@ -55,6 +55,10 @@ jobs:
       - name: Build UI ${{ matrix.node-version }}
         working-directory: packages/shared-ui
         run: pnpm build
+
+      - name: Reinstall Binary # should probably get cache working if this project is revitalized
+        run: npx cypress install
+        working-directory: "packages/tests-e2e"
 
       - name: Cypress Run (Production Backend)
         run: pnpm run test:e2e-real:start
