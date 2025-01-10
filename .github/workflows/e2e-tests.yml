@@ -57,7 +57,7 @@ jobs:
         run: pnpm build
 
       - name: Reinstall Binary # should probably get cache working if this project is revitalized
-        run: npx run cypress install
+        run: npx cypress install
         working-directory: "packages/tests-e2e"
 
       - name: Cypress Run (Production Backend)
