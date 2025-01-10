@@ -56,10 +56,11 @@ jobs:
         working-directory: packages/shared-ui
         run: pnpm build
 
-      - name: Cypress Run (Production Backend)
-        run: |
-          cypress install
-          pnpm run test:e2e-real:start
+      - name: Reinstall Binary # should probably get cache working if this project is revitalized
+        run: npx run cypress install
+        working-directory: "packages/tests-e2e"
 
+      - name: Cypress Run (Production Backend)
+        run: pnpm run test:e2e-real:start
 #      - name: Cypress Run (Mock Backend)
 #        run: pnpm run test:e2e-mock:start
